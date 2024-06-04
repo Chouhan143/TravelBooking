@@ -1,0 +1,1 @@
+export { default as TicketScreenStyle } from './TicketScreenStyle';

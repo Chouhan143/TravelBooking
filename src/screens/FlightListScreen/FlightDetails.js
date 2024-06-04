@@ -1,0 +1,428 @@
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import {Colors, SF, SH, SW} from '../../utils';
+import {Tabs} from './FlightTopTabs';
+import {Button, RBSheet, VectorIcon} from '../../components';
+import {FlightsListScreenStyle} from '../../styles';
+import {useTranslation} from 'react-i18next';
+import FlightPassangerAdd from './FlightPassangerAdd';
+import {useSelector, useDispatch} from 'react-redux';
+import FormatedDate from '../../components/commonComponents/FormatedDate';
+import {removePassengerItem} from '../../redux/action';
+
+const FlightDetails = () => {
+  const refRBSheet = useRef();
+  const {t} = useTranslation();
+  const [FlightDetails, setFlightDetails] = useState([]);
+  const dispatch = useDispatch();
+  const {AdultCount, ChildCount, InfantCount} = useSelector(
+    state => state.commomReducer.FlightSearchPayload,
+  );
+
+  const addlistPassanger = useSelector(
+    state => state.commomReducer.fightTraveller,
+  );
+
+  console.log('addlistPassanger', addlistPassanger);
+
+  // fareQutes
+  const fareQutesDataSelecter = useSelector(
+    state => state.commomReducer.flightFareQutesData,
+  );
+
+  const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
+
+  const fareQutesData = fareQutesDataSelecter.FareBreakdown;
+
+  const Segments = fareQutesDataSelecter.Segments;
+  const SegmentsFlatten = Segments.flat();
+
+  const origin = SegmentsFlatten[0]?.Origin?.CityName;
+  const destination =
+    SegmentsFlatten[SegmentsFlatten.length - 1]?.Destination?.CityName;
+
+  const date = SegmentsFlatten[0]?.DepTime;
+
+  const getPassengerTypeLabel = (passengerType, passengerCount, baseFare) => {
+    let typeLabel = '';
+    switch (passengerType) {
+      case 1:
+        typeLabel = 'Adult (12 yrs+)';
+        break;
+      case 2:
+        typeLabel = 'Child (2-12 yrs)';
+        break;
+      case 3:
+        typeLabel = 'Infant (0-2 yrs)';
+        break;
+      default:
+        typeLabel = 'Unknown';
+    }
+    return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
+  };
+
+  // console.log('getFareIndivisual', getFareIndivisual);
+
+  const filterPassengersByType = (passengers, type) => {
+    return passengers.filter(passenger => passenger.passengerType === type);
+  };
+
+  const adultData = filterPassengersByType(addlistPassanger, 'Adult (12 yrs+)');
+  const childData = filterPassengersByType(
+    addlistPassanger,
+    'Child (2-12 yrs)',
+  );
+  const infantData = filterPassengersByType(
+    addlistPassanger,
+    'Infant (0-2 yrs)',
+  );
+
+  // const handleRemovePassenger = (id, passengerType) => {
+  //   switch (passengerType) {
+  //     case 'Adult (12 yrs+)':
+  //       setAdultData(prevData => prevData.filter(item => item.id !== id));
+  //       break;
+  //     case 'Child (2-12 yrs)':
+  //       setChildData(prevData => prevData.filter(item => item.id !== id));
+  //       break;
+  //     case 'Infant (0-2 yrs)':
+  //       setInfantData(prevData => prevData.filter(item => item.id !== id));
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  // const handleRemovePassenger = (id, passengerType) => {
+  //   // Dispatch an action to remove the passenger from Redux store
+  //   dispatch(removePassengerItem({id, passengerType}));
+  // };
+  const handleRemovePassenger = index => {
+    // Dispatch an action to remove the passenger from Redux store
+    dispatch(removePassengerItem(index));
+  };
+
+  return (
+    <View style={styles.conatainer}>
+      <StatusBar barStyle={'dark-content'} />
+      <View style={styles.topView}>
+        <View>
+          <View style={{marginTop: 10}}>
+            <Image
+              source={require('../../images/Indigo.png')}
+              style={{width: SW(40), height: SH(40), borderRadius: 2}}
+            />
+          </View>
+        </View>
+
+        <View style={{paddingLeft: SW(20)}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontSize: SF(20), fontWeight: '700', color: '#000'}}>
+              {origin}
+            </Text>
+            <Text style={{fontSize: SF(20), fontWeight: '700', color: '#000'}}>
+              {' '}
+              - {destination}
+            </Text>
+          </View>
+          <View>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  fontSize: SF(15),
+                  fontWeight: '400',
+                  color: 'rgba(0,0,0,0.5)',
+                }}>
+                {/* {depdate} */}
+              </Text>
+              <FormatedDate
+                dateString={date}
+                style={{
+                  fontSize: SF(15),
+                  fontWeight: '400',
+                  color: 'rgba(0,0,0,0.5)',
+                }}
+              />
+              <Entypo name={'dot-single'} size={20} />
+              <Text
+                style={{
+                  fontSize: SF(15),
+                  fontWeight: '400',
+                  color: 'rgba(0,0,0,0.5)',
+                }}>
+                2h25m
+              </Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  fontSize: SF(15),
+                  fontWeight: '400',
+                  color: 'rgba(0,0,0,0.5)',
+                }}>
+                {SegmentsFlatten[0].CabinClassName}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* second box  */}
+      <View style={styles.box2}>
+        <Tabs />
+      </View>
+
+      <ScrollView style={styles.box3}>
+        <View style={{}}>
+          <Text
+            style={{
+              fontSize: SF(20),
+              fontWeight: '700',
+              color: 'rgba(0,0,0,1)',
+            }}>
+            Traveller Details
+          </Text>
+
+          {AdultCount >= 1 && (
+            <FlightPassangerAdd
+              passengerType="Adult (12 yrs+)"
+              data={adultData}
+              iconBackgroundColor={'green'}
+              passengerCount={AdultCount} // Pass the AdultCount as a prop
+              onRemovePassenger={handleRemovePassenger}
+            />
+          )}
+
+          {ChildCount >= 1 && (
+            <FlightPassangerAdd
+              passengerType="Child (2-12 yrs)"
+              data={childData}
+              iconBackgroundColor={'yellow'}
+              passengerCount={ChildCount} // Pass the ChildCount as a prop
+              onRemovePassenger={handleRemovePassenger}
+            />
+          )}
+
+          {InfantCount >= 1 && (
+            <FlightPassangerAdd
+              passengerType="Infant (0-2 yrs)"
+              data={infantData}
+              iconBackgroundColor={'red'}
+              passengerCount={InfantCount} // Pass the InfantCount as a prop
+              onRemovePassenger={handleRemovePassenger}
+            />
+          )}
+        </View>
+
+        <View
+          style={{
+            // position: 'absolute',
+            width: '100%',
+            height: '6%',
+            backgroundColor: '#fff',
+            // bottom: 0,
+            borderTopColor: 'rgba(0,0,0,0.5)',
+            borderTopWidth: 0.5,
+            padding: 10,
+            flex: 1,
+            justifyContent: 'center',
+            marginTop: SH(20),
+          }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
+              onPress={() => {
+                refRBSheet.current.open();
+              }}>
+              <Text
+                style={{
+                  color: 'rgba(0,0,0,0.5)',
+                  fontWeight: '400',
+                  fontSize: SF(15),
+                }}>
+                Fare Breakup
+              </Text>
+
+              <Text
+                style={{color: '#000', fontWeight: '700', fontSize: SF(20)}}>
+                {tottalFare.toLocaleString()}
+                <Entypo name={'chevron-down'} size={20} />
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: '50%',
+                height: '100%',
+                backgroundColor: Colors.theme_background,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+              }}>
+              <Text
+                style={{color: '#fff', fontWeight: '700', fontSize: SF(20)}}>
+                Continue
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+
+      {/* BottomSheet here */}
+      <RBSheet height={SH(280)} refRBSheet={refRBSheet}>
+        <View style={FlightsListScreenStyle.PayBottomShetBox}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            style={FlightsListScreenStyle.contentContainerStyle}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <View>
+                <Text style={FlightsListScreenStyle.HeadingStyle}>
+                  Fare Breakup
+                </Text>
+                <Text style={FlightsListScreenStyle.TravellerText}>
+                  Base Fare
+                </Text>
+                <View style={FlightsListScreenStyle.padLeft10}></View>
+              </View>
+              <TouchableOpacity
+                style={{paddingRight: 20}}
+                onPress={() => {
+                  refRBSheet.current.close();
+                }}>
+                <AntDesign name={'closecircle'} size={20} />
+              </TouchableOpacity>
+            </View>
+            {fareQutesData.map((fareData, index) => (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                }}
+                key={index}>
+                <Text>
+                  {getPassengerTypeLabel(
+                    fareData.PassengerType,
+                    fareData.PassengerCount,
+                    fareData.BaseFare,
+                  )}
+                </Text>
+                <Text style={{}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+              </View>
+            ))}
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                paddingHorizontal: 20,
+              }}>
+              <Text>Taxes & Fees</Text>
+              <Text>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+            </View>
+
+            {/* <View
+              style={{
+                paddingVertical: 15,
+
+                marginTop: 10,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                }}>
+                <Text>Grand Total</Text>
+                <Text>₹7,219</Text>
+              </View>
+            </View> */}
+          </ScrollView>
+          <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
+            <View>
+              <Text style={FlightsListScreenStyle.FareText}>
+                {t('Fare_Text')}
+              </Text>
+              <Text style={FlightsListScreenStyle.BtnPrice}>
+                <VectorIcon
+                  icon="FontAwesome"
+                  name="rupee"
+                  color={Colors.black_text_color}
+                  size={SF(18)}
+                />
+                {fareQutesDataSelecter.Fare.PublishedFare.toLocaleString(
+                  'en-IN',
+                )}
+              </Text>
+            </View>
+            <View>
+              <Button
+                title={t('Proceed_Text')}
+                onPress={() => navigation.navigate(RouteName.FLIGHT_DETAILS)}
+              />
+            </View>
+          </View>
+        </View>
+      </RBSheet>
+    </View>
+  );
+};
+
+export default FlightDetails;
+
+const styles = StyleSheet.create({
+  conatainer: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+  },
+  topView: {
+    width: '90%',
+    height: 'auto',
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    margin: 20,
+    padding: 10,
+    borderRadius: 5,
+    flexDirection: 'row',
+    // alignItems: 'center',
+  },
+  box2: {
+    width: '90%',
+    height: '22%',
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    padding: 10,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  box3: {
+    width: '90%',
+    height: 'auto',
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+
+    borderRadius: 5,
+    // flex: 1,
+    // alignItems: 'center',
+    marginTop: 20,
+  },
+});
