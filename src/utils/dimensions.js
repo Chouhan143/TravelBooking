@@ -10,7 +10,6 @@ export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const SW = dimension => {
   return wp((dimension / 375) * 100 + '%');
 };
-
 export const SH = dimension => {
   return hp((dimension / 812) * 100 + '%');
 };
