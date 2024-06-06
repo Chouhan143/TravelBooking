@@ -87,7 +87,7 @@ const BookingTab = props => {
             }>
             <Lottie
               Lottiewidthstyle={BookingTabStyles.longimageOne}
-              source={images.Train_icon}
+              source={require('../../../images/LottieAnimation/hotel.json')}
             />
             <Text
               onPress={() => SetSelectcolor('3')}
@@ -96,7 +96,7 @@ const BookingTab = props => {
                   ? BookingTabStyles.TabsettextActiveTwo
                   : BookingTabStyles.TabsettextTwo
               }>
-              {t('Train')}
+              {t('Hotel')}
             </Text>
           </TouchableOpacity>
         </View>
