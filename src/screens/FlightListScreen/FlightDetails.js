@@ -10,7 +10,7 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors, SF, SH, SW} from '../../utils';
 import {Tabs} from './FlightTopTabs';
 import {Button, RBSheet, VectorIcon} from '../../components';
@@ -19,12 +19,21 @@ import {useTranslation} from 'react-i18next';
 import FlightPassangerAdd from './FlightPassangerAdd';
 import {useSelector, useDispatch} from 'react-redux';
 import FormatedDate from '../../components/commonComponents/FormatedDate';
-import {removePassengerItem} from '../../redux/action';
+import {
+  baggageAdded,
+  baggageCabinAdded,
+  removePassengerItem,
+} from '../../redux/action';
+import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import {RouteName} from '../../routes';
+import {useNavigation} from '@react-navigation/native';
 
 const FlightDetails = () => {
+  const navigation = useNavigation();
   const refRBSheet = useRef();
   const {t} = useTranslation();
   const [FlightDetails, setFlightDetails] = useState([]);
+  const [cheboxSelect, setCheboxSelect] = useState(false);
   const dispatch = useDispatch();
   const {AdultCount, ChildCount, InfantCount} = useSelector(
     state => state.commomReducer.FlightSearchPayload,
@@ -34,7 +43,11 @@ const FlightDetails = () => {
     state => state.commomReducer.fightTraveller,
   );
 
-  console.log('addlistPassanger', addlistPassanger);
+  // meal check
+
+  const checkMeal = () => {
+    setCheboxSelect(!cheboxSelect);
+  };
 
   // fareQutes
   const fareQutesDataSelecter = useSelector(
@@ -47,6 +60,14 @@ const FlightDetails = () => {
 
   const Segments = fareQutesDataSelecter.Segments;
   const SegmentsFlatten = Segments.flat();
+
+  const Baggage = SegmentsFlatten.map(i => i.Baggage);
+  const CabinBaggage = SegmentsFlatten.map(i => i.CabinBaggage);
+
+  useEffect(() => {
+    dispatch(baggageAdded(Baggage));
+    dispatch(baggageCabinAdded(CabinBaggage));
+  }, []);
 
   const origin = SegmentsFlatten[0]?.Origin?.CityName;
   const destination =
@@ -88,29 +109,14 @@ const FlightDetails = () => {
     'Infant (0-2 yrs)',
   );
 
-  // const handleRemovePassenger = (id, passengerType) => {
-  //   switch (passengerType) {
-  //     case 'Adult (12 yrs+)':
-  //       setAdultData(prevData => prevData.filter(item => item.id !== id));
-  //       break;
-  //     case 'Child (2-12 yrs)':
-  //       setChildData(prevData => prevData.filter(item => item.id !== id));
-  //       break;
-  //     case 'Infant (0-2 yrs)':
-  //       setInfantData(prevData => prevData.filter(item => item.id !== id));
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  // const handleRemovePassenger = (id, passengerType) => {
-  //   // Dispatch an action to remove the passenger from Redux store
-  //   dispatch(removePassengerItem({id, passengerType}));
-  // };
   const handleRemovePassenger = index => {
-    // Dispatch an action to remove the passenger from Redux store
     dispatch(removePassengerItem(index));
+  };
+
+  const handleNavigation = () => {
+    navigation.navigate(
+      cheboxSelect ? RouteName.FLIGHT_MEALS : RouteName.PAYMENT_SCREEN,
+    );
   };
 
   return (
@@ -183,7 +189,7 @@ const FlightDetails = () => {
 
       {/* second box  */}
       <View style={styles.box2}>
-        <Tabs />
+        <Tabs Bag={Baggage} CabinBag={CabinBaggage} />
       </View>
 
       <ScrollView style={styles.box3}>
@@ -230,6 +236,30 @@ const FlightDetails = () => {
 
         <View
           style={{
+            marginVertical: 10,
+            marginHorizontal: 10,
+            borderWidth: 0.5,
+            padding: 15,
+            marginTop: 30,
+            borderRadius: 2,
+            borderColor: 'gray',
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity onPress={checkMeal}>
+            <FontAwesome5
+              name={cheboxSelect ? 'check-square' : 'square'}
+              // name={'square'}
+              size={20}
+              color={cheboxSelect ? Colors.theme_background : '#ccc'}
+              // color={'#ccc'}
+              style={{marginRight: 10}}
+            />
+          </TouchableOpacity>
+          <Text style={{fontSize: 16}}> Add Seats,Meal,Baggage & more</Text>
+        </View>
+
+        <View
+          style={{
             // position: 'absolute',
             width: '100%',
             height: '6%',
@@ -264,16 +294,18 @@ const FlightDetails = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={{
-                width: '50%',
+                width: cheboxSelect ? '60%' : '40%',
+                paddingHorizontal: 10,
                 height: '100%',
                 backgroundColor: Colors.theme_background,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
-              }}>
+              }}
+              onPress={handleNavigation}>
               <Text
-                style={{color: '#fff', fontWeight: '700', fontSize: SF(20)}}>
-                Continue
+                style={{color: '#fff', fontWeight: '800', fontSize: SF(15)}}>
+                {cheboxSelect ? 'Proceed to select Seat' : 'Continue'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -374,7 +406,13 @@ const FlightDetails = () => {
             <View>
               <Button
                 title={t('Proceed_Text')}
-                onPress={() => navigation.navigate(RouteName.FLIGHT_DETAILS)}
+                onPress={() =>
+                  navigation.navigate(
+                    cheboxSelect
+                      ? RouteName.FLIGHT_MEALS
+                      : RouteName.FLIGHT_DETAILS,
+                  )
+                }
               />
             </View>
           </View>

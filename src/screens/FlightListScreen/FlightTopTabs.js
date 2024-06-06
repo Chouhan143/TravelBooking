@@ -1,6 +1,7 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {StyleSheet, Text, View} from 'react-native';
 import {SH} from '../../utils';
+import {useSelector} from 'react-redux';
 const Tab = createMaterialTopTabNavigator();
 export const Tabs = () => {
   return (
@@ -25,6 +26,14 @@ export const Tabs = () => {
 };
 
 export const Baggage = () => {
+  const BaggageItem = useSelector(
+    state => state.commomReducer.flightBaggageData,
+  );
+  const BaggageCabinItem = useSelector(
+    state => state.commomReducer.flightBaggageCabinData,
+  );
+
+  console.log('BaggageItem', BaggageItem, BaggageCabinItem);
   return (
     <View
       style={{
@@ -40,11 +49,13 @@ export const Baggage = () => {
       </View>
       <View>
         <Text style={{color: 'gray'}}>CABIN</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>7 kg (1 piece)</Text>
+        <Text style={{color: '#000', fontWeight: '500'}}>
+          {BaggageCabinItem} (1 piece)
+        </Text>
       </View>
       <View>
         <Text style={{color: 'gray'}}>CHECK-IN</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>15 kg (1 piece)</Text>
+        <Text style={{color: '#000', fontWeight: '500'}}>{BaggageItem}</Text>
       </View>
     </View>
   );

@@ -17,17 +17,31 @@ const FlightPassangerAdd = ({
   const navigation = useNavigation();
   const [selectedIndices, setSelectedIndices] = useState([]);
 
+
+
   const toggleSelection = index => {
     setSelectedIndices(prevSelectedIndices => {
+      // Prevent further selection if the maximum number is reached
       if (prevSelectedIndices.includes(index)) {
         return prevSelectedIndices.filter(
           selectedIndex => selectedIndex !== index,
         );
-      } else {
+      } else if (prevSelectedIndices.length < passengerCount) {
         return [...prevSelectedIndices, index];
+      } else {
+        return prevSelectedIndices; // Do nothing if max is reached
       }
     });
   };
+
+  const handleRemovePassenger = index => {
+    setSelectedIndices(prevSelectedIndices =>
+      prevSelectedIndices.filter(selectedIndex => selectedIndex !== index),
+    );
+    onRemovePassenger(index);
+  };
+
+  const colorChange = selectedIndices.length == passengerCount;
 
   return (
     <View>
@@ -61,8 +75,18 @@ const FlightPassangerAdd = ({
           </View>
         </View>
         <View style={{flexDirection: 'row', gap: 5}}>
-          <Text>{passengerCount}</Text>
-          <Text>Added</Text>
+          <Text
+            style={{
+              color: colorChange ? 'green' : null,
+            }}>
+            {selectedIndices.length}/{passengerCount}
+          </Text>
+          <Text
+            style={{
+              color: colorChange ? 'green' : null,
+            }}>
+            Added
+          </Text>
         </View>
       </View>
       {/* traveller name and details  */}
@@ -71,11 +95,14 @@ const FlightPassangerAdd = ({
           data={data}
           renderItem={({item, index}) => {
             const isSelected = selectedIndices.includes(index);
-            console.log('>>>>', item, index);
+
             return (
               <View style={styles.passengerList}>
                 <TouchableOpacity
                   onPress={() => toggleSelection(index)}
+                  disabled={
+                    !isSelected && selectedIndices.length >= passengerCount
+                  }
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <FontAwesome5
                     name={isSelected ? 'check-square' : 'square'}
@@ -87,7 +114,7 @@ const FlightPassangerAdd = ({
                 </TouchableOpacity>
 
                 {/* {index > 0 && ( */}
-                <TouchableOpacity onPress={() => onRemovePassenger(index)}>
+                <TouchableOpacity onPress={() => handleRemovePassenger(index)}>
                   <AntDesign name={'delete'} size={20} />
                 </TouchableOpacity>
                 {/* )} */}

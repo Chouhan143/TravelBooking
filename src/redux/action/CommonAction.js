@@ -19,6 +19,8 @@ import {
   FLIGHT_FAREQUETES_RESPONSE,
   FLIGHT_TRAVELER_DETAILS,
   REMOVE_FLIGHT_PASSENGER_ITEM,
+  BAGGAGE_FLIGHT_DATA,
+  BAGGAGE_CABIN_FLIGHT_DATA,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -113,21 +115,17 @@ export const flightTravellerDetails = inputeData => ({
   payload: inputeData,
 });
 
-// export const removePassengerItem = (id, passengerType) => {
-//   return {
-//     type: REMOVE_FLIGHT_PASSENGER_ITEM,
-//     payload: {id, passengerType},
-//   };
-// };
-
-// export const removePassengerItem = index => {
-//   return {
-//     type: REMOVE_FLIGHT_PASSENGER_ITEM,
-//     payload: {index},
-//   };
-// };
-
 export const removePassengerItem = index => ({
   type: REMOVE_FLIGHT_PASSENGER_ITEM,
   payload: {index},
+});
+
+export const baggageAdded = value => ({
+  type: BAGGAGE_FLIGHT_DATA,
+  payload: value,
+});
+
+export const baggageCabinAdded = value => ({
+  type: BAGGAGE_CABIN_FLIGHT_DATA,
+  payload: value,
 });

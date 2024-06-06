@@ -83,8 +83,8 @@ const FlightTab = props => {
           Origin: fromCity,
           Destination: toCity,
           FlightCabinClass: state.FloorNumber,
-          PreferredDepartureTime: '2024-06-03T00:00:00',
-          PreferredArrivalTime: '2024-06-03T00:00:00',
+          PreferredDepartureTime: '2024-06-05T00:00:00',
+          PreferredArrivalTime: '2024-06-05T00:00:00',
         },
       ],
     };

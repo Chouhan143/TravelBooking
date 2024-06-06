@@ -15,6 +15,8 @@ const FLIGHT_CITY_LIST = `${BASE_URL}/flight-list`;
 const Flight_SEARCH = `${BASE_URL}/flight-search`;
 const FLIGHT_GET_CALENDAR = `${BASE_URL}/get-calender`;
 const FLIGHT_FARE_QUOTE = `${BASE_URL}/farequote`;
+const FLIGHT_SSR_MEAL = `${BASE_URL}/ssr`;
+const FLIGHT_SEAT_MAP = `${BASE_URL}/seatmap`;
 
 export {
   BASE_URL,
@@ -32,4 +34,6 @@ export {
   Flight_SEARCH,
   FLIGHT_GET_CALENDAR,
   FLIGHT_FARE_QUOTE,
+  FLIGHT_SSR_MEAL,
+  FLIGHT_SEAT_MAP,
 };

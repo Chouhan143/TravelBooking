@@ -20,6 +20,8 @@ import {
   FLIGHT_FAREQUETES_RESPONSE,
   FLIGHT_TRAVELER_DETAILS,
   REMOVE_FLIGHT_PASSENGER_ITEM,
+  BAGGAGE_FLIGHT_DATA,
+  BAGGAGE_CABIN_FLIGHT_DATA,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -43,6 +45,8 @@ const initialState = {
   FlightSearchPayload: [],
   flightFareQutesData: [],
   fightTraveller: [],
+  flightBaggageData: [],
+  flightBaggageCabinData: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -183,6 +187,17 @@ export default function commomReducer(state = initialState, action) {
         fightTraveller: state.fightTraveller.filter(
           (_, idx) => idx !== action.payload.index,
         ),
+      };
+
+    case BAGGAGE_FLIGHT_DATA:
+      return {
+        ...state,
+        flightBaggageData: action.payload,
+      };
+    case BAGGAGE_CABIN_FLIGHT_DATA:
+      return {
+        ...state,
+        flightBaggageCabinData: action.payload,
       };
 
     default: {

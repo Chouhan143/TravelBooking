@@ -705,7 +705,7 @@ const FlightListScreen = props => {
                           <Button
                             title={t('Proceed_Text')}
                             onPress={() =>
-                              navigation.navigate(RouteName.FLIGHT_DETAILS )
+                              navigation.navigate(RouteName.FLIGHT_DETAILS)
                             }
                           />
                         </View>

@@ -32,6 +32,8 @@ import {
 import ReviewBooking from '../screens/BusScreen/ReviewBooking';
 import FlightDetails from '../screens/FlightListScreen/FlightDetails';
 import FlightTravellerDetails from '../screens/FlightListScreen/FlightTravellerDetails';
+import FlightMeals from '../screens/FlightListScreen/FlightSegments';
+import FlightSegments from '../screens/FlightListScreen/FlightSegments';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -148,6 +150,13 @@ const RootNavigator = props => {
               options={{
                 headerShown: true,
                 title: 'Add Traveller',
+              }}
+            />
+            <Stack.Screen
+              name={RouteName.FLIGHT_MEALS}
+              component={FlightSegments}
+              options={{
+                headerShown: false,
               }}
             />
 
