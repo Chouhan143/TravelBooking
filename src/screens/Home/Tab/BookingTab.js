@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {tab_action} from '../../../redux/action/CommonAction';
 import {useTheme} from '@react-navigation/native';
 import {RouteName} from '../../../routes';
+import HotelTab from '../../../components/ListingComponents/HotelTab';
 
 const BookingTab = props => {
   const {t} = useTranslation();
@@ -106,7 +107,7 @@ const BookingTab = props => {
           <View>
             <View style={BookingTabStyles.FlightMinHeightStyle}>
               <View style={BookingTabStyles.MinHeightStyleChild}>
-                {tabShow == '1' ? null : (
+                {tabShow == '1' || tabShow == '3' ? null : (
                   <View style={BookingTabStyles.FlightTabBoxTwo}>
                     <TouchableOpacity
                       onPress={() => SetTripShow('1')}
@@ -160,10 +161,10 @@ const BookingTab = props => {
                     />
                   ) : (
                     tabShow == '3' && (
-                      <TrainTab
-                        onPress={() =>
-                          navigation.navigate(RouteName.TRAIN_LIST_SCREEN)
-                        }
+                      <HotelTab
+                      // onPress={() =>
+                      //   navigation.navigate(RouteName.TRAIN_LIST_SCREEN)
+                      // }
                       />
                     )
                   )}

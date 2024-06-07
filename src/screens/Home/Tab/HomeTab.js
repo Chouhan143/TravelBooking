@@ -59,9 +59,9 @@ const HomeTab = props => {
     },
     {
       id: 3,
-      image: images.Train_icon,
-      text: 'Train',
-      iconname: 'train',
+      image: images.Hotel_icon,
+      text: 'Hotel',
+      iconname: 'Hotel',
     },
   ];
 

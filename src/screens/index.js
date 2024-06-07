@@ -10,5 +10,5 @@ export * from './Notification';
 export * from './BusScreen';
 export * from './PaymentScreen';
 export * from './FlightListScreen';
-export * from './TrainScreen';
+
 export * from './TicketScreen';

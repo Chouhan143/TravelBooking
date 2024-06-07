@@ -9,7 +9,7 @@ const images = {
 
   Flight_icon: require('./LottieAnimation/Flight.json'),
   Bus_icon: require('./LottieAnimation/Bus.json'),
-  Train_icon: require('./LottieAnimation/Train.json'),
+  Hotel_icon: require('./LottieAnimation/hotel.json'),
 
   // AirIndiaLogo: require('./AirIndiaLogo.png'),
   IndigoLogo: require('./Indigo.png'),

@@ -22,7 +22,6 @@ import {
   PaymentScreen,
   PaymentSuccessFully,
   CreditCardScreen,
-  TrainBookingListScreen,
   FlightListScreen,
   TicketScreen,
   BusSelectScreen,
@@ -127,10 +126,7 @@ const RootNavigator = props => {
               name={RouteName.PAYMENT_SUCCESSFULLY}
               component={PaymentSuccessFully}
             />
-            <Stack.Screen
-              name={RouteName.TRAIN_LIST_SCREEN}
-              component={TrainBookingListScreen}
-            />
+
             <Stack.Screen
               name={RouteName.FLIGHT_LIST_SCREEN}
               component={FlightListScreen}
