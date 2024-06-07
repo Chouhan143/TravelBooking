@@ -22,6 +22,7 @@ import {
   REMOVE_FLIGHT_PASSENGER_ITEM,
   BAGGAGE_FLIGHT_DATA,
   BAGGAGE_CABIN_FLIGHT_DATA,
+  FLIGHT_SELECT_SEAT,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -47,6 +48,7 @@ const initialState = {
   fightTraveller: [],
   flightBaggageData: [],
   flightBaggageCabinData: [],
+  flightSeatSelectData: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -198,6 +200,20 @@ export default function commomReducer(state = initialState, action) {
       return {
         ...state,
         flightBaggageCabinData: action.payload,
+      };
+
+    case FLIGHT_SELECT_SEAT:
+      const seat = action.payload;
+      const isSeatSelected = state.flightSeatSelectData.some(
+        selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
+      );
+      return {
+        ...state,
+        flightSeatSelectData: isSeatSelected
+          ? state.flightSeatSelectData.filter(
+              selectedSeat => selectedSeat.SeatNumber !== seat.SeatNumber,
+            )
+          : [...state.flightSeatSelectData, seat],
       };
 
     default: {

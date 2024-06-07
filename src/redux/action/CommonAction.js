@@ -21,6 +21,7 @@ import {
   REMOVE_FLIGHT_PASSENGER_ITEM,
   BAGGAGE_FLIGHT_DATA,
   BAGGAGE_CABIN_FLIGHT_DATA,
+  FLIGHT_SELECT_SEAT,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -128,4 +129,9 @@ export const baggageAdded = value => ({
 export const baggageCabinAdded = value => ({
   type: BAGGAGE_CABIN_FLIGHT_DATA,
   payload: value,
+});
+
+export const flightSelectSeat = seat => ({
+  type: FLIGHT_SELECT_SEAT,
+  payload: seat,
 });

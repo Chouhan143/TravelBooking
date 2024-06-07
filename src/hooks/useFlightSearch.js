@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../routes';
 import {storeFlightData} from '../redux/action';
 import {useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const useFlightSearch = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -16,10 +17,20 @@ const useFlightSearch = () => {
 
     try {
       const res = await axios.post(Flight_SEARCH, payload);
-      console.log('API Response:', res.data);
+      // console.log('API Response:', res.data);
       if (res.status === 200) {
         // dispatch(storeFlightData(res.data.Results));
         dispatch(storeFlightData(res.data, res.data.Results));
+        const test1 = res.data.Results.flat();
+        test1.map(result =>
+          result.FareDataMultiple.map(item => {
+            const {ResultIndex, SrdvIndex} = item;
+            AsyncStorage.setItem('ResultIndex', ResultIndex);
+            AsyncStorage.setItem('SrdvIndex', SrdvIndex);
+          }),
+        );
+
+        // console.log('API Response:', res.data.Results.flat());
 
         navigation.navigate(RouteName.FLIGHT_LIST_SCREEN, {
           searchParams: payload,

@@ -6,7 +6,16 @@ import {useSelector} from 'react-redux';
 import {Tabs} from './FlightTopTabs';
 import {FlightSeatMealsBaggage} from './SeatMealTab/FlightSeatMealsBaggage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
+import {RouteName} from '../../routes';
 const FlightSegments = () => {
+  const navigation = useNavigation();
+  const handleBack = () => {
+    navigation.goBack();
+  };
+  const skip = () => {
+    navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS);
+  };
   return (
     <View style={styles.container}>
       <View
@@ -18,10 +27,10 @@ const FlightSegments = () => {
           backgroundColor: '#fff',
           paddingVertical: 15,
         }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleBack}>
           <AntDesign name={'arrowleft'} size={20} color={'#000'} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={skip}>
           <Text style={{color: '#000'}}>Skip</Text>
         </TouchableOpacity>
       </View>

@@ -83,12 +83,12 @@ const FlightTab = props => {
           Origin: fromCity,
           Destination: toCity,
           FlightCabinClass: state.FloorNumber,
-          PreferredDepartureTime: '2024-06-06T00:00:00',
-          PreferredArrivalTime: '2024-06-06T00:00:00',
+          PreferredDepartureTime: '2024-06-07T00:00:00',
+          PreferredArrivalTime: '2024-06-07T00:00:00',
         },
       ],
     };
-    console.log('payload', payload);
+    console.log('payload >>>>>>', payload);
     FsearchData(payload);
     calendarDataGet(payload);
     dispatch(flightSearchPayload(payload));
