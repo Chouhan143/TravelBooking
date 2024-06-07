@@ -1,11 +1,20 @@
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {useSelector} from 'react-redux';
-import {SF, SH, SW} from '../../../utils';
 import axios from 'axios';
+import {SF, SH} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
-import {useEffect} from 'react';
 
 const Seat = () => {
+  const [seatData, setSeatData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const BaggageItem = useSelector(
     state => state.commomReducer.flightBaggageData,
   );
@@ -14,19 +23,15 @@ const Seat = () => {
   );
 
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
-
   const {SrdvType, TraceId} = flightTraceIdDetails;
 
   let SrdvIndex = flightTraceIdDetails.Results;
   let SrdvIndexFlatten = SrdvIndex?.flat() ?? [];
-  // console.log('SrdvIndexFlatten', SrdvIndexFlatten);
   const SrdvIndexMap = SrdvIndexFlatten.map(
     elem => elem?.FareDataMultiple ?? [],
   ).flat();
   const SrdvIndexLoop = SrdvIndexMap.map(el3 => el3.SrdvIndex);
   const SrdvIndexValue = SrdvIndexLoop[0];
-  // console.log('SrdvIndexValue', SrdvIndexValue[0]);
-
   const ResultIndex = SrdvIndexMap.map(el3 => el3.ResultIndex);
   const ResultIndexValue = ResultIndex[0];
 
@@ -37,40 +42,41 @@ const Seat = () => {
       TraceId: TraceId.toString(),
       ResultIndex: ResultIndexValue,
     };
-    console.log('payload', payload);
+
     try {
+      setLoading(true);
       const res = await axios.post(FLIGHT_SEAT_MAP, payload);
       const seatData = res.data.Results;
+      setSeatData(seatData);
       console.log('seat res:', seatData);
-
-      // Iterate through each flight segment
-      seatData.forEach(segment => {
-        const {Seats} = segment;
-        if (Seats) {
-          console.log(
-            `Seat data for flight segment from ${segment.FromCity} to ${segment.ToCity}:`,
-          );
-          // Iterate through each row in the Seats object
-          Object.keys(Seats).forEach(row => {
-            const rowData = row;
-            console.log('row data ', rowData);
-            console.log(`Row: ${row}`, Seats[row]);
-            // console.log(`Row: ${row}`);
-          });
-        } else {
-          console.log(
-            `No seat data available for flight segment from ${segment.FromCity} to ${segment.ToCity}`,
-          );
-        }
-      });
+      setLoading(false);
     } catch (error) {
       console.log('seat error:', error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     seatApiRequest();
   }, []);
+
+  const renderSeats = seats => {
+    return Object.keys(seats).map((row, rowIndex) => (
+      <View key={rowIndex} style={styles.row}>
+        {/* <Text style={styles.rowLabel}>{row}</Text> */}
+        {Object.keys(seats[row]).map((col, colIndex) => {
+          const seat = seats[row][col];
+          return (
+            <View key={colIndex} style={styles.seat}>
+              <Text>{seat.SeatNumber}</Text>
+              <Text>{seat.Amount}</Text>
+              {/* <Text>{seat.IsBooked ? 'Booked' : 'Available'}</Text> */}
+            </View>
+          );
+        })}
+      </View>
+    ));
+  };
 
   return (
     <View style={styles.container}>
@@ -79,8 +85,7 @@ const Seat = () => {
           Select your preferred seat
         </Text>
       </View>
-      {/*  */}
-      <ScrollView style={styles.airoplan}>
+      <ScrollView style={styles.airplane}>
         <View style={{}}>
           <Image
             source={require('../../../images/Deck.webp')}
@@ -92,36 +97,27 @@ const Seat = () => {
             }}
           />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 20,
-          }}>
-          <View style={{flexDirection: 'row', gap: 50}}>
-            <View>
-              <Text>A</Text>
-            </View>
-            <View>
-              <Text>B</Text>
-            </View>
-            <View>
-              <Text>C</Text>
-            </View>
-          </View>
 
-          <View style={{flexDirection: 'row', gap: 50}}>
-            <View>
-              <Text>D</Text>
-            </View>
-            <View>
-              <Text>E</Text>
-            </View>
-            <View>
-              <Text>F</Text>
-            </View>
+        {loading ? (
+          <View
+            style={{
+              flex: 1,
+              alignSelf: 'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ActivityIndicator size={50} color={'gray'} />
           </View>
-        </View>
+        ) : (
+          seatData.map((segment, index) => (
+            <View key={index} style={styles.segment}>
+              <Text style={styles.segmentLabel}>
+                {segment.FromCity} to {segment.ToCity}
+              </Text>
+              {renderSeats(segment.Seats)}
+            </View>
+          ))
+        )}
       </ScrollView>
     </View>
   );
@@ -136,13 +132,42 @@ const styles = StyleSheet.create({
     paddingTop: SH(15),
     paddingHorizontal: 10,
   },
-  airoplan: {
+  airplane: {
     flex: 1,
     marginTop: 20,
     width: '100%',
     backgroundColor: 'lightgray',
-    // padding: 20,
     borderTopLeftRadius: SH(200),
     borderTopRightRadius: SH(200),
+  },
+  segment: {
+    flex: 1,
+    marginVertical: 20,
+  },
+  segmentLabel: {
+    fontSize: SF(16),
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  rowLabel: {
+    fontSize: SF(14),
+    fontWeight: 'bold',
+    width: 50,
+  },
+  seat: {
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 5,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
 });
