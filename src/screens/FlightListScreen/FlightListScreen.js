@@ -34,6 +34,7 @@ import FormatedDate from '../../components/commonComponents/FormatedDate';
 import FormatrdTime from '../../components/commonComponents/FormatrdTime';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FlightListScreen = props => {
   const {navigation, route} = props;
@@ -42,6 +43,7 @@ const FlightListScreen = props => {
   const refRBSheet = useRef();
   const [checked, setChecked] = useState('first');
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [resultIndexAsync, setResultIndexAsync] = useState(null);
   const {FsearchData, loading} = useFlightSearch();
   const [selectedItemData, setSelectedItemData] = useState(null);
   const [flightBotomData, setFlightBottomData] = useState([]);
@@ -66,11 +68,12 @@ const FlightListScreen = props => {
   ).flat();
   const SrdvIndexLoop = SrdvIndexMap.map(el3 => el3.SrdvIndex);
   const SrdvIndexValue = SrdvIndexLoop[0];
+  console.log('SrdvIndexValue', SrdvIndexValue);
   // console.log('SrdvIndexValue', SrdvIndexValue[0]);
 
   const ResultIndex = SrdvIndexMap.map(el3 => el3.ResultIndex);
   const ResultIndexValue = ResultIndex[0];
-  console.log('ResultIndex', ResultIndex[0]);
+  console.log('ResultIndex >>', ResultIndex[0]);
 
   // Sagmented Data is here
   const flattenedData = flightData?.flat() ?? []; // Flatten the nested array
@@ -80,13 +83,13 @@ const FlightListScreen = props => {
   });
   const segmentUpdate = segment.flat();
 
-  // console.log('segmentUpdate', segmentUpdate.DepTime);
-
   // FareDataMultiple Data is here  formatted
   const FareData = flattenedData.map(fare => {
     const FareDataDetails = fare?.FareDataMultiple ?? [];
     return FareDataDetails.flat();
   });
+
+  // console.log('FareData', FareData);
 
   const finalFareData = FareData.flat();
 
@@ -228,11 +231,12 @@ const FlightListScreen = props => {
       console.log('payload', payload);
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
       dispatch(flightFareQutesData(res.data.Results));
+
       setFlightBottomData(res.data.Results);
 
       // console.log('res fare qute', res.data.Results);
     } catch (error) {
-      console.log('error fare qute', error);
+      console.log('error fare qute', error.response);
     }
   };
 
@@ -240,13 +244,13 @@ const FlightListScreen = props => {
     getFareQuteData();
   }, []);
 
-  console.log('flightBotomData', flightBotomData);
+  // console.log('flightBotomData', flightBotomData);
 
   const Segments = flightBotomData?.Segments ?? [];
 
   const SegmentsFlatten = Segments.flat();
 
-  console.log('SegmentsFlatten', SegmentsFlatten);
+  // console.log('SegmentsFlatten', SegmentsFlatten);
 
   //  Departure date
   const date = SegmentsFlatten[0]?.DepTime;
@@ -277,7 +281,7 @@ const FlightListScreen = props => {
 
   const preparedData = prepareData(SegmentsFlatten);
 
-  console.log('preparedData', preparedData);
+  // console.log('preparedData', preparedData);
 
   const renderSeparator = ({leadingItem}) => {
     return (

@@ -33,6 +33,7 @@ import FlightDetails from '../screens/FlightListScreen/FlightDetails';
 import FlightTravellerDetails from '../screens/FlightListScreen/FlightTravellerDetails';
 import FlightMeals from '../screens/FlightListScreen/FlightSegments';
 import FlightSegments from '../screens/FlightListScreen/FlightSegments';
+import FlightReviewDetails from '../screens/FlightListScreen/FlightReviewDetails';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -151,6 +152,14 @@ const RootNavigator = props => {
             <Stack.Screen
               name={RouteName.FLIGHT_MEALS}
               component={FlightSegments}
+              options={{
+                headerShown: false,
+              }}
+            />
+
+            <Stack.Screen
+              name={RouteName.FLIGHT_REVIEW_DETAILS}
+              component={FlightReviewDetails}
               options={{
                 headerShown: false,
               }}

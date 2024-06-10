@@ -115,7 +115,7 @@ const FlightDetails = () => {
 
   const handleNavigation = () => {
     navigation.navigate(
-      cheboxSelect ? RouteName.FLIGHT_MEALS : RouteName.PAYMENT_SCREEN,
+      cheboxSelect ? RouteName.FLIGHT_MEALS : RouteName.FLIGHT_REVIEW_DETAILS,
     );
   };
 
@@ -410,7 +410,7 @@ const FlightDetails = () => {
                   navigation.navigate(
                     cheboxSelect
                       ? RouteName.FLIGHT_MEALS
-                      : RouteName.FLIGHT_DETAILS,
+                      : RouteName.FLIGHT_REVIEW_DETAILS,
                   )
                 }
               />

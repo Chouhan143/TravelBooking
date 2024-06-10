@@ -88,7 +88,7 @@ const FlightTab = props => {
         },
       ],
     };
-    console.log('payload', payload);
+    console.log('payload >>>>>>', payload);
     FsearchData(payload);
     calendarDataGet(payload);
     dispatch(flightSearchPayload(payload));
