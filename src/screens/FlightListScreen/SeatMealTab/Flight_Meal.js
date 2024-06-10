@@ -13,32 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import {FLIGHT_SSR_MEAL} from '../../../utils/BaseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const MealData = [
-  {
-    id: 1,
-    name: 'vegan special + beverage',
-    rupees: '400',
-    image: require('../../../images/phonepay.png'),
-  },
-  {
-    id: 2,
-    name: 'vegan special + beverage',
-    rupees: '500',
-    image: require('../../../images/phonepay.png'),
-  },
-  {
-    id: 3,
-    name: 'vegan special + beverage',
-    rupees: '800',
-    image: require('../../../images/phonepay.png'),
-  },
-  {
-    id: 4,
-    name: 'vegan special + beverage',
-    rupees: '900',
-    image: require('../../../images/phonepay.png'),
-  },
-];
+
 const Meal = () => {
   const [mealsData, setMealsData] = useState([]);
   const [Added, setAdded] = useState({});
@@ -79,7 +54,6 @@ const Meal = () => {
     try {
       console.log('tray aaya');
       const res = await axios.post(FLIGHT_SSR_MEAL, payload);
-
       const result = res.data.MealDynamic;
       const mealDataCollection = result.flat();
       console.log('res:', mealDataCollection);

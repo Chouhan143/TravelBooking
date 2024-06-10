@@ -58,9 +58,30 @@ const FlightReviewDetails = () => {
           <Text>Add-Ons</Text>
           <Text>400</Text>
         </View>
-        <View style={styles.AmtFlex}>
+        <View style={[styles.AmtFlex, {paddingBottom: 10}]}>
           <Text>Free Cancellation</Text>
           <Text>1662</Text>
+        </View>
+        <View
+          style={[
+            styles.AmtFlex,
+            {borderTopWidth: 0.5, borderTopColor: 'gray', paddingVertical: 10},
+          ]}>
+          <Text style={{color: '#000', fontSize: 16, fontWeight: '700'}}>
+            Grand Total
+          </Text>
+          <Text style={{color: '#000', fontSize: 16, fontWeight: '700'}}>
+            30,550
+          </Text>
+        </View>
+      </View>
+
+      {/* flight details  */}
+
+      <View style={[styles.tottalAmt, {}]}>
+        <View style={styles.AmtFlex}>
+          <Text>ONWARD</Text>
+          <Text>THU,13 Jun</Text>
         </View>
       </View>
     </View>
