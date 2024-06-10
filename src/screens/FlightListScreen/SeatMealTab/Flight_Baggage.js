@@ -1,72 +1,87 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {SH} from '../../../utils';
-import {FLIGHT_SSR_MEAL} from '../../../utils/BaseUrl';
-import {useSelector} from 'react-redux';
-import {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SW, SF } from '../../../utils';
+import { FLIGHT_SSR_MEAL } from '../../../utils/BaseUrl';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Baggage = () => {
   const [baggageData, setBaggageData] = useState([]);
+  const [addedStatus, setAddedStatus] = useState({});
 
-  const mealData = baggageData?.flat();
+  const { flightTraceIdDetails } = useSelector(state => state.commomReducer);
+  const { SrdvType, TraceId } = flightTraceIdDetails;
 
-  const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
+  const SrdvIndex = flightTraceIdDetails.Results?.flat() ?? [];
+  const SrdvIndexMap = SrdvIndex.flatMap(elem => elem?.FareDataMultiple ?? []);
+  const SrdvIndexValue = SrdvIndexMap[0]?.SrdvIndex;
+  const ResultIndexValue = SrdvIndexMap[0]?.ResultIndex;
 
-  const {SrdvType, TraceId} = flightTraceIdDetails;
-  let SrdvIndex = flightTraceIdDetails.Results;
-  let SrdvIndexFlatten = SrdvIndex?.flat() ?? [];
-  // console.log('SrdvIndexFlatten', SrdvIndexFlatten);
-  const SrdvIndexMap = SrdvIndexFlatten.map(
-    elem => elem?.FareDataMultiple ?? [],
-  ).flat();
-  const SrdvIndexLoop = SrdvIndexMap.map(el3 => el3.SrdvIndex);
-  const SrdvIndexValue = SrdvIndexLoop[0];
-  // console.log('SrdvIndexValue', SrdvIndexValue[0]);
+  // API request
+  useEffect(() => {
+    const baggageRequest = async () => {
+      const payload = {
+        SrdvType,
+        SrdvIndex: SrdvIndexValue,
+        TraceId: TraceId.toString(),
+        ResultIndex: ResultIndexValue,
+      };
 
-  const ResultIndex = SrdvIndexMap.map(el3 => el3.ResultIndex);
-  const ResultIndexValue = ResultIndex[0];
-
-  // api request
-  const baggageRequest = async () => {
-    const payload = {
-      SrdvType: SrdvType,
-      SrdvIndex: SrdvIndexValue,
-      TraceId: TraceId.toString(),
-      ResultIndex: ResultIndexValue,
+      try {
+        const res = await axios.post(FLIGHT_SSR_MEAL, payload);
+        const result = res.data.Baggage;
+        setBaggageData(result.flat() || []);
+      } catch (error) {
+        console.log('Baggage error:', error);
+      }
     };
 
-    try {
-      console.log('tray aaya');
-      const res = await axios.post(FLIGHT_SSR_MEAL, payload);
-      console.log('response baggage >>>>', res.data.Baggage);
-      const result = res.data.Baggage;
-      const baggageCollaction = result.flat();
-      console.log('res:', baggageCollaction);
-      setBaggageData(baggageCollaction || []);
-    } catch (error) {
-      console.log('meal error :', error);
-    }
+    baggageRequest();
+  }, [SrdvType, SrdvIndexValue, TraceId, ResultIndexValue]);
+
+  const toggleAddButton = index => {
+    setAddedStatus(prevState => {
+      const updatedStatus = { ...prevState };
+      updatedStatus[index] = !updatedStatus[index]; // Toggling the added status for the given index
+      return updatedStatus; // Returning the updated added status object
+    });
   };
 
-  useEffect(() => {
-    baggageRequest();
-  }, []);
+  const renderItem = ({ item, index }) => {
+    const isAdded = !!addedStatus[index];
 
-  const renderItem = ({item}) => {
     return (
-      <View style={{flex: 1}}>
-        <Text>{item.Weight}</Text>
-        <Text>{item.Price}</Text>
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{item.Weight} kg</Text>
+          <Text style={styles.name}>₹{item.Price}</Text>
+        </View>
+        <TouchableOpacity
+          style={isAdded ? styles.addButton : styles.button}
+          onPress={() => toggleAddButton(index)}
+        >
+          <View style={styles.buttonContent}>
+            <MaterialIcons
+              name={isAdded ? 'check' : 'add'}
+              color={isAdded ? 'green' : 'black'}
+              size={20}
+            />
+            <Text style={isAdded ? styles.addButtonText : styles.buttonText}>
+              {isAdded ? 'Added' : 'Add'}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <View>
+    <View style={styles.listContainer}>
       <FlatList
         data={baggageData}
         renderItem={renderItem}
-        keyExtractor={Item => Item.id}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
@@ -74,4 +89,50 @@ const Baggage = () => {
 
 export default Baggage;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listContainer: {
+    margin: SW(20),
+  },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: SW(20),
+  },
+  textContainer: {
+    flex: 1,
+    marginRight: SW(12),
+  },
+  name: {
+    color: 'black',
+    fontSize: SW(13),
+  },
+  button: {
+    borderColor: 'blue',
+    borderWidth: 1,
+    padding: SW(10),
+    paddingLeft: SW(30),
+    paddingRight: SW(30),
+    borderRadius: 20,
+  },
+  buttonText: {
+    color: 'black',
+    fontSize: SF(12),
+  },
+  addButtonText: {
+    color: 'green',
+    fontSize: SF(10),
+  },
+  addButton: {
+    borderColor: 'green',
+    borderWidth: 1,
+    padding: SW(10),
+    paddingLeft: SW(28),
+    paddingRight: SW(28),
+    borderRadius: 20,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
