@@ -54,6 +54,8 @@ const FlightDetails = () => {
     state => state.commomReducer.flightFareQutesData,
   );
 
+  console.log(fareQutesDataSelecter);
+  
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
 
   const fareQutesData = fareQutesDataSelecter.FareBreakdown;

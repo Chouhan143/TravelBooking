@@ -1,10 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Colors, SF, SW} from '../../utils';
+import {Colors, SF, SW,SH} from '../../utils';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const FlightReviewDetails = () => {
   const navigation = useNavigation();
   const back = () => {
@@ -30,17 +33,18 @@ const FlightReviewDetails = () => {
               textAlign: 'center',
               alignSelf: 'center',
               fontWeight: 'bold',
+              fontSize:SF(12)
             }}>
             <MaterialCommunityIcons
               name={'timer'}
-              size={20}
+              size={15}
               color={Colors.orange}
             />
             05m17s Left
           </Text>
         </View>
         <View style={{paddingLeft: 5}}>
-          <Text>To make payment & confirm booking</Text>
+          <Text style={styles.text2}>To make payment & confirm booking</Text>
         </View>
       </View>
 
@@ -48,20 +52,20 @@ const FlightReviewDetails = () => {
 
       <View style={styles.tottalAmt}>
         <View style={styles.AmtFlex}>
-          <Text>Air Fare</Text>
-          <Text>33,426</Text>
+          <Text style={styles.text}>Air Fare</Text>
+          <Text style={styles.text}>33,426</Text>
         </View>
         <View style={styles.AmtFlex}>
-          <Text>Convenience Fee</Text>
-          <Text>1,047</Text>
+          <Text style={styles.text}>Convenience Fee</Text>
+          <Text style={styles.text}>1,047</Text>
         </View>
         <View style={styles.AmtFlex}>
-          <Text>Add-Ons</Text>
-          <Text>400</Text>
+          <Text style={styles.text}>Add-Ons</Text>
+          <Text style={styles.text}>400</Text>
         </View>
         <View style={[styles.AmtFlex, {paddingBottom: 10}]}>
-          <Text>Free Cancellation</Text>
-          <Text>1662</Text>
+          <Text style={styles.text}>Free Cancellation</Text>
+          <Text style={styles.text}>1662</Text>
         </View>
         <View
           style={[
@@ -80,19 +84,50 @@ const FlightReviewDetails = () => {
       {/* flight details  */}
 
       <View style={[styles.tottalAmt, {}]}>
-        <View style={styles.AmtFlex}>
-          <Text>ONWARD</Text>
-          <Text>THU,13 Jun</Text>
+        <View style={{display:'flex',flexDirection:'row'}}>
+          <Text style={styles.text}>ONWARD</Text>
+          <Text style={styles.text}>THU,13 Jun</Text>
         </View>
-        <View style={styles.AmtFlex}>
-          <Text>Indore</Text>
-          <Text>Guwahati</Text>
+        <View style={{display:'flex',flexDirection:'row'}}>
+          <Text style={styles.text}>Indore</Text>
+          <MaterialIcons name={'flight'} size={25} color='black'/>
+          <Text style={styles.text}>Guwahati</Text>
         </View>
-        <View style={styles.AmtFlex}>
-          <Text>09:20 Pm</Text>
-          <Text>07:15 Am</Text>
+        <View style={{display:'flex',flexDirection:'row'}}>
+          <Text style={styles.text}>09:20 Pm</Text>
+          <FontAwesome6 name={'grip-lines'} size={25} color='black'/>
+          <Text style={styles.text}> 07:15 Am</Text>
         </View>
+        <View>
+        <View style={{display:'flex',flexDirection:'row',marginLeft:SW(7)}}>
+        <MaterialIcons name={'flight-takeoff'} size={20} color='gray'/>
+        <Text style={styles.text1}> Air india AI-635</Text>
       </View>
+      <View style={{display:'flex',flexDirection:'row',marginLeft:SW(7)}}>
+        <MaterialCommunityIcons name={'seat-outline'} size={20} color='gray'/>
+        <Text style={styles.text1}> economy classes  . Flex</Text>
+      </View>
+      <View style={{display:'flex',flexDirection:'row',marginLeft:SW(7)}}>
+        <AntDesign name={'clockcircleo'} size={20} color='gray'/>
+        <Text style={styles.text1}> 27h 10m .1 stop at  dehli</Text>
+      </View>
+      <View style={{display:'flex',flexDirection:'row',marginLeft:SW(7)}}>
+        <Ionicons name={'bag'} size={20} color='gray'/>
+        <Text style={styles.text1}> cabin baggage 7kg (1 piece) </Text>
+      </View>
+      <View style={{display:'flex',flexDirection:'row',marginLeft:SW(7)}}>
+      <Ionicons name={'bag'} size={20} color='gray'/>
+        <Text style={styles.text1}>check-in baggage as per airline policy</Text>
+      </View>
+        </View>
+        <View style={{backgroundColor:'#dfe6e5',paddingLeft:SW(7),marginTop:SH(10)}}>
+      <Text style={styles.text1}>Mr . gshs hsh</Text>
+      <Text style={styles.text1}> Mr. cgg  ghh</Text>
+      <Text style={styles.text1}> Mr. vsv gs</Text>
+      </View>
+      </View>
+      <TouchableOpacity style={{backgroundColor:"#23b6de",margin:SH(35),borderRadius:10,marginLeft:SW(6),marginRight:SW(3)}}>
+      <Text style={{color:'white',padding:SW(15),textAlign:'center',fontFamily:'Poppins-Bold'}}>Proceed To Pay 75,142</Text></TouchableOpacity>
     </View>
   );
 };
@@ -128,9 +163,30 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
+    paddingBottom:0,paddingLeft:0,paddingRight:0,
+    
   },
   AmtFlex: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  text:{
+    color:'black',
+    marginRight:SW(10),
+    fontFamily:'Poppins-Regular',
+    textTransform:'capitalize',
+    marginLeft:SW(7)
+  },
+  text1:{
+     color:'gray',
+     marginRight:SW(10),
+     fontFamily:'Poppins-Regular',
+     textTransform:'capitalize',
+     
+  }
+,text2:{
+   fontSize:SF(12),
+   color:'black',
+   fontFamily:'Poppins-Regular'
+}
 });

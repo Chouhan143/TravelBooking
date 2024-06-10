@@ -18,7 +18,6 @@ import axios from 'axios';
 import {BUS_LIST, BUS_SEARCH} from '../../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setTraceId} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 import {Calendar} from 'react-native-calendars';
@@ -28,9 +27,6 @@ const BusTab = props => {
   const dispatch = useDispatch();
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {onPress} = props;
-  const [value, setValue] = useState();
-  const [isFocus, setIsFocus] = useState(false);
   const [sourceCity, setsourceCity] = useState('');
   const [destinationCity, setdestinationCity] = useState('');
   const [filteredBusDataFrom, setFilteredBusDataFrom] = useState([]);
