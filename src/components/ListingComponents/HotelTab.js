@@ -5,10 +5,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { SF, SH, SW } from '../../utils';
+import AgeModal from '../commonComponents/AgeModal';
 
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
+  const [ModalVisible2, SetModalVisible2] = useState(false);
   const [adultsCount, setAdultsCount] = useState(2);
   const [childrenCount, setChildrenCount] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
@@ -107,6 +109,7 @@ const HotelTab = () => {
         <ScrollView style={styles.ModalView}>
           <Entypo name={'cross'} size={30} color='#d9d5d4' onPress={() => SetModalVisible1(!ModalVisible1)}
             style={{ marginLeft: SW(320), marginTop: SH(10), marginBottom: SH(30) }} />
+          <View>
           <View style={styles.modalContanier}>
             <Text style={styles.ageModaltext}>adults</Text>
             <TouchableOpacity style={styles.buttons} onPress={() => setAdultsCount(Math.max(1, adultsCount - 1))}>
@@ -130,16 +133,32 @@ const HotelTab = () => {
           {childrenCount > 0 && (
             <View>
               <View style={styles.ageTextContanier}>
-              <Text style={{ color: 'black',fontFamily:'Poppins-Medium' }}>Age of child at check-out</Text>
+              <Text style={{ color: 'black',fontFamily:'Poppins-Medium', }}>Age of child at check-out</Text>
               <Text style={{ color: 'black',fontFamily:'Poppins-Regular' }}>Add the age of each child to get the best match for beds, room size, and special prices.</Text>
               </View>
-              {childrenAges.map((age, index) => (
-                <View key={index} style={styles.ageInputContanier}>
-                  <View style={{borderWidth:1,borderColor:'#86d5eb',padding:SW(10),paddingLeft:SW(40)}}>
-                  <Ionicons name={'chevron-expand-outline'}  size={20} color='#86d5eb' style={{marginLeft:SW(90)}} />
+              {childrenAges.map((age, index) => {
+                if (index % 2 === 0) {
+                  return (
+                    <View key={index} style={styles.ageInputRow}>
+                    <View style={styles.ageInputContainer}>
+                      <TouchableOpacity onPress={() => SetModalVisible2(true)}>
+                        <Text style={styles.ageModaltext}>Child {index + 1} Age</Text>
+                      </TouchableOpacity>
+                      <Ionicons name={'chevron-expand-outline'} size={20} color='#86d5eb' />
+                    </View>
+                    {index + 1 < childrenAges.length && (
+                      <View style={styles.ageInputContainer}>
+                        <TouchableOpacity onPress={() => SetModalVisible2(true)}>
+                          <Text style={styles.ageModaltext}>Child {index + 2} Age</Text>
+                        </TouchableOpacity>
+                        <Ionicons name={'chevron-expand-outline'} size={20} color='#86d5eb' />
+                      </View>
+                    )}
                   </View>
-                </View>
-              ))}
+                  );
+                }
+                return null;
+              })}
             </View>
           )}
           <View style={styles.modalContanier}>
@@ -152,10 +171,25 @@ const HotelTab = () => {
               <Entypo name={'plus'} size={20} color='white' />
             </TouchableOpacity>
           </View>
+          </View>
           <TouchableOpacity style={styles.bottomButtom} onPress={() => SetModalVisible1(false)}>
             <Text style={styles.bottombuttonText}>Done</Text>
           </TouchableOpacity>
         </ScrollView>
+      </Modal>
+      <Modal
+        visible={ModalVisible2}
+        transparent={true}
+        animationType='slide'
+        onRequestClose={() => {
+          SetModalVisible2(!ModalVisible2);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.childModalContent}>
+            <AgeModal SetModalVisible2={SetModalVisible2} />
+          </View>
+        </View>
       </Modal>
     </View>
   );
@@ -165,7 +199,7 @@ export default HotelTab;
 
 const styles = StyleSheet.create({
   mainContanier: {
-    marginTop: SH(20), marginBottom: SH(70)
+    marginTop: SH(10), marginBottom: SH(70)
   },
   headerText: {
     color: 'black',
@@ -300,5 +334,19 @@ const styles = StyleSheet.create({
   },
   ageTextContanier:{
     margin:SW(25),marginTop:SH(5),marginBottom:SH(5)
-  }
+  },
+  ageInputRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: SH(10),
+    margin:SW(15)
+  },
+  ageInputContainer: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#86d5eb',
+    marginHorizontal: SW(5),
+    padding:SW(3),
+    display:'flex',flexDirection:'row',justifyContent:'space-between'
+  },
 });

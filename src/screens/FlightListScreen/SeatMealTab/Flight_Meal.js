@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    alignItems: 'center',
     marginBottom: SH(20),
   },
   textContainer: {
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
   },
   name: {
     color: 'black',
+    fontSize: SW(13),
     fontSize: SW(13),
   },
   button: {
@@ -130,6 +132,10 @@ const styles = StyleSheet.create({
     paddingLeft: SW(28),
     paddingRight: SW(28),
     borderRadius: 20,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   buttonContent: {
     flexDirection: 'row',
