@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
-import {SF, SH} from '../../../utils';
+import {Colors, SF, SH} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
 import {flightSelectSeat} from '../../../redux/action';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -179,23 +179,41 @@ const Seat = () => {
           bottom: 10,
           justifyContent: 'space-between',
           flexDirection: 'row',
+          borderTopColor: 'gray',
+          // borderTopWidth: 0.5,
+          paddingTop: 20,
         }}>
         <View>
-          <Text>Fare Breackup</Text>
-
+          <Text
+            style={{
+              color: Colors.gray_text_color,
+              fontSize: 14,
+              fontWeight: '500',
+            }}>
+            Fare Breackup
+          </Text>
           <View style={{flexDirection: 'row'}}>
-            <Text>35000</Text>
-            <Entypo name={'chevron-down'} size={20} />
+            <Text style={{color: '#000', fontSize: 16, fontWeight: '700'}}>
+              ₹ 35000
+            </Text>
+            <Entypo name={'chevron-down'} size={20} color={'#000'} />
           </View>
         </View>
         <TouchableOpacity
           style={{
             paddingVertical: 15,
             paddingHorizontal: 30,
-            backgroundColor: 'green',
+            backgroundColor: Colors.theme_background,
             borderRadius: 5,
           }}>
-          <Text>Continue</Text>
+          <Text
+            style={{
+              color: '#fff',
+              fontSize: 16,
+              fontWeight: '700',
+            }}>
+            Continue
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -218,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     borderTopLeftRadius: SH(200),
     borderTopRightRadius: SH(200),
-    paddingBottom: SH(10),
+    paddingBottom: SH(5),
   },
   segment: {
     flex: 1,

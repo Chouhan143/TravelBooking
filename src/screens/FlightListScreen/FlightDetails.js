@@ -257,60 +257,56 @@ const FlightDetails = () => {
           </TouchableOpacity>
           <Text style={{fontSize: 16}}> Add Seats,Meal,Baggage & more</Text>
         </View>
-
-        <View
-          style={{
-            // position: 'absolute',
-            width: '100%',
-            height: '6%',
-            backgroundColor: '#fff',
-            // bottom: 0,
-            borderTopColor: 'rgba(0,0,0,0.5)',
-            borderTopWidth: 0.5,
-            padding: 10,
-            flex: 1,
-            justifyContent: 'center',
-            marginTop: SH(20),
-          }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <TouchableOpacity
-              onPress={() => {
-                refRBSheet.current.open();
-              }}>
-              <Text
-                style={{
-                  color: 'rgba(0,0,0,0.5)',
-                  fontWeight: '400',
-                  fontSize: SF(15),
-                }}>
-                Fare Breakup
-              </Text>
-
-              <Text
-                style={{color: '#000', fontWeight: '700', fontSize: SF(20)}}>
-                {tottalFare.toLocaleString()}
-                <Entypo name={'chevron-down'} size={20} />
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                width: cheboxSelect ? '60%' : '40%',
-                paddingHorizontal: 10,
-                height: '100%',
-                backgroundColor: Colors.theme_background,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 5,
-              }}
-              onPress={handleNavigation}>
-              <Text
-                style={{color: '#fff', fontWeight: '800', fontSize: SF(15)}}>
-                {cheboxSelect ? 'Proceed to select Seat' : 'Continue'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </ScrollView>
+      <View
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '6%',
+          backgroundColor: '#fff',
+          bottom: 0,
+          borderTopColor: 'rgba(0,0,0,0.5)',
+          borderTopWidth: 0.5,
+          padding: 10,
+          flex: 1,
+          justifyContent: 'center',
+          marginTop: SH(20),
+        }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity
+            onPress={() => {
+              refRBSheet.current.open();
+            }}>
+            <Text
+              style={{
+                color: 'rgba(0,0,0,0.5)',
+                fontWeight: '400',
+                fontSize: SF(15),
+              }}>
+              Fare Breakup
+            </Text>
+            <Text style={{color: '#000', fontWeight: '700', fontSize: SF(20)}}>
+              ₹ {tottalFare.toLocaleString()}
+              <Entypo name={'chevron-down'} size={20} />
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: cheboxSelect ? '60%' : '40%',
+              paddingHorizontal: 10,
+              height: '100%',
+              backgroundColor: Colors.theme_background,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 5,
+            }}
+            onPress={handleNavigation}>
+            <Text style={{color: '#fff', fontWeight: '800', fontSize: SF(15)}}>
+              {cheboxSelect ? 'Proceed to select Seat' : 'Continue'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       {/* BottomSheet here */}
       <RBSheet height={SH(280)} refRBSheet={refRBSheet}>
@@ -368,23 +364,6 @@ const FlightDetails = () => {
               <Text>Taxes & Fees</Text>
               <Text>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
             </View>
-
-            {/* <View
-              style={{
-                paddingVertical: 15,
-
-                marginTop: 10,
-              }}>
-              <View
-                style={{
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  paddingHorizontal: 20,
-                }}>
-                <Text>Grand Total</Text>
-                <Text>₹7,219</Text>
-              </View>
-            </View> */}
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
