@@ -121,7 +121,6 @@ const FlightDetails = () => {
 
   return (
     <View style={styles.conatainer}>
-      <StatusBar barStyle={'dark-content'} />
       <View style={styles.topView}>
         <View>
           <View style={{marginTop: 10}}>
@@ -258,17 +257,18 @@ const FlightDetails = () => {
           <Text style={{fontSize: 16}}> Add Seats,Meal,Baggage & more</Text>
         </View>
       </ScrollView>
+      {/* bottom section  button */}
       <View
         style={{
           position: 'relative',
           width: '100%',
-          height: '6%',
+          height: '10%',
           backgroundColor: '#fff',
           bottom: 0,
           borderTopColor: 'rgba(0,0,0,0.5)',
           borderTopWidth: 0.5,
           padding: 10,
-          flex: 1,
+          // flex: 1,
           justifyContent: 'center',
           marginTop: SH(20),
         }}>
@@ -431,14 +431,14 @@ const styles = StyleSheet.create({
   },
   box3: {
     width: '90%',
-    height: 'auto',
+    // height: 'auto',
     backgroundColor: '#fff',
     alignSelf: 'center',
     paddingVertical: 10,
     paddingHorizontal: 15,
 
     borderRadius: 5,
-    // flex: 1,
+    flex: 1,
     // alignItems: 'center',
     marginTop: 20,
   },

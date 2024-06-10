@@ -31,8 +31,8 @@ const useOtpVeryfy = () => {
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
-      setError(error.message);
+      console.log(error.response.data.message);
+      setError(error.response.data.message);
       setLoading(false);
     }
   };

@@ -10,6 +10,7 @@ const FlightReviewDetails = () => {
   const back = () => {
     navigation.goBack();
   };
+
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -82,6 +83,14 @@ const FlightReviewDetails = () => {
         <View style={styles.AmtFlex}>
           <Text>ONWARD</Text>
           <Text>THU,13 Jun</Text>
+        </View>
+        <View style={styles.AmtFlex}>
+          <Text>Indore</Text>
+          <Text>Guwahati</Text>
+        </View>
+        <View style={styles.AmtFlex}>
+          <Text>09:20 Pm</Text>
+          <Text>07:15 Am</Text>
         </View>
       </View>
     </View>

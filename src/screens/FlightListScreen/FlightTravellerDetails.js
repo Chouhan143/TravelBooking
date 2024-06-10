@@ -19,11 +19,29 @@ const FlightTravellerDetails = ({route}) => {
 
   const [Email, setEmail] = useState('');
   const [Mobile, setMobile] = useState('');
+  const [isValid, setIsValid] = useState(false);
 
   const handleDateSelect = date => {
     setDob(date);
   };
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    validateFields();
+  }, [selected, firstName, LastName, dob, passengerType]);
+
+  const validateFields = () => {
+    if (
+      selected &&
+      firstName.trim() &&
+      LastName.trim() &&
+      (passengerType !== 'Adult (12 yrs+)' ? dob : true)
+    ) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  };
 
   const handleConfirm = () => {
     const payload = {
@@ -58,6 +76,7 @@ const FlightTravellerDetails = ({route}) => {
             gap: 10,
             paddingHorizontal: 10,
             paddingTop: SH(7),
+            paddingHorizontal: 10,
           }}>
           <View
             style={{
@@ -168,7 +187,10 @@ const FlightTravellerDetails = ({route}) => {
             onChangeText={setMobile}
           />
         </View> */}
-        <TouchableOpacity style={styles.ConfirmButton} onPress={handleConfirm}>
+        <TouchableOpacity
+          style={[styles.ConfirmButton, !isValid && {backgroundColor: '#ccc'}]}
+          onPress={handleConfirm}
+          disabled={!isValid}>
           <Text style={styles.confirmTxt}>Confirm</Text>
         </TouchableOpacity>
       </View>

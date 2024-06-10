@@ -133,6 +133,9 @@ const OtpScreenset = props => {
                   <Text style={Otpstyles.ResendTextBold}>{t('Resend')}</Text>
                 </TouchableOpacity>
               </View>
+              <View style={{marginBottom: 20}}>
+                <Text style={{color: 'red'}}>{error || null} </Text>
+              </View>
               <View>
                 <Button
                   // onPress={() => {
