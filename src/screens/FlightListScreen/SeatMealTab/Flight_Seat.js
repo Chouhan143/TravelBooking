@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 import {SF, SH} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
-import {useDispatch} from 'react-redux';
 import {flightSelectSeat} from '../../../redux/action';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const Seat = () => {
   const [seatData, setSeatData] = useState([]);
@@ -51,9 +51,9 @@ const Seat = () => {
     try {
       setLoading(true);
       const res = await axios.post(FLIGHT_SEAT_MAP, payload);
-      const seatData = res.data.Results;
+      const seatData = res.data.Results || [];
       setSeatData(seatData);
-      // console.log('seat res:', seatData);
+      console.log('seat res:', seatData);
       setLoading(false);
     } catch (error) {
       console.log('seat error:', error);
@@ -73,9 +73,10 @@ const Seat = () => {
   };
 
   const renderSeats = seats => {
+    if (!seats) return null;
     return Object.keys(seats).map((row, rowIndex) => (
       <View key={rowIndex} style={styles.row}>
-        {Object.keys(seats[row]).map((col, colIndex) => {
+        {Object.keys(seats[row] || {}).map((col, colIndex) => {
           const seat = seats[row][col];
           const isSelected = flightSeatSelectData.some(
             selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
@@ -165,15 +166,38 @@ const Seat = () => {
 
             {seatData.map((segment, index) => (
               <View key={index} style={styles.segment}>
-                {/* <Text style={styles.segmentLabel}>
-                  {segment.FromCity} to {segment.ToCity}
-                </Text> */}
                 {renderSeats(segment.Seats)}
               </View>
             ))}
           </View>
         </ScrollView>
       )}
+      {/* bootom buttons  */}
+      <View
+        style={{
+          position: 'relative',
+          bottom: 10,
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+        }}>
+        <View>
+          <Text>Fare Breackup</Text>
+
+          <View style={{flexDirection: 'row'}}>
+            <Text>35000</Text>
+            <Entypo name={'chevron-down'} size={20} />
+          </View>
+        </View>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 15,
+            paddingHorizontal: 30,
+            backgroundColor: 'green',
+            borderRadius: 5,
+          }}>
+          <Text>Continue</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -195,28 +219,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: SH(200),
     borderTopRightRadius: SH(200),
     paddingBottom: SH(10),
-    // borderBottomLeftRadius: SH(150),
-    // borderBottomRightRadius: SH(150),
   },
   segment: {
     flex: 1,
     marginVertical: 20,
   },
-  segmentLabel: {
-    fontSize: SF(16),
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-  },
-  rowLabel: {
-    fontSize: SF(14),
-    fontWeight: 'bold',
-    width: 50,
   },
   seat: {
     flex: 1,
@@ -227,7 +238,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#ccc',
     borderWidth: 1,
-    // borderTopLeftRadius: 10,
-    // borderTopRightRadius: 10,
   },
 });
