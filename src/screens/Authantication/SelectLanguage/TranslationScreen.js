@@ -40,7 +40,7 @@ const Translation = (props) => {
         />
         <TouchableOpacity style={LanguageStyles.BtnVieStyle}>
           <Text style={LanguageStyles.btnText} onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)} >
-          confirm</Text>
+          Confirm</Text>
         </TouchableOpacity>
       </View>
     </Container>

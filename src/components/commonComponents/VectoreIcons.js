@@ -10,10 +10,13 @@ import IconG from 'react-native-vector-icons/Ionicons';
 import IconP from 'react-native-vector-icons/Octicons';
 import IconW from 'react-native-vector-icons/FontAwesome5';
 import IconV from 'react-native-vector-icons/Fontisto';
-
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 const VectorIcon = (props) => {
     const { icon = "", name, color, size, style } = props
     return (
+        icon == "FontAwesome6" ?
+        <FontAwesome6 name={name} color={color} style={style} size={size} />
+        :
         icon == "Feather" ?
             <IconF name={name} color={color} style={style} size={size} />
             :

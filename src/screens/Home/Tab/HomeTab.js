@@ -11,7 +11,7 @@ import {useTheme} from '@react-navigation/native';
 import images from '../../../index';
 import {ScrollView} from 'react-native-virtualized-view';
 import axios, {Axios} from 'axios';
-import {EXCLUSIVE_OFFERS, OFFERS_DATA} from '../../../utils/BaseUrl';
+import { OFFERS_DATA} from '../../../utils/BaseUrl';
 
 const HomeTab = props => {
   const {t} = useTranslation();
@@ -26,24 +26,6 @@ const HomeTab = props => {
     navigation.navigate(RouteName.BOOKING_TAB);
   };
 
-  const Offersdata = [
-    {
-      id: 1,
-      image: images.Exclusive1,
-    },
-    {
-      id: 2,
-      image: images.Exclusive3,
-    },
-    {
-      id: 3,
-      image: images.Exclusive2,
-    },
-    {
-      id: 4,
-      image: images.Exclusive4,
-    },
-  ];
   const TicketBookData = [
     {
       id: 1,
@@ -61,22 +43,7 @@ const HomeTab = props => {
       id: 3,
       image: images.Hotel_icon,
       text: 'Hotel',
-      iconname: 'Hotel',
-    },
-  ];
-
-  const ExclusiveData = [
-    {
-      id: 1,
-      image: images.Offer1,
-    },
-    {
-      id: 2,
-      image: images.Offer2,
-    },
-    {
-      id: 3,
-      image: images.Offer3,
+      iconname: 'hotel',
     },
   ];
 
@@ -101,11 +68,11 @@ const HomeTab = props => {
         keyboardShouldPersistTaps="handled"
         style={BookingTabStyles.contentContainerStyle}>
         <View style={HomeTabStyles.MainViewHomeTab}>
-          <Spacing space={SH(12)} />
+          <Spacing space={SH(17)} />
           <View style={HomeTabStyles.BorderWidth}>
             <Search />
           </View>
-          <Spacing space={SH(25)} />
+          <Spacing space={SH(15)} />
           <Text style={HomeTabStyles.OffersText}>{t('TICKET_BOOKING')}</Text>
           <Spacing />
           <View style={HomeTabStyles.FlatListView}>
@@ -119,12 +86,13 @@ const HomeTab = props => {
                     <VectorIcon
                       icon="MaterialIcons"
                       name={item.iconname}
-                      size={SF(35)}
+                      size={SF(20)}
                       style={HomeTabStyles.TopLisIcon}
                       color={Colors.white_text_color}
                     />
-                    <View style={HomeTabStyles.TetTwoView}>
-                      <Text style={HomeTabStyles.TextSetFood}>
+                    <View style={{backgroundColor:Colors.theme_background}}>
+                      <Text style={{color:'white',
+                        fontSize:SF(15),textAlign: 'center',}}>
                         {t(item.text)}
                       </Text>
                     </View>
@@ -137,7 +105,7 @@ const HomeTab = props => {
               style={HomeTabStyles.SetFlex}
             />
           </View>
-          <Spacing space={SH(20)} />
+          <Spacing space={SH(15)} />
           <View style={HomeTabStyles.BorderView}></View>
           <Spacing space={SH(16)} />
           <Text style={HomeTabStyles.OffersText}>{t('EXCLUSIVE_OFFERS')}</Text>
@@ -162,14 +130,13 @@ const HomeTab = props => {
             showsHorizontalScrollIndicator={false}
             horizontal
           />
-          <Spacing space={SH(30)} />
+          <Spacing space={SH(20)} />
           <View style={HomeTabStyles.BorderView}></View>
           <Spacing space={SH(20)} />
           <View>
             <Text style={HomeTabStyles.OffersText}>{t('WHATS_NEW')}</Text>
             <Text>{t('Dreams_Trips')}</Text>
           </View>
-          <Spacing space={SH(12)} />
           <FlatList
             data={sliderImg}
             renderItem={({item, index}) => (
@@ -183,7 +150,7 @@ const HomeTab = props => {
             showsHorizontalScrollIndicator={false}
             horizontal
           />
-          <Spacing space={SH(30)} />
+          <Spacing space={SH(20)} />
           <View style={HomeTabStyles.BorderView}></View>
           <Spacing space={SH(20)} />
           <Text style={HomeTabStyles.OffersText}>{t('PREFER_TO_TRAVEL')}</Text>

@@ -7,7 +7,7 @@ import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigatio
 import { Style } from '../styles';
 import { ColorPicker, CustomSidebarMenu, HeaderLeftMenuIcon, AppHeader, VectorIcon } from '../components';
 import RouteName from '../routes/RouteName';
-import { Colors, SH, SF } from '../utils';
+import { Colors, SH, SF,SW } from '../utils';
 import { useTranslation } from "react-i18next";
 
 const Tab = createBottomTabNavigator();
@@ -142,7 +142,7 @@ export function HomeScsreenTabAll() {
         tabBarInactiveTintColor: Colors.gray_text_color,
         labeled: true,
         tabStyle: {
-          height: SH(49),
+          height: SH(55),
           backgroundColor: Colors.white_text_color,
           paddingTop: SH(0),
         },

@@ -7,7 +7,8 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         fontSize: SF(18),
         fontWeight: '600',
         textAlign: 'left',
-        color: Colors.black_text_color
+        color: Colors.black_text_color,
+        fontFamily:Fonts.Poppins_Medium
     },
     MainViewOffers: {
         paddingRight: SW(12),
@@ -16,7 +17,9 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
     OffersImg: {
         height: SH(150),
         width: SW(220),
-        borderRadius: SW(7)
+        borderRadius: SW(15),
+        resizeMode:'contain',
+        backgroundColor:'white'
     },
     FlatListView: {
         justifyContent: 'center',
@@ -31,7 +34,7 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         borderRadius: SW(7),
         borderWidth: SW(0.5),
         borderColor: Colors.theme_background,
-        backgroundColor: Colors.theme_background,
+        backgroundColor: 'white',
     },
     WidtSetNew: {
         width: SW(50),
@@ -49,7 +52,7 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         width: '85%'
     },
     TextSetFood: {
-        fontSize: SF(17),
+        fontSize: SF(10),
         fontWeight: '700',
         textAlign: 'center',
         paddingTop: SH(2),
@@ -73,7 +76,7 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         borderWidth: SH(1),
         width: '100%',
         borderColor: Colors.theme_background,
-        height: SH(55),
+        height: SH(50),
         borderRadius: SH(10),
     },
     ExclusiveImgWrap: {
@@ -86,7 +89,8 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
     ExclusiveImg: {
         height: SH(100),
         width: SW(200),
-        borderRadius: 7
+        borderRadius: 7,
+        resizeMode:'contain'
     },
     OffreView: {
         position: 'absolute',

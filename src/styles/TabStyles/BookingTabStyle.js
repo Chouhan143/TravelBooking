@@ -54,7 +54,7 @@ export default BookingTabStyle = Colors =>
       paddingBottom: SH(30),
     },
     contentContainerStyle: {
-      width: '100%',
+      width: '90%',
       height: 'auto',
     },
     FlightMinHeightStyle: {
