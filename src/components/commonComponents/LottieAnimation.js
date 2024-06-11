@@ -18,7 +18,7 @@ function CheckBoxset(props) {
     () =>
       StyleSheet.create({
         Setlottesfilestyle: {
-          width: SW(330),
+          width: '100%',
         },
         centerlottw: {
           flexDirection: 'row',

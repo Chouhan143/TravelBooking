@@ -20,5 +20,6 @@ export const Colors = {
   light_green: '#c1e1c5',
   orange: 'orange',
   Rgb_Black: 'rgba(0,0,0,0.25)',
+  gray_color:'#bfbdbd'
 };
 export default Colors;

@@ -47,8 +47,12 @@ function AppHeader({ headerStyle, LeftIconStyle, rightView, LeftIconLeftStyle, h
                 LeftIconStyle: {
                     fontSize: SF(30),
                     color: Colors.theme_background,
-                    paddingLeft: SH(15),
-                    paddingRight: SH(30),
+                    padding: SH(5),
+                    marginLeft:SW(25),
+                    margin:SW(10),
+                    borderColor:Colors.theme_background,
+                    borderWidth:1,
+                    borderRadius:10,
                     ...LeftIconStyle
                 },
                 LeftIconLeftStyle: {

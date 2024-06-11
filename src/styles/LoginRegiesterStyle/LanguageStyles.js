@@ -49,8 +49,8 @@ export default StyleSheet.create({
     fontSize: SF(23),
     paddingVertical: SH(10),
     color: Colors.theme_background,
-    fontWeight: '400',
     marginRight: SW(10),
+    fontFamily:Fonts.Poppins_Medium
   },
   Settingtext: {
     fontSize: SF(18),
@@ -127,7 +127,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     borderWidth: SW(1),
-    borderColor: Colors.black_text_color,
+    borderColor: Colors.theme_background,
     borderRadius: SW(7),
     alignSelf: 'center',
     position: 'relative'
@@ -169,12 +169,12 @@ export default StyleSheet.create({
   TextStyle: {
     color: Colors.black_text_color,
     fontFamily: Fonts.Poppins_Medium,
-    fontSize: SF(17)
+    fontSize: SF(18)
   },
   LanguageViewStyleModal: {
     backgroundColor: Colors.white_text_color,
     padding: SH(10),
-    borderRadius: SH(10)
+    borderRadius: SH(10),
   },
   CloseButtonStyle: {
     flexDirection: 'row',
@@ -190,7 +190,16 @@ export default StyleSheet.create({
   BtnVieStyle: {
     width: '80%',
     position: 'absolute',
-    bottom: SH(30)
+    bottom: SH(30),
+    backgroundColor:Colors.theme_background,
+    padding:SW(6),
+    borderRadius:7
+  },
+  btnText:{
+   fontFamily:Fonts.Poppins_Medium,
+   color:'white',
+   textAlign:'center',
+   fontSize:SF(20)
   },
   DropDownIcon: {
     position: 'absolute',

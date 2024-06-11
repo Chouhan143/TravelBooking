@@ -22,8 +22,8 @@ export default Login = Colors =>
       fontFamily: Fonts.Poppins_Medium,
     },
     ImageSet: {
-      width: SW(180),
-      height: SH(140),
+      width: SW(190),
+      height: SH(150),
     },
     TextStyle: {
       color: Colors.black_text_color,
@@ -40,6 +40,7 @@ export default Login = Colors =>
       justifyContent: 'flex-start',
       width: '100%',
       paddingLeft: SH(15),
+      marginTop:SH(10)
     },
     MinViewScreen: {
       flexDirection: 'row',
@@ -89,7 +90,7 @@ export default Login = Colors =>
     },
 
     TopSpaceRegister: {
-      paddingTop: SH(50),
+      paddingTop: SH(60),
       flexDirection: 'row',
       justifyContent: 'flex-start',
       width: '100%',
@@ -136,10 +137,10 @@ export default Login = Colors =>
       width: '100%',
     },
     SimpleTextStyle: {
-      fontSize: SF(11),
+      fontSize: SF(13),
       fontFamily: Fonts.Poppins_Medium,
       color: Colors.black_text_color,
-      top: SH(-25),
+      top: SH(-20),
       width: '75%',
     },
     CheckBoxView: {

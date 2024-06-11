@@ -3,7 +3,7 @@ import { Text, View, ScrollView,TouchableOpacity } from "react-native";
 import { Login, Style } from '../../../styles';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { Button, ConfirmationAlert, Spacing, AppHeader, Input, } from '../../../components';
-import { SH, SF } from '../../../utils';
+import { SH, SF,SW } from '../../../utils';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import { RouteName } from "../../../routes";
@@ -24,14 +24,17 @@ const ForgotPassword = (props) => {
     navigation.navigate(RouteName.LOGIN_SCREEN)
   }
   return (
-    <View style={{ width: '100%' }}>
+    <View style={{ width: '100%',paddingTop:SH(70),flex:1,backgroundColor:'white' }}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Style.ScrollViewStyles}>
-        <AppHeader onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)} Iconname={true} headerTitle={t("Forget_Password")} />
+        <AppHeader onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)} Iconname={true}/>
+        <Text style={{color:Colors.theme_background,marginLeft:SW(20),fontSize:SF(25),marginTop:SH(30)
+        }}>Forgot Password</Text>
         <View style={Logins.TabMinView}>
           <View>
-            <View style={Logins.TabMinViewChild}>
+            <View style={{paddingTop:SH(30)}}>
+            <Text style={{color:'gray',marginBottom:SH(30),fontSize:SF(15)}}>{t("We_Well_Sand_Message")}</Text>
             <View style={Logins.BorderWidth}>
               <TouchableOpacity style={Logins.WidthSet}>
                 <Input
@@ -44,9 +47,7 @@ const ForgotPassword = (props) => {
                 />
               </TouchableOpacity>
               </View>
-              <Spacing space={SH(20)} />
-              <Text style={Logins.SeTextStyleForget}><Text style={Logins.StarColor}> * </Text> {t("We_Well_Sand_Message")}</Text>
-              <Spacing space={SH(20)} />
+              <Spacing space={SH(50)} />
               <Button onPress={() => {
                 setAlertVisible(true);
                 setAlertMessage(alertdata.logout);

@@ -27,6 +27,7 @@ function Inputs({
   onEndEditing,
   inputContainerStyle,
   numberOfLines,
+  
 }) {
   const colorsset = Colors;
   const styles = useMemo(
@@ -40,7 +41,7 @@ function Inputs({
         },
         input_style: {
           width: '100%',
-          borderColor: colorsset.gray_text_color,
+          borderColor: '#bfbdbd',
           fontSize: SF(17),
           fontWeight: '600',
           marginBottom: SH(0),
@@ -82,7 +83,7 @@ function Inputs({
         placeholder={placeholder}
         onChangeText={text => onChangeText(text)}
         leftIcon={leftIcon}
-        placeholderTextColor={Colors.black_text_color}
+        placeholderTextColor={'#aba6a6'}
         rightIcon={rightIcon}
         numberOfLines={numberOfLines}
         errorMessage={errorMessage}

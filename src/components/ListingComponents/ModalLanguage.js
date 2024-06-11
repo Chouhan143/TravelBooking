@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import '../../screens/Authantication/SelectLanguage/i18n';
 import { View, FlatList, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Modal, VectorIcon, LanguageSelectFlat, } from '../../components';
+import { Modal,LanguageSelectFlat, } from '../../components';
 import { LanguageStyles } from '../../styles';
 import { Colors, SF } from '../../utils';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const ModalLanguage = (props) => {
     const { modalVisible, setModalVisible, close, changeLang } = props;
@@ -31,7 +32,7 @@ const ModalLanguage = (props) => {
                     <TouchableOpacity style={LanguageStyles.CloseButtonStyle} onPress={() => {
                         setModalVisible(false);
                     }}>
-                        <VectorIcon name="window-close" icon="FontAwesome" size={SF(35)} color={Colors.theme_background} />
+                        <Entypo name="cross" size={SF(33)} color={Colors.theme_background} />
                     </TouchableOpacity>
                 </View>
                 <FlatList

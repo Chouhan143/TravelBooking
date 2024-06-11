@@ -27,7 +27,7 @@ const Translation = (props) => {
         <TouchableOpacity onPress={() => setModalVisible(true)} style={LanguageStyles.SelectTagWrap}>
           <Text style={LanguageStyles.SelectText}>{selectLabel}</Text>
           <View style={LanguageStyles.DropDownIcon}>
-            <VectorIcon icon="Feather" name="chevron-down" color={Colors.black_text_color} size={SF(25)} /></View>
+            <VectorIcon icon="Feather" name="chevron-down" color={Colors.theme_background} size={SF(25)} /></View>
         </TouchableOpacity>
         <Spacing space={SH(20)} />
         <ModalLanguage modalVisible={modalVisible}
@@ -38,9 +38,10 @@ const Translation = (props) => {
           OnClose={() => setModalVisible(false)}
           changeLang={changeLang}
         />
-        <View style={LanguageStyles.BtnVieStyle}>
-          <Button title={t("Confirm_Text")} onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)} />
-        </View>
+        <TouchableOpacity style={LanguageStyles.BtnVieStyle}>
+          <Text style={LanguageStyles.btnText} onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)} >
+          confirm</Text>
+        </TouchableOpacity>
       </View>
     </Container>
   );

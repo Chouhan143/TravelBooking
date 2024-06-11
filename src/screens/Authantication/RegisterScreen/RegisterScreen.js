@@ -8,7 +8,7 @@ import {
   Countrycode,
   VectorIcon,
 } from '../../../components';
-import {SH, SF} from '../../../utils';
+import {SH, SF,SW} from '../../../utils';
 import {RouteName} from '../../../routes';
 import {Login, Style} from '../../../styles';
 import {useTranslation} from 'react-i18next';
@@ -130,7 +130,12 @@ const Register = props => {
       <ScrollView contentContainerStyle={Style.ScrollViewStyle}>
         <View style={Logins.Container}>
           <View style={Style.MinViewContent}>
-            <View style={Logins.TopSpaceRegister}>
+            <View style={{paddingTop: SH(50),
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              width: '100%',
+              paddingBottom: SH(20),
+              paddingLeft: SH(15)}}>
               <Text style={Logins.RegisterText}>{t('Sign_Up_Text')}</Text>
             </View>
             <Input
@@ -177,7 +182,7 @@ const Register = props => {
                   placeholder={t('Password_Text')}
                   autoCapitalize="none"
                   autoCorrect={false}
-                  placeholderTextColor={Colors.gray_text_color}
+                  placeholderTextColor={Colors.gray_color}
                   textContentType="newPassword"
                   secureTextEntry={passwordVisibility}
                   enablesReturnKeyAutomatically
@@ -199,9 +204,12 @@ const Register = props => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Spacing space={SH(20)} />
+            <Spacing space={SH(40)} />
             <View style={Logins.FlexRowChekBox}>
-              <View style={Logins.CheckBoxView}>
+              <View style={{fontSize: SF(11),
+      fontFamily: 'Poppins_Medium',
+      color: Colors.black_text_color,
+      top: SH(-25),marginRight:-SW(8)}}>
                 <CheckBox
                   checked={checked}
                   onPress={toggleCheckbox}
@@ -211,7 +219,11 @@ const Register = props => {
                   checkedColor={Colors.theme_background}
                 />
               </View>
-              <Text style={Logins.SimpleTextStyle}>
+              <Text style={{ fontSize: SF(12),
+                fontFamily:'Poppins_Medium',
+                color: Colors.black_text_color,
+                top: SH(-25),
+                width: '100%',}}>
                 {t('I_Agree_Text')}{' '}
                 <Text style={Logins.borderbottomTwo}>
                   <Text
@@ -236,22 +248,31 @@ const Register = props => {
             <Spacing space={SH(20)} />
 
             {/* <Text style={{color: 'red'}}>{error}</Text> */}
-            <View style={Logins.ButtonView}>
+            <View>
               {loading ? (
                 <ActivityIndicator size={35} color={Colors.theme_background} />
               ) : (
-                <Button title={t('Sign_Up_Text')} onPress={handleRegister} />
+                <TouchableOpacity 
+                style={{backgroundColor:Colors.theme_background,
+                  padding:SW(15),borderRadius:7,margin:SW(7),marginTop:-SH(25)
+                }}
+                onPress={handleRegister}>
+                    <Text style={{color:'white',textAlign:'center',
+                      fontFamily:'Poppins-Medium',fontSize:SF(17)}}>{t('Sign_Up_Button_Text')}</Text>
+                  </TouchableOpacity>
               )}
             </View>
             <Spacing space={SH(20)} />
             <View style={Logins.TopSpace}>
-              <View style={Logins.AlredyAndLoginBox}>
+              <View >
                 <Text style={Logins.MemberTextStyle}>
                   {t('Already_Member')}
                 </Text>
-                <TouchableOpacity
+                <TouchableOpacity   style={{backgroundColor:Colors.theme_background,
+                  padding:SW(15),borderRadius:7,margin:SW(7),marginTop:SH(15)}}
                   onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)}>
-                  <Text style={Logins.LoginScreenText}>{t('Login_Text')}</Text>
+                  <Text style={{color:'white',textAlign:'center',
+                      fontFamily:'Poppins-Medium',fontSize:SF(17)}}>{t('Login_Button_Text')}</Text>
                 </TouchableOpacity>
               </View>
             </View>

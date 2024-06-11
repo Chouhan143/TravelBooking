@@ -11,7 +11,9 @@ function Buttons(props) {
         buttonStyle: {
           backgroundColor: Colors.theme_background,
           borderRadius: SH(7),
-          width: '100%'
+          width: SW(335),
+          height:SH(60),
+          borderRadius:10
         },
         buttonTextStyle: {
           color: Colors.white_text_color,

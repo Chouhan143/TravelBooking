@@ -33,13 +33,11 @@ export default StyleSheet.create({
   MinViewContent: {
     width: '95%',
     height: '100%',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   ScrollViewStyle: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignContent: 'center',
     height: 'auto',
   },
   Container: {
@@ -53,7 +51,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     backgroundColor:Colors.white_text_color,
     height: SH(50),
-    justifyContent: 'space-between',
     alignItems: 'center',
     shadowColor: Colors.black_text_color,
   },
@@ -75,14 +72,15 @@ export default StyleSheet.create({
   CountryCodeIconCenter: {
     position:'absolute',
     left:SH(30),
-    height: SH(50),
+    height: SH(44),
     zIndex:89,
     top:SH(37),
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems:'center',
+    borderColor:'#ada9a8',borderRightWidth:1
   },
   PaddingLeftCountryInput: {
-    paddingLeft:SH(90)
+    paddingLeft:SH(65)
   },
   SearchInputBorder: {
     borderWidth:SH(0),

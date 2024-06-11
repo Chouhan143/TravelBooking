@@ -16,7 +16,7 @@ import {
 } from '../../../components';
 import {RouteName} from '../../../routes';
 import {Style, Login} from '../../../styles';
-import {SH, SF} from '../../../utils';
+import {SH, SF, SW} from '../../../utils';
 import {useTheme} from '@react-navigation/native';
 import images from '../../../index';
 import {useTranslation} from 'react-i18next';
@@ -48,15 +48,16 @@ const LoginScreen = props => {
 
   return (
     <Container>
-      <View style={Logins.MinViewScreen}>
+      <View style={{flex:1,backgroundColor:'white',marginTop:SH(60)}}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={Style.ScrollViewStyles}>
-          <View style={Logins.Container}>
-            <View style={Style.MinViewContent}>
-              <View style={Logins.ManViewLogins}>
+          <View style={{margin:SW(10)}}>
+            <View >
+              <View style={{alignItems:'center'}}>
                 <Image
-                  style={Logins.ImageSet}
+                  style={{ width: SW(200),
+                    height: SH(150),}}
                   resizeMode="contain"
                   source={images.Logo}
                 />
@@ -105,36 +106,45 @@ const LoginScreen = props => {
                 </View>
               </View>
               <Spacing space={SH(10)} />
-              <View style={Logins.ViewTextStyle}>
-                <Text style={Logins.TextStyle}>
-                  {t('Dont_Have_Account')}{' '}
-                  <Text
-                    style={Logins.registerTextStyle}
-                    onPress={() => OnRegisterPress()}>
-                    {' '}
-                    {t('Register_Text')}
-                  </Text>
-                </Text>
-              </View>
-              <Text style={{color: 'red'}}>{error}</Text>
-              <Spacing space={SH(40)} />
-              <View style={Logins.LoginButton}>
+              <TouchableOpacity
+              onPress={() => navigation.navigate(RouteName.FORGOT_PASSWORD)}>
+              <Text style={{margin:SW(10),color:'black',fontFamily:'Poppins-Bold',textAlign:'center'}}>
+                {t('Forgot_Password')}
+              </Text>
+            </TouchableOpacity>
+            <View>
                 {loading ? (
                   <ActivityIndicator
                     size="large"
                     color={Colors.theme_background}
                   /> // Display ActivityIndicator while loading
                 ) : (
-                  <Button title={t('Login_Text')} onPress={handleLogin} />
+                  <TouchableOpacity 
+                  style={{backgroundColor:Colors.theme_background,
+                    padding:SW(15),borderRadius:7,marginTop:SH(10),margin:SW(7)
+                  }}
+                      onPress={() => handleLogin()}>
+                      <Text style={{color:'white',textAlign:'center',
+                        fontFamily:'Poppins-Medium',fontSize:SF(17)}}>{t('Login_Button_Text')}</Text>
+                    </TouchableOpacity>
                 )}
               </View>
-              <Spacing space={SH(10)} />
-              <TouchableOpacity
-                onPress={() => navigation.navigate(RouteName.FORGOT_PASSWORD)}>
-                <Text style={Logins.ForgetPasswordStyles}>
-                  {t('Forgot_Password')}
+              <View>
+                <Text style={{color:'black',textAlign:'center',marginTop:SH(5)}}>
+                  {t('Dont_Have_Account')}{' '}
                 </Text>
-              </TouchableOpacity>
+                <TouchableOpacity 
+                style={{backgroundColor:Colors.theme_background,
+                  padding:SW(15),borderRadius:7,margin:SW(7),marginTop:SH(15)
+                }}
+                    onPress={() => OnRegisterPress()}>
+                    <Text style={{color:'white',textAlign:'center',
+                      fontFamily:'Poppins-Medium',fontSize:SF(17)}}>{t('Register_Text')}</Text>
+                  </TouchableOpacity>
+              </View>
+              <Text style={{color: 'red'}}>{error}</Text>
+              <Spacing space={SH(40)} />
+              <Spacing space={SH(10)} />
             </View>
           </View>
         </ScrollView>

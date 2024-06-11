@@ -4,7 +4,7 @@ import {
   View,
   ScrollView,
   KeyboardAvoidingView,
-  TouchableOpacity,
+  TouchableOpacity,Image
 } from 'react-native';
 import {Otpstyle} from '../../../styles';
 import RouteName from '../../../routes/RouteName';
@@ -14,9 +14,8 @@ import {useTheme} from '@react-navigation/native';
 import useOtpVeryfy from '../../../hooks/useOtpVeryfy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginSuccess} from '../../../redux/action';
+import { SH, SW,SF } from '../../../utils';
 const OtpScreenset = props => {
-  const dispatch = useDispatch();
   const {otpVeryfy, loading, error} = useOtpVeryfy();
   const {t} = useTranslation();
   const {Colors} = useTheme();
@@ -99,17 +98,28 @@ const OtpScreenset = props => {
   };
 
   return (
-    <View style={Otpstyles.MinViewScreen}>
+    <View style={{
+    height: '100%',
+    width: '100%',paddingTop:SH(100),flex:1,
+    backgroundColor: Colors.white_text_color,}}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Otpstyles.ScrollViewStyle}>
         <KeyboardAvoidingView enabled>
-          <View style={Otpstyles.MinFlexView}>
-            <View style={Otpstyles.MinViewSecond}>
+          <View style={{ 
+           
+            width: '100%',
+            height: '100%',}}>
+            <View style={{justifyContent:'center',margin:SW(30),marginTop:SH(40),alignItems:'center'}}>
+            <Image source={require('../../../images/otp.jpg')} 
+            style={{width:SW(130),height:SH(130),marginBottom:SH(25)}} />
               <Text style={Otpstyles.EnterSixDigitText}>
                 {t('Enter_Six_Digit_OTP')}
               </Text>
-              <Text style={Otpstyles.paregraph}>
+              <Text style={{ color: Colors.gray_text_color,
+                fontFamily:'Poppins_Medium',
+                fontSize: SF(15),margin:SW(10),marginTop:-SH(10),
+                textAlign:'center'}}>
                 {t('Enter_The_Otp_Title')}
               </Text>
               <OTPInput
@@ -120,9 +130,13 @@ const OtpScreenset = props => {
                 codeInputHighlightStyle={Otpstyles.CodeInputStyles}
                 onCodeChanged={handleOTPChange}
               />
-              <View style={Otpstyles.FlexRowText}>
-                <Text style={Otpstyles.ParegraPhotpBottom}>
-                  {t('Didnt_Recevip_Otp')}
+              <View style={{display:'flex',flexDirection:'row',
+                alignItems:'center',justifyContent:'center'}}>
+                <Text style={{color: Colors.gray_text_color,
+                fontFamily:'Poppins_Medium',
+                fontSize: SF(15),margin:SW(10),marginTop:-SH(10),
+                textAlign:'center'}}>
+                  {t('Didnt_Receive_Otp')}
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
@@ -130,14 +144,19 @@ const OtpScreenset = props => {
                     setAlertMessage(alertdata.logout);
                     Setokbutton(false);
                   }}>
-                  <Text style={Otpstyles.ResendTextBold}>{t('Resend')}</Text>
+                  <Text style={{ fontFamily: 'Poppins_Medium',
+                    fontWeight: '700',marginTop:-SH(20),
+                    color: Colors.theme_background,}}>{t('Resend')}</Text>
                 </TouchableOpacity>
               </View>
               <View style={{marginBottom: 20}}>
                 <Text style={{color: 'red'}}>{error || null} </Text>
               </View>
-              <View>
-                <Button
+            </View>
+            <View>
+                <TouchableOpacity 
+                style={{backgroundColor:Colors.theme_background,margin:SW(20),
+                  marginTop:-SH(20),padding:SW(10),borderRadius:10}}
                   // onPress={() => {
                   //   setAlertVisible(true);
                   //   setAlertMessage(alertdata.loginSuccess);
@@ -145,10 +164,11 @@ const OtpScreenset = props => {
                   //   handleVerify();
                   // }}
                   onPress={handleVerify}
-                  title={t('Verify_Text')}
-                />
+                  
+                ><Text style={{color:'white',
+                  fontFamily:'Poppins-Medium',textAlign:'center',fontSize:SF(15)}}>{t('Verify_Text')}</Text>
+                </TouchableOpacity>
               </View>
-            </View>
           </View>
         </KeyboardAvoidingView>
       </ScrollView>

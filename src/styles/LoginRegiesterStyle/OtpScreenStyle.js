@@ -11,7 +11,6 @@ export default Otpstyle = (Colors) => StyleSheet.create({
     paddingRight: SH(10),
   },
   MinViewScreen: {
-    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
@@ -22,9 +21,9 @@ export default Otpstyle = (Colors) => StyleSheet.create({
     width: '90%',
     marginHorizontal: '5%',
     marginTop: '5%',
+    justifyContent:'center'
   },
   MinFlexView: {
-    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
@@ -38,6 +37,7 @@ export default Otpstyle = (Colors) => StyleSheet.create({
     color: Colors.gray_text_color,
     fontFamily: Fonts.Poppins_Medium,
     fontSize: SF(11),
+    textAlign:'center'
   },
   ResendTextBold: {
     fontFamily: Fonts.Poppins_Medium,
@@ -50,6 +50,7 @@ export default Otpstyle = (Colors) => StyleSheet.create({
   EnterSixDigitText: {
     fontSize: SF(30),
     textAlign: 'center',
+    margin:SW(10),
     paddingBottom: SH(15),
     color: Colors.black_text_color,
     fontFamily: Fonts.Poppins_Medium,
@@ -71,6 +72,6 @@ export default Otpstyle = (Colors) => StyleSheet.create({
   },
   buttonotp: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   }
 });
