@@ -16,9 +16,7 @@ import {
   Button,
   RBSheet,
   RechargedataFunction,
-  FlightShowFinal,
   FlightMobileSelect,
-  UpgradeBoxFun,
   VectorIcon,
 } from '../../components';
 import {Colors, SF, SH, SW} from '../../utils';
@@ -34,7 +32,6 @@ import FormatedDate from '../../components/commonComponents/FormatedDate';
 import FormatrdTime from '../../components/commonComponents/FormatrdTime';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FlightListScreen = props => {
   const {navigation, route} = props;

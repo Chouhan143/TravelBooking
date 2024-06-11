@@ -43,8 +43,7 @@ const BusTab = props => {
   const BookingTabStyles = useMemo(() => BookingTabStyle(Colors), [Colors]);
   const [hideFlatList, setHideFlatList] = useState(false);
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
-  const [isDestinationCityFocused, setIsDestinationCityFocused] =
-    useState(false);
+  const [isDestinationCityFocused, setIsDestinationCityFocused] =useState(false);
   useEffect(() => {
     // Function to calculate current date and the next five dates
     const calculateDates = () => {
@@ -194,6 +193,7 @@ const BusTab = props => {
             <Text style={BookingTabStyles.FromText}>{t('From')}</Text>
             <TextInput
               placeholder="Search"
+              placeholderTextColor={'gray'}
               clearButtonMode="while-editing"
               autoCapitalize="none"
               autoCorrect={false}
@@ -232,6 +232,7 @@ const BusTab = props => {
             <Text style={BookingTabStyles.ToText}>{t('To')}</Text>
             <TextInput
               placeholder="Search"
+              placeholderTextColor={'gray'}
               clearButtonMode="while-editing"
               autoCapitalize="none"
               autoCorrect={false}

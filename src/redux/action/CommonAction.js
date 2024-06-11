@@ -1,4 +1,3 @@
-import {FLIGHT_GET_CALENDAR} from '../../utils/BaseUrl';
 import {
   COLOR_PICKER_SET,
   DATA_DETAILES_TYPE,
