@@ -22,22 +22,33 @@ import FormatedDate from '../../components/commonComponents/FormatedDate';
 import {
   baggageAdded,
   baggageCabinAdded,
+  clearSelectedPassengers,
   removePassengerItem,
 } from '../../redux/action';
 import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import {RouteName} from '../../routes';
 import {useNavigation} from '@react-navigation/native';
-
+import {selectedPassanger} from '../../redux/action';
 const FlightDetails = () => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const {t} = useTranslation();
   const [FlightDetails, setFlightDetails] = useState([]);
   const [cheboxSelect, setCheboxSelect] = useState(false);
+  // const [adultSelectionCount, setAdultSelectionCount] = useState(0);
+  // const [childSelectionCount, setChildSelectionCount] = useState(0);
+  // const [infantSelectionCount, setInfantSelectionCount] = useState(0);
+  const [isContinueDisabled, setIsContinueDisabled] = useState(false);
+
+  // Add a state variable to store selected passenger data
+  const [selectedPassengers, setSelectedPassengers] = useState([]);
+
   const dispatch = useDispatch();
   const {AdultCount, ChildCount, InfantCount} = useSelector(
     state => state.commomReducer.FlightSearchPayload,
   );
+
+  console.log('selectedPassengers', selectedPassengers);
 
   const addlistPassanger = useSelector(
     state => state.commomReducer.fightTraveller,
@@ -53,9 +64,10 @@ const FlightDetails = () => {
   const fareQutesDataSelecter = useSelector(
     state => state.commomReducer.flightFareQutesData,
   );
+  // console.log('fareQutesDataSelecter', fareQutesDataSelecter);
 
   console.log(fareQutesDataSelecter);
-  
+
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
 
   const fareQutesData = fareQutesDataSelecter.FareBreakdown;
@@ -64,6 +76,7 @@ const FlightDetails = () => {
   const SegmentsFlatten = Segments.flat();
 
   const Baggage = SegmentsFlatten.map(i => i.Baggage);
+  // console.log('Baggage', Baggage);
   const CabinBaggage = SegmentsFlatten.map(i => i.CabinBaggage);
 
   useEffect(() => {
@@ -120,6 +133,34 @@ const FlightDetails = () => {
       cheboxSelect ? RouteName.FLIGHT_MEALS : RouteName.FLIGHT_REVIEW_DETAILS,
     );
   };
+
+  // console.log('isContinueDisabled', isContinueDisabled);
+
+  const handleSelectionChange = (passengerData, isSelected, passengerType) => {
+    if (isSelected) {
+      // Add the selected passenger data to the selectedPassengers array
+      setSelectedPassengers(prevSelectedPassengers => [
+        ...prevSelectedPassengers,
+        passengerData,
+      ]);
+      dispatch(selectedPassanger(passengerData));
+    } else {
+      // Remove the deselected passenger data from the selectedPassengers array
+      setSelectedPassengers(prevSelectedPassengers =>
+        prevSelectedPassengers.filter(item => item !== passengerData),
+      );
+      dispatch(selectedPassanger(passengerData));
+    }
+  };
+
+  useEffect(() => {
+    const totalSelected = selectedPassengers?.length;
+    if (totalSelected === AdultCount + ChildCount + InfantCount) {
+      setIsContinueDisabled(false);
+    } else {
+      setIsContinueDisabled(true);
+    }
+  }, [selectedPassengers]);
 
   return (
     <View style={styles.conatainer}>
@@ -211,6 +252,7 @@ const FlightDetails = () => {
               iconBackgroundColor={'green'}
               passengerCount={AdultCount} // Pass the AdultCount as a prop
               onRemovePassenger={handleRemovePassenger}
+              onSelectionChange={handleSelectionChange}
             />
           )}
 
@@ -221,6 +263,7 @@ const FlightDetails = () => {
               iconBackgroundColor={'yellow'}
               passengerCount={ChildCount} // Pass the ChildCount as a prop
               onRemovePassenger={handleRemovePassenger}
+              onSelectionChange={handleSelectionChange}
             />
           )}
 
@@ -231,6 +274,7 @@ const FlightDetails = () => {
               iconBackgroundColor={'red'}
               passengerCount={InfantCount} // Pass the InfantCount as a prop
               onRemovePassenger={handleRemovePassenger}
+              onSelectionChange={handleSelectionChange}
             />
           )}
         </View>
@@ -297,12 +341,15 @@ const FlightDetails = () => {
               width: cheboxSelect ? '60%' : '40%',
               paddingHorizontal: 10,
               height: '100%',
-              backgroundColor: Colors.theme_background,
+              backgroundColor: isContinueDisabled
+                ? '#ccc'
+                : Colors.theme_background,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 5,
             }}
-            onPress={handleNavigation}>
+            onPress={handleNavigation}
+            disabled={isContinueDisabled}>
             <Text style={{color: '#fff', fontWeight: '800', fontSize: SF(15)}}>
               {cheboxSelect ? 'Proceed to select Seat' : 'Continue'}
             </Text>

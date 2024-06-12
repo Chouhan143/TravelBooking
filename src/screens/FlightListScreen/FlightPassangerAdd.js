@@ -13,35 +13,65 @@ const FlightPassangerAdd = ({
   iconBackgroundColor,
   passengerCount,
   onRemovePassenger,
+  onSelectionChange,
 }) => {
   const navigation = useNavigation();
   const [selectedIndices, setSelectedIndices] = useState([]);
 
+  // const toggleSelection = index => {
+  //   setSelectedIndices(prevSelectedIndices => {
+  //     const isSelected = prevSelectedIndices.includes(index);
+  //     let updatedSelection;
 
+  //     if (isSelected) {
+  //       updatedSelection = prevSelectedIndices.filter(
+  //         selectedIndex => selectedIndex !== index,
+  //       );
+  //     } else if (prevSelectedIndices.length < passengerCount) {
+  //       updatedSelection = [...prevSelectedIndices, index];
+  //     } else {
+  //       updatedSelection = prevSelectedIndices;
+  //     }
 
-  const toggleSelection = index => {
+  //     // Update the selectedPassengers state
+  //     onSelectionChange(updatedSelection.length);
+  //     return updatedSelection;
+  //   });
+  // };
+
+  const toggleSelection = (index, passengerData) => {
     setSelectedIndices(prevSelectedIndices => {
-      // Prevent further selection if the maximum number is reached
-      if (prevSelectedIndices.includes(index)) {
-        return prevSelectedIndices.filter(
+      const isSelected = prevSelectedIndices.includes(index);
+      let updatedSelection;
+
+      if (isSelected) {
+        updatedSelection = prevSelectedIndices.filter(
           selectedIndex => selectedIndex !== index,
         );
       } else if (prevSelectedIndices.length < passengerCount) {
-        return [...prevSelectedIndices, index];
+        updatedSelection = [...prevSelectedIndices, index];
       } else {
-        return prevSelectedIndices; // Do nothing if max is reached
+        updatedSelection = prevSelectedIndices;
       }
+
+      // Update the selectedPassengers state in the parent component
+      onSelectionChange(passengerData, !isSelected); // Pass the complete passenger data
+      return updatedSelection;
     });
   };
 
   const handleRemovePassenger = index => {
-    setSelectedIndices(prevSelectedIndices =>
-      prevSelectedIndices.filter(selectedIndex => selectedIndex !== index),
-    );
+    setSelectedIndices(prevSelectedIndices => {
+      const updatedSelection = prevSelectedIndices.filter(
+        selectedIndex => selectedIndex !== index,
+      );
+      onSelectionChange(updatedSelection.length);
+      return updatedSelection;
+    });
     onRemovePassenger(index);
   };
 
-  const colorChange = selectedIndices.length == passengerCount;
+  const colorChange = selectedIndices.length === passengerCount;
 
   return (
     <View>
@@ -63,7 +93,6 @@ const FlightPassangerAdd = ({
               style={{
                 backgroundColor: iconBackgroundColor,
                 borderRadius: 20,
-                // padding: 5,
                 width: SW(30),
                 height: SW(30),
                 justifyContent: 'center',
@@ -89,7 +118,6 @@ const FlightPassangerAdd = ({
           </Text>
         </View>
       </View>
-      {/* traveller name and details  */}
       <View style={{marginVertical: 10}}>
         <FlatList
           data={data}
@@ -99,7 +127,7 @@ const FlightPassangerAdd = ({
             return (
               <View style={styles.passengerList}>
                 <TouchableOpacity
-                  onPress={() => toggleSelection(index)}
+                  onPress={() => toggleSelection(index, item)}
                   disabled={
                     !isSelected && selectedIndices.length >= passengerCount
                   }
@@ -112,12 +140,9 @@ const FlightPassangerAdd = ({
                   />
                   <Text>{item.firstName}</Text>
                 </TouchableOpacity>
-
-                {/* {index > 0 && ( */}
                 <TouchableOpacity onPress={() => handleRemovePassenger(index)}>
                   <AntDesign name={'delete'} size={20} />
                 </TouchableOpacity>
-                {/* )} */}
               </View>
             );
           }}

@@ -1,4 +1,3 @@
-// components/FormattedDate.js
 import React from 'react';
 import {Text} from 'react-native';
 
@@ -7,10 +6,8 @@ const FormatedDate = ({dateString, style}) => {
     const dateTime = new Date(date);
     // Check if the date is valid
     if (isNaN(dateTime.getDate())) {
-      throw new Error('Invalid date');
+      return ''; // Return empty string if date is invalid
     }
-    console.log(dateTime.getDate());
-    // console.log(dateTime.getTime());
 
     const options = {
       weekday: 'short', // Short weekday name (e.g., "Fri")
@@ -21,7 +18,9 @@ const FormatedDate = ({dateString, style}) => {
     return new Intl.DateTimeFormat('en-US', options).format(dateTime);
   };
 
-  return <Text style={style}>{formatDate(dateString)}</Text>;
+  const formattedDate = formatDate(dateString);
+
+  return <Text style={style}>{formattedDate}</Text>;
 };
 
 export default FormatedDate;

@@ -46,16 +46,26 @@ export const Baggage = () => {
       <View>
         <Text style={{color: 'gray'}}>PASSENGER</Text>
         <Text style={{color: '#000', fontWeight: '500'}}>Adult</Text>
+        {BaggageCabinItem?.length > 1 && (
+          <Text style={{color: '#000', fontWeight: '500'}}>Child</Text>
+        )}
       </View>
       <View>
         <Text style={{color: 'gray'}}>CABIN</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>
-          {BaggageCabinItem} (1 piece)
-        </Text>
+        {BaggageCabinItem.map((b, index) => (
+          <Text style={{color: '#000', fontWeight: '500'}} key={index}>
+            {b}
+          </Text>
+        ))}
       </View>
       <View>
         <Text style={{color: 'gray'}}>CHECK-IN</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>{BaggageItem}</Text>
+
+        {BaggageItem.map((b, index) => (
+          <Text style={{color: '#000', fontWeight: '500'}} key={index}>
+            {b}
+          </Text>
+        ))}
       </View>
     </View>
   );

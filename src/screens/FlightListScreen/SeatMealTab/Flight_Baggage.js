@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { SW, SF } from '../../../utils';
-import { FLIGHT_SSR_MEAL } from '../../../utils/BaseUrl';
-import { useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {FlatList, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {SW, SF} from '../../../utils';
+import {FLIGHT_SSR_MEAL} from '../../../utils/BaseUrl';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -10,8 +10,8 @@ const Baggage = () => {
   const [baggageData, setBaggageData] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
 
-  const { flightTraceIdDetails } = useSelector(state => state.commomReducer);
-  const { SrdvType, TraceId } = flightTraceIdDetails;
+  const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
+  const {SrdvType, TraceId} = flightTraceIdDetails;
 
   const SrdvIndex = flightTraceIdDetails.Results?.flat() ?? [];
   const SrdvIndexMap = SrdvIndex.flatMap(elem => elem?.FareDataMultiple ?? []);
@@ -42,13 +42,13 @@ const Baggage = () => {
 
   const toggleAddButton = index => {
     setAddedStatus(prevState => {
-      const updatedStatus = { ...prevState };
+      const updatedStatus = {...prevState};
       updatedStatus[index] = !updatedStatus[index]; // Toggling the added status for the given index
       return updatedStatus; // Returning the updated added status object
     });
   };
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) => {
     const isAdded = !!addedStatus[index];
 
     return (
@@ -59,8 +59,7 @@ const Baggage = () => {
         </View>
         <TouchableOpacity
           style={isAdded ? styles.addButton : styles.button}
-          onPress={() => toggleAddButton(index)}
-        >
+          onPress={() => toggleAddButton(index)}>
           <View style={styles.buttonContent}>
             <MaterialIcons
               name={isAdded ? 'check' : 'add'}

@@ -23,6 +23,8 @@ import {
   BAGGAGE_FLIGHT_DATA,
   BAGGAGE_CABIN_FLIGHT_DATA,
   FLIGHT_SELECT_SEAT,
+  SET_SELECTED_PASSENGERS,
+  CLEAR_SELECTED_PASSENGERS,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -49,6 +51,7 @@ const initialState = {
   flightBaggageData: [],
   flightBaggageCabinData: [],
   flightSeatSelectData: [],
+  selectedPassengers: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -214,6 +217,18 @@ export default function commomReducer(state = initialState, action) {
               selectedSeat => selectedSeat.SeatNumber !== seat.SeatNumber,
             )
           : [...state.flightSeatSelectData, seat],
+      };
+
+    // case CLEAR_SELECTED_PASSENGERS:
+    //   return {
+    //     ...state,
+    //     selectedPassengers: [],
+    //   };
+
+    case SET_SELECTED_PASSENGERS:
+      return {
+        ...state,
+        selectedPassengers: [...state.selectedPassengers, action.payload],
       };
 
     default: {

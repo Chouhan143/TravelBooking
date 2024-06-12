@@ -27,7 +27,7 @@ import useFlightSearch from '../../hooks/useFlightSearch';
 import {FLIGHT_FARE_QUOTE} from '../../utils/BaseUrl';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
-import {flightFareQutesData} from '../../redux/action';
+import {flightFareQutesData, selectedPassanger} from '../../redux/action';
 import FormatedDate from '../../components/commonComponents/FormatedDate';
 import FormatrdTime from '../../components/commonComponents/FormatrdTime';
 import Entypo from 'react-native-vector-icons/Entypo';
