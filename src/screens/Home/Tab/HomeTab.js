@@ -62,7 +62,7 @@ const HomeTab = props => {
   }, []);
 
   return (
-    <View style={{backgroundColor: Colors.white_text_color,height: '99%',}}>
+    <View style={{backgroundColor: Colors.white_text_color,height: '100%',}}>
       <ScrollView
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps="handled"
