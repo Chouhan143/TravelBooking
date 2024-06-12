@@ -18,6 +18,7 @@ import {RBSheet, VectorIcon, Button} from '../../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
+import {FlatList} from 'react-native-gesture-handler';
 
 const Seat = () => {
   const {t} = useTranslation();
@@ -59,7 +60,7 @@ const Seat = () => {
       const res = await axios.post(FLIGHT_SEAT_MAP, payload);
       const seatData = res.data.Results || [];
       setSeatData(seatData);
-      console.log('seat res:', seatData);
+      // console.log('seat res:', seatData);
       setLoading(false);
     } catch (error) {
       console.log('seat error:', error);
@@ -96,6 +97,13 @@ const Seat = () => {
     }
     return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
   };
+
+  const selectedPassenger = useSelector(
+    state => state.commomReducer.selectedPassengers,
+  );
+  const passengerNames = selectedPassenger.map(
+    passenger => `${passenger?.firstName} ${passenger?.LastName}`,
+  );
 
   const handleSeatSelect = seat => {
     console.log('handleSeatSelect', !seat.IsBooked);
@@ -160,6 +168,7 @@ const Seat = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{flexDirection: 'row'}}></View>
       <View style={{padding: 20}}>
         <Text
           style={{
