@@ -54,11 +54,8 @@ export default BookingTabStyle = Colors =>
       paddingBottom: SH(30),
     },
     contentContainerStyle: {
-      width: '90%',
+      width: '100%',
       height: 'auto',
-    },
-    FlightMinHeightStyle: {
-      marginVertical: SH(15),
     },
     MinHeightStyleChild: {
       backgroundColor: Colors.white_text_color,
@@ -452,6 +449,6 @@ export default BookingTabStyle = Colors =>
     },
     BgWhite: {
       backgroundColor: Colors.white_text_color,
-      height: '100%',
+      height: '90%',
     },
   });

@@ -11,7 +11,6 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         fontFamily:Fonts.Poppins_Medium
     },
     MainViewOffers: {
-        paddingRight: SW(12),
         backgroundColor: Colors.light_gray_text_color
     },
     OffersImg: {
@@ -20,10 +19,6 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         borderRadius: SW(15),
         resizeMode:'contain',
         backgroundColor:'white'
-    },
-    FlatListView: {
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     FlexCenterViewTWO: {
         flexDirection: 'row',
@@ -34,7 +29,7 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         borderRadius: SW(7),
         borderWidth: SW(0.5),
         borderColor: Colors.theme_background,
-        backgroundColor: 'white',
+        backgroundColor:Colors.theme_background,
     },
     WidtSetNew: {
         width: SW(50),

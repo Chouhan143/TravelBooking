@@ -142,10 +142,15 @@ export function HomeScsreenTabAll() {
         tabBarInactiveTintColor: Colors.gray_text_color,
         labeled: true,
         tabStyle: {
-          height: SH(55),
+          height: SH(60),
           backgroundColor: Colors.white_text_color,
           paddingTop: SH(0),
         },
+        tabBarStyle:{
+          padding:SH(10),
+          paddingBottom:SH(10),
+          height:SH(60)
+        }
       }}
     >
       <Tab.Screen

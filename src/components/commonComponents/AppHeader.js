@@ -14,6 +14,7 @@ function AppHeader({ headerStyle, LeftIconStyle, rightView, LeftIconLeftStyle, h
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     position: 'relative',
+                    marginTop:SH(10),
                     ...headerStyle
                 },
                 leftView: {

@@ -1,12 +1,12 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Colors, SF } from '../../utils';
+import { TouchableOpacity,StyleSheet } from 'react-native';
+import { Colors, SF,SW,SH } from '../../utils';
 import { VectorIcon } from '../../components';
 
 function HeaderLeftMenuIcon(props) {
     const { navigation } = props;
     return (
-        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+        <TouchableOpacity style={{marginLeft:SW(15),marginTop:SH(10)}} onPress={() => navigation.toggleDrawer()}>
             <VectorIcon
                 color={Colors.theme_background}
                 name="navicon"
@@ -17,4 +17,6 @@ function HeaderLeftMenuIcon(props) {
     );
 };
 
+const styles = StyleSheet.create({
+})
 export default HeaderLeftMenuIcon;

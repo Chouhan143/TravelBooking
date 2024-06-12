@@ -12,12 +12,12 @@ const SearchScreenset = (props) => {
     return (
         <TouchableOpacity style={Style.WidthSet}>
             <Input
-                placeholder={t("Search")}
+                placeholder={t("Search Here ")}
                 onChangeText={(value) => setMobileNumber(value)}
                 value={mobileNumber}
                 placeholderTextColor={Colors.black_text_color}
                 maxLength={10}
-                leftIcon={<VectorIcon name="search1" icon="AntDesign" color={Colors.black_text_color} size={SF(25)} />}
+                leftIcon={<VectorIcon name="search1" icon="AntDesign" color={Colors.black_text_color} size={SF(20)} />}
                 inputStyle={Style.SearchInputBorder}
             />
         </TouchableOpacity>

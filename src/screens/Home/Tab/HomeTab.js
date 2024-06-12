@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
 import {HomeTabStyle, BookingTabStyle} from '../../../styles';
-import {SH, SF} from '../../../utils';
+import {SH, SF,SW} from '../../../utils';
 import {Spacing, WhatsNewFun, VectorIcon, Search} from '../../../components';
 import {RouteName} from '../../../routes';
 import {useDispatch} from 'react-redux';
@@ -66,8 +66,8 @@ const HomeTab = props => {
       <ScrollView
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps="handled"
-        style={BookingTabStyles.contentContainerStyle}>
-        <View style={HomeTabStyles.MainViewHomeTab}>
+        style={{backgroundColor:'white',marginRight:SW(15)}}>
+        <View style={{ paddingHorizontal: '4%',paddingRight:0}}>
           <Spacing space={SH(17)} />
           <View style={HomeTabStyles.BorderWidth}>
             <Search />
@@ -75,12 +75,21 @@ const HomeTab = props => {
           <Spacing space={SH(15)} />
           <Text style={HomeTabStyles.OffersText}>{t('TICKET_BOOKING')}</Text>
           <Spacing />
-          <View style={HomeTabStyles.FlatListView}>
+          <View>
             <FlatList
               data={TicketBookData}
               renderItem={({item}) => (
                 <TouchableOpacity
-                  style={HomeTabStyles.FlexCenterViewTWO}
+                  style={{ flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingVertical: SH(6),
+
+                    marginHorizontal: SH(5),
+                    borderRadius: SW(7),
+                    borderWidth: SW(0.5),
+                    borderColor: Colors.theme_background,
+                    backgroundColor:Colors.theme_background,}}
                   onPress={() => tabdata(item.id)}>
                   <View style={HomeTabStyles.WidtSetNew}>
                     <VectorIcon
@@ -90,7 +99,7 @@ const HomeTab = props => {
                       style={HomeTabStyles.TopLisIcon}
                       color={Colors.white_text_color}
                     />
-                    <View style={{backgroundColor:Colors.theme_background}}>
+                    <View>
                       <Text style={{color:'white',
                         fontSize:SF(15),textAlign: 'center',}}>
                         {t(item.text)}

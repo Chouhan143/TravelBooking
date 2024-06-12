@@ -9,7 +9,7 @@ import RouteName from '../../routes/RouteName';
 import images from '../../index';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
-import {SH} from '../../utils';
+import {SH,SW} from '../../utils';
 
 const ColorPickerset = (props) => {
   const { Colors } = useTheme();
@@ -24,7 +24,7 @@ const ColorPickerset = (props) => {
   };
   const navigation = useNavigation();
   return (
-    <View>
+    <View style={{marginTop:SH(15),marginRight:SW(10)}}>
       <View style={ColorPickerStyles.CenteredViewtwo}>
         <Modal
           animationType="slide"

@@ -130,7 +130,7 @@ const Register = props => {
       <ScrollView contentContainerStyle={Style.ScrollViewStyle}>
         <View style={Logins.Container}>
           <View style={Style.MinViewContent}>
-            <View style={{paddingTop: SH(50),
+            <View style={{paddingTop: SH(65),
               flexDirection: 'row',
               justifyContent: 'flex-start',
               width: '100%',
@@ -144,7 +144,7 @@ const Register = props => {
               onChangeText={text => setState({...state, username: text})}
               value={state.username}
             />
-            <Spacing space={SH(20)} />
+            <Spacing space={SH(10)} />
             <View style={Style.FlexRowPassword}>
               <View style={Style.InputViewWidth}>
                 <View style={Style.CountryCodeIconCenter}>
@@ -164,7 +164,7 @@ const Register = props => {
                 />
               </View>
             </View>
-            <Spacing space={SH(20)} />
+            <Spacing space={SH(10)} />
             <Input
               title={t('Enter_Your_Email')}
               placeholder={t('Enter_Your_Email')}
@@ -172,7 +172,7 @@ const Register = props => {
               value={state.emailId}
               placeholderTextColor={Colors.gray_text_color}
             />
-            <Spacing space={SH(20)} />
+            <Spacing space={SH(10)} />
             <View style={Style.FlexRowPassword}>
               <View style={Style.InputViewWidth}>
                 <Input
@@ -204,7 +204,7 @@ const Register = props => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Spacing space={SH(40)} />
+            <Spacing space={SH(20)} />
             <View style={Logins.FlexRowChekBox}>
               <View style={{fontSize: SF(11),
       fontFamily: 'Poppins_Medium',
@@ -254,7 +254,7 @@ const Register = props => {
               ) : (
                 <TouchableOpacity 
                 style={{backgroundColor:Colors.theme_background,
-                  padding:SW(15),borderRadius:7,margin:SW(7),marginTop:-SH(25)
+                  padding:SW(15),borderRadius:7,margin:SW(7),marginTop:-SH(40)
                 }}
                 onPress={handleRegister}>
                     <Text style={{color:'white',textAlign:'center',
@@ -262,7 +262,6 @@ const Register = props => {
                   </TouchableOpacity>
               )}
             </View>
-            <Spacing space={SH(20)} />
             <View style={Logins.TopSpace}>
               <View >
                 <Text style={Logins.MemberTextStyle}>
