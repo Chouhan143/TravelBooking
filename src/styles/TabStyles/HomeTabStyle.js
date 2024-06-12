@@ -18,7 +18,8 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         width: SW(220),
         borderRadius: SW(15),
         resizeMode:'contain',
-        backgroundColor:'white'
+        backgroundColor:'white',
+        marginRight:SW(7)
     },
     FlexCenterViewTWO: {
         flexDirection: 'row',
@@ -135,9 +136,6 @@ export default  HomeTabStyle = (Colors) => StyleSheet.create({
         shadowOpacity: 0.58,
         shadowRadius: Platform.OS === 'ios' ? 0 : 0,
         elevation: Platform.OS === 'ios' ? 0 : 0,
-    },
-    SmallText: {
-        fontSize: SF(18)
     },
 
 });

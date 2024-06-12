@@ -447,8 +447,4 @@ export default BookingTabStyle = Colors =>
     FlatListView: {
       paddingHorizontal: '3.5%',
     },
-    BgWhite: {
-      backgroundColor: Colors.white_text_color,
-      height: '90%',
-    },
   });

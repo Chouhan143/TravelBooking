@@ -62,7 +62,7 @@ const HomeTab = props => {
   }, []);
 
   return (
-    <View style={BookingTabStyles.BgWhite}>
+    <View style={{backgroundColor: Colors.white_text_color,height: '99%',}}>
       <ScrollView
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps="handled"
@@ -84,7 +84,6 @@ const HomeTab = props => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     paddingVertical: SH(6),
-
                     marginHorizontal: SH(5),
                     borderRadius: SW(7),
                     borderWidth: SW(0.5),
@@ -129,7 +128,12 @@ const HomeTab = props => {
                   onPress={() => tabdata(item.id)}>
                   <Image
                     resizeMode="cover"
-                    style={HomeTabStyles.OffersImg}
+                    style={{height: SH(150),
+        width: SW(220),
+        borderRadius: SW(15),
+        resizeMode:'contain',
+        backgroundColor:'white',
+        marginRight:SW(10)}}
                     source={{uri: item.slider_img}}
                   />
                 </TouchableOpacity>
@@ -164,7 +168,7 @@ const HomeTab = props => {
           <Spacing space={SH(20)} />
           <Text style={HomeTabStyles.OffersText}>{t('PREFER_TO_TRAVEL')}</Text>
           <Spacing space={SH(6)} />
-          <Text style={HomeTabStyles.SmallText}>
+          <Text style={{fontSize: SF(13),color:'black',fontFamily:'Poppins-Regular'}}>
             {t('Book_your_tickets_on')}
           </Text>
           <Spacing space={SH(20)} />

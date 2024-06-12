@@ -284,7 +284,7 @@ const FlightTab = props => {
             </Text>
             <DatePicker />
           </View>
-<<<<<<< Updated upstream
+
         ) : (
           <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
             <Text style={BookingTabStyles.Departuredatext}>
@@ -332,7 +332,7 @@ const FlightTab = props => {
         ) : (
           <Button title={t('Search_Flights')} onPress={handleFlightSearch} />
         )}
-=======
+
 
           {tabTrip !== '1' ? (
             <View style={BookingTabStyles.Departuredateview}>
@@ -396,9 +396,9 @@ const FlightTab = props => {
             <Button title={t('Search_Flights')} onPress={handleFlightSearch} />
           )}
         </View>
->>>>>>> Stashed changes
+
       </View>
-    </View>
+    // </View>
   );
 };
 
