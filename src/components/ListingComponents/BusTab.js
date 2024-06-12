@@ -23,6 +23,7 @@ import {useDispatch} from 'react-redux';
 import {Calendar} from 'react-native-calendars';
 import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const BusTab = props => {
   const dispatch = useDispatch();
   const {t} = useTranslation();
@@ -192,7 +193,7 @@ const BusTab = props => {
           <View style={BookingTabStyles.WithFrom}>
             <Text style={BookingTabStyles.FromText}>{t('From')}</Text>
             <TextInput
-              placeholder="Search"
+              placeholder="Starting Point"
               placeholderTextColor={'gray'}
               clearButtonMode="while-editing"
               autoCapitalize="none"
@@ -231,7 +232,7 @@ const BusTab = props => {
           <View style={BookingTabStyles.WithFrom}>
             <Text style={BookingTabStyles.ToText}>{t('To')}</Text>
             <TextInput
-              placeholder="Search"
+              placeholder="Destination"
               placeholderTextColor={'gray'}
               clearButtonMode="while-editing"
               autoCapitalize="none"
@@ -351,20 +352,23 @@ const BusTab = props => {
                   fontWeight: '700',
                   color: '#000',
                   paddingTop: SH(20),
+                  paddingBottom: SH(20),
                 }}>
                 Departure Date
               </Text>
             </View>
-            <TouchableOpacity onPress={showMoreCalender}>
+            <TouchableOpacity onPress={showMoreCalender} 
+            style={{display:'flex',flexDirection:'row',paddingTop: SH(20)}}>
               <Text
                 style={{
                   fontFamily: Fonts.Poppins_Medium,
                   fontSize: SF(14),
-                  paddingTop: SH(20),
+                  // paddingTop: SH(20),
                   color: Colors.theme_background,
                 }}>
-                Show More Dates
+                Show More Dates   
               </Text>
+              <AntDesign name ={'doubleright'}  color={Colors.theme_background} size={15} style={{marginLeft:SW(7),marginTop:SH(3)}}/>
             </TouchableOpacity>
 
             {/* <DatePicker onDateSelect={handleDateSelect} /> */}
@@ -403,7 +407,8 @@ const BusTab = props => {
               const formattedDate = formatDate(item).split(' ');
               return (
                 <TouchableOpacity
-                  style={[styles.dateBox, isSelected && styles.selectedDateBox]}
+                  style={[{width: 60,height: 60,backgroundColor: 'lightgray',justifyContent: 'center',
+              alignItems: 'center',margin: 5,borderRadius: 8,}, isSelected && {backgroundColor: Colors.theme_background}]}
                   onPress={() => {
                     setSelectedDate(item);
                     console.log(item);
@@ -414,7 +419,7 @@ const BusTab = props => {
                       color: isSelected ? '#fff' : '#000',
                       textAlign: 'center',
                     }}>
-                    <Text style={{fontSize: 18, fontWeight: '700'}}>
+                    <Text style={{fontSize: 13,fontFamily:'Poppins-Bold'}}>
                       {formattedDate[0]}
                     </Text>
                     {'\n'}
@@ -447,7 +452,7 @@ const BusTab = props => {
           </View>
         ) : null}
 
-        <Spacing space={SH(30)} />
+        <Spacing space={SH(70)} />
         {loading ? (
           <ActivityIndicator size="large" color={Colors.theme_background} />
         ) : (
@@ -455,6 +460,7 @@ const BusTab = props => {
           // <Button title={t('Search_Buses')} onPress={SelectBus} />
         )}
       </View>
+      <Spacing space={SH(50)} />
     </View>
   );
 };

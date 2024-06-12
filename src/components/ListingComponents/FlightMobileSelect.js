@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {FlightsListScreenStyle} from '../../styles';
-import {Colors, SF} from '../../utils';
+import {Colors, SF,SH,SW} from '../../utils';
 import {VectorIcon} from '../../components';
 import {useTranslation} from 'react-i18next';
 
@@ -28,12 +28,15 @@ const FlightMobileSelect = props => {
             <VectorIcon
               icon="AntDesign"
               name="arrowright"
-              size={SF(15)}
+              size={SF(20)}
               color={Colors.black_text_color}
             />{' '}
             {t(item.Cityto)}
           </Text>
-          <Text style={FlightsListScreenStyle.RchSubheadTextStyle}>
+          <Text style={{color: Colors.theme_background,
+        fontSize: SF(15),
+        lineHeight: 16,
+        paddingTop: SH(5),}}>
             {t(item.CardType)}
           </Text>
         </View>

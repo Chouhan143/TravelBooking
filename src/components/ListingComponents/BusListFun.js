@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {BusListScreenStyle} from '../../styles';
-import {Colors, SF} from '../../utils';
+import {Colors,SH,SF,SW} from '../../utils';
 import {VectorIcon} from '../commonComponents';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
@@ -35,14 +35,29 @@ const BusListFun = props => {
 
   return (
     <TouchableOpacity
-      style={BusListScreenStyles.BusBoxWraper}
+      style={{
+        backgroundColor: Colors.white_text_color,
+      // shadowColor: Colors.gray_text_color,
+      // shadowOffset: {
+      //   width: SW(0),
+      //   height: Platform.OS === 'ios' ? 2 : 5,
+      //   minHeight: '100%',
+      // },
+      // shadowOpacity: 1,
+      // shadowRadius: Platform.OS === 'ios' ? 2 : 50,
+      // elevation: Platform.OS === 'ios' ? 1 : 20,
+      borderColor:Colors.theme_background,borderWidth:1,
+      borderRadius: SW(10),
+      padding: SH(20),
+      marginBottom: SH(10),
+      }}
       onPress={onPress}>
       <View style={BusListScreenStyles.BusdataTopBox}>
         <View>
           <Text
             style={[
               BusListScreenStyles.TravelCompanyText,
-              {color: '#000', fontWeight: '700'},
+              {color: '#000', fontFamily:'Poppins-Medium'},
             ]}>
             {t(item.travel_name)}
           </Text>
@@ -54,7 +69,7 @@ const BusListFun = props => {
           <Text
             style={[
               BusListScreenStyles.MainPriceText,
-              {color: '#000', fontWeight: '700'},
+              {color: '#000', fontFamily:'Poppins-Medium'},
             ]}>
             ₹ {item.price}
           </Text>

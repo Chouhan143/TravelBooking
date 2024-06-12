@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Image, Modal ,StyleSheet} from "react-native";
 import { ProfileTabStyles, Style } from '../../../styles';
 import { Button, Spacing, Input, VectorIcon, ConfirmationAlert } from '../../../components';
-import { SH, SF } from '../../../utils';
+import { SH, SF,SW } from '../../../utils';
 import images from "../../../index";
 import RouteName from "../../../routes/RouteName";
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
+import Colors from "../../../utils";
 
 const ProfileTab = (props) => {
   const { Colors } = useTheme();
@@ -57,11 +58,12 @@ const ProfileTab = (props) => {
           </View>
         </View>
         <View style={ProfileTabStyle.ProfileDetailesMinview}>
-          <Text style={ProfileTabStyle.EditProFile}>
+          <Text style={{marginTop: '8%', fontFamily:'Poppins-Bold',textTransform:'uppercase',
+    color: Colors.black_text_color,fontSize: SF(19),paddingBottom: SH(13),marginLeft:SW(7)}}>
             {t("Edit_Profile")}
           </Text>
           <View style={ProfileTabStyle.PhoneNumberAndIcon}>
-            <View style={ProfileTabStyle.BgWhiteShadow}>
+            <View style={styles.inputs}>
               <View>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Phone_Number")}</Text>
                 <Text style={ProfileTabStyle.DigitNumberText}>96034 56878</Text>
@@ -73,7 +75,7 @@ const ProfileTab = (props) => {
                       icon="EvilIcons"
                       size={SF(30)}
                       name="pencil"
-                      color={Colors.gray_text_color}
+                      color={Colors.theme_background}
                     />
                   </View>
                 </TouchableOpacity>
@@ -100,7 +102,7 @@ const ProfileTab = (props) => {
                       {modalcontent === 1 ?
                         <View>
                           <Text style={ProfileTabStyle.ModalText}>{t("Change_Phone_Number")}</Text>
-                          <Spacing space={SH(10)} />
+                          <Spacing space={SH(15)} />
                           <Input
                             style={ProfileTabStyle.input}
                             onChangeText={(text) => setState({ ...state, number: text })}
@@ -114,7 +116,7 @@ const ProfileTab = (props) => {
                         modalcontent === 2 ?
                           <View>
                             <Text style={ProfileTabStyle.ModalText}>{t("Change_Email")}</Text>
-                            <Spacing space={SH(10)} />
+                            <Spacing space={SH(15)} />
                             <View>
                               <Input
                                 style={ProfileTabStyle.BgWhiteShadowInputModal}
@@ -129,7 +131,7 @@ const ProfileTab = (props) => {
                           modalcontent === 3 ?
                             <View>
                               <Text style={ProfileTabStyle.ModalText}>{t("Change_Your_Password")}</Text>
-                              <Spacing space={SH(10)} />
+                              <Spacing space={SH(20)} />
                               <View style={Style.FlexRowPassword}>
                                 <View style={Style.InputViewWidth}>
                                   <Spacing space={SH(35)} />
@@ -229,7 +231,7 @@ const ProfileTab = (props) => {
             </Modal>
           </View>
           <View style={ProfileTabStyle.PhoneNumberAndIcon}>
-            <View style={ProfileTabStyle.BgWhiteShadow}>
+            <View style={styles.inputs}>
               <View style={ProfileTabStyle.setpadiingtext}>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Email_Text")}</Text>
                 <Text style={ProfileTabStyle.DigitNumberText}>{t("Testemail")}</Text>
@@ -241,7 +243,7 @@ const ProfileTab = (props) => {
                       icon="EvilIcons"
                       size={SF(30)}
                       name="pencil"
-                      color={Colors.gray_text_color}
+                      color={Colors.theme_background}
                     />
                   </View>
                 </TouchableOpacity>
@@ -249,7 +251,7 @@ const ProfileTab = (props) => {
             </View>
           </View>
           <View style={ProfileTabStyle.PhoneNumberAndIcon}>
-            <View style={ProfileTabStyle.BgWhiteShadow}>
+            <View style={styles.inputs}>
               <View>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Password_Text")}</Text>
                 <Text style={ProfileTabStyle.DigitNumberText}>******</Text>
@@ -261,7 +263,7 @@ const ProfileTab = (props) => {
                       icon="EvilIcons"
                       size={SF(30)}
                       name="pencil"
-                      color={Colors.gray_text_color}
+                      color={Colors.theme_background}
                     />
                   </View>
                 </TouchableOpacity>
@@ -274,16 +276,10 @@ const ProfileTab = (props) => {
             setAlertMessage(alertdata.logout);
           }}>
             <View style={ProfileTabStyle.IconAndTextFlex}>
-              <View>
-                <Text style={ProfileTabStyle.LogOutView}>{t("Log_Out")}</Text>
-              </View>
-              <View>
-                <VectorIcon
-                  icon="AntDesign"
-                  size={SF(27)}
-                  name="arrowright"
-                  color={Colors.black_text_color}
-                />
+              <View style={{backgroundColor:Colors.theme_background,padding:SW(7),
+               width:SW(340),display:'flex',flexDirection:'row',justifyContent:'center',
+                borderRadius:10}}>
+                <Text style={{fontFamily:'Poppins-Medium',color:'white',fontSize:SF(20),textTransform:"uppercase"}}>{t("Log_Out")}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -297,18 +293,10 @@ const ProfileTab = (props) => {
             buttonText={t("Ok")}
           />
           <TouchableOpacity onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}>
-            <View style={ProfileTabStyle.IconAndTextFlex}>
-              <View>
-                <Text style={ProfileTabStyle.LogOutView}>{t("Setting_Text")}</Text>
-              </View>
-              <View>
-                <VectorIcon
-                  icon="AntDesign"
-                  size={SF(27)}
-                  name="arrowright"
-                  color={Colors.black_text_color}
-                />
-              </View>
+            <View style={{backgroundColor:Colors.theme_background,padding:SW(7),marginTop:SH(10),width:SW(340),
+              display:'flex',flexDirection:'row',justifyContent:'center',
+              borderRadius:10}}>
+              <Text style={{fontFamily:'Poppins-Medium',color:'white',fontSize:SF(20),textTransform:"uppercase"}}>{t("Setting_Text")}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -316,4 +304,28 @@ const ProfileTab = (props) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  inputs:{
+    backgroundColor:'white',
+    width:SW(340),
+    textAlign: 'center',
+    height: SH(75),
+    borderRadius: SW(7),
+    padding: SH(10),
+    justifyContent: 'center',
+    shadowColor:'#5e6360',
+    borderColor:'gray',
+    borderWidth:1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowOffset: {
+      width: SW(0),
+      height: Platform.OS === 'ios' ? 2 : 25,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: Platform.OS === 'ios' ? 2 : 25,
+    elevation: Platform.OS === 'ios' ? 1 : 2,
+  }
+})
 export default ProfileTab;

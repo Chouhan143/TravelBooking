@@ -27,7 +27,7 @@ export default ProfileTabStyles = (Colors) => StyleSheet.create({
     fontSize: SF(18),
   },
   ProfileDetailesMinview: {
-    width: '90%',
+    width: '85%',
     marginHorizontal: '5%',
   },
   PhoneNumberAndIcon: {
@@ -43,7 +43,7 @@ export default ProfileTabStyles = (Colors) => StyleSheet.create({
     textAlign: 'center',
     height: SH(60),
     borderRadius: SW(7),
-    paddingHorizontal: SH(10),
+    padding: SH(10),
     justifyContent: 'center',
     shadowColor: Colors.shadow_color,
     flexDirection: 'row',
@@ -85,10 +85,11 @@ export default ProfileTabStyles = (Colors) => StyleSheet.create({
   },
   EditProFile: {
     marginTop: '8%',
-    fontFamily: Fonts.Poppins_Medium,
+    fontFamily:'Poppins-Bold',textTransform:'uppercase',
     color: Colors.black_text_color,
     fontSize: SF(19),
     paddingBottom: SH(13),
+  marginLeft:SW(7)
   },
   PhoneNumberText: {
     color: Colors.black_text_color,

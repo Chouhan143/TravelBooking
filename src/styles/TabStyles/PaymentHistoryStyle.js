@@ -8,7 +8,7 @@ export default PaymentHistoryStyle = (Colors) => StyleSheet.create({
         borderBottomEndRadius: SH(20),
     },
     PaymentBoxwrap: {
-        padding: SH(5),
+        padding: SH(10),
         marginHorizontal: SH(12)
     },
     PaymentBoxPerent: {
@@ -27,7 +27,7 @@ export default PaymentHistoryStyle = (Colors) => StyleSheet.create({
         borderBottomColor: Colors.light_gray_text_color,
         paddingVertical: SH(10),
         marginVertical: SH(8),
-        borderRadius: SW(3)
+        borderRadius: SW(10)
     },
     PaymentAounttextpadright: {
         paddingRight: SH(3)

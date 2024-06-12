@@ -9,7 +9,7 @@ import {useNavigation, useTheme} from '@react-navigation/native';
 import {BusListFun, TopListFun} from '../../components';
 import images from '../../index';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SH} from '../../utils';
+import {SH,Colors} from '../../utils';
 const BusListScreen = props => {
   const {route} = props;
   const navigation = useNavigation();
@@ -49,7 +49,8 @@ const BusListScreen = props => {
   };
 
   return (
-    <View style={BusListScreenStyles.MinStyleViewPhotograpgyTwo}>
+    <View style={{height: '100%',width: '100%',backgroundColor: Colors.white_text_color,paddingHorizontal: '5%',
+      paddingTop:SH(50)}}>
       <View style={BusListScreenStyles.ContentContainerStyle}>
         <View>
           <View style={BusListScreenStyles.MinViewSigninScreen}>
@@ -59,7 +60,7 @@ const BusListScreen = props => {
                   onPress={() => {
                     navigation.goBack();
                   }}>
-                  <AntDesign name={'arrowleft'} size={20} />
+                  <AntDesign name={'arrowleft'} size={20} color={Colors.theme_background}/>
                 </TouchableOpacity>
                 <View>
                   <Text
@@ -99,9 +100,9 @@ export default BusListScreen;
 const styles = StyleSheet.create({
   header: {
     width: '100%',
-    height: SH(60),
+    height: SH(80),
     // justifyContent: 'center',
-
+   marginBottom:SH(30),
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     flexDirection: 'row',

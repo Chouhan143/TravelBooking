@@ -263,7 +263,7 @@ export default BusListScreenStyle = Colors =>
       height: '100%',
       width: '100%',
       backgroundColor: Colors.white_text_color,
-      paddingHorizontal: '2%',
+      paddingHorizontal: '10%',
     },
     ContentContainerStyle: {
       width: '100%',

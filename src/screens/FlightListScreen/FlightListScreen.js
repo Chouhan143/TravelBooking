@@ -310,8 +310,22 @@ const FlightListScreen = props => {
           />
         </View>
         <View style={FlightsListScreenStyle.TabBoxMain}>
-          <View style={FlightsListScreenStyle.MonthBox}>
-            <Text style={FlightsListScreenStyle.MonthName}>{t('Date')}</Text>
+          <View style={{
+        backgroundColor: Colors.theme_background,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderLeftWidth: SW(0.5),
+        borderLeftColor: Colors.gray_text_color,
+        borderRightWidth: SW(0.5),
+        borderRightColor: Colors.gray_text_color,
+        padding:SW(8)
+          }}>
+            <Text style={{
+        color: Colors.white_text_color,
+        fontSize: SF(14),fontFamily:'Poppins-Bold',
+        transform: [{ rotate: '270deg' }]
+            }}>{t('Date')}</Text>
           </View>
 
           <View>
@@ -336,23 +350,28 @@ const FlightListScreen = props => {
                       ]}>
                       <Text
                         style={
-                          FlightsListScreenStyle.TabsettextActiveTwoWeek[
-                            FlightsListScreenStyle.TabsettextTwoWeek
-                          ]
+                          {
+                            color:'black'
+                          }
                         }>
                         {monthlyDate}
                       </Text>
                       <Text
                         style={
                           // FlightsListScreenStyle.TabsettextActiveTwo
-                          [FlightsListScreenStyle.TabsettextTwo]
+                          {
+        color: Colors.black_text_color,textTransform: 'uppercase',
+        fontSize: SF(14),textAlign: 'center',fontFamily:'Poppins-Bold'
+                          }
                         }>
                         <VectorIcon
                           icon="FontAwesome"
                           name="rupee"
                           style={
                             // ? FlightsListScreenStyle.TabIconActive
-                            [FlightsListScreenStyle.TabIconInActive]
+                            {
+                              fontSize: SF(14),color:'black',
+                            }
                           }
                         />
                         {item.BaseFare}
@@ -366,42 +385,52 @@ const FlightListScreen = props => {
           </View>
         </View>
         <View style={FlightsListScreenStyle.FilterMainBox}>
-          <TouchableOpacity style={FlightsListScreenStyle.FilterboxStyle}>
+          <TouchableOpacity style={styles.FilterboxStyle}>
             <VectorIcon
               icon="AntDesign"
               name="filter"
-              color={Colors.black_text_color}
+              color={Colors.theme_background}
               size={SF(18)}
             />
-            <Text style={FlightsListScreenStyle.FilterTextboxStyle}>
+            <Text style={{
+              color: Colors.theme_background,fontSize: SF(16),marginLeft: SH(5),marginRight: SH(5)
+            }}>
               {t('Fliter_Text')}
             </Text>
           </TouchableOpacity>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={FlightsListScreenStyle.FilterMainBox}>
-              <TouchableOpacity style={FlightsListScreenStyle.FilterboxStyle}>
-                <Text style={FlightsListScreenStyle.FilterTextboxStyle}>
+              <TouchableOpacity style={styles.FilterboxStyle}>
+                <Text style={{
+                  color: Colors.theme_background,fontSize: SF(16),marginLeft: SH(5),marginRight: SH(5)
+                }}>
                   {t('Sort_Cheapets')}
                 </Text>
                 <VectorIcon
                   icon="AntDesign"
                   name="down"
-                  color={Colors.gray_text_color}
+                  color={Colors.theme_background}
                   size={SF(14)}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={FlightsListScreenStyle.FilterboxStyle}>
-                <Text style={FlightsListScreenStyle.FilterTextboxStyle}>
+              <TouchableOpacity style={styles.FilterboxStyle}>
+                <Text style={{
+                  color: Colors.theme_background,fontSize: SF(16),marginLeft: SH(5),marginRight: SH(5)
+                }}>
                   {t('Non_Stop')}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={FlightsListScreenStyle.FilterboxStyle}>
-                <Text style={FlightsListScreenStyle.FilterTextboxStyle}>
+              <TouchableOpacity style={styles.FilterboxStyle}>
+                <Text style={{
+                  color: Colors.theme_background,fontSize: SF(16),marginLeft: SH(5),marginRight: SH(5)
+                }}>
                   {t('Timings_Text')}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={FlightsListScreenStyle.FilterboxStyle}>
-                <Text style={FlightsListScreenStyle.FilterTextboxStyle}>
+              <TouchableOpacity style={styles.FilterboxStyle}>
+                <Text style={{
+                  color: Colors.theme_background,fontSize: SF(16),marginLeft: SH(5),marginRight: SH(5)
+                }}>
                   {t('Duration_Text')}
                 </Text>
               </TouchableOpacity>
@@ -479,7 +508,6 @@ const FlightListScreen = props => {
                                   borderColor: 'rgba(0,0,0,0.5)',
                                   padding: 5,
                                   borderRadius: 5,
-
                                   alignSelf: 'center',
                                 }}>
                                 <View style={{flexDirection: 'row'}}>
@@ -741,4 +769,15 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: 'rgba(0,0,0,0.4)',
   },
+  FilterboxStyle:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: SW(1),
+        borderColor: Colors.theme_background,
+        borderRadius: SW(20),
+        paddingHorizontal: SH(10),
+        paddingVertical: SH(5),
+        marginHorizontal: SH(10),
+        marginVertical: SH(10)
+  }
 });

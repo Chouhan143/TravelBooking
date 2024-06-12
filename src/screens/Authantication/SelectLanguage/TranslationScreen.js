@@ -6,7 +6,7 @@ import { Container, Lottie, Spacing, VectorIcon, Button, ModalLanguage } from '.
 import { LanguageStyles } from '../../../styles';
 import { RouteName } from '../../../routes';
 import images from '../../../index';
-import { SH, Colors, SF, } from '../../../utils';
+import { SH, Colors, SF,SW } from '../../../utils';
 
 const Translation = (props) => {
   const { navigation } = props;
@@ -24,8 +24,18 @@ const Translation = (props) => {
       <View style={LanguageStyles.MinView}>
         <Lottie source={images.Languageanimation} />
         <Spacing space={SH(50)} />
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={LanguageStyles.SelectTagWrap}>
-          <Text style={LanguageStyles.SelectText}>{selectLabel}</Text>
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={{  flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',width: '80%',
+          borderWidth: SW(1),
+          borderColor: Colors.theme_background, borderRadius: SW(10),
+          alignSelf: 'center',
+          position: 'relative'}}>
+          <Text style={{fontSize: SF(23),
+    paddingVertical: SH(10),
+    color: Colors.theme_background,
+    marginRight: SW(10),
+    fontFamily:'Poppins_Medium'}}>{selectLabel}</Text>
           <View style={LanguageStyles.DropDownIcon}>
             <VectorIcon icon="Feather" name="chevron-down" color={Colors.theme_background} size={SF(25)} /></View>
         </TouchableOpacity>
@@ -38,7 +48,10 @@ const Translation = (props) => {
           OnClose={() => setModalVisible(false)}
           changeLang={changeLang}
         />
-        <TouchableOpacity style={LanguageStyles.BtnVieStyle}>
+        <TouchableOpacity style={{ width: '80%',
+          position: 'absolute',
+          bottom: SH(30),backgroundColor:Colors.theme_background,
+          padding:SW(6),borderRadius:7}}>
           <Text style={LanguageStyles.btnText} onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)} >
           Confirm</Text>
         </TouchableOpacity>

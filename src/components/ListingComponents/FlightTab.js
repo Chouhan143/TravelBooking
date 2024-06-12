@@ -272,7 +272,7 @@ const FlightTab = props => {
       </View>
       <View style={BookingTabStyles.FlewRows}>
         <View style={BookingTabStyles.Departuredateview}>
-          <Text style={BookingTabStyles.Departuredatext}>
+          <Text style={{fontFamily: 'Poppins_Medium',fontSize: SF(15),marginTop:SH(15),color:Colors. theme_background,marginBottom:SH(10)}}>
             {t('Departure_Dates')}
           </Text>
           <DatePicker />
@@ -280,7 +280,7 @@ const FlightTab = props => {
 
         {tabTrip !== '1' ? (
           <View style={BookingTabStyles.Departuredateview}>
-            <Text style={BookingTabStyles.Departuredatext}>
+            <Text style={{fontFamily: 'Poppins_Medium',fontSize: SF(15),marginTop:SH(15),color:Colors. theme_background,marginBottom:SH(10)}}>
               {t('Return_Dates')}
             </Text>
             <DatePicker />
@@ -300,7 +300,7 @@ const FlightTab = props => {
           </View>
         )}
       </View>
-      <Spacing space={SH(30)} />
+      <Spacing space={SH(20)} />
       <View style={BookingTabStyles.SelectPersonBox}>
         <PersonAddFun
           TitleIcon="man"
@@ -332,7 +332,7 @@ const FlightTab = props => {
           value={state.FloorNumber}
         />
         {loading ? (
-          <ActivityIndicator size={40} color={Colors.useTheme} />
+          <ActivityIndicator size={40} color={Colors.theme_background} />
         ) : (
           <Button title={t('Search_Flights')} onPress={handleFlightSearch} />
         )}

@@ -4,7 +4,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { SF, SH, SW } from '../../utils';
+import { Colors, SF, SH, SW } from '../../utils';
 import AgeModal from '../commonComponents/AgeModal';
 
 const HotelTab = () => {
@@ -144,14 +144,14 @@ const HotelTab = () => {
                       <TouchableOpacity onPress={() => SetModalVisible2(true)}>
                         <Text style={styles.ageModaltext}>Child {index + 1} Age</Text>
                       </TouchableOpacity>
-                      <Ionicons name={'chevron-expand-outline'} size={20} color='#86d5eb' />
+                      <Ionicons name={'chevron-expand-outline'} size={20} color={Colors.theme_background} />
                     </View>
                     {index + 1 < childrenAges.length && (
                       <View style={styles.ageInputContainer}>
                         <TouchableOpacity onPress={() => SetModalVisible2(true)}>
                           <Text style={styles.ageModaltext}>Child {index + 2} Age</Text>
                         </TouchableOpacity>
-                        <Ionicons name={'chevron-expand-outline'} size={20} color='#86d5eb' />
+                        <Ionicons name={'chevron-expand-outline'} size={20} color={Colors.theme_background}/>
                       </View>
                     )}
                   </View>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     fontSize: SF(15)
   },
   CheckDateBox: {
-    borderColor: '#b3cee3',
+    borderColor: 'gray',
     borderWidth: 1,
     paddingTop: SH(5),
     marginTop: SH(10),
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   ageContanier: {
     display: 'flex', flexDirection: 'row', justifyContent: 'space-around',
     padding: SW(7), borderColor: 'black', borderWidth: 1, marginTop: SH(10), borderRadius: 7,
-    backgroundColor: '#f7fbfc', marginBottom: SH(15)
+    backgroundColor:'#ebecf0', marginBottom: SH(15)
   },
   text: {
     fontFamily: 'Poppins-Regular',
@@ -263,14 +263,14 @@ const styles = StyleSheet.create({
     color: 'black', fontSize: SF(18)
   },
   ageSmallContanier: {
-    borderColor: '#b3cee3',
+    borderColor:'gray',
     borderRightWidth: 1,
     textAlign: "left",
     paddingRight: SW(67),
   },
   button: {
     marginTop: SH(60),
-    backgroundColor: '#4dc0fa',
+    backgroundColor:Colors.theme_background ,
     borderRadius: 7,
     padding: SW(10)
   },
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginBottom: SH(20)
   },
   buttons: {
-    backgroundColor: '#5775d9', padding: SW(3), borderRadius: 5
+    backgroundColor:Colors.theme_background, padding: SW(3), borderRadius: 5
   },
   ageModaltext: {
     color: 'black', textTransform: 'capitalize', fontSize: SF(15)
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   bottomButtom: {
-    backgroundColor: '#5775d9', marginTop: SH(200), padding: SW(7), margin: SW(10),
+    backgroundColor:Colors.theme_background, marginTop: SH(200), padding: SW(7), margin: SW(10),
     borderRadius: 7
   },
   bottombuttonText: {
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   ageInputContainer: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#86d5eb',
+    borderColor:Colors.theme_background,
     marginHorizontal: SW(5),
     padding:SW(3),
     display:'flex',flexDirection:'row',justifyContent:'space-between'

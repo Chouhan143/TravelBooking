@@ -2,17 +2,15 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {FlatList} from 'react-native';
-import RadioGroup from 'react-native-radio-buttons-group';
 import axios from 'axios';
 import {ADD_BOARDING_DROPING} from '../../utils/BaseUrl';
 import {useSelector} from 'react-redux';
-import {CheckBox} from '../../components';
 import Radio from '../../components/commonComponents/Radio';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
 import {selectBoardingPoint, selectDroppingPoint} from '../../redux/action';
 import {useDispatch} from 'react-redux';
-
+import { SW,SH,SF,Colors } from '../../utils';
 const Tab = createMaterialTopTabNavigator();
 
 const BoardingDroping = () => {
@@ -121,7 +119,6 @@ const BoardingPoint = () => {
   );
 };
 
-// droping point screen here
 const DropingPoint = () => {
   const dispatch = useDispatch();
   const traceId = useSelector(state => state.commomReducer.traceId);
@@ -215,18 +212,20 @@ const DropingPoint = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
+    width: '95%',
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignSelf: 'center',
     height: 'auto',
     borderRadius: 5,
     marginTop: 15,
+    padding:SW(10)
   },
   headingText: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     paddingTop: 10,
     color: '#000',
+    textTransform:"uppercase",
   },
   bottomBorder: {
     borderBottomWidth: 0.2,

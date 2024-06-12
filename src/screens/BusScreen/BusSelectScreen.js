@@ -63,13 +63,13 @@ const BusSelectScreen = ({route}) => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#fff',paddingTop:SH(10)}}>
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}>
-          <AntDesign name={'arrowleft'} size={20} />
+          <AntDesign name={'arrowleft'} size={20}/>
         </TouchableOpacity>
 
         <Text style={{fontSize: 16, color: '#000'}}>

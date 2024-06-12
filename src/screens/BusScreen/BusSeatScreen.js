@@ -136,7 +136,7 @@ const BusSeatScreen = props => {
   ];
 
   return (
-    <View style={BusSeatScreenStyles.MinFlexView}>
+    <View style={{width: '100%',height: '100%',backgroundColor:'white'}}>
       {/* <View>
         <View>
           <FlatList
@@ -287,7 +287,9 @@ const BusSeatScreen = props => {
               {t('Book_for')}
             </Text> */}
           </View>
-          <View style={BusSeatScreenStyles.Widththree}>
+          <View style={{ width: '40%',
+            paddingLeft: SH(20),
+            paddingRight: SH(5),paddingTop:SH(10)}}>
             <Button
               title={t('Proceed')}
               ButtonStyle={BusSeatScreenStyles.ButtonStyle}
