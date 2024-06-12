@@ -50,7 +50,8 @@ const FlightTab = props => {
   const [filteredFlightDataTo, setFilteredFlightDataTo] = useState([]);
   const [CityData, setCityData] = useState([]);
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
-  const [isDestinationCityFocused, setIsDestinationCityFocused] = useState(false);
+  const [isDestinationCityFocused, setIsDestinationCityFocused] =
+    useState(false);
 
   const RadioData = [
     {label: t('Economy'), value: '1'},
@@ -107,14 +108,14 @@ const FlightTab = props => {
 
   useEffect(() => {
     const filteredDataFrom = CityData.filter(item =>
-      item.label.toLowerCase().includes(sourceCity.toLowerCase())
+      item.label.toLowerCase().includes(sourceCity.toLowerCase()),
     );
     setFilteredFlightDataFrom(filteredDataFrom);
   }, [sourceCity, CityData]);
 
   useEffect(() => {
     const filteredDataTo = CityData.filter(item =>
-      item.label.toLowerCase().includes(destinationCity.toLowerCase())
+      item.label.toLowerCase().includes(destinationCity.toLowerCase()),
     );
     setFilteredFlightDataTo(filteredDataTo);
   }, [destinationCity, CityData]);
@@ -136,7 +137,7 @@ const FlightTab = props => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1, justifyContent: 'center'}}>
       <View style={BookingTabStyles.FlightMainBox}>
         <View style={BookingTabStyles.WithFrom}>
           <Text style={BookingTabStyles.FromText}>{t('From')}</Text>
@@ -284,14 +285,17 @@ const FlightTab = props => {
             </Text>
             <DatePicker />
           </View>
-
         ) : (
           <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
             <Text style={BookingTabStyles.Departuredatext}>
               Save more on Roundtrip
             </Text>
-            <TouchableOpacity onPress={()=>tabTrip == '2'}>
-             <Text  style={{fontSize: SF(16), color: 'green', fontWeight: '800'}}> + Add Return</Text>
+            <TouchableOpacity onPress={() => tabTrip == '2'}>
+              <Text
+                style={{fontSize: SF(16), color: 'green', fontWeight: '800'}}>
+                {' '}
+                + Add Return
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -332,75 +336,9 @@ const FlightTab = props => {
         ) : (
           <Button title={t('Search_Flights')} onPress={handleFlightSearch} />
         )}
-
-
-          {tabTrip !== '1' ? (
-            <View style={BookingTabStyles.Departuredateview}>
-              <Text style={BookingTabStyles.Departuredatext}>
-                {t('Return_Dates')}
-              </Text>
-              <DatePicker />
-            </View>
-          ) : (
-            <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-              <Text style={BookingTabStyles.Departuredatext}>
-                Save more on Roundtrip
-              </Text>
-              <Text
-                style={{fontSize: SF(16), color: 'green', fontWeight: '800'}}>
-                + Add Return
-              </Text>
-            </View>
-          )}
-        </View>
-        <Spacing space={SH(30)} />
-        <View style={BookingTabStyles.SelectPersonBox}>
-          <PersonAddFun
-            TitleIcon={'man'}
-            Icon={'Ionicons'}
-            Title={t('Adults')}
-            Subtitle={t('12years')}
-            onCounterChange={value => handleCounterChange('AdultCount', value)}
-          />
-          <PersonAddFun
-            TitleIcon={'child'}
-            Icon={'FontAwesome'}
-            Title={t('Children')}
-            Subtitle={t('212years')}
-            onCounterChange={value => handleCounterChange('ChildCount', value)}
-          />
-          <PersonAddFun
-            TitleIcon={'baby'}
-            Icon={'FontAwesome5'}
-            Title={t('Infants')}
-            Subtitle={t('02years')}
-            onCounterChange={value => handleCounterChange('InfantCount', value)}
-          />
-        </View>
-        <Spacing space={SH(30)} />
-        <View>
-          {/* <RadioButton onChangeText={(text) => setState({ ...state, FloorNumber: text })}
-                        value={state.FloorNumber} arrayData={RadioData} /> */}
-          <RadioButton
-            arrayData={RadioData}
-            onChangeText={text => setState({...state, FloorNumber: text})}
-            value={state.FloorNumber}
-          />
-          <View>
-            <Text>{errors}</Text>
-          </View>
-
-          {loading ? (
-            <ActivityIndicator size={40} color={Colors.useTheme} />
-          ) : (
-            <Button title={t('Search_Flights')} onPress={handleFlightSearch} />
-          )}
-        </View>
-
       </View>
-    // </View>
+    </View>
   );
 };
 
 export default FlightTab;
-
