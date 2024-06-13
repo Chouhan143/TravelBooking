@@ -1,31 +1,50 @@
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {StyleSheet, Text, View} from 'react-native';
-import {SH} from '../../../utils';
-import {useSelector} from 'react-redux';
+import {StyleSheet} from 'react-native';
 import Seat from './Flight_Seat';
 import Meal from './Flight_Meal';
 import Baggage from './Flight_Baggage';
+
 const Tab = createMaterialTopTabNavigator();
-export const FlightSeatMealsBaggage = () => {
+
+const FlightSeatMealsBaggage = ({selectedItem}) => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Seat" component={Seat} options={styles.headerStyle} />
-      <Tab.Screen name="Meal" component={Meal} options={styles.headerStyle} />
+    <Tab.Navigator
+      tabBarOptions={{
+        labelStyle: styles.tabBarLabelStyle,
+        inactiveTintColor: 'rgba(0,0,0,0.5)',
+        activeTintColor: 'rgba(0,0,0,1)',
+      }}>
+      <Tab.Screen
+        name="Seat"
+        options={{tabBarLabel: 'Seat'}}
+        initialParams={{selectedItem}}>
+        {props => <Seat {...props} selectedItem={selectedItem} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Meal"
+        options={{tabBarLabel: 'Meal', ...styles.headerStyle}}
+        initialParams={{selectedItem}}>
+        {props => <Meal {...props} selectedItem={selectedItem} />}
+      </Tab.Screen>
       <Tab.Screen
         name="Baggage"
-        component={Baggage}
-        options={styles.headerStyle}
-      />
+        options={{tabBarLabel: 'Baggage', ...styles.headerStyle}}
+        initialParams={{selectedItem}}>
+        {props => <Baggage {...props} selectedItem={selectedItem} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
+  tabBarLabelStyle: {
+    fontWeight: '700',
+  },
   headerStyle: {
-    tabBarLabelStyle: {
-      fontWeight: '700',
-    },
     tabBarInactiveTintColor: 'rgba(0,0,0,0.5)',
     tabBarActiveTintColor: 'rgba(0,0,0,1)',
   },
 });
+
+export default FlightSeatMealsBaggage;

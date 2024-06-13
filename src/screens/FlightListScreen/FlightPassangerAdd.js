@@ -55,7 +55,7 @@ const FlightPassangerAdd = ({
       }
 
       // Update the selectedPassengers state in the parent component
-      onSelectionChange(passengerData, !isSelected); // Pass the complete passenger data
+      onSelectionChange(passengerData, index, !isSelected); // Pass the complete passenger data
       return updatedSelection;
     });
   };
@@ -100,7 +100,9 @@ const FlightPassangerAdd = ({
               }}>
               <FontAwesome5 name={'user-alt'} size={17} />
             </View>
-            <Text style={{color:'black',fontFamily:'Poppins-Bold'}}>{passengerType}</Text>
+            <Text style={{color: 'black', fontFamily: 'Poppins-Bold'}}>
+              {passengerType}
+            </Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', gap: 5}}>
@@ -138,7 +140,9 @@ const FlightPassangerAdd = ({
                     color={isSelected ? Colors.theme_background : '#ccc'}
                     style={{marginRight: 10}}
                   />
-                  <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>{item.firstName}</Text>
+                  <Text>
+                    {item.firstName} {item.lastName}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemovePassenger(index)}>
                   <AntDesign name={'delete'} size={20} />
@@ -156,7 +160,8 @@ const FlightPassangerAdd = ({
             passengerType: passengerType,
           })
         }>
-        <Text style={{color: Colors.theme_background,fontFamily:'Poppins-Bold'}}>
+        <Text
+          style={{color: Colors.theme_background, fontFamily: 'Poppins-Bold'}}>
           + ADD NEW {passengerType.toUpperCase()}
         </Text>
       </TouchableOpacity>

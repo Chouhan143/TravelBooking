@@ -23,6 +23,10 @@ import {
   FLIGHT_SELECT_SEAT,
   SET_SELECTED_PASSENGERS,
   CLEAR_SELECTED_PASSENGERS,
+  ADD_SEAT_AMOUNT,
+  REMOVE_SEAT_AMOUNT,
+  ADD_MEAL_PRICE,
+  REMOVE_MEAL_PRICE,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -145,3 +149,23 @@ export const selectedPassanger = passengers => ({
 // export const clearSelectedPassengers = () => ({
 //   type: CLEAR_SELECTED_PASSENGERS,
 // });
+
+export const addSeatAmount = amount => ({
+  type: ADD_SEAT_AMOUNT,
+  payload: amount,
+});
+
+export const removeSeatAmount = amount => ({
+  type: REMOVE_SEAT_AMOUNT,
+  payload: amount,
+});
+
+export const addMealPrice = meal => ({
+  type: ADD_MEAL_PRICE,
+  payload: meal,
+});
+
+export const removeMealPrice = index => ({
+  type: REMOVE_MEAL_PRICE,
+  payload: {index},
+});

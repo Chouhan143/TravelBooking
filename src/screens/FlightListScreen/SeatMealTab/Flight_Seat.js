@@ -12,16 +12,24 @@ import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 import {Colors, SF, SH,SW} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
-import {flightSelectSeat} from '../../../redux/action';
+import {useNavigation} from '@react-navigation/native';
+import {
+  addSeatAmount,
+  flightSelectSeat,
+  removeSeatAmount,
+} from '../../../redux/action';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {RBSheet, VectorIcon, Button} from '../../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
-import {FlatList} from 'react-native-gesture-handler';
+// import {FlatList} from 'react-native-gesture-handler';
+import {RouteName} from '../../../routes';
 
-const Seat = () => {
+const Seat = ({route}) => {
+  const {selectedItem} = route.params;
   const {t} = useTranslation();
+  const navigation = useNavigation();
   const refRBSheet = useRef();
   const [seatData, setSeatData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -101,14 +109,34 @@ const Seat = () => {
   const selectedPassenger = useSelector(
     state => state.commomReducer.selectedPassengers,
   );
+  // console.log('selectedPassenger', selectedPassenger);
+
   const passengerNames = selectedPassenger.map(
     passenger => `${passenger?.firstName} ${passenger?.LastName}`,
   );
 
+  // const handleSeatSelect = seat => {
+  //   console.log('handleSeatSelect', !seat.IsBooked);
+  //   if (!seat.IsBooked) {
+  //     dispatch(flightSelectSeat(seat));
+  //     dispatch(addSeatAmount(seat.Amount));
+  //   }
+  // };
+
   const handleSeatSelect = seat => {
-    console.log('handleSeatSelect', !seat.IsBooked);
     if (!seat.IsBooked) {
-      dispatch(flightSelectSeat(seat));
+      const isSelected = flightSeatSelectData.some(
+        selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
+      );
+      if (isSelected) {
+        // Deselect seat
+        dispatch(flightSelectSeat(seat, false)); // Assuming flightSelectSeat handles deselection when second parameter is false
+        dispatch(removeSeatAmount(seat.Amount));
+      } else {
+        // Select seat
+        dispatch(flightSelectSeat(seat, true)); // Assuming flightSelectSeat handles selection when second parameter is true
+        dispatch(addSeatAmount(seat.Amount));
+      }
     }
   };
 
@@ -168,7 +196,6 @@ const Seat = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}></View>
       <View style={{padding: 20}}>
         <Text
           style={{
@@ -197,6 +224,33 @@ const Seat = () => {
         </View>
       ) : (
         <ScrollView>
+          <View style={{flexDirection: 'row', gap: 10, flexWrap: 'wrap'}}>
+            {selectedItem.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: Colors.gray_color,
+                    paddingHorizontal: 20,
+                    paddingVertical: 10,
+                    borderRadius: 5,
+                    gap: 10,
+                    borderWidth: 0.5,
+                    borderColor: Colors.wageningen_green,
+                  }}
+                  key={index}>
+                  <Text
+                    key={item.id}
+                    style={{
+                      color: Colors.gray_text_color,
+                      fontSize: SF(18),
+                      fontWeight: '600',
+                    }}>
+                    {item.firstName}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
           <View style={styles.airplane}>
             <Image
               source={require('../../../images/Deck.webp')}
@@ -264,6 +318,9 @@ const Seat = () => {
             paddingHorizontal: 30,
             backgroundColor: Colors.theme_background,
             borderRadius: 5,
+          }}
+          onPress={() => {
+            navigation.navigate('Meal', {selectedItem: selectedItem});
           }}>
           <Text
             style={{
@@ -322,6 +379,7 @@ const Seat = () => {
                 <Text style={{}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
               </View>
             ))}
+
             <View
               style={{
                 justifyContent: 'space-between',

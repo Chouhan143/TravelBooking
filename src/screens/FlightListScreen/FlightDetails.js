@@ -19,6 +19,8 @@ import {useTranslation} from 'react-i18next';
 import FlightPassangerAdd from './FlightPassangerAdd';
 import {useSelector, useDispatch} from 'react-redux';
 import FormatedDate from '../../components/commonComponents/FormatedDate';
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from 'uuid';
 import {
   baggageAdded,
   baggageCabinAdded,
@@ -48,8 +50,6 @@ const FlightDetails = () => {
     state => state.commomReducer.FlightSearchPayload,
   );
 
-  console.log('selectedPassengers', selectedPassengers);
-
   const addlistPassanger = useSelector(
     state => state.commomReducer.fightTraveller,
   );
@@ -66,7 +66,7 @@ const FlightDetails = () => {
   );
   // console.log('fareQutesDataSelecter', fareQutesDataSelecter);
 
-  console.log(fareQutesDataSelecter);
+  // console.log(fareQutesDataSelecter);
 
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
 
@@ -129,27 +129,45 @@ const FlightDetails = () => {
   };
 
   const handleNavigation = () => {
-    navigation.navigate(
-      cheboxSelect ? RouteName.FLIGHT_MEALS : RouteName.FLIGHT_REVIEW_DETAILS,
-    );
+    if (cheboxSelect) {
+      navigation.navigate(RouteName.FLIGHT_MEALS, {
+        selectedItem: selectedPassengers,
+      });
+    } else {
+      navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS);
+    }
   };
 
-  // console.log('isContinueDisabled', isContinueDisabled);
+  const reduxPassengerSelect = useSelector(
+    state => state.commomReducer.selectedPassengers,
+  );
 
-  const handleSelectionChange = (passengerData, isSelected, passengerType) => {
+  console.log('reduxPassengerSelect', reduxPassengerSelect);
+
+  console.log('selectedPassengers 123', selectedPassengers);
+
+  const handleSelectionChange = (
+    passengerData,
+    index,
+    isSelected,
+    passengerType,
+  ) => {
+    //redux selected passenger  ka index  or  passengerData ka index  exist krta ha ya nhi uske basses par duplicate ko remove kr sakte hai ya redux me duplicate ko add hone se rok sakte hai
+
     if (isSelected) {
-      // Add the selected passenger data to the selectedPassengers array
+      console.log('uid', uuidv4());
+
       setSelectedPassengers(prevSelectedPassengers => [
         ...prevSelectedPassengers,
         passengerData,
       ]);
-      dispatch(selectedPassanger(passengerData));
+      // dispatch(selectedPassanger(passengerData));
     } else {
       // Remove the deselected passenger data from the selectedPassengers array
       setSelectedPassengers(prevSelectedPassengers =>
         prevSelectedPassengers.filter(item => item !== passengerData),
       );
-      dispatch(selectedPassanger(passengerData));
+      // dispatch(selectedPassanger(passengerData));
     }
   };
 

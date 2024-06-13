@@ -1,23 +1,27 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {FLIGHT_SSR_MEAL} from '../../utils/BaseUrl';
-import {useSelector} from 'react-redux';
-import {Tabs} from './FlightTopTabs';
-import {FlightSeatMealsBaggage} from './SeatMealTab/FlightSeatMealsBaggage';
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
+import FlightSeatMealsBaggage from './SeatMealTab/FlightSeatMealsBaggage';
+import {useRoute} from '@react-navigation/native';
 const FlightSegments = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const {selectedItem} = route.params;
+  console.log('---idiiiiiff', selectedItem);
   const handleBack = () => {
     navigation.goBack();
   };
+
   const skip = () => {
     navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS);
   };
+
+  // Replace with actual selectedItem
+
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <View
         style={{
           justifyContent: 'space-between',
@@ -34,18 +38,9 @@ const FlightSegments = () => {
           <Text style={{color: '#000'}}>Skip</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flex: 1}}>
-        <FlightSeatMealsBaggage />
-      </View>
+      <FlightSeatMealsBaggage selectedItem={selectedItem} />
     </View>
   );
 };
 
 export default FlightSegments;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

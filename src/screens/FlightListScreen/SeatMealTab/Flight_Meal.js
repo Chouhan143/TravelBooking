@@ -24,9 +24,14 @@ import {RBSheet, VectorIcon, Button} from '../../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
-
-const Meal = () => {
+import {useNavigation} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
+const Meal = ({route}) => {
   const {t} = useTranslation();
+  // const route = useRoute();
+  const {selectedItem} = route.params;
+  console.log('item >>>>', selectedItem);
+  const navigation = useNavigation();
   const [mealsData, setMealsData] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
   const refRBSheet = useRef();
@@ -130,21 +135,22 @@ const Meal = () => {
 
       <View
         style={{
-         position: 'relative',
+          position: 'relative',
           width: '100%',
           height: '10%',
           bottom: 0,
           padding: SW(15),
-          backgroundColor:'#f0f0f0',
-          borderTopLeftRadius:20,
-          borderTopRightRadius:20,
-          borderColor:'black',
-          paddingBottom:SH(10),
-          marginTop:SH(10),
-          borderColor:'gray',
-          borderWidth:1,
-          display:'flex',flexDirection:'row',
-          justifyContent:'space-between'
+          backgroundColor: '#f0f0f0',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          borderColor: 'black',
+          paddingBottom: SH(10),
+          marginTop: SH(10),
+          borderColor: 'gray',
+          borderWidth: 1,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -167,10 +173,12 @@ const Meal = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            padding:SW(10),
+            padding: SW(10),
             backgroundColor: Colors.theme_background,
             borderRadius: 5,
-            
+          }}
+          onPress={() => {
+            navigation.navigate('Baggage');
           }}>
           <Text
             style={{
@@ -281,22 +289,22 @@ export default Meal;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+
     paddingTop: SH(30),
     backgroundColor: 'rgba(255,255,255,1)',
   },
   mainContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#fff', 
-        elevation: 7,
-        padding:SW(15),
-        borderRadius:10,
-        borderColor:'#c9cfd1',
-        borderWidth:1,
-        margin:SW(10),
-        marginBottom:0
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    elevation: 7,
+    padding: SW(15),
+    borderRadius: 10,
+    borderColor: '#c9cfd1',
+    borderWidth: 1,
+    margin: SW(10),
+    marginBottom: 0,
   },
   textContainer: {
     flex: 1,

@@ -11,7 +11,9 @@ import {RouteName} from '../../routes';
 const FlightTravellerDetails = ({route}) => {
   const navigation = useNavigation();
   const {passengerType} = route.params;
+
   console.log('passengerType', passengerType);
+
   const [selected, setSelected] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -47,11 +49,11 @@ const FlightTravellerDetails = ({route}) => {
     const payload = {
       passengerType,
       gender: selected,
-      dob: passengerType !== 'Adult (12 yrs+)' ? dob : undefined,
       firstName,
       LastName,
       Email,
       Mobile,
+      ...(passengerType !== 'Adult (12 yrs+)' && {dob}),
     };
     console.log('payload', payload);
     dispatch(flightTravellerDetails(payload));

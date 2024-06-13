@@ -25,6 +25,9 @@ import {
   FLIGHT_SELECT_SEAT,
   SET_SELECTED_PASSENGERS,
   CLEAR_SELECTED_PASSENGERS,
+  ADD_SEAT_AMOUNT,
+  REMOVE_SEAT_AMOUNT,
+  ADD_MEAL_PRICE,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -52,6 +55,11 @@ const initialState = {
   flightBaggageCabinData: [],
   flightSeatSelectData: [],
   selectedPassengers: [],
+  flightFareQutesData: {
+    Fare: {
+      PublishedFare: 0,
+    },
+  },
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -219,17 +227,82 @@ export default function commomReducer(state = initialState, action) {
           : [...state.flightSeatSelectData, seat],
       };
 
-    // case CLEAR_SELECTED_PASSENGERS:
-    //   return {
-    //     ...state,
-    //     selectedPassengers: [],
-    //   };
-
     case SET_SELECTED_PASSENGERS:
       return {
         ...state,
         selectedPassengers: [...state.selectedPassengers, action.payload],
       };
+
+    // case SET_SELECTED_PASSENGERS:
+    //   // Check if the passenger ID already exists in the state
+    //   const passengerExists = state.selectedPassengers.some(
+    //     passenger => passenger.id === action.payload.id,
+    //   );
+    //   if (passengerExists) {
+    //     // If the passenger ID already exists, remove it (deselect)
+    //     return {
+    //       ...state,
+    //       selectedPassengers: state.selectedPassengers.filter(
+    //         passenger => passenger.id !== action.payload.id,
+    //       ),
+    //     };
+    //   } else {
+    //     // If the passenger ID doesn't exist, add it (select)
+    //     return {
+    //       ...state,
+    //       selectedPassengers: [...state.selectedPassengers, action.payload],
+    //     };
+    //   }
+
+    case ADD_SEAT_AMOUNT:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare:
+              state.flightFareQutesData.Fare.PublishedFare + action.payload,
+          },
+        },
+      };
+
+    case REMOVE_SEAT_AMOUNT:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare:
+              state.flightFareQutesData.Fare.PublishedFare - action.payload,
+          },
+        },
+      };
+
+    case ADD_MEAL_PRICE:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          FareBreakdown: [
+            ...state.flightFareQutesData.FareBreakdown,
+            action.payload,
+          ],
+        },
+      };
+
+    // case REMOVE_MEAL_PRICE:
+    //   const { index } = action.payload;
+    //   return {
+    //     ...state,
+    //     flightFareQutesData: {
+    //       ...state.flightFareQutesData,
+    //       FareBreakdown: state.flightFareQutesData.FareBreakdown.filter(
+    //         (_, idx) => idx !== index
+    //       ),
+    //     },
+    //   };
 
     default: {
       return state;
