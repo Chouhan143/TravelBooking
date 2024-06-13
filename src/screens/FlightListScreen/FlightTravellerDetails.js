@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {SF, SH, SW} from '../../utils';
+import {Colors, SF, SH, SW} from '../../utils';
 import {TouchableOpacity, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {flightTravellerDetails} from '../../redux/action';
@@ -60,23 +60,17 @@ const FlightTravellerDetails = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          width: '100%',
-          height: '10%',
-          backgroundColor: '#FFCC99',
-          justifyContent: 'space-between',
-          paddingHorizontal: SW(10),
-          alignItems: 'center',
-          paddingTop: SW(5),
-        }}>
+      
         <View
           style={{
             flexDirection: 'row',
             gap: 10,
             paddingHorizontal: 10,
-            paddingTop: SH(7),
-            paddingHorizontal: 10,
+            margin:SW(10),
+            backgroundColor:'#ffd9bd',
+            padding:SW(5),
+            paddingVertical:SH(10),
+            borderRadius:10
           }}>
           <View
             style={{
@@ -94,14 +88,14 @@ const FlightTravellerDetails = ({route}) => {
             />
           </View>
           <View>
-            <Text style={{color: 'rgba(0,0,0,1)', fontSize: SF(15)}}>
-              <Text style={{fontWeight: '700', color: '#000'}}>Important:</Text>
+            <Text style={{color: 'rgba(0,0,0,1)', fontSize: SF(13),fontFamily:'Poppins-Regular'}}>
+              <Text style={{color: '#000',fontFamily:'Poppins-Bold'}}>Important:</Text>
               {''} Enter name as mentioned on your passport or goverment
               approved IDs.
             </Text>
           </View>
         </View>
-      </View>
+      
 
       {/* inputeboxes here  */}
       <View>
@@ -110,7 +104,8 @@ const FlightTravellerDetails = ({route}) => {
             fontSize: SF(18),
             paddingVertical: SW(10),
             paddingHorizontal: SW(18),
-            fontWeight: '700',
+            fontFamily:'Poppins-Medium',
+            color:'black'
           }}>
           Gender
         </Text>
@@ -125,12 +120,22 @@ const FlightTravellerDetails = ({route}) => {
           <TouchableOpacity
             onPress={() => setSelected('Male')}
             style={[styles.tab, selected === 'Male' && styles.selectedTab]}>
-            <Text style={{fontSize: SF(16), fontWeight: '500'}}>Male</Text>
+            <Text style={[
+              styles.tabText, 
+              selected === 'Male' && styles.selectedTabText
+          ]}>
+              Male
+          </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSelected('Female')}
             style={[styles.tab, selected === 'Female' && styles.selectedTab]}>
-            <Text style={{fontSize: SF(16), fontWeight: '500'}}>Female</Text>
+            <Text style={[
+              styles.tabText, 
+              selected === 'Female' && styles.selectedTabText
+          ]}>
+              Female
+          </Text>
           </TouchableOpacity>
         </View>
         <View style={{marginTop: SW(5)}}>
@@ -138,7 +143,7 @@ const FlightTravellerDetails = ({route}) => {
             style={styles.input}
             placeholder="First & Middle Name"
             value={firstName}
-            placeholderTextColor={'#0099FF'}
+            placeholderTextColor={'black'}
             onChangeText={setFirstName}
           />
         </View>
@@ -147,7 +152,7 @@ const FlightTravellerDetails = ({route}) => {
             style={styles.input}
             placeholder="Last Name"
             value={LastName}
-            placeholderTextColor={'#0099FF'}
+            placeholderTextColor={'black'}
             onChangeText={setLastName}
           />
         </View>
@@ -188,7 +193,7 @@ const FlightTravellerDetails = ({route}) => {
           />
         </View> */}
         <TouchableOpacity
-          style={[styles.ConfirmButton, !isValid && {backgroundColor: '#ccc'}]}
+          style={[styles.ConfirmButton, !isValid && {backgroundColor:Colors.theme_background}]}
           onPress={handleConfirm}
           disabled={!isValid}>
           <Text style={styles.confirmTxt}>Confirm</Text>
@@ -207,18 +212,29 @@ const styles = StyleSheet.create({
   },
   tab: {
     borderWidth: SW(1),
-    borderColor: 'grey',
+    borderColor: 'gray',
     width: SW(170),
     paddingVertical: SW(10),
     alignItems: 'center',
     backgroundColor: 'white',
+    borderRadius: SW(5),
   },
   selectedTab: {
     backgroundColor: '#0099FF',
   },
+  selectedTabText: {
+        color: 'white',
+        fontSize:SF(15)
+    },
+    tabText: {
+        fontSize: SF(16),
+        fontWeight: '500',
+        fontFamily: 'Poppins-Medium',
+        color: 'black',
+    },
   input: {
     borderWidth: 1,
-    borderColor: '#0099FF',
+    borderColor: 'gray',
     padding: SW(10),
     marginBottom: SW(10),
     fontSize: SF(18),
@@ -226,6 +242,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: SW(5),
     fontWeight: '500',
+    color:'black'
   },
   ConfirmButton: {
     width: SW(355),

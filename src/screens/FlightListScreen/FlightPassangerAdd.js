@@ -93,14 +93,14 @@ const FlightPassangerAdd = ({
               style={{
                 backgroundColor: iconBackgroundColor,
                 borderRadius: 20,
-                width: SW(30),
-                height: SW(30),
+                width: SW(35),
+                height: SW(35),
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <FontAwesome5 name={'user-alt'} size={15} />
+              <FontAwesome5 name={'user-alt'} size={17} />
             </View>
-            <Text>{passengerType}</Text>
+            <Text style={{color:'black',fontFamily:'Poppins-Bold'}}>{passengerType}</Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', gap: 5}}>
@@ -118,7 +118,7 @@ const FlightPassangerAdd = ({
           </Text>
         </View>
       </View>
-      <View style={{marginVertical: 10}}>
+      <View>
         <FlatList
           data={data}
           renderItem={({item, index}) => {
@@ -138,7 +138,7 @@ const FlightPassangerAdd = ({
                     color={isSelected ? Colors.theme_background : '#ccc'}
                     style={{marginRight: 10}}
                   />
-                  <Text>{item.firstName}</Text>
+                  <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>{item.firstName}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemovePassenger(index)}>
                   <AntDesign name={'delete'} size={20} />
@@ -156,8 +156,8 @@ const FlightPassangerAdd = ({
             passengerType: passengerType,
           })
         }>
-        <Text style={{color: Colors.theme_background}}>
-          +ADD NEW {passengerType.toUpperCase()}
+        <Text style={{color: Colors.theme_background,fontFamily:'Poppins-Bold'}}>
+          + ADD NEW {passengerType.toUpperCase()}
         </Text>
       </TouchableOpacity>
     </View>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     shadowColor: '#000',
-    elevation: 2,
+    elevation: 5,
     alignSelf: 'center',
     justifyContent: 'center',
     marginTop: 22,

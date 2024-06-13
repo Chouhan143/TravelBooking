@@ -230,25 +230,30 @@ export default StyleSheet.create({
         height: '100%'
     },
     PayBottomShetBoxChild: {
-        marginBottom: SH(25),
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: SH(20),
-        borderTopColor: Colors.gray_text_color,
-        borderTopWidth: SW(1),
         paddingVertical: SH(10),
-        backgroundColor: Colors.white_text_color
+        backgroundColor:'#f0f0f0',
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
+        borderColor:'black',
+        paddingBottom:SH(20),
+        borderColor:'gray',
+        borderWidth:1
     },
     FareText: {
-        color: Colors.gray_text_color,
+        color:'black',
         fontSize: SF(13),
+        fontFamily:'Poppins-Regular'
     },
     BtnPrice: {
-        color: Colors.black_text_color,
+        color: 'black',
         fontSize: SF(22),
-        paddingTop: SH(5)
+        paddingTop: SH(5),
+        fontFamily:'Poppins-Medium'
     },
     ShoWBoxFlighgtBoxImg: {
         width: '15%',

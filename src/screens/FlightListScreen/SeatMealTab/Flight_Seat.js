@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
-import {Colors, SF, SH} from '../../../utils';
+import {Colors, SF, SH,SW} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
 import {flightSelectSeat} from '../../../redux/action';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -127,7 +127,7 @@ const Seat = () => {
               key={colIndex}
               style={[
                 styles.seat,
-                seat.IsBooked && {backgroundColor: 'darkgray'},
+                seat.IsBooked && {backgroundColor: '#cdeffa'},
                 isSelected && {backgroundColor: '#006633'},
               ]}
               onPress={() => handleSeatSelect(seat)}
@@ -177,6 +177,9 @@ const Seat = () => {
             fontWeight: '500',
             fontFamily: 'Poppins-Medium',
             fontWeight: '700',
+           textTransform:'uppercase',
+           textAlign:'center',
+           color:Colors.theme_background
           }}>
           Select your preferred seat
         </Text>
@@ -202,6 +205,7 @@ const Seat = () => {
                 height: SH(250),
                 borderTopLeftRadius: SH(200),
                 borderTopRightRadius: SH(200),
+                resizeMode:'contain'
               }}
             />
 
@@ -217,12 +221,23 @@ const Seat = () => {
       <View
         style={{
           position: 'relative',
-          bottom: 10,
+          width: '100%',
+          height: '10%',
+          backgroundColor: '#fff',
+          bottom: 0,
+          padding: SW(10),
           justifyContent: 'space-between',
-          flexDirection: 'row',
-          borderTopColor: 'gray',
-          // borderTopWidth: 0.5,
-          paddingTop: 20,
+          marginTop: SH(20),
+          backgroundColor:'#f0f0f0',
+          borderTopLeftRadius:20,
+          borderTopRightRadius:20,
+          borderColor:'black',
+          paddingBottom:SH(10),
+          marginTop:SH(10),
+          borderColor:'gray',
+          borderWidth:1,
+          display:'flex',
+          flexDirection:'row'
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -245,7 +260,7 @@ const Seat = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            paddingVertical: 15,
+            paddingVertical: 10,
             paddingHorizontal: 30,
             backgroundColor: Colors.theme_background,
             borderRadius: 5,
@@ -253,8 +268,8 @@ const Seat = () => {
           <Text
             style={{
               color: '#fff',
-              fontSize: 16,
-              fontWeight: '700',
+              fontSize: 15,
+              fontFamily:'Poppins-Bold'
             }}>
             Continue
           </Text>
@@ -361,16 +376,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: SH(15),
-    paddingHorizontal: 10,
   },
   airplane: {
     flex: 1,
     marginTop: 20,
     width: '100%',
-    backgroundColor: 'lightgray',
+    backgroundColor:'#e1f3f7',
     borderTopLeftRadius: SH(200),
     borderTopRightRadius: SH(200),
     paddingBottom: SH(5),
+    padding:SW(10)
   },
   segment: {
     flex: 1,
@@ -386,7 +401,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 5,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#d3eaf0',
     borderRadius: 5,
     borderColor: '#ccc',
     borderWidth: 1,

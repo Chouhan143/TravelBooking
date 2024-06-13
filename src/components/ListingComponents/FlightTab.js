@@ -256,7 +256,7 @@ const FlightTab = props => {
                     <Text
                       style={{
                         fontSize: SF(16),
-                        fontWeight: '400',
+                        fontFamily:'Poppins-Regular',
                         color: '#000',
                       }}>
                       {item.label}
@@ -330,6 +330,7 @@ const FlightTab = props => {
           arrayData={RadioData}
           onChangeText={text => setState({...state, FloorNumber: text})}
           value={state.FloorNumber}
+          
         />
         {loading ? (
           <ActivityIndicator size={40} color={Colors.theme_background} />

@@ -501,7 +501,7 @@ const FlightListScreen = props => {
                               /> */}
                               <View
                                 style={{
-                                  marginHorizontal: 10,
+                                  
                                   width: '95%',
                                   height: 'auto',
                                   borderWidth: 1,
@@ -509,8 +509,11 @@ const FlightListScreen = props => {
                                   padding: 5,
                                   borderRadius: 5,
                                   alignSelf: 'center',
+                                  borderRadius:10,
+                                  marginTop:SH(10),
+                                  marginBottom:SH(10)
                                 }}>
-                                <View style={{flexDirection: 'row'}}>
+                                <View style={{flexDirection: 'row',marginLeft:SW(10)}}>
                                   <Text style={styles.textboldHeading}>
                                     Departing Flight
                                   </Text>
@@ -524,7 +527,7 @@ const FlightListScreen = props => {
                                     style={styles.textboldHeading}
                                   />
                                 </View>
-                                <View style={{flexDirection: 'row', gap: 5}}>
+                                <View style={{flexDirection: 'row', gap: 5,marginLeft:SW(10)}}>
                                   <Text style={styles.textboldHeading}>
                                     {origin}
                                   </Text>
@@ -566,7 +569,6 @@ const FlightListScreen = props => {
                                     <View
                                       style={{
                                         flex: 1,
-                                        marginVertical: 10,
                                         marginHorizontal: 10,
                                         flexDirection: 'row',
                                         alignItems: 'center',
@@ -586,7 +588,7 @@ const FlightListScreen = props => {
                                           }}>
                                           <Image
                                             source={require('../../images/flight.png')}
-                                            style={{width: 25, height: 15}}
+                                            style={{width: 15, height: 15}}
                                             resizeMode="contain"
                                           />
                                           <Text style={styles.textbold}>
@@ -756,17 +758,17 @@ export default FlightListScreen;
 const styles = StyleSheet.create({
   textboldHeading: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily:'Poppins-Regular',
     color: 'rgba(0,0,0,1)',
   },
   textbold: {
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily:'Poppins-Regular',
     color: 'rgba(0,0,0,0.7)',
   },
   textSemibold: {
     fontSize: 14,
-    fontWeight: '400',
+  fontFamily:'Poppins-Regular',
     color: 'rgba(0,0,0,0.4)',
   },
   FilterboxStyle:{

@@ -1,6 +1,6 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {StyleSheet, Text, View} from 'react-native';
-import {SH} from '../../utils';
+import {SF, SH, SW} from '../../utils';
 import {useSelector} from 'react-redux';
 const Tab = createMaterialTopTabNavigator();
 export const Tabs = () => {
@@ -42,27 +42,29 @@ export const Baggage = () => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: SH(15),
+        padding:SW(20),
+        paddingBottom:0
       }}>
       <View>
-        <Text style={{color: 'gray'}}>PASSENGER</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>Adult</Text>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium',fontSize:SF(15)}}>PASSENGER</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>Adult</Text>
         {BaggageCabinItem?.length > 1 && (
-          <Text style={{color: '#000', fontWeight: '500'}}>Child</Text>
+          <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>Child</Text>
         )}
       </View>
       <View>
-        <Text style={{color: 'gray'}}>CABIN</Text>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium'}}>CABIN</Text>
         {BaggageCabinItem.map((b, index) => (
-          <Text style={{color: '#000', fontWeight: '500'}} key={index}>
+          <Text style={{color: '#000',fontFamily:'Poppins-Regular'}} key={index}>
             {b}
           </Text>
         ))}
       </View>
       <View>
-        <Text style={{color: 'gray'}}>CHECK-IN</Text>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium'}}>CHECK-IN</Text>
 
         {BaggageItem.map((b, index) => (
-          <Text style={{color: '#000', fontWeight: '500'}} key={index}>
+          <Text style={{color: '#000',fontFamily:'Poppins-Regular'}} key={index}>
             {b}
           </Text>
         ))}
@@ -80,18 +82,19 @@ export const CancellationFee = () => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: SH(15),
+        padding:SW(15)
       }}>
       <View>
-        <Text style={{color: 'gray'}}>TIME FRAME</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>3-72 HOURS</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium'}}>TIME FRAME</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>3-72 HOURS</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>
           More than 72 hours
         </Text>
       </View>
       <View>
-        <Text style={{color: 'gray'}}>AIRLINE FEE</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>₹3,500 + ₹299</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>₹3,000 + ₹299</Text>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium'}}>AIRLINE FEE</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>₹3,500 + ₹299</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>₹3,000 + ₹299</Text>
       </View>
     </View>
   );
@@ -106,18 +109,19 @@ export const RescheduleFee = () => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: SH(15),
+        padding:SW(15)
       }}>
       <View>
-        <Text style={{color: 'gray'}}>TIME FRAME</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>3-72 HOURS</Text>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium'}}>TIME FRAME</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>3-72 HOURS</Text>
         <Text style={{color: '#000', fontWeight: '500'}}>
           More than 72 hours
         </Text>
       </View>
       <View>
-        <Text style={{color: 'gray'}}>AIRLINE FEE</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>₹3,500 + ₹299</Text>
-        <Text style={{color: '#000', fontWeight: '500'}}>₹3,000 + ₹299</Text>
+        <Text style={{color: 'gray',fontFamily:'Poppins-Medium'}}>AIRLINE FEE</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>₹3,500 + ₹299</Text>
+        <Text style={{color: '#000',fontFamily:'Poppins-Regular'}}>₹3,000 + ₹299</Text>
       </View>
     </View>
   );

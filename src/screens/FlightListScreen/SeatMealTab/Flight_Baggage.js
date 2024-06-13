@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {FlatList, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {FlatList, StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import {SW, SF} from '../../../utils';
 import {FLIGHT_SSR_MEAL} from '../../../utils/BaseUrl';
 import {useSelector} from 'react-redux';
@@ -76,13 +76,13 @@ const Baggage = () => {
   };
 
   return (
-    <View style={styles.listContainer}>
+    <ScrollView style={styles.listContainer}>
       <FlatList
         data={baggageData}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -90,13 +90,20 @@ export default Baggage;
 
 const styles = StyleSheet.create({
   listContainer: {
-    margin: SW(20),
+    margin: SW(7), 
   },
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SW(20),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff', 
+        elevation: 7,
+        padding:SW(15),
+        borderRadius:10,
+        borderColor:'#c9cfd1',
+        borderWidth:1,
+        margin:SW(10),
+        marginBottom:0
   },
   textContainer: {
     flex: 1,

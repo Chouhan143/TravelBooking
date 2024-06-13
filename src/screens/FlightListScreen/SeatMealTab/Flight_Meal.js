@@ -130,13 +130,21 @@ const Meal = () => {
 
       <View
         style={{
-          position: 'relative',
+         position: 'relative',
+          width: '100%',
+          height: '10%',
           bottom: 0,
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          borderTopColor: 'gray',
-          borderTopWidth: 0.5,
-          paddingTop: 15,
+          padding: SW(15),
+          backgroundColor:'#f0f0f0',
+          borderTopLeftRadius:20,
+          borderTopRightRadius:20,
+          borderColor:'black',
+          paddingBottom:SH(10),
+          marginTop:SH(10),
+          borderColor:'gray',
+          borderWidth:1,
+          display:'flex',flexDirection:'row',
+          justifyContent:'space-between'
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -159,15 +167,15 @@ const Meal = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            paddingVertical: 15,
-            paddingHorizontal: 30,
+            padding:SW(10),
             backgroundColor: Colors.theme_background,
             borderRadius: 5,
+            
           }}>
           <Text
             style={{
               color: '#fff',
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: '700',
             }}>
             Continue
@@ -273,16 +281,22 @@ export default Meal;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: SW(20),
+    
     paddingTop: SH(30),
     backgroundColor: 'rgba(255,255,255,1)',
   },
   mainContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignItems: 'center',
-    marginBottom: SH(20),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff', 
+        elevation: 7,
+        padding:SW(15),
+        borderRadius:10,
+        borderColor:'#c9cfd1',
+        borderWidth:1,
+        margin:SW(10),
+        marginBottom:0
   },
   textContainer: {
     flex: 1,

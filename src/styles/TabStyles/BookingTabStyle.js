@@ -339,7 +339,7 @@ export default BookingTabStyle = Colors =>
       paddingTop: SH(10),
     },
     IconCommon: {
-      fontSize: SF(25),
+      fontSize: SF(20),
     },
     plusColor: {
       color: Colors.green,

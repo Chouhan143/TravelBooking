@@ -17,11 +17,13 @@ const VectorIcon = (props) => {
                     backgroundColor: Colors.Rgb_Black,
                 },
                 draggableIcon: {
-                    backgroundColor: Colors.black_text_color
+                    backgroundColor: Colors.black_text_color,
                 },
                 container: {
                     borderTopLeftRadius: SH(15),
                     borderTopRightRadius: SH(15),
+                    paddingTop:SH(20),
+                    paddingBottom:SH(5)
                 }
             }}
         >

@@ -35,8 +35,8 @@ const PersonAddFun = props => {
           <VectorIcon
             icon="AntDesign"
             name="minuscircleo"
-            size={SF(20)}
-            style={[BookingTabStyles.IconCommon, BookingTabStyles.minusColor]}
+            size={18}
+            style={[BookingTabStyles.minusColor]}
           />
         </TouchableOpacity>
         <Text style={BookingTabStyles.totalStyle}>{value}</Text>
@@ -44,8 +44,8 @@ const PersonAddFun = props => {
           <VectorIcon
             icon="AntDesign"
             name="pluscircleo"
-            size={SF(20)}
-            style={[BookingTabStyles.IconCommon, BookingTabStyles.plusColor]}
+            size={18}
+            style={[BookingTabStyles.plusColor]}
           />
         </TouchableOpacity>
       </View>
