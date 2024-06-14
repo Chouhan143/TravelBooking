@@ -19,8 +19,7 @@ import {useTranslation} from 'react-i18next';
 import FlightPassangerAdd from './FlightPassangerAdd';
 import {useSelector, useDispatch} from 'react-redux';
 import FormatedDate from '../../components/commonComponents/FormatedDate';
-import 'react-native-get-random-values';
-import {v4 as uuidv4} from 'uuid';
+
 import {
   baggageAdded,
   baggageCabinAdded,
@@ -155,7 +154,7 @@ const FlightDetails = () => {
     //redux selected passenger  ka index  or  passengerData ka index  exist krta ha ya nhi uske basses par duplicate ko remove kr sakte hai ya redux me duplicate ko add hone se rok sakte hai
 
     if (isSelected) {
-      console.log('uid', uuidv4());
+      
 
       setSelectedPassengers(prevSelectedPassengers => [
         ...prevSelectedPassengers,
@@ -293,7 +292,7 @@ const FlightDetails = () => {
             <FlightPassangerAdd
               passengerType="Child (2-12 yrs)"
               data={childData}
-              iconBackgroundColor={'yellow'}
+              iconBackgroundColor={'#0297bd'}
               passengerCount={ChildCount} // Pass the ChildCount as a prop
               onRemovePassenger={handleRemovePassenger}
               onSelectionChange={handleSelectionChange}
@@ -322,6 +321,7 @@ const FlightDetails = () => {
             borderRadius: 5,
             borderColor: 'gray',
             flexDirection: 'row',
+            marginBottom:SH(50)
           }}>
           <TouchableOpacity onPress={checkMeal}>
             <FontAwesome5
@@ -475,6 +475,7 @@ const FlightDetails = () => {
             <View>
               <Button
                 title={t('Proceed_Text')}
+
                 onPress={() =>
                   navigation.navigate(
                     cheboxSelect
@@ -536,7 +537,7 @@ const styles = StyleSheet.create({
   },
   box3: {
     width: '90%',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignSelf: 'center',
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -552,5 +553,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     paddingBottom: SH(30),
+    marginBottom:SH(5)
   },
 });

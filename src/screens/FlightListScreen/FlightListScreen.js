@@ -323,7 +323,7 @@ const FlightListScreen = props => {
           }}>
             <Text style={{
         color: Colors.white_text_color,
-        fontSize: SF(14),fontFamily:'Poppins-Bold',
+        fontSize: SF(14),fontFamily:'Poppins-Bold',paddingVertical:SH(12),
         transform: [{ rotate: '270deg' }]
             }}>{t('Date')}</Text>
           </View>
@@ -351,7 +351,7 @@ const FlightListScreen = props => {
                       <Text
                         style={
                           {
-                            color:'black'
+                            color:'black',marginTop:SH(7)
                           }
                         }>
                         {monthlyDate}

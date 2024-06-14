@@ -9,6 +9,7 @@ import {tab_action} from '../../../redux/action/CommonAction';
 import {useTheme} from '@react-navigation/native';
 import {RouteName} from '../../../routes';
 import HotelTab from '../../../components/ListingComponents/HotelTab';
+import { SH, SW } from '../../../utils';
 
 const BookingTab = props => {
   const {t} = useTranslation();
@@ -45,7 +46,12 @@ const BookingTab = props => {
                 : BookingTabStyles.TabsettextBoxTwo
             }>
             <Lottie
-              Lottiewidthstyle={BookingTabStyles.longimageOne}
+              Lottiewidthstyle={{width: SW(70),
+      height: SH(70),
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: SH(23),
+      paddingBottom: SH(30)}}
               source={images.Bus_icon}
             />
             <Text
@@ -66,8 +72,13 @@ const BookingTab = props => {
                 : BookingTabStyles.TabsettextBoxTwo
             }>
             <Lottie
-              Lottiewidthstyle={BookingTabStyles.longimageOne}
-              source={images.Flight_icon}
+            Lottiewidthstyle={{width: SW(70),
+              height: SH(100),
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: SH(23),
+              paddingBottom: SH(30)}}
+              source={require('../../../images/LottieAnimation/Animation.json')}
             />
             <Text
               onPress={() => SetSelectcolor('2')}
@@ -87,7 +98,12 @@ const BookingTab = props => {
                 : BookingTabStyles.TabsettextBoxTwo
             }>
             <Lottie
-              Lottiewidthstyle={BookingTabStyles.longimageOne}
+              Lottiewidthstyle={{width: SW(70),
+      height: SH(70),
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: SH(23),
+      paddingBottom: SH(30)}}
               source={require('../../../images/LottieAnimation/hotel.json')}
             />
             <Text

@@ -138,13 +138,13 @@ const Meal = ({route}) => {
           return (
             <TouchableOpacity
               style={{
-                backgroundColor: Colors.gray_color,
+                // backgroundColor: Colors.gray_color,
                 paddingHorizontal: 30,
                 paddingVertical: 5,
                 borderRadius: 5,
                 gap: 10,
                 borderWidth: 0.5,
-                borderColor: Colors.wageningen_green,
+                borderColor: Colors.theme_background,
               }}
               key={index}>
               <Text
@@ -218,7 +218,7 @@ const Meal = ({route}) => {
             style={{
               color: '#fff',
               fontSize: 15,
-              fontWeight: '700',
+              fontFamily:'Poppins-Bold'
             }}>
             Continue
           </Text>

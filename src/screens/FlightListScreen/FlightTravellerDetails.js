@@ -90,8 +90,8 @@ const FlightTravellerDetails = ({route}) => {
             />
           </View>
           <View>
-            <Text style={{color: 'rgba(0,0,0,1)', fontSize: SF(13),fontFamily:'Poppins-Regular'}}>
-              <Text style={{color: '#000',fontFamily:'Poppins-Bold'}}>Important:</Text>
+            <Text style={{color: 'rgba(0,0,0,1)', fontSize: SF(10),fontFamily:'Poppins-Regular'}}>
+              <Text style={{color: '#000',fontFamily:'Poppins-Bold',fontSize: SF(13)}}>Important:</Text>
               {''} Enter name as mentioned on your passport or goverment
               approved IDs.
             </Text>

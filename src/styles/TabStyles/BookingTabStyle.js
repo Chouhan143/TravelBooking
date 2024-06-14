@@ -46,7 +46,7 @@ export default BookingTabStyle = Colors =>
       borderBottomColor: Colors.theme_background,
     },
     longimageOne: {
-      width: SW(40),
+      width: SW(50),
       height: SH(50),
       justifyContent: 'center',
       alignItems: 'center',

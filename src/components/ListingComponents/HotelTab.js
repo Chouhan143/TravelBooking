@@ -199,7 +199,7 @@ export default HotelTab;
 
 const styles = StyleSheet.create({
   mainContanier: {
-    marginTop: SH(10), marginBottom: SH(70)
+    marginTop: SH(10), marginBottom: SH(40)
   },
   headerText: {
     color: 'black',

@@ -50,7 +50,7 @@ const BusListScreen = props => {
 
   return (
     <View style={{height: '100%',width: '100%',backgroundColor: Colors.white_text_color,paddingHorizontal: '5%',
-      paddingTop:SH(50)}}>
+     paddingTop:SH(15) }}>
       <View style={BusListScreenStyles.ContentContainerStyle}>
         <View>
           <View style={BusListScreenStyles.MinViewSigninScreen}>
