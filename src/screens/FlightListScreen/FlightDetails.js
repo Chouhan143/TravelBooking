@@ -187,17 +187,32 @@ const FlightDetails = () => {
           <View style={{marginTop: 10}}>
             <Image
               source={require('../../images/Indigo.png')}
-              style={{width: SW(45), height: SH(45), borderRadius: 5,resizeMode:'contain'}}
+              style={{
+                width: SW(45),
+                height: SH(45),
+                borderRadius: 5,
+                resizeMode: 'contain',
+              }}
             />
           </View>
         </View>
 
         <View style={{paddingLeft: SW(20)}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: SF(20),color: '#000',fontFamily:'Poppins-Medium'}}>
+            <Text
+              style={{
+                fontSize: SF(20),
+                color: '#000',
+                fontFamily: 'Poppins-Medium',
+              }}>
               {origin}
             </Text>
-            <Text style={{fontSize: SF(20),color: '#000',fontFamily:'Poppins-Medium'}}>
+            <Text
+              style={{
+                fontSize: SF(20),
+                color: '#000',
+                fontFamily: 'Poppins-Medium',
+              }}>
               {' '}
               - {destination}
             </Text>
@@ -207,9 +222,8 @@ const FlightDetails = () => {
               <Text
                 style={{
                   fontSize: SF(15),
-                  fontFamily:'Poppins-Medium',
+                  fontFamily: 'Poppins-Medium',
                   color: 'rgba(0,0,0,0.5)',
-
                 }}>
                 {/* {depdate} */}
               </Text>
@@ -217,7 +231,7 @@ const FlightDetails = () => {
                 dateString={date}
                 style={{
                   fontSize: SF(15),
-               fontFamily:'Poppins-Regular',
+                  fontFamily: 'Poppins-Regular',
                   color: 'rgba(0,0,0,0.5)',
                 }}
               />
@@ -225,7 +239,7 @@ const FlightDetails = () => {
               <Text
                 style={{
                   fontSize: SF(15),
-                  fontFamily:'Poppins-Regular',
+                  fontFamily: 'Poppins-Regular',
                   color: 'rgba(0,0,0,0.5)',
                 }}>
                 2h25m
@@ -238,7 +252,7 @@ const FlightDetails = () => {
               <Text
                 style={{
                   fontSize: SF(15),
-                  fontFamily:'Poppins-Regular',
+                  fontFamily: 'Poppins-Regular',
                   color: 'rgba(0,0,0,0.5)',
                 }}>
                 {SegmentsFlatten[0].CabinClassName}
@@ -258,7 +272,7 @@ const FlightDetails = () => {
           <Text
             style={{
               fontSize: SF(20),
-              fontFamily:'Poppins-Medium',
+              fontFamily: 'Poppins-Medium',
               color: 'rgba(0,0,0,1)',
             }}>
             Traveller Details
@@ -308,7 +322,6 @@ const FlightDetails = () => {
             borderRadius: 5,
             borderColor: 'gray',
             flexDirection: 'row',
-           
           }}>
           <TouchableOpacity onPress={checkMeal}>
             <FontAwesome5
@@ -320,7 +333,10 @@ const FlightDetails = () => {
               style={{marginRight: 10}}
             />
           </TouchableOpacity>
-          <Text style={{fontSize:SF(15),color:'black'}}> Add Seats,Meal,Baggage & more</Text>
+          <Text style={{fontSize: SF(15), color: 'black'}}>
+            {' '}
+            Add Seats,Meal,Baggage & more
+          </Text>
         </View>
       </ScrollView>
       {/* bottom section  button */}
@@ -334,14 +350,14 @@ const FlightDetails = () => {
           padding: SW(10),
           justifyContent: 'center',
           marginTop: SH(20),
-          backgroundColor:'#f0f0f0',
-          borderTopLeftRadius:20,
-          borderTopRightRadius:20,
-          borderColor:'black',
-          paddingBottom:SH(10),
-          marginTop:SH(10),
-          borderColor:'gray',
-          borderWidth:1
+          backgroundColor: '#f0f0f0',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          borderColor: 'black',
+          paddingBottom: SH(10),
+          marginTop: SH(10),
+          borderColor: 'gray',
+          borderWidth: 1,
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
@@ -492,13 +508,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   box2: {
     width: '90%',
@@ -510,31 +526,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   box3: {
     width: '90%',
-        backgroundColor: '#fff',
-        alignSelf: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderRadius: 5,
-        flex: 1,
-        marginTop: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-      paddingBottom:SH(30)
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    flex: 1,
+    marginTop: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    paddingBottom: SH(30),
   },
 });

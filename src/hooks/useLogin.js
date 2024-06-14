@@ -31,10 +31,19 @@ const useLogin = () => {
       }
       setLoading(false);
     } catch (error) {
-      const errorCatch = error.response.data.message;
-      // const errorCatch = error.response;
+      if (error.response) {
+        console.error('Response error', error.response.data);
+        setError(error.response.data.message || 'Something went wrong.');
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Request error', error.request);
+        setError('No response from server. Please try again later.');
+      } else {
+        // Something happened in setting up the request
+        console.error('General error', error.message);
+        setError('An error occurred. Please try again.');
+      }
 
-      setError(errorCatch);
       setLoading(false);
     }
   };

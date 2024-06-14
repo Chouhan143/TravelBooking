@@ -46,6 +46,8 @@ const FlightTab = props => {
   const [state, setState] = useState(stateValue);
   const [sourceCity, setSourceCity] = useState('');
   const [destinationCity, setDestinationCity] = useState('');
+  const [sourceCityCode, setSourceCityCode] = useState('');
+  const [destinationCityCode, setDestinationCityCode] = useState('');
   const [filteredFlightDataFrom, setFilteredFlightDataFrom] = useState([]);
   const [filteredFlightDataTo, setFilteredFlightDataTo] = useState([]);
   const [CityData, setCityData] = useState([]);
@@ -66,10 +68,10 @@ const FlightTab = props => {
 
         const transformedData = res.data.map(airport => ({
           label: airport.airport_city_name,
+          cityCode: airport.airport_city_code,
           value: airport.airport_id.toString(),
         }));
         setCityData(transformedData);
-        console.log('Flight Data', res);
       } catch (error) {
         console.log('error >', error);
       }
@@ -85,8 +87,8 @@ const FlightTab = props => {
       JourneyType: '1',
       Segments: [
         {
-          Origin: sourceCity,
-          Destination: destinationCity,
+          Origin: sourceCityCode,
+          Destination: destinationCityCode,
           FlightCabinClass: state.FloorNumber,
           PreferredDepartureTime: '2024-10-07T00:00:00',
           PreferredArrivalTime: '2024-10-07T00:00:00',
@@ -122,18 +124,36 @@ const FlightTab = props => {
 
   const handleSourceCity = query => {
     setSourceCity(query);
+    const city = CityData.find(
+      item => item.label.toLowerCase() === query.toLowerCase(),
+    );
+    if (city) {
+      setSourceCityCode(city.cityCode);
+    } else {
+      setSourceCityCode('');
+    }
   };
 
   const handleDestinationCity = query => {
     setDestinationCity(query);
+    const city = CityData.find(
+      item => item.label.toLowerCase() === query.toLowerCase(),
+    );
+    if (city) {
+      setDestinationCityCode(city.cityCode);
+    } else {
+      setDestinationCityCode('');
+    }
   };
 
   const clearSearchFrom = () => {
     setSourceCity('');
+    setSourceCityCode('');
   };
 
   const clearSearchTo = () => {
     setDestinationCity('');
+    setDestinationCityCode('');
   };
 
   return (
@@ -235,8 +255,10 @@ const FlightTab = props => {
                 onPress={() => {
                   if (destinationCity !== '') {
                     setDestinationCity(item.label);
+                    setDestinationCityCode(item.cityCode);
                   } else {
                     setSourceCity(item.label);
+                    setSourceCityCode(item.cityCode);
                   }
                 }}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -256,7 +278,7 @@ const FlightTab = props => {
                     <Text
                       style={{
                         fontSize: SF(16),
-                        fontFamily:'Poppins-Regular',
+                        fontFamily: 'Poppins-Regular',
                         color: '#000',
                       }}>
                       {item.label}
@@ -272,7 +294,14 @@ const FlightTab = props => {
       </View>
       <View style={BookingTabStyles.FlewRows}>
         <View style={BookingTabStyles.Departuredateview}>
-          <Text style={{fontFamily: 'Poppins_Medium',fontSize: SF(15),marginTop:SH(15),color:Colors. theme_background,marginBottom:SH(10)}}>
+          <Text
+            style={{
+              fontFamily: 'Poppins_Medium',
+              fontSize: SF(15),
+              marginTop: SH(15),
+              color: Colors.theme_background,
+              marginBottom: SH(10),
+            }}>
             {t('Departure_Dates')}
           </Text>
           <DatePicker />
@@ -280,7 +309,14 @@ const FlightTab = props => {
 
         {tabTrip !== '1' ? (
           <View style={BookingTabStyles.Departuredateview}>
-            <Text style={{fontFamily: 'Poppins_Medium',fontSize: SF(15),marginTop:SH(15),color:Colors. theme_background,marginBottom:SH(10)}}>
+            <Text
+              style={{
+                fontFamily: 'Poppins_Medium',
+                fontSize: SF(15),
+                marginTop: SH(15),
+                color: Colors.theme_background,
+                marginBottom: SH(10),
+              }}>
               {t('Return_Dates')}
             </Text>
             <DatePicker />
@@ -330,7 +366,6 @@ const FlightTab = props => {
           arrayData={RadioData}
           onChangeText={text => setState({...state, FloorNumber: text})}
           value={state.FloorNumber}
-          
         />
         {loading ? (
           <ActivityIndicator size={40} color={Colors.theme_background} />

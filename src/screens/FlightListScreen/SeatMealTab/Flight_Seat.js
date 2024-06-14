@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
-import {Colors, SF, SH,SW} from '../../../utils';
+import {Colors, SF, SH, SW} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -29,19 +29,15 @@ import {RouteName} from '../../../routes';
 const Seat = ({route}) => {
   const {selectedItem} = route.params;
   const {t} = useTranslation();
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const [seatData, setSeatData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const BaggageItem = useSelector(
-    state => state.commomReducer.flightBaggageData,
-  );
-  const BaggageCabinItem = useSelector(
-    state => state.commomReducer.flightBaggageCabinData,
-  );
-  const {flightSeatSelectData} = useSelector(state => state.commomReducer);
+  const [selectedPassengers, setSelectedPassengers] = useState(0); // state for passenger selecting
+  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState([]); // statet for seat number selecting
 
+  const {flightSeatSelectData} = useSelector(state => state.commomReducer);
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
   const {SrdvType, TraceId} = flightTraceIdDetails;
 
@@ -54,7 +50,7 @@ const Seat = ({route}) => {
   const SrdvIndexValue = SrdvIndexLoop[0];
   const ResultIndex = SrdvIndexMap.map(el3 => el3.ResultIndex);
   const ResultIndexValue = ResultIndex[0];
-
+  //  Api call here
   const seatApiRequest = async () => {
     const payload = {
       SrdvType: SrdvType,
@@ -106,24 +102,7 @@ const Seat = ({route}) => {
     return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
   };
 
-  const selectedPassenger = useSelector(
-    state => state.commomReducer.selectedPassengers,
-  );
-  // console.log('selectedPassenger', selectedPassenger);
-
-  const passengerNames = selectedPassenger.map(
-    passenger => `${passenger?.firstName} ${passenger?.LastName}`,
-  );
-
-  // const handleSeatSelect = seat => {
-  //   console.log('handleSeatSelect', !seat.IsBooked);
-  //   if (!seat.IsBooked) {
-  //     dispatch(flightSelectSeat(seat));
-  //     dispatch(addSeatAmount(seat.Amount));
-  //   }
-  // };
-
-  const handleSeatSelect = seat => {
+  const handleSeatSelect = (passengerIndex, seat) => {
     if (!seat.IsBooked) {
       const isSelected = flightSeatSelectData.some(
         selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
@@ -132,12 +111,35 @@ const Seat = ({route}) => {
         // Deselect seat
         dispatch(flightSelectSeat(seat, false)); // Assuming flightSelectSeat handles deselection when second parameter is false
         dispatch(removeSeatAmount(seat.Amount));
+
+        // Remove seat from selectedSeats array
+        setSelectedSeatsNumber(prevSeats =>
+          prevSeats.filter(item => !(item.passengerIndex === passengerIndex)),
+        );
       } else {
         // Select seat
         dispatch(flightSelectSeat(seat, true)); // Assuming flightSelectSeat handles selection when second parameter is true
         dispatch(addSeatAmount(seat.Amount));
+        // Update selectedSeats array with selected seat for passenger
+        setSelectedSeatsNumber(prevSeats => [
+          ...prevSeats.filter(
+            item => !(item.passengerIndex === passengerIndex),
+          ),
+          {passengerIndex, seatNumber: seat.SeatNumber},
+        ]);
       }
     }
+  };
+
+  const togglePassengerSelection = index => {
+    setSelectedPassengers(index);
+  };
+
+  const getSelectedSeatNumber = passengerIndex => {
+    const selectedSeat = selectedSeatsNumber.find(
+      seat => seat.passengerIndex === passengerIndex,
+    );
+    return selectedSeat ? selectedSeat.seatNumber : null;
   };
 
   const renderSeats = seats => {
@@ -158,7 +160,7 @@ const Seat = ({route}) => {
                 seat.IsBooked && {backgroundColor: '#cdeffa'},
                 isSelected && {backgroundColor: '#006633'},
               ]}
-              onPress={() => handleSeatSelect(seat)}
+              onPress={() => handleSeatSelect(selectedPassengers, seat)}
               disabled={seat.IsBooked}>
               <Image
                 source={
@@ -204,9 +206,9 @@ const Seat = ({route}) => {
             fontWeight: '500',
             fontFamily: 'Poppins-Medium',
             fontWeight: '700',
-           textTransform:'uppercase',
-           textAlign:'center',
-           color:Colors.theme_background
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            color: Colors.theme_background,
           }}>
           Select your preferred seat
         </Text>
@@ -224,29 +226,55 @@ const Seat = ({route}) => {
         </View>
       ) : (
         <ScrollView>
-          <View style={{flexDirection: 'row', gap: 10, flexWrap: 'wrap'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 10,
+              flexWrap: 'wrap',
+              marginHorizontal: SW(20),
+            }}>
             {selectedItem.map((item, index) => {
+              const isSelectedPassanger = selectedPassengers === index;
+              const selectedSeatNumber = getSelectedSeatNumber(index);
               return (
                 <TouchableOpacity
                   style={{
-                    backgroundColor: Colors.gray_color,
-                    paddingHorizontal: 20,
-                    paddingVertical: 10,
+                    backgroundColor: isSelectedPassanger
+                      ? '#cdeffa'
+                      : Colors.light_gray_text_color,
+
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
                     borderRadius: 5,
-                    gap: 10,
+
                     borderWidth: 0.5,
-                    borderColor: Colors.wageningen_green,
+                    borderColor: isSelectedPassanger
+                      ? '#00b7eb'
+                      : Colors.gray_color,
                   }}
-                  key={index}>
+                  key={index}
+                  onPress={() => togglePassengerSelection(index)}>
                   <Text
                     key={item.id}
                     style={{
-                      color: Colors.gray_text_color,
-                      fontSize: SF(18),
+                      color: isSelectedPassanger
+                        ? '#00b7eb'
+                        : Colors.gray_text_color,
+                      fontSize: SF(16),
                       fontWeight: '600',
                     }}>
-                    {item.firstName}
+                    Mr. {item.firstName}
                   </Text>
+                  {selectedSeatNumber && (
+                    <Text
+                      style={{
+                        color: '#000',
+                        fontSize: SF(14),
+                        fontWeight: '500',
+                      }}>
+                      Seat: {selectedSeatNumber}
+                    </Text>
+                  )}
                 </TouchableOpacity>
               );
             })}
@@ -259,7 +287,7 @@ const Seat = ({route}) => {
                 height: SH(250),
                 borderTopLeftRadius: SH(200),
                 borderTopRightRadius: SH(200),
-                resizeMode:'contain'
+                resizeMode: 'contain',
               }}
             />
 
@@ -282,16 +310,16 @@ const Seat = ({route}) => {
           padding: SW(10),
           justifyContent: 'space-between',
           marginTop: SH(20),
-          backgroundColor:'#f0f0f0',
-          borderTopLeftRadius:20,
-          borderTopRightRadius:20,
-          borderColor:'black',
-          paddingBottom:SH(10),
-          marginTop:SH(10),
-          borderColor:'gray',
-          borderWidth:1,
-          display:'flex',
-          flexDirection:'row'
+          backgroundColor: '#f0f0f0',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          borderColor: 'black',
+          paddingBottom: SH(10),
+          marginTop: SH(10),
+          borderColor: 'gray',
+          borderWidth: 1,
+          display: 'flex',
+          flexDirection: 'row',
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -326,7 +354,7 @@ const Seat = ({route}) => {
             style={{
               color: '#fff',
               fontSize: 15,
-              fontFamily:'Poppins-Bold'
+              fontFamily: 'Poppins-Bold',
             }}>
             Continue
           </Text>
@@ -439,11 +467,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     width: '100%',
-    backgroundColor:'#e1f3f7',
+    backgroundColor: '#e1f3f7',
     borderTopLeftRadius: SH(200),
     borderTopRightRadius: SH(200),
     paddingBottom: SH(5),
-    padding:SW(10)
+    padding: SW(10),
   },
   segment: {
     flex: 1,

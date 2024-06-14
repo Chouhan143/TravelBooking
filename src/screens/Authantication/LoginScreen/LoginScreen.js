@@ -48,16 +48,15 @@ const LoginScreen = props => {
 
   return (
     <Container>
-      <View style={{flex:1,backgroundColor:'white',marginTop:SH(60)}}>
+      <View style={{flex: 1, backgroundColor: 'white', marginTop: SH(60)}}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={Style.ScrollViewStyles}>
-          <View style={{margin:SW(10)}}>
-            <View >
-              <View style={{alignItems:'center'}}>
+          <View style={{margin: SW(10)}}>
+            <View>
+              <View style={{alignItems: 'center'}}>
                 <Image
-                  style={{ width: SW(200),
-                    height: SH(150),}}
+                  style={{width: SW(200), height: SH(150)}}
                   resizeMode="contain"
                   source={images.Logo}
                 />
@@ -107,42 +106,78 @@ const LoginScreen = props => {
               </View>
               <Spacing space={SH(10)} />
               <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.FORGOT_PASSWORD)}>
-              <Text style={{margin:SW(10),color:'black',fontFamily:'Poppins-Bold',textAlign:'center'}}>
-                {t('Forgot_Password')}
-              </Text>
-            </TouchableOpacity>
-            <View>
+                onPress={() => navigation.navigate(RouteName.FORGOT_PASSWORD)}>
+                <Text
+                  style={{
+                    margin: SW(10),
+                    color: 'black',
+                    fontFamily: 'Poppins-Bold',
+                    textAlign: 'center',
+                  }}>
+                  {t('Forgot_Password')}
+                </Text>
+              </TouchableOpacity>
+              <View>
                 {loading ? (
                   <ActivityIndicator
                     size="large"
                     color={Colors.theme_background}
                   /> // Display ActivityIndicator while loading
                 ) : (
-                  <TouchableOpacity 
-                  style={{backgroundColor:Colors.theme_background,
-                    padding:SW(15),borderRadius:7,marginTop:SH(10),margin:SW(7)
-                  }}
-                      onPress={() => handleLogin()}>
-                      <Text style={{color:'white',textAlign:'center',
-                        fontFamily:'Poppins-Medium',fontSize:SF(17)}}>{t('Login_Button_Text')}</Text>
-                    </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: Colors.theme_background,
+                      padding: SW(15),
+                      borderRadius: 7,
+                      marginTop: SH(10),
+                      margin: SW(7),
+                    }}
+                    onPress={() => handleLogin()}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        textAlign: 'center',
+                        fontFamily: 'Poppins-Medium',
+                        fontSize: SF(17),
+                      }}>
+                      {t('Login_Button_Text')}
+                    </Text>
+                  </TouchableOpacity>
                 )}
               </View>
               <View>
-                <Text style={{color:'black',textAlign:'center',marginTop:SH(5)}}>
+                <Text
+                  style={{
+                    color: 'black',
+                    textAlign: 'center',
+                    marginTop: SH(5),
+                  }}>
                   {t('Dont_Have_Account')}{' '}
                 </Text>
-                <TouchableOpacity 
-                style={{backgroundColor:Colors.theme_background,
-                  padding:SW(15),borderRadius:7,margin:SW(7),marginTop:SH(15)
-                }}
-                    onPress={() => OnRegisterPress()}>
-                    <Text style={{color:'white',textAlign:'center',
-                      fontFamily:'Poppins-Medium',fontSize:SF(17)}}>{t('Register_Text')}</Text>
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: Colors.theme_background,
+                    padding: SW(15),
+                    borderRadius: 7,
+                    margin: SW(7),
+                    marginTop: SH(15),
+                  }}
+                  onPress={() => OnRegisterPress()}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      textAlign: 'center',
+                      fontFamily: 'Poppins-Medium',
+                      fontSize: SF(17),
+                    }}>
+                    {t('Register_Text')}
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <Text style={{color: 'red'}}>{error}</Text>
+              <View style={{marginHorizontal: 10}}>
+                <Text style={{color: 'red'}}>{error}</Text>
+              </View>
+
               <Spacing space={SH(40)} />
               <Spacing space={SH(10)} />
             </View>

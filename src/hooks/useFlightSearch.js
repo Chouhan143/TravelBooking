@@ -21,7 +21,7 @@ const useFlightSearch = () => {
       if (res.status === 200) {
         // dispatch(storeFlightData(res.data.Results));
         dispatch(storeFlightData(res.data, res.data.Results));
-        const test1 = res.data.Results.flat();
+        const test1 = res?.data?.Results?.flat();
         // console.log('test1', test1);
         test1.map(result =>
           result.FareDataMultiple.map(item => {

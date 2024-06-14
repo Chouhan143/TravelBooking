@@ -127,6 +127,40 @@ const Meal = ({route}) => {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 10,
+          flexWrap: 'wrap',
+          marginHorizontal: SW(20),
+        }}>
+        {selectedItem.map((item, index) => {
+          return (
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.gray_color,
+                paddingHorizontal: 30,
+                paddingVertical: 5,
+                borderRadius: 5,
+                gap: 10,
+                borderWidth: 0.5,
+                borderColor: Colors.wageningen_green,
+              }}
+              key={index}>
+              <Text
+                key={item.id}
+                style={{
+                  color: Colors.gray_text_color,
+                  fontSize: SF(18),
+                  fontWeight: '600',
+                }}>
+                {item.firstName}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
       <FlatList
         data={mealsData}
         renderItem={renderItem}
