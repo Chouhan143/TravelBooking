@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {TicketScreenStyle} from '../../styles';
 import {AppHeader, Button, Spacing} from '../../components';
-import {SH} from '../../utils';
+import {SF, SH, SW} from '../../utils';
 import images from '../../index';
 import {RouteName} from '../../routes';
 import {useTheme} from '@react-navigation/native';
@@ -26,11 +26,12 @@ const TicketScreen = props => {
         TicketScreenStyles.minstyleviewphotograpgy,
         TicketScreenStyles.bgColorset,
       ]}>
-      <View style={TicketScreenStyles.setwidthsttyles}>
+      <View style={{flex:1,backgroundColor:'white',marginTop:SH(30)}}>
         <AppHeader
           headerTitle={t('Download_Ticket')}
           Iconname={true}
           onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}
+          
         />
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -38,14 +39,14 @@ const TicketScreen = props => {
           <KeyboardAvoidingView enabled>
             <View style={TicketScreenStyles.minflexview}>
               <View style={TicketScreenStyles.MinViewSigninScreen}>
-                <Spacing space={SH(70)} />
+               
                 <View style={TicketScreenStyles.qrcodescanner}>
                   <View>
-                    <Text style={TicketScreenStyles.qrcosetitlestyles}>
+                    <Text style={{color:'black',fontFamily:'Poppins-Bold',fontSize:SF(20)}}>
                       {t('Baroda_Surat')}
                     </Text>
                     {/* <Image source={images.Ticket_Qr} resizeMode={'contain'} style={TicketScreenStyles.imagestyleset} /> */}
-                    <Text style={TicketScreenStyles.ticketqrnumber}>
+                    <Text style={{color:Colors.theme_background}}>
                       ( CBCE - 1068-51042 )
                     </Text>
                   </View>
@@ -70,7 +71,7 @@ const TicketScreen = props => {
                       </Text>
                     </View>
                   </View>
-                  <Spacing space={SH(20)} />
+                  <Spacing space={SH(10)} />
                   <View style={TicketScreenStyles.Flexviewnametitle}>
                     <View>
                       <Text style={TicketScreenStyles.nametextstyles}>
@@ -90,7 +91,7 @@ const TicketScreen = props => {
                     </View>
                   </View>
                   <View>
-                    <Spacing space={SH(12)} />
+                    <Spacing space={SH(10)} />
                     <View style={TicketScreenStyles.Flexviewnametitle}>
                       <View>
                         <Text style={TicketScreenStyles.nametextstyles}>
@@ -110,7 +111,7 @@ const TicketScreen = props => {
                       </View>
                     </View>
                   </View>
-                  <Spacing space={SH(17)} />
+                  <Spacing space={SH(10)} />
                   <View style={TicketScreenStyles.Flexviewnametitle}>
                     <View>
                       <Text style={TicketScreenStyles.nametextstyles}>
@@ -134,7 +135,7 @@ const TicketScreen = props => {
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
-        <View style={TicketScreenStyles.Buttonviewset}>
+        <View style={ { marginBottom:SH(50),margin:SW(30)}}>
           <Button
             onPress={() => navigation.navigate(RouteName.HOME_TAB)}
             title={t('Download_Ticket')}

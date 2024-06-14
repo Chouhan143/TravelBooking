@@ -3,7 +3,7 @@ import { Text, View, Image, ScrollView, KeyboardAvoidingView, TouchableOpacity, 
 import { HelpScreenStyles, Style } from '../../styles';
 import images from '../../index';
 import { Spacing } from '../../components';
-import { SH } from '../../utils';
+import { SH, SW ,Colors} from '../../utils';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 
@@ -20,25 +20,19 @@ const NotificationScreen = () => {
           <View style={HelpScreenStyle.NotificationView}>
             <View style={HelpScreenStyle.MinContentView}>
               <Spacing space={SH(20)} />
-              <TouchableOpacity style={HelpScreenStyle.FlexDiractionRow}>
+              <TouchableOpacity style={{display:'flex',flexDirection:'row',margin:SW(10),
+                backgroundColor:'#f2fcff',padding:SW(15),
+                borderColor:Colors.theme_background,borderWidth:1,borderRadius:7}}>
                 <View>
-                  <Image style={HelpScreenStyle.ImageSet} resizeMode='cover' source={images.Notification_one} />
+                  <Image style={HelpScreenStyle.ImageSet} resizeMode='contain' source={images.Notification_one} />
                 </View>
-                <View style={HelpScreenStyle.ParegraphWidth}>
-                  <Text style={HelpScreenStyle.TextParegraph}>{t("Notification_Paregraph")}</Text>
-                  <Text style={HelpScreenStyle.TwoNavemBerScreen}>{t("Notification_date")}</Text>
+                <View style={{marginRight:SW(120)}}>
+                  <Text style={{fontFamily:'Poppins-Regular',color:'black',marginTop:SH(20),fontSize:SW(10)}}>{t("Notification_Paregraph")}</Text>
+                  <Text style={{fontFamily:'Poppins-Regular',color:'black',marginTop:SH(20),fontSize:SW(10)}}>{t("Notification_date")}</Text>
                 </View>
               </TouchableOpacity>
               <Spacing space={SH(20)} />
-              <TouchableOpacity style={HelpScreenStyle.FlexDiractionRowTwo}>
-                <View>
-                  <Image style={HelpScreenStyle.ImageSet} resizeMode='contain' source={images.Notification_two} />
-                </View>
-                <View style={HelpScreenStyle.ParegraphWidthTwo}>
-                  <Text style={HelpScreenStyle.TextParegraph}>{t("Notification_Paregraph_Two")}</Text>
-                  <Text style={HelpScreenStyle.TwoNavemBerScreen}>{t("Notification_Date_Two")}</Text>
-                </View>
-              </TouchableOpacity>
+              
             </View>
           </View>
         </KeyboardAvoidingView>

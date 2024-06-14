@@ -1,8 +1,8 @@
 import React, { useState,useMemo } from "react";
-import { Text, View, KeyboardAvoidingView, } from "react-native";
+import { Text, View, KeyboardAvoidingView,TextInput } from "react-native";
 import { HelpScreenStyles, Style } from '../../styles';
-import { Button, Spacing, ConfirmationAlert,Input } from '../../components';
-import { SH } from '../../utils';
+import { Button, Spacing, ConfirmationAlert} from '../../components';
+import { SH,SF,SW} from '../../utils';
 import { RouteName } from '../../routes';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
@@ -31,17 +31,27 @@ const HelpScreen = (props) => {
           <View style={HelpScreenStyle.HelpViewStyles}>
             <Spacing space={SH(30)} />
             <View style={HelpScreenStyle.MinContentView}>
-              <View>
-                <Input inputStyle={HelpScreenStyle.TextInputWidth} placeholder={t("Type_Your_Message")} placeholderTextColor="gray" />
+              <View style={{backgroundColor:'#ebf3f5',borderRadius: SH(7),borderWidth: SH(1),borderColor: Colors.gray_text_color,
+        paddingBottom: SH(100),paddingHorizontal: SH(10),margin:SW(10)}}>
+                <TextInput style={{color:'black',fontFamily:'Poppins_Medium',
+                }} placeholder={t("Type_Your_Message")} placeholderTextColor="gray" />
               </View>
               <View style={HelpScreenStyle.TextparegraView}>
-                <Text style={HelpScreenStyle.TextInputeText}>{t("Help_paregraph")}</Text>
+                <Text style={{
+                  fontFamily:'Poppins_Medium',color: Colors.gray_text_color,fontSize: SF(15),paddingTop: SH(20),
+                }}>{t("Help_paregraph")}</Text>
               </View>
             </View>
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
-      <View style={HelpScreenStyle.ButtonStyle}>
+      <View style={{
+        position: 'absolute',
+        bottom: SH(0),
+        width: '100%',
+        paddingHorizontal: SH(20),
+        paddingBottom: SH(50),
+      }}>
         <Button onPress={() => {
           setAlertVisible(true);
           setAlertMessage(alertdata.logout);

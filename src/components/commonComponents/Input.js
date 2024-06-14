@@ -83,7 +83,7 @@ function Inputs({
         placeholder={placeholder}
         onChangeText={text => onChangeText(text)}
         leftIcon={leftIcon}
-        placeholderTextColor={'#aba6a6'}
+        placeholderTextColor={Colors.theme_background}
         rightIcon={rightIcon}
         numberOfLines={numberOfLines}
         errorMessage={errorMessage}

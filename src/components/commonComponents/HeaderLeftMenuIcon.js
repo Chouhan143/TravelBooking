@@ -6,7 +6,7 @@ import { VectorIcon } from '../../components';
 function HeaderLeftMenuIcon(props) {
     const { navigation } = props;
     return (
-        <TouchableOpacity style={{marginLeft:SW(15),marginTop:SH(10)}} onPress={() => navigation.toggleDrawer()}>
+        <TouchableOpacity style={{marginLeft:SW(15)}} onPress={() => navigation.toggleDrawer()}>
             <VectorIcon
                 color={Colors.theme_background}
                 name="navicon"

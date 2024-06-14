@@ -1,6 +1,6 @@
 import React, { useState,useMemo } from 'react';
-import { TouchableOpacity } from "react-native";
-import { SF,Colors } from '../../utils';
+import { TouchableOpacity ,TextInput} from "react-native";
+import { SF,Colors, SW, SH } from '../../utils';
 import { Input, VectorIcon } from '../../components';
 import { Style } from '../../styles';
 import { useTranslation } from "react-i18next";
@@ -10,15 +10,15 @@ const SearchScreenset = (props) => {
     const { t } = useTranslation();
   
     return (
-        <TouchableOpacity style={Style.WidthSet}>
-            <Input
+        <TouchableOpacity style={{display:'flex',flexDirection:'row',alignItems:'center',padding:SW(5)}}>
+        <VectorIcon name="search1" icon="AntDesign" color={Colors.theme_background} size={SF(20)} />
+            <TextInput
                 placeholder={t("Search Here ")}
                 onChangeText={(value) => setMobileNumber(value)}
                 value={mobileNumber}
-                placeholderTextColor={Colors.black_text_color}
+                placeholderTextColor={Colors.theme_background}
                 maxLength={10}
-                leftIcon={<VectorIcon name="search1" icon="AntDesign" color={Colors.black_text_color} size={SF(20)} />}
-                inputStyle={Style.SearchInputBorder}
+                style={{width:SW(310)}}
             />
         </TouchableOpacity>
     );

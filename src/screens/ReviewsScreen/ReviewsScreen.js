@@ -4,7 +4,7 @@ import { HelpScreenStyles, Style } from '../../styles';
 import { Button, ConfirmationAlert, Lottie, Spacing,RatingScreen, Input } from '../../components';
 import images from "../../index";
 import { RouteName } from "../../routes";
-import {  SH ,SW} from "../../utils";
+import {  SF, SH ,SW,Colors} from "../../utils";
 import { useTheme } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 
@@ -33,8 +33,12 @@ const ReviewsScreen = (props) => {
           <View style={HelpScreenStyle.KeyBordTopViewStyle}>
             <View style={HelpScreenStyle.MinFlexView}>
               <View style={HelpScreenStyle.MinContentView}>
-                <Lottie Lottiewidthstyle={HelpScreenStyle.PostionReView} source={images.Reviewsimage_screen} />
-                <Text style={HelpScreenStyle.AccountTextTwo}>{t("Please_OnDemand_Service")}</Text>
+                <Lottie Lottiewidthstyle={{ position: 'relative',right: SH(7),
+                  width: SW(300),height:SH(300)}} source={images.Reviewsimage_screen} />
+                <Text style={{ color: Colors.black_text_color,
+                  fontSize: SF(22),
+                  fontFamily: 'Poppins-BoldItalic',
+                  textAlign: 'center',color:Colors.theme_background,margin:SW(5)}}>{t("Please_OnDemand_Service")}</Text>
                 <View style={HelpScreenStyle.FlexRowStarSignup}>
                   <RatingScreen
                     type='custom'
@@ -47,17 +51,18 @@ const ReviewsScreen = (props) => {
                     isDisabled={false}
                   />
                 </View>
-                <Text style={HelpScreenStyle.AccountTextSuccessfullyTwo}>{t("Please_OnDemand_Two")}</Text>
+                <Text style={{fontFamily:'Poppins-Regular',color:'black',fontSize:SF(15),
+                  margin:SW(15),textAlign:'center'}}>{t("Please_OnDemand_Two")}</Text>
                 <View style={HelpScreenStyle.InputUnderLineReviews}>
                   <Input
                     inputStyle={HelpScreenStyle.PositionStyleInput}
                     onChangeText={onChangeText}
                     value={text}
                     placeholder={t("Reviews_Enter_Your_Commenet")}
-                    placeholderTextColor={Colors.black_text_color}
+                    placeholderTextColor={Colors.theme_background}
                   />
                 </View>
-                <Spacing space={SH(20)} />
+                
                 <View style={HelpScreenStyle.AccountButton}>
                   <Button onPress={() => {
                     setAlertVisible(true);

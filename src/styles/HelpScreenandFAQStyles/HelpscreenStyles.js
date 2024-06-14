@@ -41,7 +41,7 @@ export default HelpScreenStyles = (Colors) => StyleSheet.create({
     width: SW(230)
   },
   TextInputWidth: {
-    backgroundColor: Colors.light_gray_text_color,
+    backgroundColor:'#d9dbdb',
     borderRadius: SH(7),
     borderWidth: SH(1),
     borderColor: Colors.gray_text_color,
@@ -61,7 +61,7 @@ export default HelpScreenStyles = (Colors) => StyleSheet.create({
     bottom: SH(0),
     width: '100%',
     paddingHorizontal: SH(20),
-    paddingBottom: SH(5),
+    paddingBottom: SH(20),
   },
   BgColorWhite: {
     backgroundColor: Colors.white_text_color,

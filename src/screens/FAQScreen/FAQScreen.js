@@ -55,20 +55,20 @@ const FAQScreen = () => {
       
 
     return (
-        <View style={HelpScreenStyle.MinViewScreen}>
+        <View style={{flex:1,backgroundColor:'white'}}>
             <ScrollView nestedScrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={Style.ScrollViewStyles}>
                 <KeyboardAvoidingView enabled>
                     <View style={HelpScreenStyle.MinFlexView}>
                         <View style={HelpScreenStyle.MinViewAllContent}>
-                            <Spacing space={SH(20)} />
+                            <Spacing space={SH(10)} />
                             <View style={HelpScreenStyle.PaddingsHorozonrtal}>
                             <View style={HelpScreenStyle.BorderWidth}>
                                 <Search />
                             </View>
                             </View>
-                            <Spacing space={SH(20)} />
+                            <Spacing space={SH(30)} />
                             <FlatList
                                 data={Faqdataset}
                                 renderItem={({ item }) => (<FAQData
@@ -79,7 +79,7 @@ const FAQScreen = () => {
                                 style={HelpScreenStyle.SetFlex}
                             />
                         </View>
-                        <Spacing space={SH(50)} />
+                        <Spacing space={SH(30)} />
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>

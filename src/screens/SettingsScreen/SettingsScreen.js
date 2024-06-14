@@ -4,7 +4,7 @@ import { SettingStyle, Style, LanguageStyles } from '../../styles';
 import { useTheme } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { Spacing, Switchs, VectorIcon, ModalLanguage } from '../../components';
-import { SH, SF } from '../../utils';
+import { SH, SF,SW } from '../../utils';
 
 const SettingStylesScreen = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -23,61 +23,67 @@ const SettingStylesScreen = () => {
 
   return (
     <>
-      <View style={[Style.MinViewScreen]}>
+      <View style={[Style.MinViewScreen,{flex:1,backgroundColor:'white'}]}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={Style.contentContainerStyle}>
           <KeyboardAvoidingView enabled>
             <View style={SettingStyles.KeyBordTopViewStyle}>
               <View style={SettingStyles.MinFlexView}>
-                <View style={SettingStyles.Togglrswitchflex}>
-                  <View>
-                    <Spacing space={SH(15)} />
-                    <Text style={SettingStyles.CellularDataText}>{t("Location_Track")}</Text>
-                  </View>
-                </View>
-                <View style={SettingStyles.TogglesWotchview}>
-                  <Text style={SettingStyles.DownlodToggleswitchText}>
-                    {t("Enalble_Location")}
-                  </Text>
-                  <View style={SettingStyles.WidthSwitch}>
-                    <Switchs
-                      trackColor={{ false: Colors.gray_text_color, true: Colors.theme_background_brink_pink }}
-                      thumbColor={isEnabled ? Colors.light_gray_text_color : Colors.argent_color}
-                      onValueChange={toggleSwitch}
-                      value={isEnabled}
-                    />
-                  </View>
-                </View>
+              <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1,width:SW(350)}}>
+              <View style={SettingStyles.Togglrswitchflex}>
+              <View>
                 <Spacing space={SH(10)} />
+                <Text style={SettingStyles.CellularDataText}>{t("Location_Track")}</Text>
+              </View>
+            </View>
+            <View style={SettingStyles.TogglesWotchview}>
+              <Text style={{color:'black'}}>
+                {t("Enalble_Location")}
+              </Text>
+              <View style={SettingStyles.WidthSwitch}>
+                <Switchs
+                  trackColor={{ false: Colors.gray_text_color, true: Colors.theme_background_brink_pink }}
+                  thumbColor={isEnabled ? Colors.light_gray_text_color : Colors.theme_background}
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+            </View>
+              </View>
+                <Spacing space={SH(5)} />
                 <Text style={SettingStyles.CellularDataText}>{t("Location_text")}</Text>
-                <View style={SettingStyles.RightiConMinview}>
-                  <View>
+                <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1,width:SW(350)}}>
+                  <View >
                     <Text style={SettingStyles.StandardRecommeDtext}>{t("Location_Tracking")}</Text>
-                    <Text style={SettingStyles.DownloadFasterText}>{t("Enables_Recommended")}</Text>
                   </View>
-                  <View>
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                  <Text style={SettingStyles.DownloadFasterText}>{t("Enables_Recommended")}</Text>
                     <VectorIcon
                       icon="AntDesign"
                       size={SF(30)}
                       name="check"
-                      style={SettingStyles.ChekIconStyle}
+                      color={Colors.theme_background}
                     />
                   </View>
                 </View>
                 <View style={SettingStyles.RightiConMinview}>
-                  <View>
+                  <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1,width:SW(350)}}>
                     <Spacing space={SH(0)} />
                     <Text style={SettingStyles.StandardRecommeDtext}>{t("Location_Features")}</Text>
                     <Text style={SettingStyles.DownloadFasterText}>{t("Hours_Years")}</Text>
                   </View>
                 </View>
-                <Text style={LanguageStyles.Settingtext}>{t("Select_Your_Language")}</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={LanguageStyles.SettingStyle}>
-                  <Text style={LanguageStyles.SelectText}>{selectLabel}</Text>
-                  <View style={LanguageStyles.DropDownIcon}>
-                    <VectorIcon icon="Feather" name="chevron-down" color={Colors.black_text_color} size={SF(25)} /></View>
-                </TouchableOpacity>
+              <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1}}>
+              <Text style={LanguageStyles.Settingtext}>{t("Select_Your_Language")}</Text>
+              <TouchableOpacity onPress={() => setModalVisible(true)} style={{
+                borderColor:Colors.theme_background,borderWidth:1,borderRadius:7,padding:SW(5),paddingTop:0,paddingBottom:0,
+                display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                <Text style={LanguageStyles.SelectText}>{selectLabel}</Text>
+                  <VectorIcon icon="Feather" name="chevron-down" 
+                  color={Colors.theme_background} size={SF(25)} />
+              </TouchableOpacity>
+              </View>
                 <ModalLanguage modalVisible={modalVisible}
                   setModalVisible={() => {
                     setModalVisible(!modalVisible);
@@ -86,8 +92,9 @@ const SettingStylesScreen = () => {
                   OnClose={() => setModalVisible(false)}
                   changeLang={changeLang}
                 />
-                <Spacing space={SH(25)} />
-                <View style={SettingStyles.RightiConMinview}>
+                <Spacing space={SH(15)} />
+                <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1,width:SW(350),
+                  justifyContent:'space-between',display:'flex',flexDirection:'row'}}>
                   <View style={SettingStyles.BodyTextWidth}>
                     <Text style={SettingStyles.StandardRecommeDtext}>{t("Synce_Changes")}</Text>
                   </View>
@@ -96,14 +103,14 @@ const SettingStylesScreen = () => {
                       icon="AntDesign"
                       size={SF(30)}
                       name="check"
-                      style={SettingStyles.ChekIconStyle}
+                      color={Colors.theme_background}
                     />
                   </View>
                 </View>
                 <Spacing space={SH(15)} />
                 <Text style={SettingStyles.CellularDataText}>{t("Video_Qualitytext")}</Text>
-                <View style={SettingStyles.RightiConMinviewtwo}>
-                  <View>
+                <View style={{paddingBottom:SH(5)}}>
+                  <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1,width:SW(350)}}>
                     <Text style={SettingStyles.StandardRecommeDtext}>{t("Standard_Qualitytext")}</Text>
                     <Text style={SettingStyles.DownloadFasterText}>{t("Downnloads_Qualitytext")}</Text>
                   </View>

@@ -4,6 +4,7 @@ import { HelpScreenStyles } from '../../styles';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import { VectorIcon } from '../../components';
+import { SF } from "../../utils";
 
 const FAQData = (props) => {
     const { t } = useTranslation();
@@ -20,20 +21,26 @@ const FAQData = (props) => {
                 <View style={HelpScreenStyle.FlexRowArrowLeftThree}>
                     <View style={HelpScreenStyle.FlexRowCreditCard}>
                         <View style={HelpScreenStyle.TextWidth}>
-                            <Text style={HelpScreenStyle.CreditCardText}>{t(item.smalltext)}</Text>
+                            <Text style={{
+                                fontSize: SF(18),
+                                fontFamily: 'Poppins_Medium',
+                                fontWeight: '600',
+                                color: Colors.black_text_color,fontSize:SF(15)
+                            }}>{t(item.smalltext)}</Text>
                         </View>
                     </View>
                     <View>
                         <TouchableOpacity
                             onPress={() => toggleHandler(item.id)}>
-                            {show === item.id ? <VectorIcon icon="AntDesign" name='up' size={21} /> : <VectorIcon icon="AntDesign" name='down' size={21} />}
+                            {show === item.id ? <VectorIcon icon="AntDesign" name='up' size={21} color={Colors.theme_background} /> : <VectorIcon icon="AntDesign" name='down' size={21} color={'black'} />}
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
             {show === item.id && <View>
                 <View style={HelpScreenStyle.ParegraPhViewStyle}>
-                    <Text style={HelpScreenStyle.ParegraphTextHelp}>{t(item.paymentparegraph)}</Text>
+                    <Text style={{
+    fontSize: SF(17),fontFamily:'Poppins_Medium',color:Colors.theme_background,fontSize:SF(15)}}>{t(item.paymentparegraph)}</Text>
                 </View>
             </View> }
         </TouchableOpacity>

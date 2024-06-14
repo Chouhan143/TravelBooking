@@ -3,11 +3,13 @@ import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import {Sidemenu} from '../../styles';
 import {RouteName} from '../../routes';
 import {ConfirmationAlert, VectorIcon} from '../../components';
-import {Colors, SF} from '../../utils';
+import {Colors, SF, SH, SW} from '../../utils';
 import {useTranslation} from 'react-i18next';
 import {logout} from '../../redux/action';
 import {useDispatch} from 'react-redux';
+
 const CustomSidebarMenu = props => {
+
   const dispatch = useDispatch();
   const {t} = useTranslation();
   const {navigation} = props;
@@ -31,12 +33,12 @@ const CustomSidebarMenu = props => {
   };
   return (
     <ScrollView>
-      <View style={Sidemenu.customslidebarmenu}>
+      <View style={{margin:SW(20),marginTop:SH(50)}}>
         <TouchableOpacity
           style={Sidemenu.flexrowset}
           onPress={() => Onpressfunction(RouteName.HOME_TAB)}>
           <VectorIcon
-            icon="Feather"
+            icon="FontAwesome"
             size={SF(19)}
             name="home"
             color={Colors.theme_background}
@@ -47,7 +49,7 @@ const CustomSidebarMenu = props => {
           style={Sidemenu.flexrowset}
           onPress={() => Onpressfunction(RouteName.HISTORY_TAB)}>
           <VectorIcon
-            icon="MaterialIcons"
+            icon="FontAwesome"
             size={SF(19)}
             name="history"
             color={Colors.theme_background}
@@ -82,9 +84,9 @@ const CustomSidebarMenu = props => {
           style={Sidemenu.flexrowset}
           onPress={() => Onpressfunction(RouteName.SETTING_SCREEN)}>
           <VectorIcon
-            icon="AntDesign"
+            icon="Ionicons"
             size={19}
-            name="setting"
+            name="settings"
             style={Sidemenu.logoimage}
             color={Colors.theme_background}
           />
@@ -94,9 +96,9 @@ const CustomSidebarMenu = props => {
           style={Sidemenu.flexrowset}
           onPress={() => Onpressfunction(RouteName.FAQ_SCREEN)}>
           <VectorIcon
-            icon="Entypo"
+            icon="AntDesign"
             size={SF(19)}
-            name="help"
+            name="questioncircle"
             style={Sidemenu.logoimage}
             color={Colors.theme_background}
           />
@@ -106,9 +108,9 @@ const CustomSidebarMenu = props => {
           style={Sidemenu.flexrowset}
           onPress={() => Onpressfunction(RouteName.REVIEWS_SCREEN)}>
           <VectorIcon
-            icon="Entypo"
+            icon="MaterialIcons"
             size={SF(19)}
-            name="star"
+            name="reviews"
             style={Sidemenu.logoimage}
             color={Colors.theme_background}
           />
@@ -132,13 +134,13 @@ const CustomSidebarMenu = props => {
           <VectorIcon
             icon="Entypo"
             size={SF(19)}
-            name="ticket"
+            name="download"
             style={Sidemenu.logoimage}
             color={Colors.theme_background}
           />
           <Text style={Sidemenu.hometextstyle}>{t('Download_Ticket')}</Text>
         </TouchableOpacity>
-        <View style={Sidemenu.settingandlogout}>
+        <View>
           <TouchableOpacity
             style={Sidemenu.flexrowset}
             onPress={() => {
