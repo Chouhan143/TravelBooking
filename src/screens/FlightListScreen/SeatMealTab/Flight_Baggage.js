@@ -18,11 +18,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
-
+import {useNavigation} from '@react-navigation/native';
 const Baggage = ({route}) => {
   const refRBSheet = useRef();
   const {selectedItem} = route.params;
-
+  const navigation = useNavigation();
   const {t} = useTranslation();
   const [baggageData, setBaggageData] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
@@ -206,7 +206,9 @@ const Baggage = ({route}) => {
             borderRadius: 5,
           }}
           onPress={() => {
-            navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS);
+            navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS, {
+              selectedItem: selectedItem,
+            });
           }}>
           <Text
             style={{

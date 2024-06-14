@@ -11,16 +11,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {selectedPassanger} from '../../redux/action';
 import {useDispatch} from 'react-redux';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {FLIGHT_BOOKLLC} from '../../utils/BaseUrl';
+import {useRoute} from '@react-navigation/native';
 const FlightReviewDetails = () => {
+  const route = useRoute();
+  const {selectedItem} = route.params;
+  console.assert('selectedItem =====', selectedItem);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const back = () => {
     navigation.goBack();
   };
-  // passenger name
 
+  const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
+  const {SrdvType, TraceId} = flightTraceIdDetails;
+  const SrdvIndex = flightTraceIdDetails.Results?.flat() ?? [];
+  const SrdvIndexMap = SrdvIndex.flatMap(elem => elem?.FareDataMultiple ?? []);
+  const SrdvIndexValue = SrdvIndexMap[0]?.SrdvIndex;
+  const ResultIndexValue = SrdvIndexMap[0]?.ResultIndex;
+
+  // passenger name
   const selectedPassenger = useSelector(
     state => state.commomReducer.selectedPassengers,
   );
@@ -29,6 +40,7 @@ const FlightReviewDetails = () => {
   );
 
   console.log('selectedPassenger', passengerNames);
+
   // baggages
   const BaggageItem = useSelector(
     state => state.commomReducer.flightBaggageData,
@@ -37,6 +49,34 @@ const FlightReviewDetails = () => {
   const BaggageCabinItem = useSelector(
     state => state.commomReducer.flightBaggageCabinData,
   );
+
+  // Book LLc Api
+
+  const bookingDetailsApi = async () => {
+    try {
+      // const payload = {
+      //   SrdvType: ,
+      //   SrdvIndex:,
+      //   TraceId:,
+      //   ResultIndex:,
+      //   BaseFare:,
+      //   Tax:,
+      //   YQTax:,
+      //   FirstName:,
+      //   ContactNo:,
+      //   LastName:,
+      //   AddressLine1:,
+      //   City:,
+      //   DateOfBirth:,
+      //   Email:,
+      //   Gender:,
+      // };
+      const res = await axios.post(FLIGHT_BOOKLLC, payload);
+      console.log('res', res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>

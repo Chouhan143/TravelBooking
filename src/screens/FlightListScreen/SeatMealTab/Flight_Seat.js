@@ -81,6 +81,8 @@ const Seat = ({route}) => {
     state => state.commomReducer.flightFareQutesData,
   );
 
+  console.log('flightSeatSelectData', flightSeatSelectData.length);
+
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
   const fareQutesData = fareQutesDataSelecter.FareBreakdown;
 
@@ -102,14 +104,45 @@ const Seat = ({route}) => {
     return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
   };
 
+  // const handleSeatSelect = (passengerIndex, seat) => {
+  //   if (!seat.IsBooked) {
+  //     const isSelected = flightSeatSelectData.some(
+  //       selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
+  //     );
+  //     if (isSelected) {
+  //       // Deselect seat
+  //       dispatch(flightSelectSeat(seat, false)); // Assuming flightSelectSeat handles deselection when second parameter is false
+  //       dispatch(removeSeatAmount(seat.Amount));
+
+  //       // Remove seat from selectedSeats array
+  //       setSelectedSeatsNumber(prevSeats =>
+  //         prevSeats.filter(item => !(item.passengerIndex === passengerIndex)),
+  //       );
+  //     } else {
+  //       // Select seat
+  //       dispatch(flightSelectSeat(seat, true)); // Assuming flightSelectSeat handles selection when second parameter is true
+  //       dispatch(addSeatAmount(seat.Amount));
+  //       // Update selectedSeats array with selected seat for passenger
+  //       setSelectedSeatsNumber(prevSeats => [
+  //         ...prevSeats.filter(
+  //           item => !(item.passengerIndex === passengerIndex),
+  //         ),
+  //         {passengerIndex, seatNumber: seat.SeatNumber},
+  //       ]);
+  //     }
+  //   }
+  // };
+
   const handleSeatSelect = (passengerIndex, seat) => {
+    // Check if the seat is already booked
     if (!seat.IsBooked) {
       const isSelected = flightSeatSelectData.some(
         selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
       );
+
       if (isSelected) {
-        // Deselect seat
-        dispatch(flightSelectSeat(seat, false)); // Assuming flightSelectSeat handles deselection when second parameter is false
+        // Deselect the seat
+        dispatch(flightSelectSeat(seat, false));
         dispatch(removeSeatAmount(seat.Amount));
 
         // Remove seat from selectedSeats array
@@ -117,16 +150,26 @@ const Seat = ({route}) => {
           prevSeats.filter(item => !(item.passengerIndex === passengerIndex)),
         );
       } else {
-        // Select seat
-        dispatch(flightSelectSeat(seat, true)); // Assuming flightSelectSeat handles selection when second parameter is true
-        dispatch(addSeatAmount(seat.Amount));
-        // Update selectedSeats array with selected seat for passenger
-        setSelectedSeatsNumber(prevSeats => [
-          ...prevSeats.filter(
-            item => !(item.passengerIndex === passengerIndex),
-          ),
-          {passengerIndex, seatNumber: seat.SeatNumber},
-        ]);
+        // Check if the number of selected seats is less than the number of passengers
+        const seatSelectionCondition =
+          flightSeatSelectData.length < selectedItem.length;
+
+        if (seatSelectionCondition) {
+          // Select the seat
+          dispatch(flightSelectSeat(seat, true));
+          dispatch(addSeatAmount(seat.Amount));
+
+          // Update selectedSeats array with selected seat for passenger
+          setSelectedSeatsNumber(prevSeats => [
+            ...prevSeats.filter(
+              item => !(item.passengerIndex === passengerIndex),
+            ),
+            {passengerIndex, seatNumber: seat.SeatNumber},
+          ]);
+        } else {
+          // Optionally, you can show a message or alert to the user indicating that they can't select more seats than the number of passengers
+          alert('You cannot select more seats than the number of passengers.');
+        }
       }
     }
   };

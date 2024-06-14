@@ -33,6 +33,8 @@ const Meal = ({route}) => {
   console.log('item >>>>', selectedItem);
   const navigation = useNavigation();
   const [mealsData, setMealsData] = useState([]);
+  const [selectedPassanger, setSelectedPassengers] = useState([]);
+  const [selectedPassengerIndex, setSelectedPassengerIndex] = useState(null);
   const [addedStatus, setAddedStatus] = useState({});
   const refRBSheet = useRef();
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
@@ -49,6 +51,14 @@ const Meal = ({route}) => {
 
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
   const fareQutesData = fareQutesDataSelecter.FareBreakdown;
+
+  // const togglePassengerSelection = index => {
+  //   setSelectedPassengers(index);
+  // };
+
+  const togglePassengerSelection = index => {
+    setSelectedPassengerIndex(index);
+  };
 
   const getPassengerTypeLabel = (passengerType, passengerCount, baseFare) => {
     let typeLabel = '';
@@ -90,16 +100,31 @@ const Meal = ({route}) => {
     mealApiRequest();
   }, [SrdvType, SrdvIndexValue, TraceId, ResultIndexValue]);
 
+  // const toggleAddButton = index => {
+  //   setAddedStatus(prevState => {
+  //     const updatedStatus = {...prevState};
+  //     updatedStatus[index] = !updatedStatus[index];
+  //     return updatedStatus;
+  //   });
+  // };
+
   const toggleAddButton = index => {
-    setAddedStatus(prevState => {
-      const updatedStatus = {...prevState};
-      updatedStatus[index] = !updatedStatus[index];
-      return updatedStatus;
-    });
+    if (selectedPassengerIndex !== null) {
+      setAddedStatus(prevState => {
+        const updatedStatus = {...prevState};
+        const passengerMeals = updatedStatus[selectedPassengerIndex] || {};
+        passengerMeals[index] = !passengerMeals[index];
+        updatedStatus[selectedPassengerIndex] = passengerMeals;
+        return updatedStatus;
+      });
+    }
   };
 
   const renderItem = ({item, index}) => {
-    const isAdded = !!addedStatus[index];
+    // const isAdded = !!addedStatus[index];
+    const isAdded =
+      selectedPassengerIndex !== null &&
+      addedStatus[selectedPassengerIndex]?.[index];
 
     return (
       <View style={styles.mainContainer}>
@@ -135,27 +160,51 @@ const Meal = ({route}) => {
           marginHorizontal: SW(20),
         }}>
         {selectedItem.map((item, index) => {
+          // const isSelectedPassanger = selectedPassanger === index;
+          // const selectedSeatNumber = getSelectedSeatNumber(index);
+
+          const isSelectedPassenger = selectedPassengerIndex === index;
+          const mealsForPassenger = addedStatus[index] || {};
+
           return (
             <TouchableOpacity
               style={{
-                // backgroundColor: Colors.gray_color,
-                paddingHorizontal: 30,
+                backgroundColor: isSelectedPassenger
+                  ? '#cdeffa'
+                  : Colors.light_gray_text_color,
+
+                paddingHorizontal: 10,
                 paddingVertical: 5,
                 borderRadius: 5,
-                gap: 10,
+
                 borderWidth: 0.5,
-                borderColor: Colors.theme_background,
+                borderColor: isSelectedPassenger
+                  ? '#00b7eb'
+                  : Colors.gray_color,
               }}
-              key={index}>
+              key={index}
+              onPress={() => togglePassengerSelection(index)}>
               <Text
                 key={item.id}
                 style={{
-                  color: Colors.gray_text_color,
-                  fontSize: SF(18),
+                  color: isSelectedPassenger
+                    ? '#00b7eb'
+                    : Colors.gray_text_color,
+                  fontSize: SF(16),
                   fontWeight: '600',
                 }}>
-                {item.firstName}
+                Mr. {item.firstName}
               </Text>
+              {Object.values(mealsForPassenger).some(status => status) && (
+                <Text
+                  style={{
+                    color: '#000',
+                    fontSize: SF(14),
+                    fontWeight: '500',
+                  }}>
+                  Meal added
+                </Text>
+              )}
             </TouchableOpacity>
           );
         })}
@@ -218,7 +267,7 @@ const Meal = ({route}) => {
             style={{
               color: '#fff',
               fontSize: 15,
-              fontFamily:'Poppins-Bold'
+              fontFamily: 'Poppins-Bold',
             }}>
             Continue
           </Text>

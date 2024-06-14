@@ -9,13 +9,14 @@ const FlightSegments = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const {selectedItem} = route.params;
-  console.log('---idiiiiiff', selectedItem);
   const handleBack = () => {
     navigation.goBack();
   };
 
   const skip = () => {
-    navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS);
+    navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS, {
+      selectedItem: selectedItem,
+    });
   };
 
   // Replace with actual selectedItem
