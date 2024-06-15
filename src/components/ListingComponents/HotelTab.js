@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { Colors, SF, SH, SW } from '../../utils';
 import AgeModal from '../commonComponents/AgeModal';
-
+import { useNavigation } from '@react-navigation/native';
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
@@ -15,7 +15,7 @@ const HotelTab = () => {
   const [childrenCount, setChildrenCount] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
   const [roomsCount, setRoomsCount] = useState(1);
-
+  const navigation=useNavigation();
   const handleChildrenChange = (change) => {
     setChildrenCount((prevCount) => {
       const newCount = Math.max(0, prevCount + change);
@@ -34,10 +34,14 @@ const HotelTab = () => {
     setChildrenAges(newAges);
   };
 
+  const HandleCity=()=>{
+    navigation.navigate('HotelListScreen')
+  }
   return (
     <View style={styles.mainContanier}>
       <View style={styles.header}>
         <Text style={styles.headerText1}>find your next stay</Text>
+        <TouchableOpacity></TouchableOpacity>
         <Text style={styles.headerText} onPress={() => SetModalVisible(true)}>search deals on hotels, homes, and much more .....</Text>
       </View>
       <View style={styles.searchbar}>
@@ -86,10 +90,10 @@ const HotelTab = () => {
             <Entypo name={'cross'} size={25} color='black' onPress={() => SetModalVisible(!ModalVisible)} />
           </View>
         </View>
-        <View style={styles.Modalsearchbar}>
+        <TouchableOpacity style={styles.Modalsearchbar} onPress={HandleCity}>
           <EvilIcons name={'search'} size={20} color='black' />
-          <Text style={styles.searchText}>e.g city, landmark, address</Text>
-        </View>
+          <Text style={styles.searchText} >e.g city, landmark, address</Text>
+        </TouchableOpacity>
         <Text style={styles.destinationHeading}>popular destinations nearby</Text>
         <View style={{ display: 'flex', flexDirection: 'row', margin: SW(15) }}>
           <FontAwesome6 name={'location-dot'} size={20} color='black' style={{ marginRight: SW(10) }} />

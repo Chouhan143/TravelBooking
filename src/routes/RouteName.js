@@ -34,5 +34,6 @@ const RouteName = {
   FLIGHT_TRAVELER_DETAILS: 'FlightTravellerDetails',
   FLIGHT_MEALS: 'FlightMeals',
   FLIGHT_REVIEW_DETAILS: 'FlightReviewDetails',
+  HOTEL_LIST_SCREEN:'HotelListScreen'
 };
 export default RouteName;
