@@ -13,6 +13,7 @@ import axios from 'axios';
 import {Colors, SF, SH, SW} from '../../../utils';
 import {FLIGHT_SEAT_MAP} from '../../../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
+import Tooltip from 'react-native-walkthrough-tooltip';
 import {
   addSeatAmount,
   flightSelectSeat,
@@ -34,6 +35,7 @@ const Seat = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const refRBSheet = useRef();
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const [seatData, setSeatData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedPassengers, setSelectedPassengers] = useState(0); // state for passenger selecting
@@ -41,6 +43,7 @@ const Seat = ({route}) => {
 
   const {flightSeatSelectData} = useSelector(state => state.commomReducer);
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
+
   const {SrdvType, TraceId} = flightTraceIdDetails;
 
   let SrdvIndex = flightTraceIdDetails.Results;
@@ -82,9 +85,6 @@ const Seat = ({route}) => {
   const fareQutesDataSelecter = useSelector(
     state => state.commomReducer.flightFareQutesData,
   );
-
-  console.log('flightSeatSelectData', flightSeatSelectData.length);
-
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
   const fareQutesData = fareQutesDataSelecter.FareBreakdown;
 
@@ -135,7 +135,43 @@ const Seat = ({route}) => {
   //   }
   // };
 
-  const handleSeatSelect = (passengerIndex, seat) => {
+  //selected seat price segment destructure
+
+  const priceSelection = useSelector(
+    state => state.commomReducer.selectedSeatPriceTotal,
+  );
+  console.log('priceSelection', priceSelection);
+  const priceCal = priceSelection.map(price => price.selectedSeatPriceSum);
+  console.log('priceCal', priceCal);
+
+  const selectedSetPriceSum = priceCal.reduce(
+    (acc, currentValue) => acc + currentValue,
+    0,
+  );
+
+  const seatCountSelected = priceSelection.length;
+  console.log('selectedSetPriceSum', selectedSetPriceSum);
+
+  // meal sagment destructure
+  const mealDescriptions = useSelector(
+    state => state.commomReducer.mealDescriptions,
+  );
+  console.log('mealDescriptions', mealDescriptions);
+
+  // sum calulate the number of meals price
+  const multipalMealPrice = mealDescriptions.map(meal => meal.price);
+  const mealSumPrice = multipalMealPrice.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+
+  // lenght of meals added count
+  const totalMealCount = mealDescriptions.length;
+  const modalToggle = () => {
+    setTooltipVisible(!tooltipVisible);
+  };
+
+  const handleSeatSelect = (passengerIndex, seat, colIndex) => {
     // Check if the seat is already booked
     if (!seat.IsBooked) {
       const isSelected = flightSeatSelectData.some(
@@ -145,7 +181,7 @@ const Seat = ({route}) => {
       if (isSelected) {
         // Deselect the seat
         dispatch(flightSelectSeat(seat, false));
-        dispatch(removeSeatAmount(seat.Amount));
+        dispatch(removeSeatAmount(seat.Amount, colIndex));
 
         // Remove seat from selectedSeats array
         setSelectedSeatsNumber(prevSeats =>
@@ -209,7 +245,9 @@ const Seat = ({route}) => {
                 seat.IsBooked && {backgroundColor: '#cdeffa'},
                 isSelected && {backgroundColor: '#006633'},
               ]}
-              onPress={() => handleSeatSelect(selectedPassengers, seat)}
+              onPress={() =>
+                handleSeatSelect(selectedPassengers, seat, colIndex)
+              }
               disabled={seat.IsBooked}>
               <Image
                 source={
@@ -410,7 +448,7 @@ const Seat = ({route}) => {
         </TouchableOpacity>
       </View>
 
-      <RBSheet height={SH(280)} refRBSheet={refRBSheet}>
+      <RBSheet height={SH(400)} refRBSheet={refRBSheet}>
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
           <ScrollView
             keyboardShouldPersistTaps="handled"
@@ -421,11 +459,13 @@ const Seat = ({route}) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <View>
-                <Text style={FlightsListScreenStyle.HeadingStyle}>
+              <View style={{paddingLeft: SW(20)}}>
+                <Text
+                  style={{fontSize: SF(18), fontWeight: '800', color: '#000'}}>
                   Fare Breakup
                 </Text>
-                <Text style={FlightsListScreenStyle.TravellerText}>
+                <Text
+                  style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
                   Base Fare
                 </Text>
                 <View style={FlightsListScreenStyle.padLeft10}></View>
@@ -463,9 +503,74 @@ const Seat = ({route}) => {
                 flexDirection: 'row',
                 paddingHorizontal: 20,
               }}>
-              <Text>Taxes & Fees</Text>
-              <Text>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+              <Text
+                style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                Taxes & Fees
+              </Text>
+              <Text
+                style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                ₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}
+              </Text>
             </View>
+            <View style={{paddingHorizontal: 20, paddingVertical: 2}}>
+              <Text
+                style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                Other Services
+              </Text>
+            </View>
+
+            {priceSelection.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                }}>
+                <Text>Seats*{seatCountSelected}</Text>
+
+                <Text>₹{selectedSetPriceSum}</Text>
+              </View>
+            )}
+
+            {mealDescriptions?.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: SW(10),
+                  }}>
+                  <Text>Meals*{totalMealCount}</Text>
+                  <Tooltip
+                    isVisible={tooltipVisible}
+                    content={
+                      <View style={{flex: 1, paddingVertical: 10}}>
+                        {mealDescriptions.map((item, index) => {
+                          return (
+                            <View>
+                              <Text key={index}>{item.description}</Text>
+                              <Text>₹{item.price}</Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    }
+                    placement="top"
+                    onClose={() => setTooltipVisible(false)}>
+                    <TouchableOpacity onPress={modalToggle}>
+                      <AntDesign name={'exclamationcircleo'} size={15} />
+                    </TouchableOpacity>
+                  </Tooltip>
+                </View>
+                <Text>₹{mealSumPrice}</Text>
+              </View>
+            )}
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
@@ -485,6 +590,7 @@ const Seat = ({route}) => {
                 )}
               </Text>
             </View>
+
             <View>
               <Button
                 title={t('Proceed_Text')}

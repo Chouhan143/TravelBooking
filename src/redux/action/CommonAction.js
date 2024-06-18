@@ -165,9 +165,9 @@ export const addSeatAmount = amount => ({
   payload: amount,
 });
 
-export const removeSeatAmount = amount => ({
+export const removeSeatAmount = (amount, index) => ({
   type: REMOVE_SEAT_AMOUNT,
-  payload: amount,
+  payload: {amount, index},
 });
 
 export const addMealPrice = (price, description) => ({

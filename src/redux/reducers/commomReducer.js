@@ -64,6 +64,7 @@ const initialState = {
     },
   },
   mealDescriptions: [],
+  selectedSeatPriceTotal: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -281,6 +282,12 @@ export default function commomReducer(state = initialState, action) {
               state.flightFareQutesData.Fare.PublishedFare + action.payload,
           },
         },
+        selectedSeatPriceTotal: [
+          ...state.selectedSeatPriceTotal,
+          {
+            selectedSeatPriceSum: action.payload,
+          },
+        ],
       };
 
     case REMOVE_SEAT_AMOUNT:
@@ -291,9 +298,13 @@ export default function commomReducer(state = initialState, action) {
           Fare: {
             ...state.flightFareQutesData.Fare,
             PublishedFare:
-              state.flightFareQutesData.Fare.PublishedFare - action.payload,
+              state.flightFareQutesData.Fare.PublishedFare -
+              action.payload.amount,
           },
         },
+        selectedSeatPriceTotal: state.selectedSeatPriceTotal.filter(
+          (seat, idx) => idx !== action.payload.index,
+        ),
       };
 
     case ADD_MEAL_PRICE:
@@ -310,7 +321,10 @@ export default function commomReducer(state = initialState, action) {
         },
         mealDescriptions: [
           ...state.mealDescriptions,
-          {description: action.payload.description},
+          {
+            description: action.payload.description,
+            price: action.payload.price,
+          },
         ],
       };
 
