@@ -301,8 +301,18 @@ const Meal = ({route}) => {
         </TouchableOpacity>
       </View>
 
-      <RBSheet height={SH(280)} refRBSheet={refRBSheet}>
+      <RBSheet height={SH(300)} refRBSheet={refRBSheet}>
+      <TouchableOpacity
+      style={{alignSelf:'flex-end',paddingRight:SW(10),
+        position:'absolute',zIndex:999,top:10}}
+      onPress={() => {
+        refRBSheet.current.close();
+      }}>
+      <AntDesign name={'closecircle'} size={25} color='black' 
+      />
+    </TouchableOpacity>
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
+       
           <ScrollView
             keyboardShouldPersistTaps="handled"
             style={FlightsListScreenStyle.contentContainerStyle}>
@@ -313,7 +323,8 @@ const Meal = ({route}) => {
                 alignItems: 'center',
               }}>
               <View>
-                <Text style={FlightsListScreenStyle.HeadingStyle}>
+                <Text style={{color: Colors.black_text_color,
+        fontSize: SF(22),paddingHorizontal: SH(20),paddingTop: SH(10),fontFamily:'Poppins-Medium'}}>
                   Fare Breakup
                 </Text>
                 <Text style={FlightsListScreenStyle.TravellerText}>
@@ -321,13 +332,7 @@ const Meal = ({route}) => {
                 </Text>
                 <View style={FlightsListScreenStyle.padLeft10}></View>
               </View>
-              <TouchableOpacity
-                style={{paddingRight: 20}}
-                onPress={() => {
-                  refRBSheet.current.close();
-                }}>
-                <AntDesign name={'closecircle'} size={20} />
-              </TouchableOpacity>
+              
             </View>
             {fareQutesData.map((fareData, index) => (
               <View
@@ -337,14 +342,14 @@ const Meal = ({route}) => {
                   paddingHorizontal: 20,
                 }}
                 key={index}>
-                <Text>
+                <Text style={{color:'black'}}>
                   {getPassengerTypeLabel(
                     fareData.PassengerType,
                     fareData.PassengerCount,
                     fareData.BaseFare,
                   )}
                 </Text>
-                <Text style={{}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
               </View>
             ))}
             <View
@@ -353,13 +358,13 @@ const Meal = ({route}) => {
                 flexDirection: 'row',
                 paddingHorizontal: 20,
               }}>
-              <Text>Taxes & Fees</Text>
-              <Text>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+              <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>Taxes & Fees</Text>
+              <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
             </View>
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
-              <Text style={{fontSize: SF(16), color: Colors.gray_text_color}}>
+              <Text style={{fontSize: SF(16), color: Colors.gray_text_color,fontFamily:'Pippins-Medium'}}>
                 {t('Fare_Text')}
               </Text>
               <Text

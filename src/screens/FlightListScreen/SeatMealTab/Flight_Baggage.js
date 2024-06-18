@@ -118,33 +118,35 @@ const Baggage = ({route}) => {
   };
 
   return (
-    <ScrollView style={styles.listContainer}>
+    <View style={styles.listContainer}>
       <View
         style={{
           flexDirection: 'row',
           gap: 10,
           flexWrap: 'wrap',
           marginHorizontal: SW(20),
+          paddingBottom:SH(15)
         }}>
         {selectedItem.map((item, index) => {
           return (
             <TouchableOpacity
               style={{
-                backgroundColor: Colors.gray_color,
+                backgroundColor: '#b9eafa',
                 paddingHorizontal: 30,
                 paddingVertical: 5,
                 borderRadius: 5,
                 gap: 10,
                 borderWidth: 0.5,
-                borderColor: Colors.wageningen_green,
+            
               }}
               key={index}>
               <Text
                 key={item.id}
                 style={{
-                  color: Colors.gray_text_color,
+                  color: Colors.theme_background,
                   fontSize: SF(18),
                   fontWeight: '600',
+                 
                 }}>
                 {item.firstName}
               </Text>
@@ -156,6 +158,7 @@ const Baggage = ({route}) => {
         data={baggageData}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{paddingBottom:SH(20)}}
       />
 
       <View
@@ -165,8 +168,10 @@ const Baggage = ({route}) => {
           justifyContent: 'space-between',
           flexDirection: 'row',
           borderTopColor: 'gray',
-          borderTopWidth: 0.5,
-          paddingTop: 15,
+          borderWidth: 0.5,
+          padding:SW(10),
+          borderTopLeftRadius:20,
+          borderTopRightRadius:20
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -176,12 +181,12 @@ const Baggage = ({route}) => {
             style={{
               color: Colors.gray_text_color,
               fontSize: 14,
-              fontWeight: '500',
+              fontFamily:'Poppins-Bold'
             }}>
             Fare Breackup
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#000', fontSize: 16, fontWeight: '700'}}>
+            <Text style={{color: '#000', fontSize:SF(16),fontFamily:'Poppins-Regular'}}>
               ₹ {tottalFare.toLocaleString()}
             </Text>
             <Entypo name={'chevron-down'} size={20} color={'#000'} />
@@ -246,14 +251,14 @@ const Baggage = ({route}) => {
                   paddingHorizontal: 20,
                 }}
                 key={index}>
-                <Text>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>
                   {getPassengerTypeLabel(
                     fareData.PassengerType,
                     fareData.PassengerCount,
                     fareData.BaseFare,
                   )}
                 </Text>
-                <Text style={{}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
               </View>
             ))}
             <View
@@ -262,8 +267,8 @@ const Baggage = ({route}) => {
                 flexDirection: 'row',
                 paddingHorizontal: 20,
               }}>
-              <Text>Taxes & Fees</Text>
-              <Text>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>Taxes & Fees</Text>
+              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
             </View>
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
@@ -299,7 +304,7 @@ const Baggage = ({route}) => {
           </View>
         </View>
       </RBSheet>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -308,7 +313,7 @@ export default Baggage;
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    margin: SW(20),
+    marginTop:SH(10)
   },
   container: {
     flexDirection: 'row',

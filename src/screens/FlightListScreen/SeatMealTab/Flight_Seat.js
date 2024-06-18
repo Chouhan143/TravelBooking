@@ -449,34 +449,39 @@ const Seat = ({route}) => {
       </View>
 
       <RBSheet height={SH(400)} refRBSheet={refRBSheet}>
+      <TouchableOpacity
+      style={{alignSelf:'flex-end',paddingRight:SW(10),
+        position:'absolute',zIndex:999,top:10}}
+      onPress={() => {
+        refRBSheet.current.close();
+      }}>
+      <AntDesign name={'closecircle'} size={25} color='black' 
+      />
+    </TouchableOpacity>
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
           <ScrollView
             keyboardShouldPersistTaps="handled"
             style={FlightsListScreenStyle.contentContainerStyle}>
+            
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <View style={{paddingLeft: SW(20)}}>
+              
+              <View style={{paddingLeft: SW(20),paddingTop:SH(10)}}>
                 <Text
-                  style={{fontSize: SF(18), fontWeight: '800', color: '#000'}}>
+                  style={{fontSize: SF(18), color: '#000',fontFamily:'Poppins-Medium'}}>
                   Fare Breakup
                 </Text>
                 <Text
-                  style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                  style={{fontSize: SF(16), color: '#000',fontFamily:'Poppins-Regular'}}>
                   Base Fare
                 </Text>
                 <View style={FlightsListScreenStyle.padLeft10}></View>
               </View>
-              <TouchableOpacity
-                style={{paddingRight: 20}}
-                onPress={() => {
-                  refRBSheet.current.close();
-                }}>
-                <AntDesign name={'closecircle'} size={20} />
-              </TouchableOpacity>
+            
             </View>
             {fareQutesData.map((fareData, index) => (
               <View
@@ -486,14 +491,15 @@ const Seat = ({route}) => {
                   paddingHorizontal: 20,
                 }}
                 key={index}>
-                <Text>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>
+                
                   {getPassengerTypeLabel(
                     fareData.PassengerType,
                     fareData.PassengerCount,
                     fareData.BaseFare,
                   )}
                 </Text>
-                <Text style={{}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+                <Text style={{ color: 'black',fontFamily:'Poppins-Medium'}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
               </View>
             ))}
 
@@ -504,17 +510,17 @@ const Seat = ({route}) => {
                 paddingHorizontal: 20,
               }}>
               <Text
-                style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                style={{fontSize: SF(16),  color: 'black',fontFamily:'Poppins-Regular'}}>
                 Taxes & Fees
               </Text>
               <Text
-                style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                style={{fontSize: SF(16),  color: 'black',fontFamily:'Poppins-Regular'}}>
                 ₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}
               </Text>
             </View>
             <View style={{paddingHorizontal: 20, paddingVertical: 2}}>
               <Text
-                style={{fontSize: SF(16), fontWeight: '500', color: '#000'}}>
+                style={{fontSize: SF(16),  color: '#000',fontFamily:'Poppins-Regular'}}>
                 Other Services
               </Text>
             </View>
@@ -526,9 +532,9 @@ const Seat = ({route}) => {
                   flexDirection: 'row',
                   paddingHorizontal: 20,
                 }}>
-                <Text>Seats*{seatCountSelected}</Text>
+                <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Seats*{seatCountSelected}</Text>
 
-                <Text>₹{selectedSetPriceSum}</Text>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{selectedSetPriceSum}</Text>
               </View>
             )}
 
@@ -537,7 +543,7 @@ const Seat = ({route}) => {
                 style={{
                   justifyContent: 'space-between',
                   flexDirection: 'row',
-                  paddingHorizontal: 20,
+                  paddingHorizontal: 22,
                 }}>
                 <View
                   style={{
@@ -545,8 +551,9 @@ const Seat = ({route}) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     gap: SW(10),
+                   
                   }}>
-                  <Text>Meals*{totalMealCount}</Text>
+                  <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Meals*{totalMealCount}</Text>
                   <Tooltip
                     isVisible={tooltipVisible}
                     content={
@@ -554,8 +561,8 @@ const Seat = ({route}) => {
                         {mealDescriptions.map((item, index) => {
                           return (
                             <View>
-                              <Text key={index}>{item.description}</Text>
-                              <Text>₹{item.price}</Text>
+                              <Text key={index} style={{color:'black'}}>{item.description}</Text>
+                              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{item.price}</Text>
                             </View>
                           );
                         })}
@@ -564,17 +571,17 @@ const Seat = ({route}) => {
                     placement="top"
                     onClose={() => setTooltipVisible(false)}>
                     <TouchableOpacity onPress={modalToggle}>
-                      <AntDesign name={'exclamationcircleo'} size={15} />
+                      <AntDesign name={'exclamationcircleo'} size={15} color={'black'} />
                     </TouchableOpacity>
                   </Tooltip>
                 </View>
-                <Text>₹{mealSumPrice}</Text>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{mealSumPrice}</Text>
               </View>
             )}
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
-              <Text style={{fontSize: SF(16), color: Colors.gray_text_color}}>
+              <Text style={{fontSize: SF(16), color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>
                 {t('Fare_Text')}
               </Text>
               <Text

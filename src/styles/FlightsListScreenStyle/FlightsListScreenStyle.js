@@ -240,7 +240,7 @@ export default StyleSheet.create({
         borderTopLeftRadius:20,
         borderTopRightRadius:20,
         borderColor:'black',
-        paddingBottom:SH(20),
+        paddingBottom:SH(30),
         borderColor:'gray',
         borderWidth:1
     },
@@ -329,7 +329,8 @@ export default StyleSheet.create({
         color: Colors.black_text_color,
         fontSize: SF(22),
         paddingHorizontal: SH(20),
-        paddingTop: SH(10)
+        paddingTop: SH(10),
+        fontFamily:'Poppins-Medium'
     },
     TravellerText: {
         fontSize: SF(14),
