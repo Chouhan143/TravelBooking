@@ -16,7 +16,9 @@ import {useNavigation} from '@react-navigation/native';
 import {
   addSeatAmount,
   flightSelectSeat,
+  flightSelectedSeatReset,
   removeSeatAmount,
+  resetFlightFareQuotesData,
 } from '../../../redux/action';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {RBSheet, VectorIcon, Button} from '../../../components';
@@ -171,6 +173,8 @@ const Seat = ({route}) => {
           alert('You cannot select more seats than the number of passengers.');
         }
       }
+    } else {
+      alert('Please select a passenger first.');
     }
   };
 
@@ -184,6 +188,8 @@ const Seat = ({route}) => {
     );
     return selectedSeat ? selectedSeat.seatNumber : null;
   };
+
+  // before seleted seat amount add this state inital state or reset
 
   const renderSeats = seats => {
     if (!seats) return null;

@@ -26,9 +26,12 @@ import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
+import {addMealPrice, removeMealPrice} from '../../../redux/action';
+
 const Meal = ({route}) => {
   const {t} = useTranslation();
   // const route = useRoute();
+  const dispatch = useDispatch();
   const {selectedItem} = route.params;
   console.log('item >>>>', selectedItem);
   const navigation = useNavigation();
@@ -59,6 +62,11 @@ const Meal = ({route}) => {
   const togglePassengerSelection = index => {
     setSelectedPassengerIndex(index);
   };
+
+  const mealDescriptions = useSelector(
+    state => state.commomReducer.mealDescriptions,
+  );
+  console.log('mealDescriptions', mealDescriptions);
 
   const getPassengerTypeLabel = (passengerType, passengerCount, baseFare) => {
     let typeLabel = '';
@@ -108,15 +116,34 @@ const Meal = ({route}) => {
   //   });
   // };
 
-  const toggleAddButton = index => {
+  const toggleAddButton = (index, item) => {
     if (selectedPassengerIndex !== null) {
-      setAddedStatus(prevState => {
-        const updatedStatus = {...prevState};
-        const passengerMeals = updatedStatus[selectedPassengerIndex] || {};
-        passengerMeals[index] = !passengerMeals[index];
-        updatedStatus[selectedPassengerIndex] = passengerMeals;
-        return updatedStatus;
-      });
+      const passengerMeals = addedStatus[selectedPassengerIndex] || {};
+      const mealAlreadyAdded = Object.values(passengerMeals).some(
+        status => status,
+      );
+
+      if (!mealAlreadyAdded || passengerMeals[index]) {
+        setAddedStatus(prevState => {
+          const updatedStatus = {...prevState};
+          passengerMeals[index] = !passengerMeals[index];
+          updatedStatus[selectedPassengerIndex] = passengerMeals;
+
+          if (passengerMeals[index]) {
+            // If the meal is being added, include the description
+            dispatch(addMealPrice(item.Price, item.Description));
+          } else {
+            // If the meal is being removed, include the index of the meal to be removed
+            dispatch(removeMealPrice(item.Price, index));
+          }
+
+          return updatedStatus;
+        });
+      } else {
+        alert('Only one meal can be added per passenger.');
+      }
+    } else {
+      alert('Please select a passenger first.');
     }
   };
 
@@ -134,7 +161,7 @@ const Meal = ({route}) => {
         </View>
         <TouchableOpacity
           style={isAdded ? styles.addButton : styles.button}
-          onPress={() => toggleAddButton(index)}>
+          onPress={() => toggleAddButton(index, item)}>
           <View style={styles.buttonContent}>
             <MaterialIcons
               name={isAdded ? 'check' : 'add'}

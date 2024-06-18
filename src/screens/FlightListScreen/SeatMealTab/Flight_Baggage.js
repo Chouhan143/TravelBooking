@@ -94,51 +94,49 @@ const Baggage = ({route}) => {
     const isAdded = !!addedStatus[index];
 
     return (
-      <ScrollView style={styles.container}>
-       <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-       <View style={styles.textContainer}>
-       <Text style={styles.name}>{item.Weight} kg</Text>
-       <Text style={styles.name}>₹{item.Price}</Text>
-     </View>
-     <TouchableOpacity
-       style={isAdded ? styles.addButton : styles.button}
-       onPress={() => toggleAddButton(index)}>
-       <View style={styles.buttonContent}>
-         <MaterialIcons
-           name={isAdded ? 'check' : 'add'}
-           color={isAdded ? 'green' : 'black'}
-           size={20}
-         />
-         <Text style={isAdded ? styles.addButtonText : styles.buttonText}>
-           {isAdded ? 'Added' : 'Add'}
-         </Text>
-       </View>
-     </TouchableOpacity>
-       </View>
-      </ScrollView>
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{item.Weight} kg</Text>
+          <Text style={styles.name}>₹{item.Price}</Text>
+        </View>
+        <TouchableOpacity
+          style={isAdded ? styles.addButton : styles.button}
+          onPress={() => toggleAddButton(index)}>
+          <View style={styles.buttonContent}>
+            <MaterialIcons
+              name={isAdded ? 'check' : 'add'}
+              color={isAdded ? 'green' : 'black'}
+              size={20}
+            />
+            <Text style={isAdded ? styles.addButtonText : styles.buttonText}>
+              {isAdded ? 'Added' : 'Add'}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     );
   };
 
   return (
-    <View style={styles.listContainer}>
+    <ScrollView style={styles.listContainer}>
       <View
         style={{
           flexDirection: 'row',
           gap: 10,
           flexWrap: 'wrap',
-          marginHorizontal: SW(10),
+          marginHorizontal: SW(20),
         }}>
         {selectedItem.map((item, index) => {
           return (
             <TouchableOpacity
               style={{
-                // backgroundColor: Colors.gray_color,
+                backgroundColor: Colors.gray_color,
                 paddingHorizontal: 30,
                 paddingVertical: 5,
                 borderRadius: 5,
                 gap: 10,
                 borderWidth: 0.5,
-                borderColor: Colors.theme_background,
+                borderColor: Colors.wageningen_green,
               }}
               key={index}>
               <Text
@@ -162,22 +160,13 @@ const Baggage = ({route}) => {
 
       <View
         style={{
-         position: 'relative',
-          width: '100%',
-          height: '10%',
+          position: 'relative',
           bottom: 0,
-          padding: SW(15),
-          backgroundColor: '#f0f0f0',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          borderColor: 'black',
-          paddingBottom: SH(10),
-          marginTop: SH(10),
-          borderColor: 'gray',
-          borderWidth: 1,
-          display: 'flex',
-          flexDirection: 'row',
           justifyContent: 'space-between',
+          flexDirection: 'row',
+          borderTopColor: 'gray',
+          borderTopWidth: 0.5,
+          paddingTop: 15,
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -200,7 +189,7 @@ const Baggage = ({route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            paddingVertical: 10,
+            paddingVertical: 15,
             paddingHorizontal: 30,
             backgroundColor: Colors.theme_background,
             borderRadius: 5,
@@ -214,7 +203,7 @@ const Baggage = ({route}) => {
             style={{
               color: '#fff',
               fontSize: 16,
-              fontFamily:'Poppins-Bold'
+              fontWeight: '700',
             }}>
             Continue
           </Text>
@@ -233,10 +222,10 @@ const Baggage = ({route}) => {
                 alignItems: 'center',
               }}>
               <View>
-                <Text style={{color:'black'}}>
+                <Text style={FlightsListScreenStyle.HeadingStyle}>
                   Fare Breakup
                 </Text>
-                <Text style={{color:'black'}}>
+                <Text style={FlightsListScreenStyle.TravellerText}>
                   Base Fare
                 </Text>
                 <View style={FlightsListScreenStyle.padLeft10}></View>
@@ -264,20 +253,20 @@ const Baggage = ({route}) => {
                     fareData.BaseFare,
                   )}
                 </Text>
-                <Text style={{color:'black'}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+                <Text style={{}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
               </View>
             ))}
             <View
               style={{
                 justifyContent: 'space-between',
                 flexDirection: 'row',
-                padding: 20,
+                paddingHorizontal: 20,
               }}>
-              <Text style={{color:'black',fontSize:SF(15)}}>Taxes & Fees</Text>
-              <Text style={{color:'black'}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+              <Text>Taxes & Fees</Text>
+              <Text>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
             </View>
           </ScrollView>
-          <View>
+          <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
               <Text style={{fontSize: SF(16), color: Colors.gray_text_color}}>
                 {t('Fare_Text')}
@@ -310,7 +299,7 @@ const Baggage = ({route}) => {
           </View>
         </View>
       </RBSheet>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -318,11 +307,13 @@ export default Baggage;
 
 const styles = StyleSheet.create({
   listContainer: {
-    flex: 1,   
-    paddingTop:SH(20),
-    backgroundColor:'white'
+    flex: 1,
+    margin: SW(20),
   },
   container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: '#fff',
     elevation: 7,
     padding: SW(15),
@@ -330,7 +321,7 @@ const styles = StyleSheet.create({
     borderColor: '#c9cfd1',
     borderWidth: 1,
     margin: SW(10),
-    marginBottom:SH(1)
+    marginBottom: 0,
   },
   textContainer: {
     flex: 1,

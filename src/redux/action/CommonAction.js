@@ -27,6 +27,8 @@ import {
   REMOVE_SEAT_AMOUNT,
   ADD_MEAL_PRICE,
   REMOVE_MEAL_PRICE,
+  FLIGHT_SELECT_SEAT_RESET,
+  RESET_FLIGHT_FAREQUOTES_DATA,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -141,6 +143,10 @@ export const flightSelectSeat = seat => ({
   payload: seat,
 });
 
+export const flightSelectedSeatReset = () => ({
+  type: FLIGHT_SELECT_SEAT_RESET,
+});
+
 export const selectedPassanger = passengers => ({
   type: SET_SELECTED_PASSENGERS,
   payload: passengers,
@@ -149,6 +155,10 @@ export const selectedPassanger = passengers => ({
 // export const clearSelectedPassengers = () => ({
 //   type: CLEAR_SELECTED_PASSENGERS,
 // });
+
+export const resetFlightFareQuotesData = () => ({
+  type: RESET_FLIGHT_FAREQUOTES_DATA,
+});
 
 export const addSeatAmount = amount => ({
   type: ADD_SEAT_AMOUNT,
@@ -160,12 +170,18 @@ export const removeSeatAmount = amount => ({
   payload: amount,
 });
 
-export const addMealPrice = meal => ({
+export const addMealPrice = (price, description) => ({
   type: ADD_MEAL_PRICE,
-  payload: meal,
+  payload: {
+    price,
+    description,
+  },
 });
 
-export const removeMealPrice = index => ({
+export const removeMealPrice = (price, index) => ({
   type: REMOVE_MEAL_PRICE,
-  payload: {index},
+  payload: {
+    price,
+    index,
+  },
 });

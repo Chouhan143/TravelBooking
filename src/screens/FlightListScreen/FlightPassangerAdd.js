@@ -140,12 +140,12 @@ const FlightPassangerAdd = ({
                     color={isSelected ? Colors.theme_background : '#ccc'}
                     style={{marginRight: 10}}
                   />
-                  <Text style={{color:'black'}}>
+                  <Text style={{color: 'black'}}>
                     {item.firstName} {item.lastName}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemovePassenger(index)}>
-                  <AntDesign name={'delete'} size={20} color={'black'}/>
+                  <AntDesign name={'delete'} size={20} color={'black'} />
                 </TouchableOpacity>
               </View>
             );

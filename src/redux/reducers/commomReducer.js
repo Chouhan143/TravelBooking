@@ -28,6 +28,9 @@ import {
   ADD_SEAT_AMOUNT,
   REMOVE_SEAT_AMOUNT,
   ADD_MEAL_PRICE,
+  FLIGHT_SELECT_SEAT_RESET,
+  RESET_FLIGHT_FAREQUOTES_DATA,
+  REMOVE_MEAL_PRICE,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -60,6 +63,7 @@ const initialState = {
       PublishedFare: 0,
     },
   },
+  mealDescriptions: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -213,6 +217,12 @@ export default function commomReducer(state = initialState, action) {
         flightBaggageCabinData: action.payload,
       };
 
+    case FLIGHT_SELECT_SEAT_RESET:
+      return {
+        ...state,
+        flightSeatSelectData: [],
+      };
+
     case FLIGHT_SELECT_SEAT:
       const seat = action.payload;
       const isSeatSelected = state.flightSeatSelectData.some(
@@ -254,6 +264,12 @@ export default function commomReducer(state = initialState, action) {
     //     };
     //   }
 
+    case RESET_FLIGHT_FAREQUOTES_DATA:
+      return {
+        ...state,
+        flightFareQutesData: [],
+      };
+
     case ADD_SEAT_AMOUNT:
       return {
         ...state,
@@ -285,24 +301,35 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         flightFareQutesData: {
           ...state.flightFareQutesData,
-          FareBreakdown: [
-            ...state.flightFareQutesData.FareBreakdown,
-            action.payload,
-          ],
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare:
+              state.flightFareQutesData.Fare.PublishedFare +
+              action.payload.price,
+          },
         },
+        mealDescriptions: [
+          ...state.mealDescriptions,
+          {description: action.payload.description},
+        ],
       };
 
-    // case REMOVE_MEAL_PRICE:
-    //   const { index } = action.payload;
-    //   return {
-    //     ...state,
-    //     flightFareQutesData: {
-    //       ...state.flightFareQutesData,
-    //       FareBreakdown: state.flightFareQutesData.FareBreakdown.filter(
-    //         (_, idx) => idx !== index
-    //       ),
-    //     },
-    //   };
+    case REMOVE_MEAL_PRICE:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare:
+              state.flightFareQutesData.Fare.PublishedFare -
+              action.payload.price,
+          },
+        },
+        mealDescriptions: state.mealDescriptions.filter(
+          (meal, idx) => idx !== action.payload.index,
+        ),
+      };
 
     default: {
       return state;

@@ -24,7 +24,9 @@ import {
   baggageAdded,
   baggageCabinAdded,
   clearSelectedPassengers,
+  flightSelectedSeatReset,
   removePassengerItem,
+  resetFlightFareQuotesData,
 } from '../../redux/action';
 import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import {RouteName} from '../../routes';
@@ -81,6 +83,11 @@ const FlightDetails = () => {
   useEffect(() => {
     dispatch(baggageAdded(Baggage));
     dispatch(baggageCabinAdded(CabinBaggage));
+  }, []);
+
+  // before selected seat redux state are clear or reset
+  useEffect(() => {
+    dispatch(flightSelectedSeatReset());
   }, []);
 
   const origin = SegmentsFlatten[0]?.Origin?.CityName;
@@ -154,8 +161,6 @@ const FlightDetails = () => {
     //redux selected passenger  ka index  or  passengerData ka index  exist krta ha ya nhi uske basses par duplicate ko remove kr sakte hai ya redux me duplicate ko add hone se rok sakte hai
 
     if (isSelected) {
-      
-
       setSelectedPassengers(prevSelectedPassengers => [
         ...prevSelectedPassengers,
         passengerData,
@@ -321,7 +326,7 @@ const FlightDetails = () => {
             borderRadius: 5,
             borderColor: 'gray',
             flexDirection: 'row',
-            marginBottom:SH(50)
+            marginBottom: SH(50),
           }}>
           <TouchableOpacity onPress={checkMeal}>
             <FontAwesome5
@@ -475,7 +480,6 @@ const FlightDetails = () => {
             <View>
               <Button
                 title={t('Proceed_Text')}
-
                 onPress={() =>
                   navigation.navigate(
                     cheboxSelect
@@ -553,6 +557,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     paddingBottom: SH(30),
-    marginBottom:SH(5)
+    marginBottom: SH(5),
   },
 });
