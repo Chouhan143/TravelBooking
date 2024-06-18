@@ -31,6 +31,9 @@ import {
   FLIGHT_SELECT_SEAT_RESET,
   RESET_FLIGHT_FAREQUOTES_DATA,
   REMOVE_MEAL_PRICE,
+  RESET_ADD_SEAT_AMOUNT,
+  RESET_ADD_MEAL_AMOUNT,
+  RESET_ADD_MEAL_DISCRIPTION,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -65,6 +68,7 @@ const initialState = {
   },
   mealDescriptions: [],
   selectedSeatPriceTotal: [],
+  initialPublishedFare: 0,
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -170,10 +174,32 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         FlightSearchPayload: action.payload,
       };
+
     case FLIGHT_FAREQUETES_RESPONSE:
       return {
         ...state,
-        flightFareQutesData: action.payload,
+        flightFareQutesData: {
+          ...action.payload,
+          // Store the initial fare value when the response is received
+          Fare: {
+            ...action.payload.Fare,
+            PublishedFare: action.payload.Fare.PublishedFare,
+          },
+        },
+        initialPublishedFare: action.payload.Fare.PublishedFare, // Set initial fare
+      };
+
+    case RESET_FLIGHT_FAREQUOTES_DATA:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare: state.initialPublishedFare, // Reset to initial fare
+          },
+        },
+        selectedSeatPriceTotal: [], // Optionally reset selected seat prices
       };
 
     case FLIGHT_TRAVELER_DETAILS:
@@ -181,23 +207,6 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         fightTraveller: [...state.fightTraveller, action.payload],
       };
-
-    // case REMOVE_FLIGHT_PASSENGER_ITEM:
-    //   const {id, passengerType} = action.payload;
-
-    //   return {
-    //     ...state,
-    //     fightTraveller: state.fightTraveller.filter(
-    //       item => item.id !== id || item.passengerType !== passengerType,
-    //     ),
-    //   };
-
-    // case REMOVE_FLIGHT_PASSENGER_ITEM:
-    //   const {index1} = action.payload;
-    //   return {
-    //     ...state,
-    //     fightTraveller: state.fightTraveller.filter((_, idx) => idx !== index1),
-    //   };
 
     case REMOVE_FLIGHT_PASSENGER_ITEM:
       return {
@@ -222,6 +231,18 @@ export default function commomReducer(state = initialState, action) {
       return {
         ...state,
         flightSeatSelectData: [],
+      };
+
+    case RESET_ADD_SEAT_AMOUNT:
+      return {
+        ...state,
+        selectedSeatPriceTotal: [],
+      };
+
+    case RESET_ADD_MEAL_DISCRIPTION:
+      return {
+        ...state,
+        mealDescriptions: [],
       };
 
     case FLIGHT_SELECT_SEAT:
@@ -264,12 +285,6 @@ export default function commomReducer(state = initialState, action) {
     //       selectedPassengers: [...state.selectedPassengers, action.payload],
     //     };
     //   }
-
-    case RESET_FLIGHT_FAREQUOTES_DATA:
-      return {
-        ...state,
-        flightFareQutesData: [],
-      };
 
     case ADD_SEAT_AMOUNT:
       return {

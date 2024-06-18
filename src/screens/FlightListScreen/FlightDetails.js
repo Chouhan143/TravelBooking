@@ -26,6 +26,8 @@ import {
   clearSelectedPassengers,
   flightSelectedSeatReset,
   removePassengerItem,
+  resetAddMealDescription,
+  resetAddSeatAmount,
   resetFlightFareQuotesData,
 } from '../../redux/action';
 import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
@@ -88,6 +90,9 @@ const FlightDetails = () => {
   // before selected seat redux state are clear or reset
   useEffect(() => {
     dispatch(flightSelectedSeatReset());
+    dispatch(resetAddMealDescription());
+    dispatch(resetAddSeatAmount());
+    dispatch(resetFlightFareQuotesData());
   }, []);
 
   const origin = SegmentsFlatten[0]?.Origin?.CityName;
