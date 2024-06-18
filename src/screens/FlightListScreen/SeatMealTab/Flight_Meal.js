@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 
 import {useSelector} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import Tooltip from 'react-native-walkthrough-tooltip';
 import {FLIGHT_SSR_MEAL} from '../../../utils/BaseUrl';
 
 import {
@@ -46,6 +46,7 @@ const Meal = ({route}) => {
   const SrdvIndexMap = SrdvIndex.flatMap(elem => elem?.FareDataMultiple ?? []);
   const SrdvIndexValue = SrdvIndexMap[0]?.SrdvIndex;
   const ResultIndexValue = SrdvIndexMap[0]?.ResultIndex;
+  const [tooltipVisible, setTooltipVisible] = useState(false);
 
   // fareQutes
   const fareQutesDataSelecter = useSelector(
@@ -62,11 +63,6 @@ const Meal = ({route}) => {
   const togglePassengerSelection = index => {
     setSelectedPassengerIndex(index);
   };
-
-  const mealDescriptions = useSelector(
-    state => state.commomReducer.mealDescriptions,
-  );
-  console.log('mealDescriptions', mealDescriptions);
 
   const getPassengerTypeLabel = (passengerType, passengerCount, baseFare) => {
     let typeLabel = '';
@@ -86,6 +82,39 @@ const Meal = ({route}) => {
     return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
   };
 
+  const priceSelection = useSelector(
+    state => state.commomReducer.selectedSeatPriceTotal,
+  );
+  console.log('priceSelection', priceSelection);
+  const priceCal = priceSelection.map(price => price.selectedSeatPriceSum);
+  console.log('priceCal', priceCal);
+
+  const selectedSetPriceSum = priceCal.reduce(
+    (acc, currentValue) => acc + currentValue,
+    0,
+  );
+
+  const seatCountSelected = priceSelection.length;
+  console.log('selectedSetPriceSum', selectedSetPriceSum);
+
+  // meal sagment destructure
+  const mealDescriptions = useSelector(
+    state => state.commomReducer.mealDescriptions,
+  );
+  console.log('mealDescriptions', mealDescriptions);
+
+  // sum calulate the number of meals price
+  const multipalMealPrice = mealDescriptions.map(meal => meal.price);
+  const mealSumPrice = multipalMealPrice.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+
+  // lenght of meals added count
+  const totalMealCount = mealDescriptions.length;
+  const modalToggle = () => {
+    setTooltipVisible(!tooltipVisible);
+  };
   // API request
   useEffect(() => {
     const mealApiRequest = async () => {
@@ -301,7 +330,7 @@ const Meal = ({route}) => {
         </TouchableOpacity>
       </View>
 
-      <RBSheet height={SH(300)} refRBSheet={refRBSheet}>
+      <RBSheet height={SH(400)} refRBSheet={refRBSheet}>
       <TouchableOpacity
       style={{alignSelf:'flex-end',paddingRight:SW(10),
         position:'absolute',zIndex:999,top:10}}
@@ -361,6 +390,65 @@ const Meal = ({route}) => {
               <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>Taxes & Fees</Text>
               <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
             </View>
+            <View style={{paddingHorizontal: 20, paddingVertical: 2}}>
+            <Text
+              style={{fontSize: SF(16),  color: '#000',fontFamily:'Poppins-Regular'}}>
+              Other Services
+            </Text>
+            
+          </View>
+          {priceSelection.length > 0 && (
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                paddingHorizontal: 20,
+              }}>
+              <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Seats*{seatCountSelected}</Text>
+
+              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{selectedSetPriceSum}</Text>
+            </View>
+          )}
+          {mealDescriptions?.length > 0 && (
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                paddingHorizontal: 22,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: SW(10),
+                 
+                }}>
+                <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Meals*{totalMealCount}</Text>
+                <Tooltip
+                  isVisible={tooltipVisible}
+                  content={
+                    <View style={{flex: 1, paddingVertical: 10}}>
+                      {mealDescriptions.map((item, index) => {
+                        return (
+                          <View>
+                            <Text key={index} style={{color:'black'}}>{item.description}</Text>
+                            <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{item.price}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  }
+                  placement="top"
+                  onClose={() => setTooltipVisible(false)}>
+                  <TouchableOpacity onPress={modalToggle}>
+                    <AntDesign name={'exclamationcircleo'} size={15} color={'black'} />
+                  </TouchableOpacity>
+                </Tooltip>
+              </View>
+              <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{mealSumPrice}</Text>
+            </View>
+          )}
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>

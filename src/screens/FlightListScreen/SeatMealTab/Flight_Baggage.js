@@ -19,6 +19,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
+import Tooltip from 'react-native-walkthrough-tooltip';
 const Baggage = ({route}) => {
   const refRBSheet = useRef();
   const {selectedItem} = route.params;
@@ -26,7 +27,7 @@ const Baggage = ({route}) => {
   const {t} = useTranslation();
   const [baggageData, setBaggageData] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
-
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
   const {SrdvType, TraceId} = flightTraceIdDetails;
 
@@ -58,6 +59,40 @@ const Baggage = ({route}) => {
         typeLabel = 'Unknown';
     }
     return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
+  };
+
+  const priceSelection = useSelector(
+    state => state.commomReducer.selectedSeatPriceTotal,
+  );
+  console.log('priceSelection', priceSelection);
+  const priceCal = priceSelection.map(price => price.selectedSeatPriceSum);
+  console.log('priceCal', priceCal);
+
+  const selectedSetPriceSum = priceCal.reduce(
+    (acc, currentValue) => acc + currentValue,
+    0,
+  );
+
+  const seatCountSelected = priceSelection.length;
+  console.log('selectedSetPriceSum', selectedSetPriceSum);
+
+  // meal sagment destructure
+  const mealDescriptions = useSelector(
+    state => state.commomReducer.mealDescriptions,
+  );
+  console.log('mealDescriptions', mealDescriptions);
+
+  // sum calulate the number of meals price
+  const multipalMealPrice = mealDescriptions.map(meal => meal.price);
+  const mealSumPrice = multipalMealPrice.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+
+  // lenght of meals added count
+  const totalMealCount = mealDescriptions.length;
+  const modalToggle = () => {
+    setTooltipVisible(!tooltipVisible);
   };
 
   // API request
@@ -215,7 +250,7 @@ const Baggage = ({route}) => {
         </TouchableOpacity>
       </View>
 
-      <RBSheet height={SH(280)} refRBSheet={refRBSheet}>
+      <RBSheet height={SH(400)} refRBSheet={refRBSheet}>
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
           <ScrollView
             keyboardShouldPersistTaps="handled"
@@ -270,6 +305,65 @@ const Baggage = ({route}) => {
               <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>Taxes & Fees</Text>
               <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
             </View>
+            <View style={{paddingHorizontal: 20, paddingVertical: 2}}>
+              <Text
+                style={{fontSize: SF(16),  color: '#000',fontFamily:'Poppins-Regular'}}>
+                Other Services
+              </Text>
+            </View>
+            {priceSelection.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                }}>
+                <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Seats*{seatCountSelected}</Text>
+
+                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{selectedSetPriceSum}</Text>
+              </View>
+            )}
+
+            {mealDescriptions?.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 22,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: SW(10),
+                   
+                  }}>
+                  <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Meals*{totalMealCount}</Text>
+                  <Tooltip
+                    isVisible={tooltipVisible}
+                    content={
+                      <View style={{flex: 1, paddingVertical: 10}}>
+                        {mealDescriptions.map((item, index) => {
+                          return (
+                            <View>
+                              <Text key={index} style={{color:'black'}}>{item.description}</Text>
+                              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{item.price}</Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    }
+                    placement="top"
+                    onClose={() => setTooltipVisible(false)}>
+                    <TouchableOpacity onPress={modalToggle}>
+                      <AntDesign name={'exclamationcircleo'} size={15} color={'black'} />
+                    </TouchableOpacity>
+                  </Tooltip>
+                </View>
+                <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{mealSumPrice}</Text>
+              </View>
+            )}
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
