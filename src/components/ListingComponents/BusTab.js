@@ -157,7 +157,8 @@ const BusTab = props => {
     const filteredDataFrom = busData.filter(item =>
       item.busodma_destination_name
         .toLowerCase()
-        .includes(sourceCity.toLowerCase()),
+        .includes(sourceCity
+          .toLowerCase()),
     );
     setFilteredBusDataFrom(filteredDataFrom);
   }, [sourceCity, busData]);
@@ -452,7 +453,7 @@ const BusTab = props => {
           </View>
         ) : null}
 
-        <Spacing space={SH(70)} />
+        <Spacing space={SH(80)} />
         {loading ? (
           <ActivityIndicator size="large" color={Colors.theme_background} />
         ) : (
@@ -460,7 +461,7 @@ const BusTab = props => {
           // <Button title={t('Search_Buses')} onPress={SelectBus} />
         )}
       </View>
-      <Spacing space={SH(50)} />
+      <Spacing space={SH(20)} />
     </View>
   );
 };

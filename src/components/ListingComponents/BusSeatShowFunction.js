@@ -16,7 +16,7 @@ const BusSeatDataFlatlist = (props) => {
         <View style={BusSeatScreenStyles.SeatAvlblBox}>
             <View style={BusSeatScreenStyles.SeatAvChildBox}>
                 <VectorIcon icon="MaterialCommunityIcons" name={item.Seaticon} color={item.SeaticonColor} size={SF(22)} />
-                <Text style={BusSeatScreenStyles.SeatAvChildBoxText}>{t(item.text)}</Text>
+                <Text style={{color:'black',fontSize:SF(10)}}>{t(item.text)}</Text>
             </View>
         </View>
     )

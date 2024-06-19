@@ -72,6 +72,7 @@ const BusSeatScreen = props => {
       // console.log('again test', res.data.Result[0]);
       setUperSeat(res.data.ResultUpperSeat[0]);
       setTid(res.data.TraceId);
+      // console.log('Upper data : ',res.data.ResultUpperSeat[0])
       setLoading(false);
       // console.log('lower', res.data.Result);
       // console.log('uper', res.data.ResultUpperSeat);
@@ -162,7 +163,8 @@ const BusSeatScreen = props => {
             <ActivityIndicator size="large" color="blue" />
           </View>
         ) : (
-          <View style={BusSeatScreenStyles.MinFlexView}>
+          <View style={{width: '100%',
+      height: '100%',padding:SW(20)}}>
             <View>
               {tabShow == '1' ? (
                 <View>
@@ -175,9 +177,10 @@ const BusSeatScreen = props => {
                     )}
                     keyExtractor={(item, index) => item.id || index.toString()}
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={
-                      BusSeatScreenStyles.ContentContainerStyle
-                    }
+                   contentContainerStyle={
+                     BusSeatScreenStyles.ContentContainerStyle
+                  }
+
                   />
                 </View>
               ) : (
@@ -185,6 +188,7 @@ const BusSeatScreen = props => {
                   <FlatList
                     // data={BusSeatUpperData}
                     data={uperSeat}
+                    numColumns={2}
                     renderItem={({item}) => (
                       <BusSeatDataFlatlist item={item} type="upper" />
                     )}
