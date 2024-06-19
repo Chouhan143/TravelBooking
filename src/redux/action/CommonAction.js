@@ -31,6 +31,7 @@ import {
   RESET_FLIGHT_FAREQUOTES_DATA,
   RESET_ADD_SEAT_AMOUNT,
   RESET_ADD_MEAL_DISCRIPTION,
+  ADD_BAGGAGE_PRICE,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -194,4 +195,9 @@ export const removeMealPrice = (price, index) => ({
     price,
     index,
   },
+});
+
+export const addBaggagePrice = (price, index) => ({
+  type: ADD_BAGGAGE_PRICE,
+  payload: {price, index},
 });

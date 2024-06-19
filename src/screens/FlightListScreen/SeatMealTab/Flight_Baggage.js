@@ -28,6 +28,7 @@ const Baggage = ({route}) => {
   const [baggageData, setBaggageData] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
   const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [selectedPassengerIndex, setSelectedPassengerIndex] = useState(null);
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
   const {SrdvType, TraceId} = flightTraceIdDetails;
 
@@ -117,16 +118,55 @@ const Baggage = ({route}) => {
     baggageRequest();
   }, [SrdvType, SrdvIndexValue, TraceId, ResultIndexValue]);
 
-  const toggleAddButton = index => {
-    setAddedStatus(prevState => {
-      const updatedStatus = {...prevState};
-      updatedStatus[index] = !updatedStatus[index]; // Toggling the added status for the given index
-      return updatedStatus; // Returning the updated added status object
-    });
+  // const toggleAddButton = index => {
+  //   setAddedStatus(prevState => {
+  //     const updatedStatus = {...prevState};
+  //     updatedStatus[index] = !updatedStatus[index]; // Toggling the added status for the given index
+  //     return updatedStatus; // Returning the updated added status object
+  //   });
+  // };
+
+  const togglePassengerSelection = index => {
+    setSelectedPassengerIndex(index);
+  };
+
+  const toggleAddButton = (index, item) => {
+    if (selectedPassengerIndex !== null) {
+      const passengerMeals = addedStatus[selectedPassengerIndex] || {};
+      const mealAlreadyAdded = Object.values(passengerMeals).some(
+        status => status,
+      );
+
+      if (!mealAlreadyAdded || passengerMeals[index]) {
+        setAddedStatus(prevState => {
+          const updatedStatus = {...prevState};
+          passengerMeals[index] = !passengerMeals[index];
+          updatedStatus[selectedPassengerIndex] = passengerMeals;
+
+          if (passengerMeals[index]) {
+            // If the meal is being added, include the description
+            dispatch(addMealPrice(item.Price, item.Description));
+          } else {
+            // If the meal is being removed, include the index of the meal to be removed
+            dispatch(removeMealPrice(item.Price, index));
+          }
+
+          return updatedStatus;
+        });
+      } else {
+        alert('Only one meal can be added per passenger.');
+      }
+    } else {
+      alert('Please select a passenger first.');
+    }
   };
 
   const renderItem = ({item, index}) => {
-    const isAdded = !!addedStatus[index];
+    // const isAdded = !!addedStatus[index];
+
+    const isAdded =
+      selectedPassengerIndex !== null &&
+      addedStatus[selectedPassengerIndex]?.[index];
 
     return (
       <View style={styles.container}>
@@ -136,7 +176,7 @@ const Baggage = ({route}) => {
         </View>
         <TouchableOpacity
           style={isAdded ? styles.addButton : styles.button}
-          onPress={() => toggleAddButton(index)}>
+          onPress={() => toggleAddButton(index, item)}>
           <View style={styles.buttonContent}>
             <MaterialIcons
               name={isAdded ? 'check' : 'add'}
@@ -173,7 +213,8 @@ const Baggage = ({route}) => {
                 gap: 10,
                 borderWidth: 0.5,
               }}
-              key={index}>
+              key={index}
+              onPress={() => togglePassengerSelection(index)}>
               <Text
                 key={item.id}
                 style={{

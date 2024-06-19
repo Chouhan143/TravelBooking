@@ -1,24 +1,27 @@
-import React, { useEffect, useMemo } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { BusSeatScreenStyle } from '../../styles';
-import { useTheme } from '@react-navigation/native';
-import { LikeUnlike } from '../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateSelectedSeats, updateTotalPrice } from '../../redux/action';
+import React, {useEffect, useMemo} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {BusSeatScreenStyle} from '../../styles';
+import {useTheme} from '@react-navigation/native';
+import {LikeUnlike} from '../../components';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateSelectedSeats, updateTotalPrice} from '../../redux/action';
 
 const BusSeatDataFlatlist = props => {
-  const { Colors } = useTheme();
-  const { item, index } = props;
+  const {Colors} = useTheme();
+  const {item, index} = props;
 
   const SeatPrice = item.Price.PublishedPrice;
+  console.log('SeatPrice', SeatPrice);
+  const seatName = item.SeatName;
+  console.log('seatName', seatName);
 
   const dispatch = useDispatch();
   const BusSeatScreenStyles = useMemo(
     () => BusSeatScreenStyle(Colors),
-    [Colors]
+    [Colors],
   );
   const selectedSeatData = useSelector(
-    state => state.commomReducer.selectedSeats
+    state => state.commomReducer.selectedSeats,
   );
 
   const onSelectSeat = seatName => {
@@ -50,7 +53,7 @@ const BusSeatDataFlatlist = props => {
       <View style={BusSeatScreenStyles.Width50}>
         <TouchableOpacity onPress={() => onSelectSeat(item.SeatName)}>
           <LikeUnlike
-            text={item.SeatName} 
+            text={item.SeatName}
             LikeColour={Colors.green}
             UnlikeColour={Colors.white_text_color}
             index={index}
@@ -58,7 +61,7 @@ const BusSeatDataFlatlist = props => {
             ViewStyle={BusSeatScreenStyles.BuscusionStyle}
             onSelectSeat={onSelectSeat}
             isSelected={selectedSeatData.includes(item.SeatName)}
-            seatPrice={`₹${SeatPrice}`} 
+            seatPrice={`₹${SeatPrice}`}
           />
         </TouchableOpacity>
       </View>
