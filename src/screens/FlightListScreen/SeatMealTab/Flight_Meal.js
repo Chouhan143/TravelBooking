@@ -33,12 +33,13 @@ const Meal = ({route}) => {
   // const route = useRoute();
   const dispatch = useDispatch();
   const {selectedItem} = route.params;
-  console.log('item >>>>', selectedItem);
+
   const navigation = useNavigation();
   const [mealsData, setMealsData] = useState([]);
   const [selectedPassanger, setSelectedPassengers] = useState([]);
   const [selectedPassengerIndex, setSelectedPassengerIndex] = useState(null);
   const [addedStatus, setAddedStatus] = useState({});
+  const [baggageTooltip, setBaggageTooltip] = useState(false);
   const refRBSheet = useRef();
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
   const {SrdvType, TraceId} = flightTraceIdDetails;
@@ -85,9 +86,8 @@ const Meal = ({route}) => {
   const priceSelection = useSelector(
     state => state.commomReducer.selectedSeatPriceTotal,
   );
-  console.log('priceSelection', priceSelection);
+
   const priceCal = priceSelection.map(price => price.selectedSeatPriceSum);
-  console.log('priceCal', priceCal);
 
   const selectedSetPriceSum = priceCal.reduce(
     (acc, currentValue) => acc + currentValue,
@@ -95,13 +95,11 @@ const Meal = ({route}) => {
   );
 
   const seatCountSelected = priceSelection.length;
-  console.log('selectedSetPriceSum', selectedSetPriceSum);
 
   // meal sagment destructure
   const mealDescriptions = useSelector(
     state => state.commomReducer.mealDescriptions,
   );
-  console.log('mealDescriptions', mealDescriptions);
 
   // sum calulate the number of meals price
   const multipalMealPrice = mealDescriptions.map(meal => meal.price);
@@ -115,6 +113,27 @@ const Meal = ({route}) => {
   const modalToggle = () => {
     setTooltipVisible(!tooltipVisible);
   };
+
+  const baggageToggle = () => {
+    setBaggageTooltip(!baggageTooltip);
+  };
+
+  // Baggage selection segment
+
+  const selectedBaggge = useSelector(
+    state => state.commomReducer.selectedBaggage,
+  );
+
+  console.log('selectedBaggge', selectedBaggge);
+
+  const totalBaggage = selectedBaggge.length;
+  const multipalBaggage = selectedBaggge.map(meal => meal.selectedBaggagePrice);
+
+  const baggageSumPrice = multipalBaggage.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+
   // API request
   useEffect(() => {
     const mealApiRequest = async () => {
@@ -513,6 +532,72 @@ const Meal = ({route}) => {
                     fontSize: SF(15),
                   }}>
                   ₹{mealSumPrice}
+                </Text>
+              </View>
+            )}
+
+            {selectedBaggge?.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 22,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: SW(10),
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: SF(15),
+                      fontFamily: 'Poppins-Regular',
+                    }}>
+                    Baggage*{totalBaggage}
+                  </Text>
+                  <Tooltip
+                    isVisible={baggageTooltip}
+                    content={
+                      <View style={{flex: 1, paddingVertical: 10}}>
+                        {selectedBaggge.map((item, index) => {
+                          return (
+                            <View>
+                              <Text key={index} style={{color: 'black'}}>
+                                {item.selectedBaggageWeight}
+                              </Text>
+                              <Text
+                                style={{
+                                  color: 'black',
+                                  fontFamily: 'Poppins-Regular',
+                                }}>
+                                ₹{item.selectedBaggagePrice}
+                              </Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    }
+                    placement="right"
+                    onClose={() => setBaggageTooltip(false)}>
+                    <TouchableOpacity onPress={baggageToggle}>
+                      <AntDesign
+                        name={'exclamationcircleo'}
+                        size={15}
+                        color={'black'}
+                      />
+                    </TouchableOpacity>
+                  </Tooltip>
+                </View>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: SF(15),
+                  }}>
+                  ₹{baggageSumPrice}
                 </Text>
               </View>
             )}

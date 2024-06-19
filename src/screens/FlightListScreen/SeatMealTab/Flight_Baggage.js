@@ -20,14 +20,18 @@ import {useTranslation} from 'react-i18next';
 import {FlightsListScreenStyle} from '../../../styles';
 import {useNavigation} from '@react-navigation/native';
 import Tooltip from 'react-native-walkthrough-tooltip';
+import {addBaggagePrice, removeBaggagePrice} from '../../../redux/action';
+import {useDispatch} from 'react-redux';
 const Baggage = ({route}) => {
   const refRBSheet = useRef();
+  const dispatch = useDispatch();
   const {selectedItem} = route.params;
   const navigation = useNavigation();
   const {t} = useTranslation();
   const [baggageData, setBaggageData] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
   const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [baggageTooltip, setBaggageTooltip] = useState(false);
   const [selectedPassengerIndex, setSelectedPassengerIndex] = useState(null);
   const {flightTraceIdDetails} = useSelector(state => state.commomReducer);
   const {SrdvType, TraceId} = flightTraceIdDetails;
@@ -65,9 +69,8 @@ const Baggage = ({route}) => {
   const priceSelection = useSelector(
     state => state.commomReducer.selectedSeatPriceTotal,
   );
-  console.log('priceSelection', priceSelection);
+
   const priceCal = priceSelection.map(price => price.selectedSeatPriceSum);
-  console.log('priceCal', priceCal);
 
   const selectedSetPriceSum = priceCal.reduce(
     (acc, currentValue) => acc + currentValue,
@@ -75,13 +78,11 @@ const Baggage = ({route}) => {
   );
 
   const seatCountSelected = priceSelection.length;
-  console.log('selectedSetPriceSum', selectedSetPriceSum);
 
   // meal sagment destructure
   const mealDescriptions = useSelector(
     state => state.commomReducer.mealDescriptions,
   );
-  console.log('mealDescriptions', mealDescriptions);
 
   // sum calulate the number of meals price
   const multipalMealPrice = mealDescriptions.map(meal => meal.price);
@@ -95,6 +96,24 @@ const Baggage = ({route}) => {
   const modalToggle = () => {
     setTooltipVisible(!tooltipVisible);
   };
+
+  const baggageToggle = () => {
+    setBaggageTooltip(!baggageTooltip);
+  };
+
+  // Baggage selection segment
+
+  const selectedBaggge = useSelector(
+    state => state.commomReducer.selectedBaggage,
+  );
+
+  const totalBaggage = selectedBaggge.length;
+  const multipalBaggage = selectedBaggge.map(meal => meal.selectedBaggagePrice);
+
+  const baggageSumPrice = multipalBaggage.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
 
   // API request
   useEffect(() => {
@@ -132,29 +151,29 @@ const Baggage = ({route}) => {
 
   const toggleAddButton = (index, item) => {
     if (selectedPassengerIndex !== null) {
-      const passengerMeals = addedStatus[selectedPassengerIndex] || {};
-      const mealAlreadyAdded = Object.values(passengerMeals).some(
+      const passengerBaggage = addedStatus[selectedPassengerIndex] || {};
+      const baggageAlreadyAdded = Object.values(passengerBaggage).some(
         status => status,
       );
 
-      if (!mealAlreadyAdded || passengerMeals[index]) {
+      if (!baggageAlreadyAdded || passengerBaggage[index]) {
         setAddedStatus(prevState => {
           const updatedStatus = {...prevState};
-          passengerMeals[index] = !passengerMeals[index];
-          updatedStatus[selectedPassengerIndex] = passengerMeals;
+          passengerBaggage[index] = !passengerBaggage[index];
+          updatedStatus[selectedPassengerIndex] = passengerBaggage;
 
-          if (passengerMeals[index]) {
+          if (passengerBaggage[index]) {
             // If the meal is being added, include the description
-            dispatch(addMealPrice(item.Price, item.Description));
+            dispatch(addBaggagePrice(item.Price, item.Weight));
           } else {
             // If the meal is being removed, include the index of the meal to be removed
-            dispatch(removeMealPrice(item.Price, index));
+            dispatch(removeBaggagePrice(item.Price, index));
           }
 
           return updatedStatus;
         });
       } else {
-        alert('Only one meal can be added per passenger.');
+        alert('Only one Baggage can be added per passenger.');
       }
     } else {
       alert('Please select a passenger first.');
@@ -203,27 +222,48 @@ const Baggage = ({route}) => {
           paddingBottom: SH(15),
         }}>
         {selectedItem.map((item, index) => {
+          const isSelectedPassenger = selectedPassengerIndex === index;
+          const baggageForPassenger = addedStatus[index] || {};
+
           return (
             <TouchableOpacity
               style={{
-                backgroundColor: '#b9eafa',
+                backgroundColor: isSelectedPassenger
+                  ? '#cdeffa'
+                  : Colors.light_gray_text_color,
+
                 paddingHorizontal: 30,
                 paddingVertical: 5,
                 borderRadius: 5,
                 gap: 10,
                 borderWidth: 0.5,
+                borderColor: isSelectedPassenger
+                  ? '#00b7eb'
+                  : Colors.gray_color,
               }}
               key={index}
               onPress={() => togglePassengerSelection(index)}>
               <Text
                 key={item.id}
                 style={{
-                  color: Colors.theme_background,
+                  color: isSelectedPassenger
+                    ? '#00b7eb'
+                    : Colors.gray_text_color,
                   fontSize: SF(18),
                   fontWeight: '600',
                 }}>
                 {item.firstName}
               </Text>
+              {Object.values(baggageForPassenger).some(status => status) ? (
+                <Text
+                  style={{
+                    color: '#000',
+                    fontSize: SF(14),
+                    fontWeight: '500',
+                  }}>
+                  Baggage added
+                </Text>
+              ) : null}
             </TouchableOpacity>
           );
         })}
@@ -338,7 +378,6 @@ const Baggage = ({route}) => {
                   )}
                 </Text>
                 <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
-                  {' '}
                   ₹{fareData.BaseFare.toLocaleString()}
                 </Text>
               </View>
@@ -450,6 +489,72 @@ const Baggage = ({route}) => {
                     fontSize: SF(15),
                   }}>
                   ₹{mealSumPrice}
+                </Text>
+              </View>
+            )}
+
+            {selectedBaggge?.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 22,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: SW(10),
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: SF(15),
+                      fontFamily: 'Poppins-Regular',
+                    }}>
+                    Baggage*{totalBaggage}
+                  </Text>
+                  <Tooltip
+                    isVisible={baggageTooltip}
+                    content={
+                      <View style={{flex: 1, paddingVertical: 10}}>
+                        {selectedBaggge.map((item, index) => {
+                          return (
+                            <View>
+                              <Text key={index} style={{color: 'black'}}>
+                                {item.selectedBaggageWeight}
+                              </Text>
+                              <Text
+                                style={{
+                                  color: 'black',
+                                  fontFamily: 'Poppins-Regular',
+                                }}>
+                                ₹{item.selectedBaggagePrice}
+                              </Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    }
+                    placement="right"
+                    onClose={() => setBaggageTooltip(false)}>
+                    <TouchableOpacity onPress={baggageToggle}>
+                      <AntDesign
+                        name={'exclamationcircleo'}
+                        size={15}
+                        color={'black'}
+                      />
+                    </TouchableOpacity>
+                  </Tooltip>
+                </View>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: SF(15),
+                  }}>
+                  ₹{baggageSumPrice}
                 </Text>
               </View>
             )}

@@ -34,6 +34,9 @@ import {
   RESET_ADD_SEAT_AMOUNT,
   RESET_ADD_MEAL_AMOUNT,
   RESET_ADD_MEAL_DISCRIPTION,
+  ADD_BAGGAGE_PRICE,
+  REMOVE_BAGGAGE_PRICE,
+  RESET_BAGGAGE_STATE,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -69,6 +72,7 @@ const initialState = {
   mealDescriptions: [],
   selectedSeatPriceTotal: [],
   initialPublishedFare: 0,
+  selectedBaggage: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -244,6 +248,11 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         mealDescriptions: [],
       };
+    case RESET_BAGGAGE_STATE:
+      return {
+        ...state,
+        selectedBaggage: [],
+      };
 
     case FLIGHT_SELECT_SEAT:
       const seat = action.payload;
@@ -357,6 +366,44 @@ export default function commomReducer(state = initialState, action) {
         },
         mealDescriptions: state.mealDescriptions.filter(
           (meal, idx) => idx !== action.payload.index,
+        ),
+      };
+
+    case ADD_BAGGAGE_PRICE:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare:
+              state.flightFareQutesData.Fare.PublishedFare +
+              action.payload.price,
+          },
+        },
+        selectedBaggage: [
+          ...state.selectedBaggage,
+          {
+            selectedBaggageWeight: action.payload.Weight,
+            selectedBaggagePrice: action.payload.price,
+          },
+        ],
+      };
+
+    case REMOVE_BAGGAGE_PRICE:
+      return {
+        ...state,
+        flightFareQutesData: {
+          ...state.flightFareQutesData,
+          Fare: {
+            ...state.flightFareQutesData.Fare,
+            PublishedFare:
+              state.flightFareQutesData.Fare.PublishedFare -
+              action.payload.price,
+          },
+        },
+        selectedBaggage: state.selectedBaggage.filter(
+          (baggage, idx) => idx !== action.payload.index,
         ),
       };
 

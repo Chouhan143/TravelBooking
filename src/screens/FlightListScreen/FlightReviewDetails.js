@@ -33,6 +33,13 @@ const FlightReviewDetails = () => {
   const SrdvIndexValue = SrdvIndexMap[0]?.SrdvIndex;
   const ResultIndexValue = SrdvIndexMap[0]?.ResultIndex;
 
+  // tottal amount to pay get this redux state
+
+  const fareQutesDataSelecter = useSelector(
+    state => state.commomReducer.flightFareQutesData,
+  );
+  const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
+
   // passenger name
   const selectedPassenger = useSelector(
     state => state.commomReducer.selectedPassengers,
@@ -136,13 +143,18 @@ const FlightReviewDetails = () => {
         <View
           style={[
             styles.AmtFlex,
-            {borderTopWidth: 0.5, borderTopColor: 'gray', paddingVertical: 10},
+            {
+              borderTopWidth: 0.5,
+              borderTopColor: 'gray',
+              paddingVertical: 10,
+              paddingHorizontal: 10,
+            },
           ]}>
           <Text style={{color: '#000', fontSize: 16, fontWeight: '700'}}>
             Grand Total
           </Text>
           <Text style={{color: '#000', fontSize: 16, fontWeight: '700'}}>
-            30,550
+            ₹{tottalFare.toLocaleString('en-IN')}
           </Text>
         </View>
       </View>

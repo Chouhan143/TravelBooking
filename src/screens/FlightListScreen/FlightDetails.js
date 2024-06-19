@@ -28,6 +28,7 @@ import {
   removePassengerItem,
   resetAddMealDescription,
   resetAddSeatAmount,
+  resetBaggageState,
   resetFlightFareQuotesData,
 } from '../../redux/action';
 import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
@@ -67,10 +68,6 @@ const FlightDetails = () => {
   const fareQutesDataSelecter = useSelector(
     state => state.commomReducer.flightFareQutesData,
   );
-  // console.log('fareQutesDataSelecter', fareQutesDataSelecter);
-
-  // console.log(fareQutesDataSelecter);
-
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
 
   const fareQutesData = fareQutesDataSelecter.FareBreakdown;
@@ -93,6 +90,7 @@ const FlightDetails = () => {
     dispatch(resetAddMealDescription());
     dispatch(resetAddSeatAmount());
     dispatch(resetFlightFareQuotesData());
+    dispatch(resetBaggageState());
   }, []);
 
   const origin = SegmentsFlatten[0]?.Origin?.CityName;
@@ -152,10 +150,6 @@ const FlightDetails = () => {
   const reduxPassengerSelect = useSelector(
     state => state.commomReducer.selectedPassengers,
   );
-
-  console.log('reduxPassengerSelect', reduxPassengerSelect);
-
-  console.log('selectedPassengers 123', selectedPassengers);
 
   const handleSelectionChange = (
     passengerData,
@@ -477,6 +471,7 @@ const FlightDetails = () => {
                   color={'black'}
                   size={SF(18)}
                 />
+                ₹{' '}
                 {fareQutesDataSelecter.Fare.PublishedFare.toLocaleString(
                   'en-IN',
                 )}
