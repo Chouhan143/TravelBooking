@@ -16,8 +16,10 @@ import {FLIGHT_BOOKLLC} from '../../utils/BaseUrl';
 import {useRoute} from '@react-navigation/native';
 const FlightReviewDetails = () => {
   const route = useRoute();
-  const {selectedItem} = route.params;
+  const {selectedItem, selectedItemContinue} = route.params || {};
   console.assert('selectedItem =====', selectedItem);
+  console.assert('selectedItemContinue =====', selectedItemContinue);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const back = () => {

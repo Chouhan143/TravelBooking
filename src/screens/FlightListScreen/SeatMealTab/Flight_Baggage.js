@@ -160,7 +160,7 @@ const Baggage = ({route}) => {
           gap: 10,
           flexWrap: 'wrap',
           marginHorizontal: SW(20),
-          paddingBottom:SH(15)
+          paddingBottom: SH(15),
         }}>
         {selectedItem.map((item, index) => {
           return (
@@ -172,7 +172,6 @@ const Baggage = ({route}) => {
                 borderRadius: 5,
                 gap: 10,
                 borderWidth: 0.5,
-            
               }}
               key={index}>
               <Text
@@ -181,7 +180,6 @@ const Baggage = ({route}) => {
                   color: Colors.theme_background,
                   fontSize: SF(18),
                   fontWeight: '600',
-                 
                 }}>
                 {item.firstName}
               </Text>
@@ -193,7 +191,7 @@ const Baggage = ({route}) => {
         data={baggageData}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={{paddingBottom:SH(20)}}
+        contentContainerStyle={{paddingBottom: SH(20)}}
       />
 
       <View
@@ -204,9 +202,9 @@ const Baggage = ({route}) => {
           flexDirection: 'row',
           borderTopColor: 'gray',
           borderWidth: 0.5,
-          padding:SW(10),
-          borderTopLeftRadius:20,
-          borderTopRightRadius:20
+          padding: SW(10),
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -216,12 +214,17 @@ const Baggage = ({route}) => {
             style={{
               color: Colors.gray_text_color,
               fontSize: 14,
-              fontFamily:'Poppins-Bold'
+              fontFamily: 'Poppins-Bold',
             }}>
             Fare Breackup
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#000', fontSize:SF(16),fontFamily:'Poppins-Regular'}}>
+            <Text
+              style={{
+                color: '#000',
+                fontSize: SF(16),
+                fontFamily: 'Poppins-Regular',
+              }}>
               ₹ {tottalFare.toLocaleString()}
             </Text>
             <Entypo name={'chevron-down'} size={20} color={'#000'} />
@@ -286,14 +289,17 @@ const Baggage = ({route}) => {
                   paddingHorizontal: 20,
                 }}
                 key={index}>
-                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>
+                <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
                   {getPassengerTypeLabel(
                     fareData.PassengerType,
                     fareData.PassengerCount,
                     fareData.BaseFare,
                   )}
                 </Text>
-                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+                <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+                  {' '}
+                  ₹{fareData.BaseFare.toLocaleString()}
+                </Text>
               </View>
             ))}
             <View
@@ -302,12 +308,20 @@ const Baggage = ({route}) => {
                 flexDirection: 'row',
                 paddingHorizontal: 20,
               }}>
-              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>Taxes & Fees</Text>
-              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+              <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+                Taxes & Fees
+              </Text>
+              <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+                ₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}
+              </Text>
             </View>
             <View style={{paddingHorizontal: 20, paddingVertical: 2}}>
               <Text
-                style={{fontSize: SF(16),  color: '#000',fontFamily:'Poppins-Regular'}}>
+                style={{
+                  fontSize: SF(16),
+                  color: '#000',
+                  fontFamily: 'Poppins-Regular',
+                }}>
                 Other Services
               </Text>
             </View>
@@ -318,9 +332,18 @@ const Baggage = ({route}) => {
                   flexDirection: 'row',
                   paddingHorizontal: 20,
                 }}>
-                <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Seats*{seatCountSelected}</Text>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: SF(15),
+                    fontFamily: 'Poppins-Regular',
+                  }}>
+                  Seats*{seatCountSelected}
+                </Text>
 
-                <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{selectedSetPriceSum}</Text>
+                <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+                  ₹{selectedSetPriceSum}
+                </Text>
               </View>
             )}
 
@@ -337,9 +360,15 @@ const Baggage = ({route}) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     gap: SW(10),
-                   
                   }}>
-                  <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Meals*{totalMealCount}</Text>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: SF(15),
+                      fontFamily: 'Poppins-Regular',
+                    }}>
+                    Meals*{totalMealCount}
+                  </Text>
                   <Tooltip
                     isVisible={tooltipVisible}
                     content={
@@ -347,8 +376,16 @@ const Baggage = ({route}) => {
                         {mealDescriptions.map((item, index) => {
                           return (
                             <View>
-                              <Text key={index} style={{color:'black'}}>{item.description}</Text>
-                              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{item.price}</Text>
+                              <Text key={index} style={{color: 'black'}}>
+                                {item.description}
+                              </Text>
+                              <Text
+                                style={{
+                                  color: 'black',
+                                  fontFamily: 'Poppins-Regular',
+                                }}>
+                                ₹{item.price}
+                              </Text>
                             </View>
                           );
                         })}
@@ -357,11 +394,22 @@ const Baggage = ({route}) => {
                     placement="top"
                     onClose={() => setTooltipVisible(false)}>
                     <TouchableOpacity onPress={modalToggle}>
-                      <AntDesign name={'exclamationcircleo'} size={15} color={'black'} />
+                      <AntDesign
+                        name={'exclamationcircleo'}
+                        size={15}
+                        color={'black'}
+                      />
                     </TouchableOpacity>
                   </Tooltip>
                 </View>
-                <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{mealSumPrice}</Text>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: SF(15),
+                  }}>
+                  ₹{mealSumPrice}
+                </Text>
               </View>
             )}
           </ScrollView>
@@ -387,11 +435,9 @@ const Baggage = ({route}) => {
               <Button
                 title={t('Proceed_Text')}
                 onPress={() =>
-                  navigation.navigate(
-                    cheboxSelect
-                      ? RouteName.FLIGHT_MEALS
-                      : RouteName.FLIGHT_REVIEW_DETAILS,
-                  )
+                  navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS, {
+                    selectedItem: selectedItem,
+                  })
                 }
               />
             </View>
@@ -407,7 +453,7 @@ export default Baggage;
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    marginTop:SH(10)
+    marginTop: SH(10),
   },
   container: {
     flexDirection: 'row',

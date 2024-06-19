@@ -22,10 +22,35 @@ const FlightTravellerDetails = ({route}) => {
   const [Email, setEmail] = useState('');
   const [Mobile, setMobile] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [error, setError] = useState('');
 
   const handleDateSelect = date => {
-    setDob(date);
+    const currentDate = new Date();
+    const selectedDate = new Date(date);
+    let isValidDate = true;
+
+    if (passengerType === 'Child (2-12 yrs)') {
+      const childDateLimit = new Date('2012-06-22');
+      if (selectedDate <= childDateLimit || selectedDate > currentDate) {
+        setError('Child date of birth must be after 22 June 2012.');
+        isValidDate = false;
+      }
+    } else if (passengerType === 'Infant (0-2 yrs)') {
+      const infantDateLimit = new Date('2022-06-12');
+      if (selectedDate <= infantDateLimit || selectedDate > currentDate) {
+        setError('Infant date of birth must be after 12 June 2022.');
+        isValidDate = false;
+      }
+    }
+
+    if (isValidDate) {
+      setDob(date);
+      setError('');
+    } else {
+      setDob('');
+    }
   };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -62,42 +87,52 @@ const FlightTravellerDetails = ({route}) => {
 
   return (
     <View style={styles.container}>
-      
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 10,
+          paddingHorizontal: 10,
+          margin: SW(10),
+          backgroundColor: '#ffd9bd',
+          padding: SW(5),
+          paddingVertical: SH(10),
+          borderRadius: 10,
+        }}>
         <View
           style={{
-            flexDirection: 'row',
-            gap: 10,
-            paddingHorizontal: 10,
-            margin:SW(10),
-            backgroundColor:'#ffd9bd',
-            padding:SW(5),
-            paddingVertical:SH(10),
-            borderRadius:10
+            width: SW(40),
+            height: SH(40),
+            backgroundColor: '#FF9900',
+            borderRadius: SW(20),
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <View
-            style={{
-              width: SW(40),
-              height: SH(40),
-              backgroundColor: '#FF9900',
-              borderRadius: SW(20),
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <MaterialIcons
-              name={'notification-important'}
-              size={30}
-              color={'#fff'}
-            />
-          </View>
-          <View>
-            <Text style={{color: 'rgba(0,0,0,1)', fontSize: SF(10),fontFamily:'Poppins-Regular'}}>
-              <Text style={{color: '#000',fontFamily:'Poppins-Bold',fontSize: SF(13)}}>Important:</Text>
-              {''} Enter name as mentioned on your passport or goverment
-              approved IDs.
-            </Text>
-          </View>
+          <MaterialIcons
+            name={'notification-important'}
+            size={30}
+            color={'#fff'}
+          />
         </View>
-      
+        <View>
+          <Text
+            style={{
+              color: 'rgba(0,0,0,1)',
+              fontSize: SF(10),
+              fontFamily: 'Poppins-Regular',
+              marginRight: SW(10),
+            }}>
+            <Text
+              style={{
+                color: '#000',
+                fontFamily: 'Poppins-Bold',
+                fontSize: SF(13),
+              }}>
+              Important:
+            </Text>
+            Enter name as mentioned on your passport or goverment approved IDs.
+          </Text>
+        </View>
+      </View>
 
       {/* inputeboxes here  */}
       <View>
@@ -106,8 +141,8 @@ const FlightTravellerDetails = ({route}) => {
             fontSize: SF(18),
             paddingVertical: SW(10),
             paddingHorizontal: SW(18),
-            fontFamily:'Poppins-Medium',
-            color:'black'
+            fontFamily: 'Poppins-Medium',
+            color: 'black',
           }}>
           Gender
         </Text>
@@ -122,22 +157,24 @@ const FlightTravellerDetails = ({route}) => {
           <TouchableOpacity
             onPress={() => setSelected('Male')}
             style={[styles.tab, selected === 'Male' && styles.selectedTab]}>
-            <Text style={[
-              styles.tabText, 
-              selected === 'Male' && styles.selectedTabText
-          ]}>
+            <Text
+              style={[
+                styles.tabText,
+                selected === 'Male' && styles.selectedTabText,
+              ]}>
               Male
-          </Text>
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSelected('Female')}
             style={[styles.tab, selected === 'Female' && styles.selectedTab]}>
-            <Text style={[
-              styles.tabText, 
-              selected === 'Female' && styles.selectedTabText
-          ]}>
+            <Text
+              style={[
+                styles.tabText,
+                selected === 'Female' && styles.selectedTabText,
+              ]}>
               Female
-          </Text>
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{marginTop: SW(5)}}>
@@ -194,8 +231,15 @@ const FlightTravellerDetails = ({route}) => {
             onChangeText={setMobile}
           />
         </View> */}
+
+        <View style={{paddingHorizontal: 20}}>
+          <Text style={{color: 'red'}}>{error}</Text>
+        </View>
         <TouchableOpacity
-          style={[styles.ConfirmButton, !isValid && {backgroundColor:Colors.theme_background}]}
+          style={[
+            styles.ConfirmButton,
+            !isValid && {backgroundColor: Colors.gray_color},
+          ]}
           onPress={handleConfirm}
           disabled={!isValid}>
           <Text style={styles.confirmTxt}>Confirm</Text>
@@ -225,15 +269,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#0099FF',
   },
   selectedTabText: {
-        color: 'white',
-        fontSize:SF(15)
-    },
-    tabText: {
-        fontSize: SF(16),
-        fontWeight: '500',
-        fontFamily: 'Poppins-Medium',
-        color: 'black',
-    },
+    color: 'white',
+    fontSize: SF(15),
+  },
+  tabText: {
+    fontSize: SF(16),
+    fontWeight: '500',
+    fontFamily: 'Poppins-Medium',
+    color: 'black',
+  },
   input: {
     borderWidth: 1,
     borderColor: 'gray',
@@ -244,7 +288,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: SW(5),
     fontWeight: '500',
-    color:'black'
+    color: 'black',
   },
   ConfirmButton: {
     width: SW(355),
