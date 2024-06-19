@@ -331,17 +331,20 @@ const Meal = ({route}) => {
       </View>
 
       <RBSheet height={SH(400)} refRBSheet={refRBSheet}>
-      <TouchableOpacity
-      style={{alignSelf:'flex-end',paddingRight:SW(10),
-        position:'absolute',zIndex:999,top:10}}
-      onPress={() => {
-        refRBSheet.current.close();
-      }}>
-      <AntDesign name={'closecircle'} size={25} color='black' 
-      />
-    </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            alignSelf: 'flex-end',
+            paddingRight: SW(10),
+            position: 'absolute',
+            zIndex: 999,
+            top: 10,
+          }}
+          onPress={() => {
+            refRBSheet.current.close();
+          }}>
+          <AntDesign name={'closecircle'} size={25} color="black" />
+        </TouchableOpacity>
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
-       
           <ScrollView
             keyboardShouldPersistTaps="handled"
             style={FlightsListScreenStyle.contentContainerStyle}>
@@ -352,8 +355,14 @@ const Meal = ({route}) => {
                 alignItems: 'center',
               }}>
               <View>
-                <Text style={{color: Colors.black_text_color,
-        fontSize: SF(22),paddingHorizontal: SH(20),paddingTop: SH(10),fontFamily:'Poppins-Medium'}}>
+                <Text
+                  style={{
+                    color: Colors.black_text_color,
+                    fontSize: SF(22),
+                    paddingHorizontal: SH(20),
+                    paddingTop: SH(10),
+                    fontFamily: 'Poppins-Medium',
+                  }}>
                   Fare Breakup
                 </Text>
                 <Text style={FlightsListScreenStyle.TravellerText}>
@@ -361,7 +370,6 @@ const Meal = ({route}) => {
                 </Text>
                 <View style={FlightsListScreenStyle.padLeft10}></View>
               </View>
-              
             </View>
             {fareQutesData.map((fareData, index) => (
               <View
@@ -371,14 +379,22 @@ const Meal = ({route}) => {
                   paddingHorizontal: 20,
                 }}
                 key={index}>
-                <Text style={{color:'black'}}>
+                <Text style={{color: 'black'}}>
                   {getPassengerTypeLabel(
                     fareData.PassengerType,
                     fareData.PassengerCount,
                     fareData.BaseFare,
                   )}
                 </Text>
-                <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}> ₹{fareData.BaseFare.toLocaleString()}</Text>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: SF(15),
+                  }}>
+                  {' '}
+                  ₹{fareData.BaseFare.toLocaleString()}
+                </Text>
               </View>
             ))}
             <View
@@ -387,72 +403,128 @@ const Meal = ({route}) => {
                 flexDirection: 'row',
                 paddingHorizontal: 20,
               }}>
-              <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>Taxes & Fees</Text>
-              <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}</Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: SF(15),
+                }}>
+                Taxes & Fees
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: SF(15),
+                }}>
+                ₹{fareQutesDataSelecter.Fare.Tax.toLocaleString()}
+              </Text>
             </View>
             <View style={{paddingHorizontal: 20, paddingVertical: 2}}>
-            <Text
-              style={{fontSize: SF(16),  color: '#000',fontFamily:'Poppins-Regular'}}>
-              Other Services
-            </Text>
-            
-          </View>
-          {priceSelection.length > 0 && (
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                paddingHorizontal: 20,
-              }}>
-              <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Seats*{seatCountSelected}</Text>
-
-              <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{selectedSetPriceSum}</Text>
+              <Text
+                style={{
+                  fontSize: SF(16),
+                  color: '#000',
+                  fontFamily: 'Poppins-Regular',
+                }}>
+                Other Services
+              </Text>
             </View>
-          )}
-          {mealDescriptions?.length > 0 && (
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                paddingHorizontal: 22,
-              }}>
+            {priceSelection.length > 0 && (
               <View
                 style={{
+                  justifyContent: 'space-between',
                   flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: SW(10),
-                 
+                  paddingHorizontal: 20,
                 }}>
-                <Text style={{color:'black',fontSize:SF(15),fontFamily:'Poppins-Regular'}}>Meals*{totalMealCount}</Text>
-                <Tooltip
-                  isVisible={tooltipVisible}
-                  content={
-                    <View style={{flex: 1, paddingVertical: 10}}>
-                      {mealDescriptions.map((item, index) => {
-                        return (
-                          <View>
-                            <Text key={index} style={{color:'black'}}>{item.description}</Text>
-                            <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>₹{item.price}</Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  }
-                  placement="top"
-                  onClose={() => setTooltipVisible(false)}>
-                  <TouchableOpacity onPress={modalToggle}>
-                    <AntDesign name={'exclamationcircleo'} size={15} color={'black'} />
-                  </TouchableOpacity>
-                </Tooltip>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: SF(15),
+                    fontFamily: 'Poppins-Regular',
+                  }}>
+                  Seats*{seatCountSelected}
+                </Text>
+
+                <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+                  ₹{selectedSetPriceSum}
+                </Text>
               </View>
-              <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>₹{mealSumPrice}</Text>
-            </View>
-          )}
+            )}
+            {mealDescriptions?.length > 0 && (
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  paddingHorizontal: 22,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: SW(10),
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: SF(15),
+                      fontFamily: 'Poppins-Regular',
+                    }}>
+                    Meals*{totalMealCount}
+                  </Text>
+                  <Tooltip
+                    isVisible={tooltipVisible}
+                    content={
+                      <View style={{flex: 1, paddingVertical: 10}}>
+                        {mealDescriptions.map((item, index) => {
+                          return (
+                            <View>
+                              <Text key={index} style={{color: 'black'}}>
+                                {item.description}
+                              </Text>
+                              <Text
+                                style={{
+                                  color: 'black',
+                                  fontFamily: 'Poppins-Regular',
+                                }}>
+                                ₹{item.price}
+                              </Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    }
+                    placement="top"
+                    onClose={() => setTooltipVisible(false)}>
+                    <TouchableOpacity onPress={modalToggle}>
+                      <AntDesign
+                        name={'exclamationcircleo'}
+                        size={15}
+                        color={'black'}
+                      />
+                    </TouchableOpacity>
+                  </Tooltip>
+                </View>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: SF(15),
+                  }}>
+                  ₹{mealSumPrice}
+                </Text>
+              </View>
+            )}
           </ScrollView>
           <View style={FlightsListScreenStyle.PayBottomShetBoxChild}>
             <View>
-              <Text style={{fontSize: SF(16), color: Colors.gray_text_color,fontFamily:'Pippins-Medium'}}>
+              <Text
+                style={{
+                  fontSize: SF(16),
+                  color: Colors.gray_text_color,
+                  fontFamily: 'Pippins-Medium',
+                }}>
                 {t('Fare_Text')}
               </Text>
               <Text

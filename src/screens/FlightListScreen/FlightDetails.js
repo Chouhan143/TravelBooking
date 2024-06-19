@@ -489,7 +489,10 @@ const FlightDetails = () => {
                   navigation.navigate(
                     cheboxSelect
                       ? RouteName.FLIGHT_MEALS
-                      : RouteName.FLIGHT_REVIEW_DETAILS,
+                      : (RouteName.FLIGHT_REVIEW_DETAILS,
+                        {
+                          selectedItemContinue: selectedPassengers,
+                        }),
                   )
                 }
               />

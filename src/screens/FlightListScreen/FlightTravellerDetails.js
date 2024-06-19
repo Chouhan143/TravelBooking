@@ -22,26 +22,30 @@ const FlightTravellerDetails = ({route}) => {
   const [Email, setEmail] = useState('');
   const [Mobile, setMobile] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [error, setError] = useState('');
 
   const handleDateSelect = date => {
     const currentDate = new Date();
     const selectedDate = new Date(date);
+    let isValidDate = true;
 
     if (passengerType === 'Child (2-12 yrs)') {
       const childDateLimit = new Date('2012-06-22');
-      if (selectedDate > childDateLimit && selectedDate <= currentDate) {
-        setDob(date);
-      } else {
-        alert('Child date of birth must be after 22 June 2012.');
-        setDob('');
+      if (selectedDate <= childDateLimit || selectedDate > currentDate) {
+        setError('Child date of birth must be after 22 June 2012.');
+        isValidDate = false;
       }
     } else if (passengerType === 'Infant (0-2 yrs)') {
       const infantDateLimit = new Date('2022-06-12');
-      if (selectedDate > infantDateLimit && selectedDate <= currentDate) {
-        setDob(date);
-      } else {
-        alert('Infant date of birth must be after 12 June 2022.');
+      if (selectedDate <= infantDateLimit || selectedDate > currentDate) {
+        setError('Infant date of birth must be after 12 June 2022.');
+        isValidDate = false;
       }
+    }
+
+    if (isValidDate) {
+      setDob(date);
+      setError('');
     } else {
       setDob('');
     }
@@ -115,6 +119,7 @@ const FlightTravellerDetails = ({route}) => {
               color: 'rgba(0,0,0,1)',
               fontSize: SF(10),
               fontFamily: 'Poppins-Regular',
+              marginRight: SW(10),
             }}>
             <Text
               style={{
@@ -124,8 +129,7 @@ const FlightTravellerDetails = ({route}) => {
               }}>
               Important:
             </Text>
-            {''} Enter name as mentioned on your passport or goverment approved
-            IDs.
+            Enter name as mentioned on your passport or goverment approved IDs.
           </Text>
         </View>
       </View>
@@ -227,10 +231,14 @@ const FlightTravellerDetails = ({route}) => {
             onChangeText={setMobile}
           />
         </View> */}
+
+        <View style={{paddingHorizontal: 20}}>
+          <Text style={{color: 'red'}}>{error}</Text>
+        </View>
         <TouchableOpacity
           style={[
             styles.ConfirmButton,
-            !isValid && {backgroundColor: Colors.theme_background},
+            !isValid && {backgroundColor: Colors.gray_color},
           ]}
           onPress={handleConfirm}
           disabled={!isValid}>
