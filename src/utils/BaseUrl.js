@@ -18,6 +18,7 @@ const FLIGHT_FARE_QUOTE = `${BASE_URL}/farequote`;
 const FLIGHT_SSR_MEAL = `${BASE_URL}/ssr`;
 const FLIGHT_SEAT_MAP = `${BASE_URL}/seatmap`;
 const FLIGHT_BOOKLLC = `${BASE_URL}/bookllc`;
+const HOTEL_SEARCH=`${BASE_URL}/search-hotel`;
 
 export {
   BASE_URL,
@@ -38,4 +39,5 @@ export {
   FLIGHT_SSR_MEAL,
   FLIGHT_SEAT_MAP,
   FLIGHT_BOOKLLC,
+  HOTEL_SEARCH
 };

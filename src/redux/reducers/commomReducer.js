@@ -37,6 +37,7 @@ import {
   ADD_BAGGAGE_PRICE,
   REMOVE_BAGGAGE_PRICE,
   RESET_BAGGAGE_STATE,
+  SET_HOTEL_DATA
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -73,6 +74,7 @@ const initialState = {
   selectedSeatPriceTotal: [],
   initialPublishedFare: 0,
   selectedBaggage: [],
+  hotelData: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -368,7 +370,6 @@ export default function commomReducer(state = initialState, action) {
           (meal, idx) => idx !== action.payload.index,
         ),
       };
-
     case ADD_BAGGAGE_PRICE:
       return {
         ...state,
@@ -407,6 +408,11 @@ export default function commomReducer(state = initialState, action) {
         ),
       };
 
+      case SET_HOTEL_DATA:
+        return {
+          ...state,
+          hotelData: action.payload,
+        };
     default: {
       return state;
     }

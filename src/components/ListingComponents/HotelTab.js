@@ -1,5 +1,5 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,6 +7,13 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { Colors, SF, SH, SW } from '../../utils';
 import AgeModal from '../commonComponents/AgeModal';
 import { useNavigation } from '@react-navigation/native';
+import {HOTEL_SEARCH} from '../../utils/BaseUrl';
+import axios from 'axios';
+import {setHotelData } from '../../redux/action';
+import { useDispatch } from 'react-redux';
+
+
+
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
@@ -15,6 +22,7 @@ const HotelTab = () => {
   const [childrenCount, setChildrenCount] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
   const [roomsCount, setRoomsCount] = useState(1);
+  const dispatch = useDispatch();
   const navigation=useNavigation();
   const handleChildrenChange = (change) => {
     setChildrenCount((prevCount) => {
@@ -27,6 +35,41 @@ const HotelTab = () => {
       return newCount;
     });
   };
+  // hotel search api 
+  const FetchHotelData = async () =>{
+  
+    try {
+      const payload = {
+        CheckInDate: "30/04/2020",
+        NoOfNights: 1,
+        CountryCode: "IN",
+        CityId: 130443,
+        ResultCount: null,
+        NoOfRooms: 1,
+        RoomGuests: [
+          {
+            NoOfAdults: 1,
+            NoOfChild: 0,
+            ChildAge: []
+          }
+        ],
+        MaxRating: 5,
+        IsNearBySearchAllowed: false
+      };
+      const res = await axios.post(HOTEL_SEARCH, payload);
+      const HotelListArr = res.data.Results;
+      console.log('Fetched Data:', HotelListArr);
+      dispatch(setHotelData(HotelListArr));   
+    } catch (error) {
+      console.log(error.response)
+    }
+   }
+
+
+  useEffect(() => {
+    FetchHotelData(dispatch);
+  }, [dispatch]);
+
 
   const handleChildAgeChange = (index, age) => {
     const newAges = [...childrenAges];
