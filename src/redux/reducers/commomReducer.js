@@ -37,7 +37,7 @@ import {
   ADD_BAGGAGE_PRICE,
   REMOVE_BAGGAGE_PRICE,
   RESET_BAGGAGE_STATE,
-  SET_HOTEL_DATA
+  SET_HOTEL_DATA,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -276,27 +276,6 @@ export default function commomReducer(state = initialState, action) {
         selectedPassengers: [...state.selectedPassengers, action.payload],
       };
 
-    // case SET_SELECTED_PASSENGERS:
-    //   // Check if the passenger ID already exists in the state
-    //   const passengerExists = state.selectedPassengers.some(
-    //     passenger => passenger.id === action.payload.id,
-    //   );
-    //   if (passengerExists) {
-    //     // If the passenger ID already exists, remove it (deselect)
-    //     return {
-    //       ...state,
-    //       selectedPassengers: state.selectedPassengers.filter(
-    //         passenger => passenger.id !== action.payload.id,
-    //       ),
-    //     };
-    //   } else {
-    //     // If the passenger ID doesn't exist, add it (select)
-    //     return {
-    //       ...state,
-    //       selectedPassengers: [...state.selectedPassengers, action.payload],
-    //     };
-    //   }
-
     case ADD_SEAT_AMOUNT:
       return {
         ...state,
@@ -408,11 +387,11 @@ export default function commomReducer(state = initialState, action) {
         ),
       };
 
-      case SET_HOTEL_DATA:
-        return {
-          ...state,
-          hotelData: action.payload,
-        };
+    case SET_HOTEL_DATA:
+      return {
+        ...state,
+        hotelData: action.payload,
+      };
     default: {
       return state;
     }

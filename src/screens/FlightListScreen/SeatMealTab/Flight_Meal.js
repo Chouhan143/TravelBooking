@@ -124,8 +124,6 @@ const Meal = ({route}) => {
     state => state.commomReducer.selectedBaggage,
   );
 
-  console.log('selectedBaggge', selectedBaggge);
-
   const totalBaggage = selectedBaggge.length;
   const multipalBaggage = selectedBaggge.map(meal => meal.selectedBaggagePrice);
 
@@ -143,6 +141,7 @@ const Meal = ({route}) => {
         TraceId: TraceId.toString(),
         ResultIndex: ResultIndexValue,
       };
+      console.log('mealPayload', payload);
       try {
         const res = await axios.post(FLIGHT_SSR_MEAL, payload);
         const result = res.data.MealDynamic;

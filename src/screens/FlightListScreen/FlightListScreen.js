@@ -65,12 +65,11 @@ const FlightListScreen = props => {
   ).flat();
   const SrdvIndexLoop = SrdvIndexMap.map(el3 => el3.SrdvIndex);
   const SrdvIndexValue = SrdvIndexLoop[0];
-  console.log('SrdvIndexValue', SrdvIndexValue);
+
   // console.log('SrdvIndexValue', SrdvIndexValue[0]);
 
   const ResultIndex = SrdvIndexMap.map(el3 => el3.ResultIndex);
   const ResultIndexValue = ResultIndex[0];
-  console.log('ResultIndex >>', ResultIndex[0]);
 
   // Sagmented Data is here
   const flattenedData = flightData?.flat() ?? []; // Flatten the nested array
@@ -128,47 +127,6 @@ const FlightListScreen = props => {
     },
   ];
 
-  const UpgradeBoxData = [
-    {
-      id: 1,
-      tagname: 'Best Price',
-      maintag: 'SAVER',
-      Pricetag: '0',
-      seathead: 'Seat',
-      seattext: 'Chargeable',
-      mealhead: 'Meal',
-      Mealtext: 'Chargeable',
-      ChangeFeeHead: 'Change Fee',
-      ChangeFeeText: 'Up to INR 5000*',
-      CancellationFeeHead: 'Cancellation Fee',
-      CancellationFeeText: 'Up to INR 3000*',
-      CheckInBagHead: 'Check-in Bag',
-      CheckInBagText: '15KG',
-      HandBagHead: 'Hand Bag',
-      HandBagText: '7KG',
-      RadioValue: 'first',
-    },
-    {
-      id: 2,
-      tagname: 'Best Value',
-      maintag: 'GOFLEXI',
-      Pricetag: '447',
-      seathead: 'Seat',
-      seattext: 'Included',
-      mealhead: 'Meal',
-      Mealtext: 'Included',
-      ChangeFeeHead: 'Change Fee',
-      ChangeFeeText: 'Unlimited free rescheduling',
-      CancellationFeeHead: 'Cancellation Fee',
-      CancellationFeeText: '4 Days & Above: INR 500 Onwards',
-      CheckInBagHead: 'Check-in Bag',
-      CheckInBagText: '15KG',
-      HandBagHead: 'Hand Bag',
-      HandBagText: '7KG',
-      RadioValue: 'second',
-    },
-  ];
-
   const handleDateSearch = async (date, index) => {
     const dateObject = new Date(date);
     // Set the time to midnight (00:00:00)
@@ -205,6 +163,7 @@ const FlightListScreen = props => {
         PreferredArrivalTime: formattedDate,
       })),
     };
+
     setSelectedItemIndex(index);
     await FsearchData(newPayload);
   };
@@ -225,8 +184,9 @@ const FlightListScreen = props => {
         TraceId: TraceId,
         ResultIndex: ResultIndexValue,
       };
-      console.log('payload', payload);
+
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
+
       dispatch(flightFareQutesData(res.data.Results));
 
       setFlightBottomData(res.data.Results);
@@ -244,6 +204,8 @@ const FlightListScreen = props => {
   // console.log('flightBotomData', flightBotomData);
 
   const Segments = flightBotomData?.Segments ?? [];
+
+  const isOneWay = flightBotomData.SingleSlotBooking;
 
   const SegmentsFlatten = Segments.flat();
 

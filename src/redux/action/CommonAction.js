@@ -34,6 +34,7 @@ import {
   ADD_BAGGAGE_PRICE,
   REMOVE_BAGGAGE_PRICE,
   SET_HOTEL_DATA,
+  RESET_BAGGAGE_STATE,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -213,7 +214,7 @@ export const removeBaggagePrice = (price, index) => ({
   payload: {price, index},
 });
 
-export const setHotelData = (hotelData) => ({
+export const setHotelData = hotelData => ({
   type: SET_HOTEL_DATA,
   payload: hotelData,
 });

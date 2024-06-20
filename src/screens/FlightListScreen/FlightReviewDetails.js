@@ -38,7 +38,18 @@ const FlightReviewDetails = () => {
   const fareQutesDataSelecter = useSelector(
     state => state.commomReducer.flightFareQutesData,
   );
+
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
+
+  // base Fare
+  const basefareQutes = useSelector(
+    state => state.commomReducer.initialPublishedFare,
+  );
+
+  // get addons price
+  const addons = tottalFare - basefareQutes;
+
+  console.log(addons);
 
   // passenger name
   const selectedPassenger = useSelector(
@@ -126,20 +137,24 @@ const FlightReviewDetails = () => {
       <View style={styles.tottalAmt}>
         <View style={styles.AmtFlex}>
           <Text style={styles.text}>Air Fare</Text>
-          <Text style={styles.text}>33,426</Text>
+          <Text style={styles.text}>
+            ₹{basefareQutes.toLocaleString('en-IN')}
+          </Text>
         </View>
-        <View style={styles.AmtFlex}>
+        {/* <View style={styles.AmtFlex}>
           <Text style={styles.text}>Convenience Fee</Text>
           <Text style={styles.text}>1,047</Text>
-        </View>
+        </View> */}
         <View style={styles.AmtFlex}>
           <Text style={styles.text}>Add-Ons</Text>
-          <Text style={styles.text}>400</Text>
+          <Text style={styles.text}>
+            ₹{addons.toLocaleString('en-IN') || 0}
+          </Text>
         </View>
-        <View style={[styles.AmtFlex, {paddingBottom: 10}]}>
+        {/* <View style={[styles.AmtFlex, {paddingBottom: 10}]}>
           <Text style={styles.text}>Free Cancellation</Text>
           <Text style={styles.text}>1662</Text>
-        </View>
+        </View> */}
         <View
           style={[
             styles.AmtFlex,
@@ -238,7 +253,7 @@ const FlightReviewDetails = () => {
             textAlign: 'center',
             fontFamily: 'Poppins-Bold',
           }}>
-          Proceed To Pay 75,142
+          Proceed To Pay ₹{tottalFare.toLocaleString('en-IN')}
         </Text>
       </TouchableOpacity>
     </View>
