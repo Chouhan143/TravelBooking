@@ -44,7 +44,8 @@ const BusTab = props => {
   const BookingTabStyles = useMemo(() => BookingTabStyle(Colors), [Colors]);
   const [hideFlatList, setHideFlatList] = useState(false);
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
-  const [isDestinationCityFocused, setIsDestinationCityFocused] =useState(false);
+  const [isDestinationCityFocused, setIsDestinationCityFocused] =
+    useState(false);
   useEffect(() => {
     // Function to calculate current date and the next five dates
     const calculateDates = () => {
@@ -157,8 +158,7 @@ const BusTab = props => {
     const filteredDataFrom = busData.filter(item =>
       item.busodma_destination_name
         .toLowerCase()
-        .includes(sourceCity
-          .toLowerCase()),
+        .includes(sourceCity.toLowerCase()),
     );
     setFilteredBusDataFrom(filteredDataFrom);
   }, [sourceCity, busData]);
@@ -358,8 +358,13 @@ const BusTab = props => {
                 Departure Date
               </Text>
             </View>
-            <TouchableOpacity onPress={showMoreCalender} 
-            style={{display:'flex',flexDirection:'row',paddingTop: SH(20)}}>
+            <TouchableOpacity
+              onPress={showMoreCalender}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                paddingTop: SH(20),
+              }}>
               <Text
                 style={{
                   fontFamily: Fonts.Poppins_Medium,
@@ -367,9 +372,14 @@ const BusTab = props => {
                   // paddingTop: SH(20),
                   color: Colors.theme_background,
                 }}>
-                Show More Dates   
+                Show More Dates
               </Text>
-              <AntDesign name ={'doubleright'}  color={Colors.theme_background} size={15} style={{marginLeft:SW(7),marginTop:SH(3)}}/>
+              <AntDesign
+                name={'doubleright'}
+                color={Colors.theme_background}
+                size={15}
+                style={{marginLeft: SW(7), marginTop: SH(3)}}
+              />
             </TouchableOpacity>
 
             {/* <DatePicker onDateSelect={handleDateSelect} /> */}
@@ -408,8 +418,18 @@ const BusTab = props => {
               const formattedDate = formatDate(item).split(' ');
               return (
                 <TouchableOpacity
-                  style={[{width: 60,height: 60,backgroundColor: 'lightgray',justifyContent: 'center',
-              alignItems: 'center',margin: 5,borderRadius: 8,}, isSelected && {backgroundColor: Colors.theme_background}]}
+                  style={[
+                    {
+                      width: 60,
+                      height: 60,
+                      backgroundColor: 'lightgray',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      margin: 5,
+                      borderRadius: 8,
+                    },
+                    isSelected && {backgroundColor: Colors.theme_background},
+                  ]}
                   onPress={() => {
                     setSelectedDate(item);
                     console.log(item);
@@ -420,7 +440,7 @@ const BusTab = props => {
                       color: isSelected ? '#fff' : '#000',
                       textAlign: 'center',
                     }}>
-                    <Text style={{fontSize: 13,fontFamily:'Poppins-Bold'}}>
+                    <Text style={{fontSize: 13, fontFamily: 'Poppins-Bold'}}>
                       {formattedDate[0]}
                     </Text>
                     {'\n'}

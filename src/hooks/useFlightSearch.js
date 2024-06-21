@@ -6,11 +6,14 @@ import {RouteName} from '../routes';
 import {storeFlightData} from '../redux/action';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+
 const useFlightSearch = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [errors, setErrors] = useState(null); // State to hold errors
   const [loading, setLoading] = useState(false);
+
   const FsearchData = async payload => {
     setLoading(true);
     setErrors(null);
@@ -18,10 +21,8 @@ const useFlightSearch = () => {
     try {
       const res = await axios.post(Flight_SEARCH, payload);
       if (res.status === 200) {
-        // dispatch(storeFlightData(res.data.Results));
         dispatch(storeFlightData(res.data, res.data.Results));
         const test1 = res?.data?.Results?.flat();
-        // console.log('test1', test1);
         test1.map(result =>
           result.FareDataMultiple.map(item => {
             const {ResultIndex, SrdvIndex} = item;
@@ -29,22 +30,41 @@ const useFlightSearch = () => {
             AsyncStorage.setItem('SrdvIndex', SrdvIndex);
           }),
         );
-
-        // console.log('API Response:', res.data.Results.flat());
         navigation.navigate(RouteName.FLIGHT_LIST_SCREEN, {
           searchParams: payload,
         });
+      } else {
+        // Handle case where required fields are not set
+        Toast.show({
+          type: 'error',
+          text1:
+            'Please select source city, destination city, and departure date.',
+          text1Style: {color: '#000', fontSize: 12},
+        });
       }
     } catch (error) {
-      console.log('errorData', error);
-
       if (error.response && error.response.data) {
         const errorData = error.response.data;
-
-        if (errorData) {
-          setErrors(errorData); // Set errors state with the received error messages
+        if (errorData.errors) {
+          setErrors(errorData.errors); // Set errors state with the received error messages
         }
+        Toast.show({
+          type: 'error',
+          text1: errorData.message || 'An error occurred. Please try again.',
+          text1Style: {color: '#000', fontSize: 12},
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'An error occurred. Please try again.',
+          text1Style: {color: '#000', fontSize: 12},
+        });
       }
+
+      console.log(
+        'Error:',
+        error.response ? error.response.data : error.message,
+      );
     } finally {
       setLoading(false);
     }
