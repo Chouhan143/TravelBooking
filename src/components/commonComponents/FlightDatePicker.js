@@ -4,7 +4,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import {Style} from '../../styles';
 import moment from 'moment';
 
-function FlightDatePicker({onDateSelect, initialDate}) {
+function FlightDatePicker({onDateSelectflight, initialDate}) {
   const [dateselcet, setdateselcet] = useState(
     initialDate
       ? moment(initialDate, 'YYYY-MM-DD').format('DD-MM-YYYY')
@@ -23,7 +23,7 @@ function FlightDatePicker({onDateSelect, initialDate}) {
     const formattedDate = moment(date).format('DD-MM-YYYY');
     const formattedDateForAPI = moment(date).format('YYYY-MM-DD');
     setdateselcet(formattedDate);
-    onDateSelect(formattedDateForAPI);
+    onDateSelectflight(formattedDateForAPI);
   };
 
   return (

@@ -14,6 +14,7 @@ import {
   Spacing,
   PersonAddFun,
   DatePicker,
+  Lottie,
 } from '../../components';
 import {SF, SH, SW} from '../../utils';
 import {useTranslation} from 'react-i18next';
@@ -130,6 +131,7 @@ const FlightTab = props => {
       ],
     };
     calendarDataGet(calendarPayload);
+    console.log('calendarPayload', calendarPayload);
   };
 
   const handleCounterChange = (counterName, value) => {
@@ -340,7 +342,9 @@ const FlightTab = props => {
             {t('Departure_Dates')}
           </Text>
           {/* <DatePicker /> */}
-          <FlightDatePicker onDateSelect={setDepartureDate} />
+          <FlightDatePicker
+            onDateSelectflight={date => setDepartureDate(date)}
+          />
         </View>
 
         {tabTrip !== '1' ? (
@@ -356,7 +360,9 @@ const FlightTab = props => {
               {t('Return_Dates')}
             </Text>
             {/* <DatePicker /> */}
-            <FlightDatePicker onDateSelect={setReturnDate} />
+            <FlightDatePicker
+              onDateSelectflight={date => setReturnDate(date)}
+            />
           </View>
         ) : (
           <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
@@ -405,7 +411,16 @@ const FlightTab = props => {
           value={state.FloorNumber}
         />
         {loading ? (
-          <ActivityIndicator size={40} color={Colors.theme_background} />
+          <Lottie
+            source={require('../../images/LottieAnimation/isLoader.json')}
+            Lottiewidthstyle={{
+              width: '32%',
+              height: '80%',
+              paddingTop: SH(10),
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
         ) : (
           <Button title={t('Search_Flights')} onPress={handleFlightSearch} />
         )}
