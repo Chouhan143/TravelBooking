@@ -207,7 +207,6 @@ const HotelDescriptionPage = () => {
         <View style={{marginLeft:SW(70),display:'flex',flexDirection:'row'}}>
         {renderStars(HotelDetails.StarRating)}
         </View>
-        <Text style={{ color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold' }}>{HotelDetails.HotelContactNo}</Text>
          </View>
           <Text style={{ color: 'gray',fontSize:SF(20),fontFamily:'Poppins-Regular' }}>{HotelDetails.Address}</Text>
           <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -215,6 +214,7 @@ const HotelDescriptionPage = () => {
             <Text style={{ color: 'gray', marginRight: SW(10),fontSize:SF(15),fontFamily:'Poppins-Regular'  }}>{HotelDetails.City}</Text>
             <Text style={{ color: 'gray', marginRight: SW(10),fontSize:SF(15),fontFamily:'Poppins-Regular'  }}>{HotelDetails.CountryName}</Text>
           </View>
+          <Text style={{ color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold' }}>{HotelDetails.HotelContactNo}</Text>
           <View style={{ padding: SW(7), paddingLeft: 0 }}>
           <Text style={{color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold'}}>Description</Text>
             {HotelDetails.Description.map((item, index) => (

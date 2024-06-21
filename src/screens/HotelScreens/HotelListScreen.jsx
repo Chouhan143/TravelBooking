@@ -13,7 +13,7 @@ export default function HotelListScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const hotelData = useSelector((state) => state.commomReducer.hotelData);
     const navigation = useNavigation();
-
+    const [imageError, setImageError] = useState(false);
     const renderItem = ({ item }) => {
         const Price = Math.round(item?.Price?.RoomPrice);
     
@@ -27,7 +27,15 @@ export default function HotelListScreen() {
        
         return (
             <TouchableOpacity style={styles.HotelCards} onPress={() => navigation.navigate('HotelDescriptionPage')}>
-                <Image source={{ uri: item.HotelPicture }} style={styles.hotelImage} />
+                {imageError ? (
+                    <Text style={styles.imageNotFoundText}>Image Not Found</Text>
+                  ) : (
+                    <Image 
+                      source={{ uri:item.HotelPicture }} 
+                      style={styles.hotelImage} 
+                      onError={() => setImageError(true)} 
+                    />
+                  )}
                 <View style={styles.hotelDetails}>
                     <Text style={styles.Name}>{item.HotelName}</Text>
                     <Text style={styles.Name}>{RenderStar(item.StarRating)}</Text>
