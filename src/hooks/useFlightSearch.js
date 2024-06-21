@@ -17,7 +17,6 @@ const useFlightSearch = () => {
 
     try {
       const res = await axios.post(Flight_SEARCH, payload);
-      console.log('API Response:', res.data);
       if (res.status === 200) {
         // dispatch(storeFlightData(res.data.Results));
         dispatch(storeFlightData(res.data, res.data.Results));
@@ -30,6 +29,7 @@ const useFlightSearch = () => {
             AsyncStorage.setItem('SrdvIndex', SrdvIndex);
           }),
         );
+
         // console.log('API Response:', res.data.Results.flat());
         navigation.navigate(RouteName.FLIGHT_LIST_SCREEN, {
           searchParams: payload,

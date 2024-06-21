@@ -25,12 +25,13 @@ import useFlightGetCalendar from '../../hooks/useFlightGetCalendar';
 import {useDispatch} from 'react-redux';
 import {flightSearchPayload} from '../../redux/action';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FlightDatePicker from '../commonComponents/FlightDatePicker';
 
 const FlightTab = props => {
   const {t} = useTranslation();
   const {FsearchData, errors, loading} = useFlightSearch();
   const {calendarDataGet} = useFlightGetCalendar();
-  const {onPress, tabTrip} = props;
+  const {onPress, tabTrip, setTabTrip} = props;
   const {Colors} = useTheme();
   const dispatch = useDispatch();
   const BookingTabStyles = useMemo(() => BookingTabStyle(Colors), [Colors]);
@@ -52,6 +53,9 @@ const FlightTab = props => {
   const [filteredFlightDataTo, setFilteredFlightDataTo] = useState([]);
   const [CityData, setCityData] = useState([]);
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
+  const [departureDate, setDepartureDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+
   const [isDestinationCityFocused, setIsDestinationCityFocused] =
     useState(false);
 
@@ -80,25 +84,52 @@ const FlightTab = props => {
   }, []);
 
   const handleFlightSearch = () => {
+    let segments = [
+      {
+        Origin: sourceCityCode,
+        Destination: destinationCityCode,
+        FlightCabinClass: state.FloorNumber,
+        PreferredDepartureTime: `${departureDate}T00:00:00`,
+        PreferredArrivalTime: `${departureDate}T01:00:00`,
+      },
+    ];
+    if (tabTrip === '2') {
+      segments.push({
+        Origin: destinationCityCode,
+        Destination: sourceCityCode,
+        FlightCabinClass: state.FloorNumber,
+        PreferredDepartureTime: `${returnDate}T00:00:00`,
+        PreferredArrivalTime: `${returnDate}T01:00:00`,
+      });
+    }
     const payload = {
       AdultCount: state.AdultCount,
       ChildCount: state.ChildCount,
       InfantCount: state.InfantCount,
-      JourneyType: '1',
+      JourneyType: tabTrip,
+      Segments: segments,
+    };
+    FsearchData(payload);
+    dispatch(flightSearchPayload(payload));
+
+    // calender payload send in api request
+
+    const calendarPayload = {
+      AdultCount: state.AdultCount,
+      ChildCount: state.ChildCount,
+      InfantCount: state.InfantCount,
+      JourneyType: tabTrip,
       Segments: [
         {
           Origin: sourceCityCode,
           Destination: destinationCityCode,
           FlightCabinClass: state.FloorNumber,
-          PreferredDepartureTime: '2024-10-07T00:00:00',
-          PreferredArrivalTime: '2024-10-07T00:00:00',
+          PreferredDepartureTime: `${departureDate}T00:00:00`,
+          PreferredArrivalTime: `${departureDate}T01:00:00`,
         },
       ],
     };
-    console.log('payload >>>>>>', payload);
-    FsearchData(payload);
-    calendarDataGet(payload);
-    dispatch(flightSearchPayload(payload));
+    calendarDataGet(calendarPayload);
   };
 
   const handleCounterChange = (counterName, value) => {
@@ -154,6 +185,10 @@ const FlightTab = props => {
   const clearSearchTo = () => {
     setDestinationCity('');
     setDestinationCityCode('');
+  };
+
+  const addReturnFun = () => {
+    setTabTrip(2);
   };
 
   return (
@@ -304,7 +339,8 @@ const FlightTab = props => {
             }}>
             {t('Departure_Dates')}
           </Text>
-          <DatePicker />
+          {/* <DatePicker /> */}
+          <FlightDatePicker onDateSelect={setDepartureDate} />
         </View>
 
         {tabTrip !== '1' ? (
@@ -319,14 +355,15 @@ const FlightTab = props => {
               }}>
               {t('Return_Dates')}
             </Text>
-            <DatePicker />
+            {/* <DatePicker /> */}
+            <FlightDatePicker onDateSelect={setReturnDate} />
           </View>
         ) : (
           <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
             <Text style={BookingTabStyles.Departuredatext}>
               Save more on Roundtrip
             </Text>
-            <TouchableOpacity onPress={() => tabTrip == '2'}>
+            <TouchableOpacity onPress={addReturnFun}>
               <Text
                 style={{fontSize: SF(16), color: 'green', fontWeight: '800'}}>
                 {' '}
