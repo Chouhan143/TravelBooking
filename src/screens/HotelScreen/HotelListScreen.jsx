@@ -28,13 +28,13 @@ export default function HotelListScreen() {
         return (
             <TouchableOpacity style={styles.HotelCards} onPress={() => navigation.navigate('HotelDescriptionPage')}>
                 {imageError ? (
-                    <Text style={styles.imageNotFoundText}>Image Not Found</Text>
-                  ) : (
                     <Image 
                       source={{ uri:item.HotelPicture }} 
                       style={styles.hotelImage} 
                       onError={() => setImageError(true)} 
                     />
+                  ) : (
+                    <Text style={styles.imageNotFoundText}>Image Not Found</Text>
                   )}
                 <View style={styles.hotelDetails}>
                     <Text style={styles.Name}>{item.HotelName}</Text>

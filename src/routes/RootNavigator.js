@@ -34,8 +34,8 @@ import FlightTravellerDetails from '../screens/FlightListScreen/FlightTravellerD
 import FlightMeals from '../screens/FlightListScreen/FlightSegments';
 import FlightSegments from '../screens/FlightListScreen/FlightSegments';
 import FlightReviewDetails from '../screens/FlightListScreen/FlightReviewDetails';
-import HotelListScreen from '../screens/HotelScreens/HotelListScreen';
-import HotelDescriptionPage from '../screens/HotelScreens/HotelDescriptionPage';
+import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
+import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
