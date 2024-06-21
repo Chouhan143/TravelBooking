@@ -162,10 +162,15 @@ const HotelTab = () => {
       };
       const res = await axios.post(HOTEL_SEARCH, payload);
       const HotelListArr = res.data.Results;
+<<<<<<< HEAD
+      // console.log('Fetched Data:', HotelListArr);
+      dispatch(setHotelData(HotelListArr));   
+=======
       console.log('Fetched Data:', HotelListArr);
       dispatch(setHotelData(HotelListArr));
       navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
       setLoading(false);
+>>>>>>> 9ffafd0808b64352511ee99b24647682e8bdd1a8
     } catch (error) {
       console.log(error.response);
       setLoading(false);
@@ -194,12 +199,19 @@ const HotelTab = () => {
           search deals on hotels, homes, and much more .....
         </Text>
       </View>
+<<<<<<< HEAD
+      <TouchableOpacity style={styles.searchbar} onPress={() => SetModalVisible(true)}>
+        <EvilIcons name={'search'} size={20} color='black' />
+        <Text style={styles.search}>Search Hotels .......</Text>
+      </TouchableOpacity>
+=======
       <View style={styles.searchbar}>
         <EvilIcons name={'search'} size={20} color="black" />
         <Text style={styles.search} onPress={() => SetModalVisible(true)}>
           Search Hotels .......
         </Text>
       </View>
+>>>>>>> 9ffafd0808b64352511ee99b24647682e8bdd1a8
       <View style={styles.dates}>
         <View style={styles.CheckDateBox}>
           <Text style={styles.checkindate}>check in date</Text>
