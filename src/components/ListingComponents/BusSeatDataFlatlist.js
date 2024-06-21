@@ -5,7 +5,7 @@ import {useTheme} from '@react-navigation/native';
 import {LikeUnlike} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateSelectedSeats, updateTotalPrice} from '../../redux/action';
-
+import { SH ,SW} from '../../utils';
 const BusSeatDataFlatlist = props => {
   const {Colors} = useTheme();
   const {item, index} = props;
@@ -49,7 +49,11 @@ const BusSeatDataFlatlist = props => {
   }, [selectedSeatData, props.busSeats, dispatch]);
 
   return (
-    <View style={BusSeatScreenStyles.FlexRowSeatBox}>
+    <View style={{ flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: SH(10),
+      marginRight:SW(220)}}>
       <View style={BusSeatScreenStyles.Width50}>
         <TouchableOpacity onPress={() => onSelectSeat(item.SeatName)}>
           <LikeUnlike

@@ -58,7 +58,7 @@ const HotelTab = () => {
       };
       const res = await axios.post(HOTEL_SEARCH, payload);
       const HotelListArr = res.data.Results;
-      console.log('Fetched Data:', HotelListArr);
+      // console.log('Fetched Data:', HotelListArr);
       dispatch(setHotelData(HotelListArr));   
     } catch (error) {
       console.log(error.response)
@@ -87,10 +87,10 @@ const HotelTab = () => {
         <TouchableOpacity></TouchableOpacity>
         <Text style={styles.headerText} onPress={() => SetModalVisible(true)}>search deals on hotels, homes, and much more .....</Text>
       </View>
-      <View style={styles.searchbar}>
+      <TouchableOpacity style={styles.searchbar} onPress={() => SetModalVisible(true)}>
         <EvilIcons name={'search'} size={20} color='black' />
-        <Text style={styles.search} onPress={() => SetModalVisible(true)}>Search Hotels .......</Text>
-      </View>
+        <Text style={styles.search}>Search Hotels .......</Text>
+      </TouchableOpacity>
       <View style={styles.dates}>
         <View style={styles.CheckDateBox}>
           <Text style={styles.checkindate}>check in date</Text>

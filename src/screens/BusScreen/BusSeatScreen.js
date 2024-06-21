@@ -177,10 +177,6 @@ const BusSeatScreen = props => {
                     )}
                     keyExtractor={(item, index) => item.id || index.toString()}
                     showsHorizontalScrollIndicator={false}
-                   contentContainerStyle={
-                     BusSeatScreenStyles.ContentContainerStyle
-                  }
-
                   />
                 </View>
               ) : (
@@ -194,9 +190,7 @@ const BusSeatScreen = props => {
                     )}
                     keyExtractor={(item, index) => item.id || index.toString()}
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={
-                      BusSeatScreenStyles.ContentContainerStyle
-                    }
+                    
                   />
                 </View>
               )}

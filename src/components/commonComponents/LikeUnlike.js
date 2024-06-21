@@ -30,7 +30,7 @@ const LikeUnlke = props => {
         DefaultStyle,
         {
           backgroundColor: isSelected ? props.LikeColour : props.UnlikeColour,
-          marginRight:SW(200),alignItems:'center',justifyContent:'space-evenly'
+          alignItems:'center',justifyContent:'space-evenly'
         },
       ]}>
       <Text style={{color:'black',fontFamily:'Poppins-Regular'}}>{text}</Text>

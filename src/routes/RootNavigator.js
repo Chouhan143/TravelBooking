@@ -36,6 +36,8 @@ import FlightSegments from '../screens/FlightListScreen/FlightSegments';
 import FlightReviewDetails from '../screens/FlightListScreen/FlightReviewDetails';
 import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
 import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
+import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
+import MoreDetailsContinue from '../screens/HotelScreen/MoreDetailsContinue';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -179,6 +181,14 @@ const RootNavigator = props => {
               name={RouteName.HOTEL_DESCRIPTION_SCREEN}
               component={HotelDescriptionPage}
             />
+            <Stack.Screen
+              name={RouteName.HOTEL_MORE_DETAIL_SCREEN}
+              component={HotelMoreDetails}
+            />
+            <Stack.Screen
+            name={RouteName.MORE_DETAIL_CONTINUE_SCREEN}
+            component={MoreDetailsContinue}
+          />
           </>
         ) : (
           <>

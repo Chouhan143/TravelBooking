@@ -104,9 +104,6 @@ export default BusSeatScreenStyle = Colors =>
       paddingVertical: SH(3),
       paddingHorizontal: SH(10),
     },
-    ContentContainerStyle: {
-      padding: SH(10),
-    },
     MinFlexView: {
       width: '100%',
       height: '100%',
@@ -178,7 +175,7 @@ export default BusSeatScreenStyle = Colors =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingHorizontal: SH(25),
+      paddingHorizontal: SH(40),
       marginBottom: SH(10),
     },
     RchSubheadTextStyle: {
