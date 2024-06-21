@@ -214,7 +214,7 @@ const HotelDescriptionPage = () => {
             <Text style={{ color: 'gray', marginRight: SW(10),fontSize:SF(15),fontFamily:'Poppins-Regular'  }}>{HotelDetails.City}</Text>
             <Text style={{ color: 'gray', marginRight: SW(10),fontSize:SF(15),fontFamily:'Poppins-Regular'  }}>{HotelDetails.CountryName}</Text>
           </View>
-          <Text style={{ color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold' }}>{HotelDetails.HotelContactNo}</Text>
+          <Text style={{ color: 'gray',fontSize:SF(15),fontFamily:'Poppins-Regular' }}>{HotelDetails.HotelContactNo}</Text>
           <View style={{ padding: SW(7), paddingLeft: 0 }}>
           <Text style={{color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold'}}>Description</Text>
             {HotelDetails.Description.map((item, index) => (

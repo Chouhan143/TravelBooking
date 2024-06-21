@@ -27,15 +27,7 @@ export default function HotelListScreen() {
        
         return (
             <TouchableOpacity style={styles.HotelCards} onPress={() => navigation.navigate('HotelDescriptionPage')}>
-                {imageError ? (
-                    <Image 
-                      source={{ uri:item.HotelPicture }} 
-                      style={styles.hotelImage} 
-                      onError={() => setImageError(true)} 
-                    />
-                  ) : (
-                    <Text style={styles.imageNotFoundText}>Image Not Found</Text>
-                  )}
+            <Image source={{ uri:item.HotelPicture }} style={styles.hotelImage} />
                 <View style={styles.hotelDetails}>
                     <Text style={styles.Name}>{item.HotelName}</Text>
                     <Text style={styles.Name}>{RenderStar(item.StarRating)}</Text>
@@ -229,5 +221,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'row'
-    }
+    },
+    
 });
