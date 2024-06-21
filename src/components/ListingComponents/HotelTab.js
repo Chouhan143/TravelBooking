@@ -18,11 +18,12 @@ import AgeModal from '../commonComponents/AgeModal';
 import {useNavigation} from '@react-navigation/native';
 import {HOTEL_SEARCH} from '../../utils/BaseUrl';
 import axios from 'axios';
-import {setHotelData} from '../../redux/action';
+import {getLocationLatLong, setHotelData} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 import Geolocation from 'react-native-geolocation-service';
 import {DatePicker, Lottie} from '../commonComponents';
 import FormatedDate from '../commonComponents/FormatedDate';
+import {RouteName} from '../../routes';
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
@@ -70,6 +71,8 @@ const HotelTab = () => {
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
+        dispatch(getLocationLatLong(position));
+
         console.log(
           'Customer lat long coords:',
           position.coords.latitude,
@@ -161,6 +164,7 @@ const HotelTab = () => {
       const HotelListArr = res.data.Results;
       console.log('Fetched Data:', HotelListArr);
       dispatch(setHotelData(HotelListArr));
+      navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
       setLoading(false);
     } catch (error) {
       console.log(error.response);
@@ -179,7 +183,7 @@ const HotelTab = () => {
   };
 
   const HandleCity = () => {
-    navigation.navigate('HotelListScreen');
+    navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
   };
   return (
     <View style={styles.mainContanier}>

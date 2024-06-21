@@ -20,12 +20,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function HotelListScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const hotelData = useSelector(state => state.commomReducer.hotelData);
+  const positionCoords = useSelector(
+    state => state.commomReducer.positionLatLong,
+  );
+  console.log('positionCoords', positionCoords);
+
   const navigation = useNavigation();
   const [imageError, setImageError] = useState(false);
   const renderItem = ({item}) => {
     const Price = Math.round(item?.Price?.RoomPrice);
 
-    const RenderStar = rating => {
+    const renderStar = rating => {
       let stars = [];
       for (let i = 0; i <= rating; i++) {
         stars.push(
@@ -42,7 +47,7 @@ export default function HotelListScreen() {
         <Image source={{uri: item.HotelPicture}} style={styles.hotelImage} />
         <View style={styles.hotelDetails}>
           <Text style={styles.Name}>{item.HotelName}</Text>
-          <Text style={styles.Name}>{RenderStar(item.StarRating)}</Text>
+          <Text style={styles.Name}>{renderStar(item.StarRating)}</Text>
           <Text style={styles.adress}>{item.HotelAddress}</Text>
           <View style={styles.priceContainer}>
             <Text

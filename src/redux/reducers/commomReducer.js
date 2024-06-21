@@ -38,6 +38,7 @@ import {
   REMOVE_BAGGAGE_PRICE,
   RESET_BAGGAGE_STATE,
   SET_HOTEL_DATA,
+  GEOLOCATION_POSITIONS,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -75,6 +76,7 @@ const initialState = {
   initialPublishedFare: 0,
   selectedBaggage: [],
   hotelData: [],
+  positionLatLong: [],
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -387,11 +389,19 @@ export default function commomReducer(state = initialState, action) {
         ),
       };
 
+    //  hotel reducers
     case SET_HOTEL_DATA:
       return {
         ...state,
         hotelData: action.payload,
       };
+
+    case GEOLOCATION_POSITIONS:
+      return {
+        ...state,
+        positionLatLong: action.payload,
+      };
+
     default: {
       return state;
     }

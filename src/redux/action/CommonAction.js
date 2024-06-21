@@ -35,6 +35,7 @@ import {
   REMOVE_BAGGAGE_PRICE,
   SET_HOTEL_DATA,
   RESET_BAGGAGE_STATE,
+  GEOLOCATION_POSITIONS,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -214,7 +215,13 @@ export const removeBaggagePrice = (price, index) => ({
   payload: {price, index},
 });
 
+// hotel actions
 export const setHotelData = hotelData => ({
   type: SET_HOTEL_DATA,
   payload: hotelData,
+});
+
+export const getLocationLatLong = positions => ({
+  type: GEOLOCATION_POSITIONS,
+  payload: positions,
 });
