@@ -1,40 +1,46 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native';
+import React, { useState } from 'react';
 import { SW, SH, SF, Colors } from '../../utils';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
-
+import { useNavigation } from '@react-navigation/native';
+import SortModal from './SortModal';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function HotelListScreen() {
+    const [modalVisible, setModalVisible] = useState(false);
     const hotelData = useSelector((state) => state.commomReducer.hotelData);
-    console.log('hotelData',hotelData);
-    const renderItem = ({ item }) => {
-        return (
-            <View style={styles.HotelCards}>
-               <Image source={{ uri: item.HotelPicture }} style={styles.hotelImage} />
-                <View style={styles.hotelDetails}>
-                    <Text style={styles.DataText}>{item.HotelName}</Text>
-                    <Text style={{fontSize:SF(10),color:'black'}}>{item.HotelAddress}</Text>
+    const navigation = useNavigation();
 
-                   {/*} <Text style={styles.DataSubDetails}>{item.rating}</Text>
-                    <Text style={styles.DataSubDetails}>{item.reviews} Reviews</Text>
-                    <View style={styles.locationContainer}>
-                        <Entypo name={'location'} color='black' size={15} style={styles.icon} />
-                        <Text style={styles.DataSubDetails}>{item.location}</Text>
-                    </View>
-                    <Text style={styles.DataSubDetails}>{item.distance} Km From Center</Text>
+    const renderItem = ({ item }) => {
+        const Price = Math.round(item?.Price?.RoomPrice);
+    
+        const RenderStar=(rating)=>{
+            let stars=[];
+          for(let i=0; i<=rating ; i++){
+                stars.push(<FontAwesome key={i} name="star" size={15} color="#FFD700"/>)
+          }
+          return stars;
+        }
+       
+        return (
+            <TouchableOpacity style={styles.HotelCards} onPress={() => navigation.navigate('HotelDescriptionPage')}>
+                <Image source={{ uri: item.HotelPicture }} style={styles.hotelImage} />
+                <View style={styles.hotelDetails}>
+                    <Text style={styles.Name}>{item.HotelName}</Text>
+                    <Text style={styles.Name}>{RenderStar(item.StarRating)}</Text>
+                    <Text style={styles.adress}>{item.HotelAddress}</Text>
                     <View style={styles.priceContainer}>
-                        <FontAwesome name={'rupee'} color='black' size={15} style={styles.icon} />
-                        <Text style={styles.DataSubDetails}>{item.price}</Text>
-                    </View>*/}
-                 </View>
-            </View>
+                        <Text style={{ color: 'black', fontFamily: 'Poppins-Regular', fontSize: SF(11) }}>Price :</Text>
+                        <FontAwesome name={'rupee'} color='black' size={12} style={{ marginLeft: SW(5) }} />
+                        <Text style={styles.Price}>{Price}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
         );
     };
-
     return (
         <View style={styles.MainContanier}>
             <View style={styles.searchView}>
@@ -51,18 +57,32 @@ export default function HotelListScreen() {
                 </View>
             </View>
             <View style={styles.filterContanier}>
-                <View style={styles.filterOption}>
+                <TouchableOpacity style={styles.filterOption} onPress={() => setModalVisible(true)}>
                     <MaterialCommunityIcons name={'sort'} color={Colors.theme_background} size={15} />
                     <Text style={styles.filterText}>Sort</Text>
-                </View>
-                <View style={styles.filterOption}>
+                </TouchableOpacity>
+                <Modal
+                    visible={modalVisible}
+                    transparent={true}
+                    animationType='slide'
+                    height={300}
+                    onRequestClose={() => setModalVisible(false)}
+                    
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.childModalContent}>
+                            <SortModal setModalVisible={setModalVisible} />
+                        </View>
+                    </View>
+                </Modal>
+                <TouchableOpacity style={styles.filterOption}>
                     <MaterialCommunityIcons name={'filter-variant'} color={Colors.theme_background} size={15} />
                     <Text style={styles.filterText}>Filter</Text>
-                </View>
-                <View style={styles.filterOption}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.filterOption}>
                     <MaterialCommunityIcons name={'google-maps'} color={Colors.theme_background} size={15} />
                     <Text style={styles.filterText}>Map</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <View style={styles.listContainer}>
                 <FlatList
@@ -117,12 +137,12 @@ const styles = StyleSheet.create({
     HotelCards: {
         backgroundColor: 'white',
         margin: SW(10),
-        marginBottom: SH(0),
+        marginBottom: SH(5),
         borderRadius: 10,
         padding: SH(15),
         elevation: 5,
         flexDirection: 'row',
-        paddingBottom: SH(5)
+        paddingBottom: SH(20)
     },
     hotelImage: {
         width: SW(120),
@@ -132,19 +152,23 @@ const styles = StyleSheet.create({
     },
     hotelDetails: {
         flex: 2,
-        margin: SW(5)
+        margin: SW(7),
+        marginLeft:SW(10),
     },
-    DataText: {
+    Name: {
         color: 'black',
         fontFamily: 'Poppins-Regular',
         fontSize: SF(15),
-        marginLeft: SW(5)
     },
-    DataSubDetails: {
-        color: 'black',
+    adress: {
+        color: 'gray',
         fontFamily: 'Poppins-Regular',
-        fontSize: SF(13),
-        marginLeft: SW(5)
+        fontSize: SF(10),
+    },
+    Price: {
+        color: 'black',
+        fontFamily: 'Poppins-Bold',
+        fontSize: SF(11),
     },
     locationContainer: {
         display: 'flex',
@@ -180,5 +204,22 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         marginTop: SH(5)
+    },
+    modalContainer: {
+       flex: 1,
+        width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        marginTop:SH(400)
+    },
+    childModalContent: {
+        width: '100%',
+        padding: SW(20),
+        backgroundColor: 'white',
+        paddingTop:0
+    },
+    priceContainer: {
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'row'
     }
 });
