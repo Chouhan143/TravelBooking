@@ -20,7 +20,7 @@ import {HOTEL_SEARCH} from '../../utils/BaseUrl';
 import axios from 'axios';
 import {getLocationLatLong, setHotelData} from '../../redux/action';
 import {useDispatch} from 'react-redux';
-import Geolocation from 'react-native-geolocation-service';
+// import Geolocation from 'react-native-geolocation-service';
 import {DatePicker, Lottie} from '../commonComponents';
 import FormatedDate from '../commonComponents/FormatedDate';
 import {RouteName} from '../../routes';
@@ -162,10 +162,15 @@ const HotelTab = () => {
       };
       const res = await axios.post(HOTEL_SEARCH, payload);
       const HotelListArr = res.data.Results;
+<<<<<<< Updated upstream
 
       // console.log('Fetched Data:', HotelListArr);
       dispatch(setHotelData(HotelListArr));
 
+=======
+      // console.log('Fetched Data:', HotelListArr);
+      dispatch(setHotelData(HotelListArr));   
+>>>>>>> Stashed changes
       console.log('Fetched Data:', HotelListArr);
       dispatch(setHotelData(HotelListArr));
       navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
@@ -198,6 +203,7 @@ const HotelTab = () => {
           search deals on hotels, homes, and much more .....
         </Text>
       </View>
+<<<<<<< Updated upstream
 
       <TouchableOpacity
         style={styles.searchbar}
@@ -206,13 +212,22 @@ const HotelTab = () => {
         <Text style={styles.search}>Search Hotels .......</Text>
       </TouchableOpacity>
 
+=======
+      <TouchableOpacity style={styles.searchbar} onPress={() => SetModalVisible(true)}>
+        <EvilIcons name={'search'} size={20} color='black' />
+        <Text style={styles.search}>Search Hotels .......</Text>
+      </TouchableOpacity>
+>>>>>>> Stashed changes
       <View style={styles.searchbar}>
         <EvilIcons name={'search'} size={20} color="black" />
         <Text style={styles.search} onPress={() => SetModalVisible(true)}>
           Search Hotels .......
         </Text>
       </View>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
       <View style={styles.dates}>
         <View style={styles.CheckDateBox}>
           <Text style={styles.checkindate}>check in date</Text>
