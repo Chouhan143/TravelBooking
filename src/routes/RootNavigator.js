@@ -182,7 +182,7 @@ const RootNavigator = props => {
               component={HotelDescriptionPage}
             />
             <Stack.Screen
-              name={RouteName.HOTEL_DETAILS_CONTINUE}
+              name={RouteName.MORE_DETAIL_CONTINUE_SCREEN}
               component={HotelDetailsContinue}
             />
             <Stack.Screen
