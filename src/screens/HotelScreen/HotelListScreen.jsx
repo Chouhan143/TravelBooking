@@ -63,18 +63,20 @@ export default function HotelListScreen() {
       <TouchableOpacity
         style={styles.HotelCards}
         onPress={() => navigation.navigate('HotelDescriptionPage')}>
-        {item.HotelPicture != null ? (
-          <Image
-            source={{uri: item.HotelPicture}}
-            style={styles.hotelImage}
-            alt="No Image Found"
-          />
-        ) : (
-          <Image
-            source={require('../../images/No_Image.jpg')}
-            style={styles.hotelImage}
-          />
-        )}
+        <View>
+          {item.HotelPicture != null ? (
+            <Image
+              source={{uri: item.HotelPicture}}
+              style={styles.hotelImage}
+              alt="No Image Found"
+            />
+          ) : (
+            <Image
+              source={require('../../images/No_Image.jpg')}
+              style={styles.hotelImage}
+            />
+          )}
+        </View>
 
         <View style={styles.hotelDetails}>
           <Text style={styles.Name}>{item.HotelName}</Text>
@@ -249,6 +251,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     flexDirection: 'row',
     paddingBottom: SH(20),
+    display: 'flex',
     flexWrap: 'wrap',
   },
   hotelImage: {
@@ -258,7 +261,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   hotelDetails: {
-    flex: 2,
+    flex: 1,
     margin: SW(7),
     marginLeft: SW(10),
   },

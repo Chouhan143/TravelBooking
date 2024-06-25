@@ -142,7 +142,8 @@ const HotelDescriptionPage = () => {
                 
              </View>
             </ScrollView>
-            <TouchableOpacity style={{backgroundColor:Colors.theme_background,padding:SH(20)}}>
+            <TouchableOpacity 
+            style={{backgroundColor:Colors.theme_background,padding:SH(20),alignItems:'center'}}>
                <Text style={{color:'white',textAlign:'center',fontFamily:'Poppins-Bold'}} onPress={()=>navigation.navigate(RouteName.HOTEL_MORE_DETAILS)}>Add Room </Text>
                </TouchableOpacity>
     </View>
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     position: 'absolute',
-    bottom: 565,
+    bottom: SH(566),
     alignSelf: 'center',
     backgroundColor: 'white',
     paddingHorizontal: 10,
