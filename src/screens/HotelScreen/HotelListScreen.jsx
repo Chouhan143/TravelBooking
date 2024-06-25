@@ -97,11 +97,9 @@ export default function HotelListScreen() {
               (include taxes and fees)
             </Text>
           </View>
-          <View style={{marginTop:-SH(19)}}>
+          <View>
             {currentLocation != null ? (
-              <Text>Distance: {distance} km </Text>
-            ) : null}
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
               <Entypo name={'location'} size={15} color="black" />
               <Text
                 style={{
@@ -112,6 +110,8 @@ export default function HotelListScreen() {
                 {distance} km from you{' '}
               </Text>
             </View>
+            ) : null}
+            
           </View>
         </View>
       </TouchableOpacity>
