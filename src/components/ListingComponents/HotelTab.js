@@ -193,9 +193,16 @@ const HotelTab = () => {
         </Text>
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.searchbar}
         onPress={() => SetModalVisible(true)}>
+        <EvilIcons name={'search'} size={20} color="black" />
+        <Text style={styles.search}>Search Hotels .......</Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+        style={styles.searchbar}
+        onPress={() => navigation.navigate(RouteName.HOTEL_GUEST_DETAILS)}>
         <EvilIcons name={'search'} size={20} color="black" />
         <Text style={styles.search}>Search Hotels .......</Text>
       </TouchableOpacity>

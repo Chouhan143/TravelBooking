@@ -37,6 +37,7 @@ import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
 import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
 import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
 import HotelDetailsContinue from '../screens/HotelScreen/HotelDetailsContinue';
+import HotelGuestDetails from '../screens/HotelScreen/HotelGuestDetails';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -185,9 +186,13 @@ const RootNavigator = props => {
               component={HotelDetailsContinue}
             />
             <Stack.Screen
-            name={RouteName.HOTEL_MORE_DETAILS}
-            component={HotelMoreDetails}
-          />
+              name={RouteName.HOTEL_MORE_DETAILS}
+              component={HotelMoreDetails}
+            />
+            <Stack.Screen
+              name={RouteName.HOTEL_GUEST_DETAILS}
+              component={HotelGuestDetails}
+            />
           </>
         ) : (
           <>
