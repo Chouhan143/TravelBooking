@@ -36,6 +36,8 @@ import {
   SET_HOTEL_DATA,
   RESET_BAGGAGE_STATE,
   GEOLOCATION_POSITIONS,
+  SET_HOTEL_INFO,
+  SET_HOTEL_ROOM_DETAILS,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -220,6 +222,17 @@ export const setHotelData = hotelData => ({
   type: SET_HOTEL_DATA,
   payload: hotelData,
 });
+
+export const setHotelInfo = hotelInfo => ({
+  type: SET_HOTEL_INFO,
+  payload: hotelInfo,
+});
+
+export const setHotelRoomDetails = hotelroomdetails => ({
+  type: SET_HOTEL_ROOM_DETAILS,
+  payload: hotelroomdetails,
+});
+
 
 export const getLocationLatLong = positions => ({
   type: GEOLOCATION_POSITIONS,

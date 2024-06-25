@@ -19,6 +19,8 @@ const FLIGHT_SSR_MEAL = `${BASE_URL}/ssr`;
 const FLIGHT_SEAT_MAP = `${BASE_URL}/seatmap`;
 const FLIGHT_BOOKLLC = `${BASE_URL}/bookllc`;
 const HOTEL_SEARCH=`${BASE_URL}/search-hotel`;
+const HOTEL_INFO=`${BASE_URL}/hotel-info`;
+const HOTEL_ROOM_DETAILS=`${BASE_URL}/hotel-room`;
 
 export {
   BASE_URL,
@@ -39,5 +41,7 @@ export {
   FLIGHT_SSR_MEAL,
   FLIGHT_SEAT_MAP,
   FLIGHT_BOOKLLC,
-  HOTEL_SEARCH
+  HOTEL_SEARCH,
+  HOTEL_INFO,
+  HOTEL_ROOM_DETAILS
 };

@@ -20,7 +20,7 @@ import {HOTEL_SEARCH} from '../../utils/BaseUrl';
 import axios from 'axios';
 import {getLocationLatLong, setHotelData} from '../../redux/action';
 import {useDispatch} from 'react-redux';
-import Geolocation from 'react-native-geolocation-service';
+// import Geolocation from 'react-native-geolocation-service';
 import {DatePicker, Lottie} from '../commonComponents';
 import FormatedDate from '../commonComponents/FormatedDate';
 import {RouteName} from '../../routes';
@@ -31,7 +31,7 @@ const HotelTab = () => {
   const [adultsCount, setAdultsCount] = useState(2);
   const [childrenCount, setChildrenCount] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
-  const [locationDenied, setLocationDenied] = useState(false);
+  // const [locationDenied, setLocationDenied] = useState(false);
   const [checkinDate, setCheckInDate] = useState('');
   const [checkoutDate, setCheckOutDate] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,79 +41,79 @@ const HotelTab = () => {
 
   // Location Permissions requests
 
-  const requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'App requred Location Permission',
-          message:
-            ' App needs access to your Location ' +
-            'so you can search near by hotels.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        setLocationDenied(false);
-        getLocation();
-        console.log('You can use the location');
-      } else {
-        console.log('Location permission denied');
-        setLocationDenied(true);
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+  // const requestCameraPermission = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: 'App requred Location Permission',
+  //         message:
+  //           ' App needs access to your Location ' +
+  //           'so you can search near by hotels.',
+  //         buttonNeutral: 'Ask Me Later',
+  //         buttonNegative: 'Cancel',
+  //         buttonPositive: 'OK',
+  //       },
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       setLocationDenied(false);
+  //       getLocation();
+  //       console.log('You can use the location');
+  //     } else {
+  //       console.log('Location permission denied');
+  //       setLocationDenied(true);
+  //     }
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
 
-  const getLocation = () => {
-    Geolocation.getCurrentPosition(
-      position => {
-        dispatch(getLocationLatLong(position));
+  // const getLocation = () => {
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       dispatch(getLocationLatLong(position));
 
-        console.log(
-          'Customer lat long coords:',
-          position.coords.latitude,
-          position.coords.longitude,
-        );
-      },
-      error => {
-        // See error code charts below.
-        console.log(error.code, error.message);
-        if (error.code === 1) {
-          setLocationDenied(true);
-        }
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  };
+  //       console.log(
+  //         'Customer lat long coords:',
+  //         position.coords.latitude,
+  //         position.coords.longitude,
+  //       );
+  //     },
+  //     error => {
+  //       // See error code charts below.
+  //       console.log(error.code, error.message);
+  //       if (error.code === 1) {
+  //         setLocationDenied(true);
+  //       }
+  //     },
+  //     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+  //   );
+  // };
 
-  useEffect(() => {
-    requestCameraPermission();
-  }, []);
+  // useEffect(() => {
+  //   requestCameraPermission();
+  // }, []);
 
-  useEffect(() => {
-    const checkLocationEnabled = async () => {
-      const enabled = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (enabled) {
-        getLocation();
-      } else {
-        setLocationDenied(true);
-      }
-    };
-    checkLocationEnabled();
-  }, []);
+  // useEffect(() => {
+  //   const checkLocationEnabled = async () => {
+  //     const enabled = await PermissionsAndroid.check(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //     );
+  //     if (enabled) {
+  //       getLocation();
+  //     } else {
+  //       setLocationDenied(true);
+  //     }
+  //   };
+  //   checkLocationEnabled();
+  // }, []);
 
-  useEffect(() => {
-    if (!locationDenied) {
-      console.log('Getting location...');
-      getLocation();
-    }
-  }, [locationDenied]);
+  // useEffect(() => {
+  //   if (!locationDenied) {
+  //     console.log('Getting location...');
+  //     getLocation();
+  //   }
+  // }, [locationDenied]);
 
   const handleChildrenChange = change => {
     setChildrenCount(prevCount => {
@@ -144,31 +144,28 @@ const HotelTab = () => {
     try {
       setLoading(true);
       const payload = {
-        CheckInDate: '30/04/2020',
-        NoOfNights: noOfNights || 1,
-        CountryCode: 'IN',
-        CityId: 130443,
-        ResultCount: null,
-        NoOfRooms: 1,
-        RoomGuests: [
-          {
-            NoOfAdults: 1,
-            NoOfChild: 0,
-            ChildAge: [],
-          },
-        ],
-        MaxRating: 5,
-        IsNearBySearchAllowed: false,
-      };
+          BookingMode: "5",
+          CheckInDate: "30/04/2020",
+          NoOfNights: "1",
+          CountryCode: "IN",
+          CityId: "130443",
+          ResultCount: null,
+          PreferredCurrency: "INR",
+          GuestNationality: "IN",
+          NoOfRooms: "1",
+          RoomGuests: [
+              {
+                  NoOfAdults: 1,
+                  NoOfChild: "0",
+                  ChildAge: []
+              }
+          ],
+          MaxRating: "5",
+          MinRating: "0",
+      }
       const res = await axios.post(HOTEL_SEARCH, payload);
-      const HotelListArr = res.data.Results;
-
+      const HotelListArr = res.data.Results; 
       // console.log('Fetched Data:', HotelListArr);
-      dispatch(setHotelData(HotelListArr));
-
-      // console.log('Fetched Data:', HotelListArr);
-      dispatch(setHotelData(HotelListArr));   
-      console.log('Fetched Data:', HotelListArr);
       dispatch(setHotelData(HotelListArr));
       navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
       setLoading(false);
@@ -178,9 +175,9 @@ const HotelTab = () => {
     }
   };
 
-  // useEffect(() => {
-  //   FetchHotelData(dispatch);
-  // }, [dispatch]);
+  useEffect(() => {
+    FetchHotelData(dispatch);
+  }, [dispatch]);
 
   const handleChildAgeChange = (index, age) => {
     const newAges = [...childrenAges];
@@ -200,18 +197,6 @@ const HotelTab = () => {
           search deals on hotels, homes, and much more .....
         </Text>
       </View>
-
-      <TouchableOpacity
-        style={styles.searchbar}
-        onPress={() => SetModalVisible(true)}>
-        <EvilIcons name={'search'} size={20} color="black" />
-        <Text style={styles.search}>Search Hotels .......</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.searchbar} onPress={() => SetModalVisible(true)}>
-        <EvilIcons name={'search'} size={20} color='black' />
-        <Text style={styles.search}>Search Hotels .......</Text>
-      </TouchableOpacity>
       <View style={styles.searchbar}>
         <EvilIcons name={'search'} size={20} color="black" />
         <Text style={styles.search} onPress={() => SetModalVisible(true)}>
@@ -306,9 +291,9 @@ const HotelTab = () => {
         <Text style={styles.destinationHeading}>
           popular destinations nearby
         </Text>
-        <TouchableOpacity
+        {/*<TouchableOpacity
           style={{display: 'flex', flexDirection: 'row', margin: SW(15)}}
-          onPress={getLocation}>
+           onPress={getLocation}>
           <FontAwesome6
             name={'location-dot'}
             size={20}
@@ -316,7 +301,7 @@ const HotelTab = () => {
             style={{marginRight: SW(10)}}
           />
           <Text style={{color: 'black'}}>Around Current Location</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
       </Modal>
 
       {/* age modal */}

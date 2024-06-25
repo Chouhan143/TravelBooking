@@ -1,111 +1,125 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import React from 'react';
-import { Colors, SF, SH, SW } from '../../utils';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import ReadMoreText from '../../components/commonComponents/ReadMore';
-const HotelDetails = {
-    PolicyAndInstruction: [
-        {
-            Name: "POLICIES",
-            Data: [
-                {
-                    SubName: "Know before you go",
-                    Detail: [
-                        "Local laws may restrict unmarried guests from sharing rooms. Guests are responsible for providing proof of marriage, if requested by the property.",
-                        "Only registered guests are allowed in the guestrooms.",
-                        "This property advises that enhanced cleaning and guest safety measures are currently in place.The property is cleaned and disinfected using an electrostatic sprayer; disinfectant is used to clean the property; bed sheets and towels are laundered at a temperature of at least 60°C/140°F; guestroom doors are sealed after cleaning.Social distancing measures are in place; staff at the property wear personal protective equipment; a shield is in place between staff and guests in main contact areas; periodic temperature checks are conducted on staff; temperature checks are available to guests; guests are provided with hand sanitizer; cashless payment methods are available for all transactions; masks are required in public areas.Contactless check-in and contactless check-out are available.Enhanced food service safety measures are in place.Each guestroom is kept vacant for a minimum of 24 hours between bookings.This property affirms that it adheres to the cleaning and disinfection practices of Safe Travels (WTTC - Global)."
-                    ]
-                }
-            ]
-        },
-        {
-            Name: "CHECKIN INSTRUCTIONS",
-            Data: [
-                {
-                    SubName: "Special Instructions",
-                    Detail: [
-                        "This property offers transfers from the airport. To arrange pick-up, guests must contact the property 24 hours prior to arrival, using the contact information on the booking confirmation. Front desk staff will greet guests on arrival.",
-                        "To register at this property, guests who are Indian citizens must provide a valid photo identity card issued by the Government of India; travelers who are not citizens of India must present a valid passport and visa."
-                    ]
-                },
-                {
-                    SubName: "Instructions",
-                    Detail: [
-                        "Extra-person charges may apply and vary depending on property policyGovernment-issued photo identification and a credit card, debit card, or cash deposit may be required at check-in for incidental chargesSpecial requests are subject to availability upon check-in and may incur additional charges; special requests cannot be guaranteedSafety features at this property include a fire extinguisher, a security system, a first aid kit, and window guardsBe prepared: check the latest COVID-19 travel requirements and measures in place for this destination before you travel.Please note that cultural norms and guest policies may differ by country and by property; the policies listed are provided by the property."
-                    ]
-                }
-            ]
-        },
-    ],
-    Price: "765",
-};
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import React from 'react'
+import { useNavigation } from '@react-navigation/native';
+import { Colors, SH, SW, SF } from '../../utils';
+import { RouteName } from '../../routes';
 
+const GetHotelRoomResult = {
+    Amenities: [
+        "Breakfast Buffet",
+        "Complimentary Wi-Fi",
+        "Fitness Center",
+        "Swimming Pool",
+        "Free Parking",
+        "Swimming Pool",
+    ],
+    Amentity: [
+        "Air conditioning",
+        "Bathrobes",
+        "DVD player",
+        "Premium bedding",
+        "Private bathroom",
+        "Room service (24 hours)",
+        "Separate dining area",
+        "Separate sitting area",
+        "Shower only",
+        "Slippers",
+        "Hair dryer",
+        "Hypo-allergenic bedding available",
+        "In-room childcare (surcharge)",
+        "In-room climate control (air conditioning)",
+        "In-room safe (laptop compatible)",
+        "Individually decorated",
+        "Individually furnished",
+        "Iron/ironing board (on request)",
+        "LCD TV",
+        "MP3 docking station",
+        "Memory foam mattress",
+    ],
+    BedTypes: [
+        {
+            BedTypecode: "13",
+            BedTypeDescription: " 1 double bed "
+        }
+    ],
+    CancellationPolicy: {
+        Description: "You can cancel your hotel room reservation for free up to 48 hours before your scheduled arrival. Cancellations made within 48 hours of arrival will incur a fee equal to the first night's stay."
+    },
+    SmokingPreference: "NoPreference",
+}
 export default function HotelMoreDetails() {
+    const navigation = useNavigation();
     return (
-        <View style={styles.container}>
-            <ScrollView style={{ padding: SW(20)}}>
-                {HotelDetails.PolicyAndInstruction.map((item, index) => (
-                    <View key={index}>
-                        <Text style={styles.sectionTitle}>{item.Name}</Text>
-                        {item.Data.map((data, idx) => (
-                            <View key={idx} style={styles.subSectionContainer}>
-                                <Text style={styles.subSectionTitle}>{data.SubName}</Text>
-                                {data.Detail.map((detail, detailIdx) => (
-                                    <ReadMoreText
-                                    key={detailIdx}
-                                    text={detail}
-                                    textStyle={{
-                                      color: 'gray', fontFamily: 'Poppins-Regular',
-                                      fontSize: SF(13), marginLeft: 0
-                                    }}
-                                    readMoreStyle={{
-                                      color: Colors.theme_background, fontFamily: 'Poppins-Bold',
-                                      fontSize: SF(13), marginLeft: 0, marginTop: SH(5)
-                                    }}
-                                    />
-                                ))}
-                            </View>
-                        ))}
-                    </View>
-                ))}
+        <View style={{flex:1,backgroundColor:'white'}}>
+            <ScrollView  style={{padding: SW(15)}}>
+           <View  style={{paddingBottom:SH(50)}}>
+           <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold' }}>Amenities</Text>
+           <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: SW(5) }}>
+               {
+                   GetHotelRoomResult.Amenities.map((item, index) => (
+                       <Text style={{
+                           color: 'black',
+                           padding: SW(10), borderColor: '#60d3f0', borderRadius: 7,fontFamily:'Poppins-Regular',
+                           borderWidth: 1, marginBottom: SH(10), fontSize: SF(10), marginRight: SW(5)
+                       }}>{item}</Text>
+
+                   )
+
+                   )
+               }
+           </View>
+           <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold' }}>Amentity</Text>
+           <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: SW(5) }}>
+               {
+                   GetHotelRoomResult.Amentity.map((item, index) => (
+                       <Text style={{
+                           color: 'black',
+                           padding: SW(5), borderColor: '#60d3f0', borderRadius: 7,fontFamily:'Poppins-Regular',
+                           borderWidth: 1, marginBottom: SH(10), fontSize: SF(10), marginRight: SW(5)
+                       }}>{item}</Text>
+
+                   )
+
+                   )
+               }
+           </View>
+           <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold' }}>BedTypes</Text>
+           <View style={{ flexDirection: 'row', padding: SW(5)}}>
+               {
+                   GetHotelRoomResult.BedTypes.map((item, index) => (
+                       <View style={{display:"flex",flexDirection:"row"}}>
+                           <Text style={{ color: 'black', marginBottom: SH(10), fontSize: SF(15),marginRight:SW(10) }}>
+                           {item.BedTypecode}</Text>
+                           <Text style={{ color: 'black', marginBottom: SH(10), fontSize: SF(15) }}>
+                           {item.BedTypeDescription}</Text>
+                       </View>
+                   )
+
+                   )
+               }
+           </View>
+           <View>
+           <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold' }}>CancellationPolicy</Text>
+           <Text style={{color:'black',fontSize:SF(12)}}>{GetHotelRoomResult.CancellationPolicy.Description}</Text>
+           </View>
+           <View>
+           <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold',
+               paddingVertical:SH(7) }}>
+           SmokingPreference</Text>
+           <Text style={{color:'black',fontSize:SF(12)}}>{GetHotelRoomResult.SmokingPreference}</Text>
+           </View>
+           
+           </View>
             </ScrollView>
             <TouchableOpacity style={{
-                padding: SH(20), backgroundColor: Colors.theme_background,
-                display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+                backgroundColor: Colors.theme_background,
+                padding: SH(20)
             }}>
-                <Text style={{ color: 'white', marginRight: SW(6) }}>Pay</Text>
-                <FontAwesome name={'rupee'} size={15} color='white' style={{ marginLeft: SW(6) }} />
-                <Text style={{ color: 'white', marginLeft: SW(7) }}>
-                    {HotelDetails.Price}</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}
+                 onPress={() => navigation.navigate(RouteName.MORE_DETAIL_CONTINUE_SCREEN)}>Continue</Text>
             </TouchableOpacity>
         </View>
-    );
+    )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        padding: 0
-    },
-    sectionTitle: {
-        fontSize: SF(20),
-        fontFamily: 'Poppins-Bold',
-        marginBottom: SH(10),
-        color: 'black'
-    },
-    subSectionContainer: {
-        marginBottom: SH(25)
-    },
-    subSectionTitle: {
-        fontSize: SF(18),
-        fontFamily: 'Poppins-Regular',
-        marginBottom: 4,
-        color: 'black'
-    },
-    detailText: {
-        fontSize: SF(12),
-        color: 'gray',
-        marginBottom: 4
-    }
-});
+const styles = StyleSheet.create({})
