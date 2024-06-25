@@ -24,6 +24,7 @@ import Geolocation from 'react-native-geolocation-service';
 import {DatePicker, Lottie} from '../commonComponents';
 import FormatedDate from '../commonComponents/FormatedDate';
 import {RouteName} from '../../routes';
+import HotelCitySearch from '../commonComponents/HotelCitySearch';
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
@@ -72,12 +73,6 @@ const HotelTab = () => {
     Geolocation.getCurrentPosition(
       position => {
         dispatch(getLocationLatLong(position));
-
-        console.log(
-          'Customer lat long coords:',
-          position.coords.latitude,
-          position.coords.longitude,
-        );
       },
       error => {
         // See error code charts below.
@@ -175,9 +170,9 @@ const HotelTab = () => {
     }
   };
 
-  useEffect(() => {
-    FetchHotelData(dispatch);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   FetchHotelData(dispatch);
+  // }, [dispatch]);
 
   const handleChildAgeChange = (index, age) => {
     const newAges = [...childrenAges];
@@ -185,9 +180,9 @@ const HotelTab = () => {
     setChildrenAges(newAges);
   };
 
-  const HandleCity = () => {
-    navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
-  };
+  // const HandleCity = () => {
+  //   navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
+  // };
   return (
     <View style={styles.mainContanier}>
       <View style={styles.header}>
@@ -197,12 +192,13 @@ const HotelTab = () => {
           search deals on hotels, homes, and much more .....
         </Text>
       </View>
-      <View style={styles.searchbar}>
+
+      <TouchableOpacity
+        style={styles.searchbar}
+        onPress={() => SetModalVisible(true)}>
         <EvilIcons name={'search'} size={20} color="black" />
-        <Text style={styles.search} onPress={() => SetModalVisible(true)}>
-          Search Hotels .......
-        </Text>
-      </View>
+        <Text style={styles.search}>Search Hotels .......</Text>
+      </TouchableOpacity>
 
       <View style={styles.dates}>
         <View style={styles.CheckDateBox}>
@@ -266,43 +262,10 @@ const HotelTab = () => {
         </View>
       )} */}
 
-      {/* search modal */}
-      <Modal
-        visible={ModalVisible}
-        animationType="slide"
-        onRequestClose={() => {
-          SetModalVisible(!ModalVisible);
-        }}>
-        <View style={styles.modalHeader}>
-          <View style={styles.modalHeaderContanier}>
-            <Text style={styles.modalText}>enter destination</Text>
-            <Entypo
-              name={'cross'}
-              size={25}
-              color="black"
-              onPress={() => SetModalVisible(!ModalVisible)}
-            />
-          </View>
-        </View>
-        <TouchableOpacity style={styles.Modalsearchbar} onPress={HandleCity}>
-          <EvilIcons name={'search'} size={20} color="black" />
-          <Text style={styles.searchText}>e.g city, landmark, address</Text>
-        </TouchableOpacity>
-        <Text style={styles.destinationHeading}>
-          popular destinations nearby
-        </Text>
-        <TouchableOpacity
-          style={{display: 'flex', flexDirection: 'row', margin: SW(15)}}
-          onPress={getLocation}>
-          <FontAwesome6
-            name={'location-dot'}
-            size={20}
-            color="black"
-            style={{marginRight: SW(10)}}
-          />
-          <Text style={{color: 'black'}}>Around Current Location</Text>
-        </TouchableOpacity>
-      </Modal>
+      <HotelCitySearch
+        ModalVisible={ModalVisible}
+        SetModalVisible={SetModalVisible}
+      />
 
       {/* age modal */}
       <Modal

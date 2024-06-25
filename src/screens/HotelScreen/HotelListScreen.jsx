@@ -27,7 +27,8 @@ export default function HotelListScreen() {
     state => state.commomReducer.positionLatLong,
   );
 
-  
+  console.log('currentLocation', currentLocation);
+
   const currentLocationLat = currentLocation?.coords?.latitude;
 
   const currentLocationLong = currentLocation?.coords?.longitude;
@@ -62,7 +63,19 @@ export default function HotelListScreen() {
       <TouchableOpacity
         style={styles.HotelCards}
         onPress={() => navigation.navigate('HotelDescriptionPage')}>
-        <Image source={{uri: item.HotelPicture}} style={styles.hotelImage} />
+        {item.HotelPicture != null ? (
+          <Image
+            source={{uri: item.HotelPicture}}
+            style={styles.hotelImage}
+            alt="No Image Found"
+          />
+        ) : (
+          <Image
+            source={require('../../images/No_Image.jpg')}
+            style={styles.hotelImage}
+          />
+        )}
+
         <View style={styles.hotelDetails}>
           <Text style={styles.Name}>{item.HotelName}</Text>
           <Text style={styles.Name}>{renderStar(item.StarRating)}</Text>
@@ -75,11 +88,30 @@ export default function HotelListScreen() {
               style={{margin: SW(3)}}
             />
             <Text style={styles.Price}>{Price}</Text>
-            <Text style={{color:'gray',fontSize:SF(11),textTransform:'capitalize'}}>(include taxes and fees)</Text>
+            <Text
+              style={{
+                color: 'gray',
+                fontSize: SF(11),
+                textTransform: 'capitalize',
+              }}>
+              (include taxes and fees)
+            </Text>
           </View>
-          <View style={{display:'flex',flexDirection:'row'}}>
-          <Entypo name={'location'} size={15} color='black' />
-            <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(11)}}>{distance} km from you </Text>
+          <View>
+            {currentLocation != null ? (
+              <Text>Distance: {distance} km </Text>
+            ) : null}
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Entypo name={'location'} size={15} color="black" />
+              <Text
+                style={{
+                  color: 'black',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: SF(11),
+                }}>
+                {distance} km from you{' '}
+              </Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -228,27 +260,27 @@ const styles = StyleSheet.create({
   hotelDetails: {
     flex: 2,
     margin: SW(7),
-    marginLeft: SW(10)
+    marginLeft: SW(10),
   },
   Name: {
     color: 'black',
     fontFamily: 'Poppins-Regular',
     fontSize: SF(15),
-    marginVertical:SH(2)
+    marginVertical: SH(2),
   },
   adress: {
     color: 'black',
     fontFamily: 'Poppins-Regular',
     fontSize: SF(11),
-    flexWrap:'wrap',
-    marginVertical:SH(2),
-    textTransform:'capitalize'
+    flexWrap: 'wrap',
+    marginVertical: SH(2),
+    textTransform: 'capitalize',
   },
   Price: {
     color: 'black',
     fontFamily: 'Poppins-Regular',
     fontSize: SF(11),
-    marginVertical:SH(2)
+    marginVertical: SH(2),
   },
   locationContainer: {
     display: 'flex',
@@ -258,8 +290,7 @@ const styles = StyleSheet.create({
   priceContainer: {
     display: 'flex',
     flexDirection: 'row',
-    alignContent:'center'
-    
+    alignContent: 'center',
   },
   contentContainerStyle: {
     paddingBottom: 15,
