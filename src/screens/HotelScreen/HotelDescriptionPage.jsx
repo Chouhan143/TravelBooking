@@ -143,7 +143,7 @@ const HotelDescriptionPage = () => {
              </View>
             </ScrollView>
             <TouchableOpacity style={{backgroundColor:Colors.theme_background,padding:SH(20)}}>
-               <Text style={{color:'white',textAlign:'center'}} onPress={()=>navigation.navigate(RouteName.HOTEL_MORE_DETAILS)}>Continue</Text>
+               <Text style={{color:'white',textAlign:'center',fontFamily:'Poppins-Bold'}} onPress={()=>navigation.navigate(RouteName.HOTEL_MORE_DETAILS)}>Add Room </Text>
                </TouchableOpacity>
     </View>
   );

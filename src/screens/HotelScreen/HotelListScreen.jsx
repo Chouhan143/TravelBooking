@@ -97,7 +97,7 @@ export default function HotelListScreen() {
               (include taxes and fees)
             </Text>
           </View>
-          <View>
+          <View style={{marginTop:-SH(19)}}>
             {currentLocation != null ? (
               <Text>Distance: {distance} km </Text>
             ) : null}
@@ -250,10 +250,11 @@ const styles = StyleSheet.create({
     elevation: 5,
     flexDirection: 'row',
     paddingBottom: SH(20),
+    flexWrap:'wrap'
   },
   hotelImage: {
     width: SW(120),
-    height: SH(135),
+    height: SH(140),
     borderRadius: 10,
     resizeMode: 'contain',
   },
@@ -291,9 +292,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignContent: 'center',
-  },
-  contentContainerStyle: {
-    paddingBottom: 15,
   },
   filterContanier: {
     display: 'flex',
