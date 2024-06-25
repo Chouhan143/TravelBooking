@@ -63,6 +63,7 @@ export default function HotelListScreen() {
       <TouchableOpacity
         style={styles.HotelCards}
         onPress={() => navigation.navigate('HotelDescriptionPage')}>
+        <View>
         {item.HotelPicture != null ? (
           <Image
             source={{uri: item.HotelPicture}}
@@ -75,6 +76,7 @@ export default function HotelListScreen() {
             style={styles.hotelImage}
           />
         )}
+        </View>
 
         <View style={styles.hotelDetails}>
           <Text style={styles.Name}>{item.HotelName}</Text>
@@ -107,7 +109,7 @@ export default function HotelListScreen() {
                   fontFamily: 'Poppins-Regular',
                   fontSize: SF(11),
                 }}>
-                {distance} km from you{' '}
+                {distance} km from you
               </Text>
             </View>
             ) : null}
@@ -250,6 +252,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     flexDirection: 'row',
     paddingBottom: SH(20),
+    display:'flex',
     flexWrap:'wrap'
   },
   hotelImage: {
@@ -257,9 +260,10 @@ const styles = StyleSheet.create({
     height: SH(140),
     borderRadius: 10,
     resizeMode: 'contain',
+  
   },
   hotelDetails: {
-    flex: 2,
+    flex: 1,
     margin: SW(7),
     marginLeft: SW(10),
   },
