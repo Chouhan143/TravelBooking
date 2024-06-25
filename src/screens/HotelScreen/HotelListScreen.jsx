@@ -100,18 +100,17 @@ export default function HotelListScreen() {
           <View>
             {currentLocation != null ? (
               <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Entypo name={'location'} size={15} color="black" />
-              <Text
-                style={{
-                  color: 'black',
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: SF(11),
-                }}>
-                {distance} km from you{' '}
-              </Text>
-            </View>
+                <Entypo name={'location'} size={15} color="black" />
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: SF(11),
+                  }}>
+                  {distance} km from you
+                </Text>
+              </View>
             ) : null}
-            
           </View>
         </View>
       </TouchableOpacity>
@@ -250,7 +249,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     flexDirection: 'row',
     paddingBottom: SH(20),
-    flexWrap:'wrap'
+    flexWrap: 'wrap',
   },
   hotelImage: {
     width: SW(120),
