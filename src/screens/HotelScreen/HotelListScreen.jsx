@@ -17,13 +17,23 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import SortModal from './SortModal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {haversineDistance} from '../../hooks/HaversineDistance';
 export default function HotelListScreen() {
   const [modalVisible, setModalVisible] = useState(false);
+
   const hotelData = useSelector(state => state.commomReducer.hotelData);
-  const positionCoords = useSelector(
+
+  const currentLocation = useSelector(
     state => state.commomReducer.positionLatLong,
   );
-  console.log('positionCoords', positionCoords);
+
+  const currentLocationLat = currentLocation.coords.latitude;
+  const currentLocationLong = currentLocation.coords.longitude;
+
+  const curLatLong = {currentLocationLat, currentLocationLong};
+
+  console.log('currentLocationLat', currentLocationLat);
+  console.log('currentLocationLong', currentLocationLong);
 
   const navigation = useNavigation();
   const [imageError, setImageError] = useState(false);
@@ -39,6 +49,12 @@ export default function HotelListScreen() {
       }
       return stars;
     };
+
+    const hotelCoords = {latitude: item.Latitude, longitude: item.Longitude};
+    const distance =
+      curLatLong && hotelCoords
+        ? haversineDistance(currentLocation.coords, hotelCoords).toFixed(0)
+        : 'Calculating...';
 
     return (
       <TouchableOpacity
@@ -65,6 +81,9 @@ export default function HotelListScreen() {
               style={{marginLeft: SW(5)}}
             />
             <Text style={styles.Price}>{Price}</Text>
+          </View>
+          <View>
+            <Text>Distance: {distance} km </Text>
           </View>
         </View>
       </TouchableOpacity>
