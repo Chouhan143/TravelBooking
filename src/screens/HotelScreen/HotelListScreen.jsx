@@ -27,6 +27,7 @@ export default function HotelListScreen() {
     state => state.commomReducer.positionLatLong,
   );
 
+  
   const currentLocationLat = currentLocation?.coords?.latitude;
 
   const currentLocationLong = currentLocation?.coords?.longitude;
@@ -67,24 +68,18 @@ export default function HotelListScreen() {
           <Text style={styles.Name}>{renderStar(item.StarRating)}</Text>
           <Text style={styles.adress}>{item.HotelAddress}</Text>
           <View style={styles.priceContainer}>
-            <Text
-              style={{
-                color: 'black',
-                fontFamily: 'Poppins-Regular',
-                fontSize: SF(11),
-              }}>
-              Price :
-            </Text>
             <FontAwesome
               name={'rupee'}
               color="black"
-              size={12}
-              style={{marginLeft: SW(5)}}
+              size={11}
+              style={{margin: SW(3)}}
             />
             <Text style={styles.Price}>{Price}</Text>
+            <Text style={{color:'gray',fontSize:SF(11),textTransform:'capitalize'}}>(include taxes and fees)</Text>
           </View>
-          <View>
-            <Text>Distance: {distance} km </Text>
+          <View style={{display:'flex',flexDirection:'row'}}>
+          <Entypo name={'location'} size={15} color='black' />
+            <Text style={{color:'black',fontFamily:'Poppins-Regular',fontSize:SF(11)}}>{distance} km from you </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -233,34 +228,38 @@ const styles = StyleSheet.create({
   hotelDetails: {
     flex: 2,
     margin: SW(7),
-    marginLeft: SW(10),
+    marginLeft: SW(10)
   },
   Name: {
     color: 'black',
     fontFamily: 'Poppins-Regular',
     fontSize: SF(15),
+    marginVertical:SH(2)
   },
   adress: {
-    color: 'gray',
+    color: 'black',
     fontFamily: 'Poppins-Regular',
-    fontSize: SF(10),
+    fontSize: SF(11),
+    flexWrap:'wrap',
+    marginVertical:SH(2),
+    textTransform:'capitalize'
   },
   Price: {
     color: 'black',
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-Regular',
     fontSize: SF(11),
+    marginVertical:SH(2)
   },
   locationContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexShrink: 1,
   },
-  icon: {
-    marginHorizontal: 2,
-  },
   priceContainer: {
     display: 'flex',
     flexDirection: 'row',
+    alignContent:'center'
+    
   },
   contentContainerStyle: {
     paddingBottom: 15,
@@ -296,10 +295,5 @@ const styles = StyleSheet.create({
     padding: SW(20),
     backgroundColor: 'white',
     paddingTop: 0,
-  },
-  priceContainer: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
   },
 });

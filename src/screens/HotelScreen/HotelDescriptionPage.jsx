@@ -5,7 +5,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { HOTEL_INFO } from '../../utils/BaseUrl';
 import { SH, SW ,SF,Colors} from '../../utils';
 import { RouteName } from '../../routes';
@@ -119,7 +118,7 @@ const HotelDescriptionPage = () => {
               
                <Text style={{color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold'}}>Description</Text>
                 <ReadMoreText text={cleanUpDescription(hotelDetails.Description)}
-                textStyle={{color:'black'}}
+                textStyle={{color:'black',fontSize:SF(13)}}
                 readMoreStyle={{
                   color: Colors.theme_background, fontFamily: 'Poppins-Bold',
                   fontSize: SF(13), marginLeft: 0, marginTop: SH(5)

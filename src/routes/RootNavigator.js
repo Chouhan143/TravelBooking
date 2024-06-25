@@ -31,12 +31,11 @@ import {
 import ReviewBooking from '../screens/BusScreen/ReviewBooking';
 import FlightDetails from '../screens/FlightListScreen/FlightDetails';
 import FlightTravellerDetails from '../screens/FlightListScreen/FlightTravellerDetails';
-import FlightMeals from '../screens/FlightListScreen/FlightSegments';
 import FlightSegments from '../screens/FlightListScreen/FlightSegments';
 import FlightReviewDetails from '../screens/FlightListScreen/FlightReviewDetails';
 import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
 import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
-import HotelMoreDetails from '../screens/HotelScreen/HotelDetailsContinue';
+import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
 import HotelDetailsContinue from '../screens/HotelScreen/HotelDetailsContinue';
 
 const RootNavigator = props => {
