@@ -36,7 +36,6 @@ import FlightReviewDetails from '../screens/FlightListScreen/FlightReviewDetails
 import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
 import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
 import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
-import HotelDetailsContinue from '../screens/HotelScreen/HotelDetailsContinue';
 import HotelGuestDetails from '../screens/HotelScreen/HotelGuestDetails';
 
 const RootNavigator = props => {
@@ -180,10 +179,6 @@ const RootNavigator = props => {
             <Stack.Screen
               name={RouteName.HOTEL_DESCRIPTION_SCREEN}
               component={HotelDescriptionPage}
-            />
-            <Stack.Screen
-              name={RouteName.MORE_DETAIL_CONTINUE_SCREEN}
-              component={HotelDetailsContinue}
             />
             <Stack.Screen
               name={RouteName.HOTEL_MORE_DETAILS}
