@@ -27,13 +27,14 @@ export default function HotelListScreen() {
     state => state.commomReducer.positionLatLong,
   );
 
-  const currentLocationLat = currentLocation.coords.latitude;
-  const currentLocationLong = currentLocation.coords.longitude;
+  const currentLocationLat = currentLocation?.coords?.latitude;
+
+  const currentLocationLong = currentLocation?.coords?.longitude;
 
   const curLatLong = {currentLocationLat, currentLocationLong};
 
-  console.log('currentLocationLat', currentLocationLat);
-  console.log('currentLocationLong', currentLocationLong);
+  // console.log('currentLocationLat', currentLocationLat);
+  // console.log('currentLocationLong', currentLocationLong);
 
   const navigation = useNavigation();
   const [imageError, setImageError] = useState(false);

@@ -14,6 +14,7 @@ const useOtpVeryfy = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const otpVeryfy = async (user_id, otp) => {
+    console.table('User', user_id, otp);
     setLoading(true);
     setError(null);
     try {
