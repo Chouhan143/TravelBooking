@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import {Colors, SF, SH, SW} from '../../utils';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+import Feather from 'react-native-vector-icons/Feather';
 export default function HotelGuestDetails() {
   const [more, setMore] = useState(false);
 
@@ -14,8 +14,10 @@ export default function HotelGuestDetails() {
     <View style={styles.container}>
       <View style={styles.gest}>
         <Text style={styles.gestText}>Guest Details</Text>
-        <View style={styles.bottomLine} />
-        <View style={styles.hotelDetail}>
+        <View style={styles.bottomLine} /></View>
+      {/* check in check out  */}
+      <ScrollView style={{height:'70%'}}>
+      <View style={styles.hotelDetail}>
           <View style={styles.star}>
             <Text style={styles.normalText}>Hotel</Text>
             <Text style={styles.normalText}>****</Text>
@@ -30,8 +32,6 @@ export default function HotelGuestDetails() {
             </Text>
           </View>
         </View>
-      </View>
-      {/* check in check out  */}
       <View style={styles.bottomLineCheckIn}>
         <View
           style={[
@@ -56,9 +56,9 @@ export default function HotelGuestDetails() {
       </View>
       {/* Selected rooms for adults */}
       <View style={[styles.hotelDetail, {borderTopWidth: 0}]}>
-        <Text>You selected</Text>
+        <Text style={styles.normalText}>You selected</Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text>3 rooms for 2 adults</Text>
+          <Text style={styles.normalText}>3 rooms for 2 adults</Text>
           <TouchableOpacity onPress={moreHandler}>
             <Entypo
               name={more ? 'chevron-down' : 'chevron-up'}
@@ -67,8 +67,54 @@ export default function HotelGuestDetails() {
             />
           </TouchableOpacity>
         </View>
-        {more ? <Text>1 * Deluxe Double Room</Text> : null}
+        {more ? <Text style={styles.normalText}>1 * Deluxe Double Room</Text> : null}
       </View>
+<View style={[styles.hotelDetail,{borderTopWidth: 0}]}>
+<Text style={styles.paymentText}>your payment summary</Text>
+<View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+<Text style={styles.normalText}>original price</Text>
+<Text style={styles.normalText}>4,480</Text>
+</View>
+</View>
+<View style={styles.DetailsContanier}>
+<Text style={styles.inputHeading}>enter your details </Text>
+<View style={{display:'flex',flexDirection:'row',
+  justifyContent:'center',alignItems:'center',backgroundColor:'#e1e7e8',
+  paddingVertical:SH(10),borderRadius:7}}>
+<Feather name={'info'} color='black' size={15}/>
+<Text style={{color:'black'}}>almost done ! just fill in the </Text>
+<Entypo name={'star'} color='red' size={15}/>
+<Text style={{color:'black'}}>required info </Text>
+</View>
+<View style={{marginVertical:SH(10)}}>
+<View style={{display:'flex',flexDirection:'row'}}>
+<Text style={styles.inputLabel}>first name </Text>
+<Entypo name={'star'} color='red' size={15}/></View>
+
+<TextInput style={styles.input}/>
+
+</View>
+<View style={{marginVertical:SH(10)}}>
+<View style={{display:'flex',flexDirection:'row'}}>
+<Text style={styles.inputLabel}>last name  </Text>
+<Entypo name={'star'} color='red' size={15}/></View>
+
+<TextInput style={styles.input}/>
+
+</View>
+<View style={{marginVertical:SH(10)}}>
+<View style={{display:'flex',flexDirection:'row'}}>
+<Text style={styles.inputLabel}>email address </Text>
+<Entypo name={'star'} color='red' size={15}/></View>
+
+<TextInput style={styles.input}/>
+
+</View>
+
+</View>
+
+      
+      </ScrollView>
     </View>
   );
 }
@@ -96,6 +142,7 @@ const styles = StyleSheet.create({
     height: SH(3),
     backgroundColor: Colors.theme_background,
     borderRadius: 5,
+    marginTop:SH(10)
   },
   hotelDetail: {
     paddingVertical: SH(10),
@@ -115,16 +162,18 @@ const styles = StyleSheet.create({
   normalText: {
     color: '#000',
     fontSize: SF(14),
+    fontFamily:'Poppins-Regular',
   },
   hotelName: {
     color: '#000',
-    fontWeight: '800',
+    fontFamily:'Poppins-Regular',
     fontSize: SF(18),
   },
   hotelDescription: {
     color: Colors.gray_text_color,
     fontWeight: '400',
     fontSize: SF(14),
+    fontFamily:'Poppins-Regular',
   },
   verticleLine: {
     width: SW(10),
@@ -138,4 +187,33 @@ const styles = StyleSheet.create({
     marginTop: SH(10),
     width: '100%',
   },
+  paymentText:{
+    fontFamily:'Poppins-Medium',
+    color:'black',
+    textTransform:'capitalize',
+    fontSize:SF(15)
+  },
+  DetailsContanier:{
+    paddingVertical: SH(10),
+    marginTop: SH(10),
+    width: '100%',
+  },
+  input:{
+    padding:SW(10),
+    borderColor:'gray',
+    borderWidth:1,
+    borderRadius:5
+  },
+  inputHeading:{
+      fontFamily:'Poppins-Bold',
+    fontSize:SF(18),
+    color:'black',
+    textTransform:'capitalize'
+  },
+  inputLabel:{
+    fontFamily:'Poppins-Regular',
+    fontSize:SF(15),
+    color:'black',
+    textTransform:'capitalize'
+  }
 });

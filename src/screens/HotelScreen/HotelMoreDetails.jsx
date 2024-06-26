@@ -356,36 +356,22 @@ export default function HotelMoreDetails() {
     );
   };
 
-  return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
-      <Text
-        style={{
-          textAlign: 'center',
-          paddingTop: SH(15),
-          fontFamily: 'Poppins-Bold',
-          fontSize: SF(20),
-          textTransform: 'capitalize',
-          color: Colors.theme_background,
-        }}>
-        Select Room
-      </Text>
-      <FlatList
-        data={RoomData}
-        renderItem={RenderItem}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.listContainer}
-      />
-      <TouchableOpacity style={styles.continueButton}>
-        <Text
-          style={styles.continueButtonText}
-          onPress={() =>
-            navigation.navigate(RouteName.MORE_DETAIL_CONTINUE_SCREEN)
-          }>
-          Continue
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
+    return (
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Text style={{textAlign:'center',
+            paddingTop:SH(15),fontFamily:'Poppins-Bold',fontSize:SF(20),
+            textTransform:'capitalize',color:Colors.theme_background}}>Select Room</Text>
+            <FlatList
+                data={RoomData}
+                renderItem={RenderItem}
+                keyExtractor={(item, index) => index.toString()}
+                contentContainerStyle={styles.listContainer}
+            />
+            <TouchableOpacity style={styles.continueButton}>
+                <Text style={styles.continueButtonText} onPress={()=>navigation.navigate(RouteName.HOTEL_GUEST_DETAILS)}>Continue</Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

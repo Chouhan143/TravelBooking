@@ -37,7 +37,6 @@ const RouteName = {
   HOTEL_LIST_SCREEN: 'HotelListScreen',
   HOTEL_DESCRIPTION_SCREEN: 'HotelDescriptionPage',
   HOTEL_MORE_DETAILS: 'HotelMoreDetails',
-  MORE_DETAIL_CONTINUE_SCREEN: 'HotelDetailsContinue',
   HOTEL_GUEST_DETAILS: 'HotelGuestDetails',
 };
 export default RouteName;
