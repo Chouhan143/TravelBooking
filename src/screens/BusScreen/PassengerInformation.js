@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you're using FontAwesome, you can replace it with your preferred icon library
-import {SF, SH, SW} from '../../utils';
+import {Colors, SF, SH, SW} from '../../utils';
 import Radio from '../../components/commonComponents/Radio';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
@@ -170,8 +170,8 @@ const PassengerInformation = ({route}) => {
             />
 
             <View>
-              <Text>Mr.{item.passengerName}</Text>
-              <Text>
+              <Text style={styles.text}>Mr.{item.passengerName}</Text>
+              <Text style={styles.text}>
                 {item.gender} . {item.passengerAge}yr
               </Text>
             </View>
@@ -199,10 +199,10 @@ const PassengerInformation = ({route}) => {
       <View style={{marginVertical: SH(5)}}>
         <Text style={styles.pHeading}>Add Passengers</Text>
         <View style={{flexDirection: 'row', marginVertical: 10}}>
-          <Text style={{color: '#000', fontWeight: '700'}}>
+          <Text style={{color: '#000',fontFamily:'Poppins-Regular',fontSize:SF(15)}}>
             Selected Seats :
           </Text>
-          <Text> {commaSepratedSeat}</Text>
+          <Text style={{fontFamily:'Poppins-Regular',color:'black'}}> {commaSepratedSeat}</Text>
         </View>
       </View>
 
@@ -212,10 +212,10 @@ const PassengerInformation = ({route}) => {
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: 15,
+          marginBottom: 5,
         }}>
         <View>
-          <Text style={{color: '#000', fontWeight: '700', fontSize: 18}}>
+          <Text style={{color: '#000',fontFamily:'Poppins-Bold', fontSize: 18}}>
             Passengers Details{' '}
           </Text>
         </View>
@@ -224,6 +224,7 @@ const PassengerInformation = ({route}) => {
             style={{
               color:
                 checkedItemCount < selectedSeatData.length ? 'red' : 'green',
+                fontFamily:'Poppins-Medium'
             }}>
             {checkedItemCount}/{selectedSeatData.length} Seat Selected
           </Text>
@@ -253,15 +254,15 @@ const PassengerInformation = ({route}) => {
           </TouchableOpacity>
           {/* {showPassengerDetails && ( */}
           <ScrollView>
-            <View style={{marginBottom: 30}}>
+            <View style={{marginBottom: 30,width:SW(320),marginLeft:-SW(10)}}>
               <View style={styles.radioGroup}>
-                <Text>Male</Text>
+                <Text style={styles.text}>Male</Text>
                 <Radio
                   label="Male"
                   checked={gender === 'male'}
                   onPress={() => handleGenderChange('male')}
                 />
-                <Text>Female</Text>
+                <Text style={styles.text}>Female</Text>
                 <Radio
                   label="Female"
                   checked={gender === 'female'}
@@ -269,66 +270,53 @@ const PassengerInformation = ({route}) => {
                 />
               </View>
 
-              <Input
-                title="First Name "
-                placeholder="Enter name"
-                onChangeText={handlePassengerNameChange}
-                value={passengerName}
-              />
+             <View >
+             <Input
+             title="First Name "
+             placeholder="Enter name"
+             onChangeText={handlePassengerNameChange}
+             value={passengerName}
+             
+           />
 
-              <Input
-                title="Last Name "
-                placeholder="Enter Last name"
-                onChangeText={handlePassengerLNameChange}
-                value={passengerLName}
-              />
+           <Input
+             title="Last Name "
+             placeholder="Enter Last name"
+             onChangeText={handlePassengerLNameChange}
+             value={passengerLName}
+           />
 
-              {/* <Input
-                  title="Email"
-                  placeholder="Enter email"
-                  onChangeText={handlePassengerEmailChange}
-                  value={passengerEmail}
-                  keyboardType="email-address"
-                /> */}
+           <Input
+             title="Address"
+             placeholder="Enter address"
+             onChangeText={handlePassengerAddressChange}
+             value={passengerAddress}
+           />
 
-              {/* <Input
-                  title="Phone No."
-                  placeholder="Enter phone number"
-                  onChangeText={handlePassengerPhoneChange}
-                  value={passengerPhone}
-                  keyboardType="phone-pad"
-                /> */}
+           <Input
+             title="Age"
+             placeholder="Enter age"
+             onChangeText={handlePassengerAgeChange}
+             value={passengerAge}
+             keyboardType="numeric"
+           />
 
-              <Input
-                title="Address"
-                placeholder="Enter address"
-                onChangeText={handlePassengerAddressChange}
-                value={passengerAddress}
-              />
-
-              <Input
-                title="Age"
-                placeholder="Enter age"
-                onChangeText={handlePassengerAgeChange}
-                value={passengerAge}
-                keyboardType="numeric"
-              />
-
-              <TouchableOpacity
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  alignSelf: 'center',
-                  width: '95%',
-                  height: '8%',
-                  backgroundColor: 'green',
-                  borderRadius: 10,
-                }}
-                onPress={handleAddPassenger}>
-                <Text style={{color: '#fff', fontWeight: '800', fontSize: 18}}>
-                  Add Passengers
-                </Text>
-              </TouchableOpacity>
+           <TouchableOpacity
+             style={{
+               justifyContent: 'center',
+               alignItems: 'center',
+               alignSelf: 'center',
+               width: '95%',
+               height: '10%',
+               backgroundColor:Colors.theme_background,
+               borderRadius: 10,
+             }}
+             onPress={handleAddPassenger}>
+             <Text style={{color: '#fff', fontWeight: '800', fontSize: 18}}>
+               Add Passengers
+             </Text>
+           </TouchableOpacity>
+             </View>
               {/* Add other input fields as needed */}
             </View>
           </ScrollView>
@@ -361,7 +349,7 @@ const PassengerInformation = ({route}) => {
                   alignItems: 'center',
                 }}>
                 <Feather name={'user-plus'} size={20} />
-                <Text>Add new passenger</Text>
+                <Text style={{color:'black'}}>Add new passenger</Text>
               </View>
               <View>
                 <Feather name={'chevron-right'} size={20} />
@@ -489,11 +477,13 @@ const styles = StyleSheet.create({
   pHeading: {
     fontSize: SF(20),
     color: '#000',
+    fontFamily:'Poppins-Regular'
   },
   sHeading: {
     fontSize: SF(15),
     color: '#000',
     marginTop: 5,
+    
   },
   passenger: {
     width: '100%',
@@ -513,5 +503,11 @@ const styles = StyleSheet.create({
   radioGroup: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft:SW(15)
   },
+  text:{
+  fontSize: SF(15),
+    color: '#000',
+    fontFamily:'Poppins-Regular'
+  }
 });

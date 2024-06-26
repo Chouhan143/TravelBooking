@@ -14,6 +14,7 @@ import {RouteName} from '../../routes';
 import axios from 'axios';
 import {BLOKING_SEAT} from '../../utils/BaseUrl';
 import Toast from 'react-native-toast-message';
+import { SF, SH, SW } from '../../utils';
 
 const ReviewBooking = () => {
   const navigation = useNavigation();
@@ -185,46 +186,47 @@ const ReviewBooking = () => {
               style={{
                 color: '#000',
                 fontSize: 20,
-                fontWeight: '700',
+               fontFamily:'Poppins-Medium',
                 marginBottom: 10,
               }}>
               {busDetails.travel_name}
             </Text>
 
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View>
-                <Text style={{color: '#000', fontSize: 18, fontWeight: '700'}}>
+              style={{flexDirection: 'row', justifyContent: 'space-between',
+                paddingHorizontal:SW(5)}}>
+              <View style={{marginRight:SW(10)}}>
+                <Text style={{color: '#000', fontSize: 18,fontFamily:'Poppins-Regular'}}>
                   {selectedBoardingPoint.CityPointName}
                 </Text>
-                <Text style={{color: '#000', fontSize: 14, fontWeight: '400'}}>
+                <Text style={{color: '#000', fontSize: 12,fontFamily:'Poppins-Regular',flexWrap:'wrap'}}>
                   {selectedBoardingPoint.CityPointLocation}
                 </Text>
                 <View style={{flexDirection: 'row', gap: 20}}>
                   <Text
-                    style={{color: '#000', fontSize: 12, fontWeight: '300'}}>
+                    style={{color: '#000', fontSize: 12, fontFamily:'Poppins-Regular'}}>
                     {formatedDate},
                   </Text>
                   <Text
-                    style={{color: '#000', fontSize: 12, fontWeight: '300'}}>
+                    style={{color: '#000', fontSize: 12,fontFamily:'Poppins-Regular'}}>
                     {formattedTime}
                   </Text>
                 </View>
               </View>
               <View>
-                <Text style={{color: '#000', fontSize: 18, fontWeight: '700'}}>
+                <Text style={{color: '#000', fontSize: 18, fontFamily:'Poppins-Regular'}}>
                   {selectedDroppingPoint.CityPointName}
                 </Text>
-                <Text style={{color: '#000', fontSize: 14, fontWeight: '400'}}>
+                <Text style={{color: '#000', fontSize: 14,fontFamily:'Poppins-Regular'}}>
                   {selectedDroppingPoint.CityPointLocation}
                 </Text>
                 <View style={{flexDirection: 'row', gap: 20}}>
                   <Text
-                    style={{color: '#000', fontSize: 12, fontWeight: '300'}}>
+                    style={{color: '#000', fontSize: 12, fontFamily:'Poppins-Regular'}}>
                     {DformatedDate},
                   </Text>
                   <Text
-                    style={{color: '#000', fontSize: 12, fontWeight: '300'}}>
+                    style={{color: '#000', fontSize: 12, fontFamily:'Poppins-Regular'}}>
                     {DformattedTime}
                   </Text>
                 </View>
@@ -247,7 +249,7 @@ const ReviewBooking = () => {
               style={{
                 color: '#000',
                 fontSize: 20,
-                fontWeight: '700',
+               fontFamily:'Poppins-Medium',
                 marginBottom: 10,
               }}>
               Pessenger Details
@@ -264,15 +266,16 @@ const ReviewBooking = () => {
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
-                        marginVertical: 2,
+                            marginHorizontal:SW(10),
+
                       }}>
                       <View>
-                        <Text style={{color: '#000', fontSize: 16}}>
+                        <Text style={{color: '#000', fontSize: 16,fontFamily:'Poppins-Regular'}}>
                           {item.passengerName}
                         </Text>
                       </View>
                       <View>
-                        <Text style={{color: '#000', fontSize: 16}}>
+                        <Text style={{color: '#000', fontSize: 16,fontFamily:'Poppins-Regular'}}>
                           {item.passengerAge}yr
                         </Text>
                         {/* <Text>{item.passengerAge}</Text> */}
@@ -289,23 +292,24 @@ const ReviewBooking = () => {
             style={{
               width: '100%',
               height: 'auto',
-              marginTop: 20,
+              marginTop: SH(20),
               borderRadius: 8,
-              padding: 10,
+              padding: SW(10),
               borderWidth: 0.5,
               borderColor: 'gray',
             }}>
             <Text
               style={{
                 color: '#000',
-                fontSize: 20,
-                fontWeight: '700',
-                marginBottom: 10,
+                fontSize: SF(20),
+                fontFamily:'Poppins-Medium',
+                
               }}>
               Contact Details
             </Text>
-            <Text>We'll send your ticket here</Text>
-            <View style={{marginVertical: 10}}>
+            <Text style={{color: '#000',fontSize: SF(12),
+                fontFamily:'Poppins-Regular',}}>We'll send your ticket here</Text>
+            <View style={{marginVertical:SH(10),marginLeft:-SW(7)}}>
               <Input
                 title="Email"
                 placeholder="Enter email"

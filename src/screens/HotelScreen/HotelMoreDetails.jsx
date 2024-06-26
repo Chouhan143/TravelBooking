@@ -17,14 +17,11 @@ import {RouteName} from '../../routes';
 import {HOTEL_ROOM_DETAILS} from '../../utils/BaseUrl';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import RadioButtonGroup from '../../components/commonComponents/RadioButtonGroup';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 export default function HotelMoreDetails() {
   const [RoomData, setRoomData] = useState(null);
   const [reserve, setReserve] = useState(false);
   const [userRadio, setUserRadio] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const options1 = [{ id: 1}, ];
-const options2 = [{ id: 2 }]
   const handlerRemove = () => {
     setReserve(!reserve);
   };
@@ -334,8 +331,9 @@ const options2 = [{ id: 2 }]
                           : 'radio-btn-passive'
                       }
                       size={18}
+                      color={userRadio === 'single' ?'blue':'gray'}
                     />
-                    <FontAwesome5 name={'user-alt'} size={18} />
+                    <FontAwesome5 name={'user-alt'} size={18} color={'#000'} />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.guestChoose, {marginLeft: SW(15)}]}
@@ -347,54 +345,33 @@ const options2 = [{ id: 2 }]
                           : 'radio-btn-passive'
                       }
                       size={18}
+                      color={userRadio === 'couple' ?'blue':'gray'}
                     />
-                    <FontAwesome5 name={'user-friends'} size={20} />
-                  <TouchableOpacity style={styles.guestChoose}>
-                   {/*} <Fontisto name={'radio-btn-active'} size={18} color={'blue'}/>
-                    <FontAwesome5 name={'user-alt'} size={18} color={'black'}/>*/}
-
-                    {options1.map((option, index) => (
-                        <RadioButtonGroup
-                          key={option.id}
-                          selected={selectedOption === option.id}
-                          onPress={() => setSelectedOption(option.id)}
-                          iconName="user"
-                          additionalIcons={option.id - 1} 
-                        />
-                      ))}
-
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.guestChoose}>
-                   {options2.map((option, index) => (
-                    <RadioButtonGroup
-                      key={option.id}
-                      selected={selectedOption === option.id}
-                      onPress={() => setSelectedOption(option.id)}
-                      iconName="user"
-                      additionalIcons={option.id  -1} 
-                    />
-                  ))}
-
-                 </TouchableOpacity>
+                    <FontAwesome5 name={'user-friends'} size={20} color={'#000'} />
+                    </TouchableOpacity>
+                  
                
                 </View>
                <View style={{justifyContent:'space-around',margin:SW(10)}}>
                <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
                <View>
-               <Text style={{color:'black'}}>1 room </Text>
-               <Text style={{color:'black'}}>selected </Text>
+               <Text style={styles.text}>1 room </Text>
+               <Text style={styles.text}>selected </Text>
                </View>
                <View style={{display:'flex',flexDirection:'row'}}>
-               <Text style={{color:'black',textDecorationLine:'line-through',marginRight:SW(5)}}>4880</Text>
-               <Text style={{color:'black'}}>5666</Text>
+               <Text style={{color:'red',textDecorationLine:'line-through',marginRight:SW(5)}}>
+               <FontAwesome name={'rupee'} size={12} color={'red'}/>
+               4,880</Text>
+               <Text style={styles.text}>
+               <FontAwesome name={'rupee'} size={12} color={'#000'}/>5,666</Text>
                </View>
                <View>
-               <Text style={{color:'black'}}>include taxes and </Text>
-               <Text style={{color:'black'}}>charges </Text> 
+               <Text style={styles.text}>include taxes and </Text>
+               <Text style={styles.text}>charges </Text> 
                </View> 
                </View>
                <View>
-               <Text style={{color:'black'}}> 1 night , wed 26 jun 2024 - thur jun 2024 </Text>
+               <Text style={[styles.text,{textAlign:'center'}]}> (1 night , wed 26 jun 2024 - thur jun 2024) </Text>
                </View>
                </View>
               </View>
@@ -457,12 +434,13 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     backgroundColor: Colors.theme_background,
-    padding: SH(20),
+    padding: SH(15),
   },
   continueButtonText: {
     color: 'white',
     textAlign: 'center',
     fontFamily: 'Poppins-Bold',
+    fontSize:SF(17)
   },
   guestChoose: {
     borderWidth: 1,
@@ -475,4 +453,9 @@ const styles = StyleSheet.create({
     gap: SW(5),
     margin:SW(5)
   },
+  text:{
+  color:'#000',
+  fontSize:SF(12),
+  fontFamily:'Poppins-Regular'
+  }
 });

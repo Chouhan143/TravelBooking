@@ -65,6 +65,7 @@ export default BusListScreenStyle = Colors =>
       color: Colors.gray_text_color,
       fontSize: SF(14),
       paddingTop: SH(7),
+      fontFamily:'Poppins-Regular'
     },
     TextrightSet: {
       justifyContent: 'flex-end',
@@ -99,6 +100,7 @@ export default BusListScreenStyle = Colors =>
       color: '#000',
       fontSize: SF(14),
       paddingTop: SH(8),
+      fontFamily:'Poppins-Medium',
     },
     LinkBox: {
       flexDirection: 'row',

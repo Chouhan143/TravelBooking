@@ -109,12 +109,12 @@ const BoardingPoint = () => {
                 }}
                 onPress={() => onPressRadioButton(item)}>
                 <View style={{flex: 1}}>
-                  <Text>{formattedTime}</Text>
-                  <Text>{formatedDate}</Text>
+                  <Text style={styles.text}>{formattedTime}</Text>
+                  <Text style={styles.text}>{formatedDate}</Text>
                 </View>
                 <View style={{flex: 1}}>
-                  <Text>{item.CityPointAddress}</Text>
-                  <Text>{item.CityPointLandmark}</Text>
+                  <Text style={styles.text}>{item.CityPointAddress}</Text>
+                  <Text style={styles.text}>{item.CityPointLandmark}</Text>
                 </View>
                 <View
                   style={{
@@ -215,12 +215,12 @@ const DropingPoint = () => {
                   borderBottomWidth: 0.2,
                 }}>
                 <View style={{flex: 1}}>
-                  <Text>{formattedTime}</Text>
-                  <Text>{formatedDate}</Text>
+                  <Text style={styles.text}>{formattedTime}</Text>
+                  <Text style={styles.text}>{formatedDate}</Text>
                 </View>
                 <View style={{flex: 1}}>
-                  <Text>{item.CityPointLocation}</Text>
-                  <Text>{item.CityPointName}</Text>
+                  <Text style={styles.text}>{item.CityPointLocation}</Text>
+                  <Text style={styles.text}>{item.CityPointName}</Text>
                 </View>
                 <View
                   style={{
@@ -259,6 +259,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 15,
     padding: SW(10),
+    paddingBottom:SH(10)
   },
   headingText: {
     paddingHorizontal: 15,
@@ -271,4 +272,10 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginVertical: 10,
   },
+  text:{
+  color:'#000',
+  fontFamily:'Poppins-Regular',
+  fontSize:SF(15),
+  textTransform:'capitalize'
+  }
 });

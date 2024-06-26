@@ -9,7 +9,7 @@ import {useNavigation, useTheme} from '@react-navigation/native';
 import {BusListFun, TopListFun} from '../../components';
 import images from '../../index';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SH,Colors} from '../../utils';
+import {SH,Colors, SF} from '../../utils';
 const BusListScreen = props => {
   const {route} = props;
   const navigation = useNavigation();
@@ -60,14 +60,16 @@ const BusListScreen = props => {
                   onPress={() => {
                     navigation.goBack();
                   }}>
-                  <AntDesign name={'arrowleft'} size={20} color={Colors.theme_background}/>
+                  <AntDesign name={'arrowleft'} size={25} color={Colors.theme_background}/>
                 </TouchableOpacity>
                 <View>
                   <Text
-                    style={{fontSize: 16, color: '#000', fontWeight: '700'}}>
+                    style={{fontSize: SF(17), color: '#000', 
+                      fontFamily:'Poppins-Medium',textTransform:'capitalize'}}>
                     {sourceCity} to {destinationCity}
                   </Text>
-                  <Text style={{fontSize: 14, color: 'gray'}}>
+                  <Text style={{fontSize: SF(15), color: 'gray',
+                    fontFamily:'Poppins-Medium',textTransform:'capitalize'}}>
                     {travelingDate}
                   </Text>
                 </View>

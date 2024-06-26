@@ -99,7 +99,7 @@ const HotelDescriptionPage = () => {
       <View style={styles.pagination}>
         <Text style={styles.paginationText}>{`${currentIndex + 1} / ${hotelDetails.Images.length}`}</Text>
       </View>
-      <ScrollView style={styles.descriptionCard} height='63%'>
+      <ScrollView style={styles.descriptionCard} height='62%'>
              <View style={{paddingBottom:SH(30)}}>
               <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
               <Text style={{ color: 'black',fontSize:SF(20),fontFamily:'Poppins-Bold' }}>{hotelDetails.HotelName}</Text>
@@ -144,8 +144,8 @@ const HotelDescriptionPage = () => {
              </View>
             </ScrollView>
             <TouchableOpacity 
-            style={{backgroundColor:Colors.theme_background,padding:SH(20),alignItems:'center'}}>
-               <Text style={{color:'white',textAlign:'center',fontFamily:'Poppins-Bold'}} onPress={()=>navigation.navigate(RouteName.HOTEL_MORE_DETAILS)}>Add Room </Text>
+            style={{backgroundColor:Colors.theme_background,padding:SH(15),alignItems:'center'}}>
+               <Text style={{color:'white',textAlign:'center',fontFamily:'Poppins-Bold',fontSize:SF(17)}} onPress={()=>navigation.navigate(RouteName.HOTEL_MORE_DETAILS)}>Add Room </Text>
                </TouchableOpacity>
     </View>
   );

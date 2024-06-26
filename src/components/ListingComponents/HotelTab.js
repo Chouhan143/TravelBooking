@@ -135,44 +135,45 @@ const HotelTab = () => {
     let formattedCheckInDate = FormatedDate(checkInDate);
     let formattedCheckOutDate = FormatedDate(checkOutDate);
     let noOfNights = calculateNights(checkInDate, checkOutDate);
-
-    try {
-      setLoading(true);
-      const payload = {
-        BookingMode: '5',
-        CheckInDate: '30/04/2020',
-        NoOfNights: '1',
-        CountryCode: 'IN',
-        CityId: '130443',
-        ResultCount: null,
-        PreferredCurrency: 'INR',
-        GuestNationality: 'IN',
-        NoOfRooms: '1',
-        RoomGuests: [
-          {
-            NoOfAdults: 1,
-            NoOfChild: '0',
-            ChildAge: [],
-          },
-        ],
-        MaxRating: '5',
-        MinRating: '0',
-      };
-      const res = await axios.post(HOTEL_SEARCH, payload);
-      const HotelListArr = res.data.Results;
-      // console.log('Fetched Data:', HotelListArr);
-      dispatch(setHotelData(HotelListArr));
-      navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.response);
-      setLoading(false);
-    }
+  
+    const payload = {
+      BookingMode: '5',
+      CheckInDate: '30/04/2020',
+      NoOfNights: '1',
+      CountryCode: 'IN',
+      CityId: '130443',
+      ResultCount: null,
+      PreferredCurrency: 'INR',
+      GuestNationality: 'IN',
+      NoOfRooms: '1',
+      RoomGuests: [
+        {
+          NoOfAdults: 1,
+          NoOfChild: '0',
+          ChildAge: [],
+        },
+      ],
+      MaxRating: '5',
+      MinRating: '0',
+    };
+  
+    setLoading(true);
+  
+    setTimeout(async () => {
+      try {
+        const res = await axios.post(HOTEL_SEARCH, payload);
+        const HotelListArr = res.data.Results;
+        // console.log('Fetched Data:', HotelListArr);
+        dispatch(setHotelData(HotelListArr));
+        navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
+      } catch (error) {
+        console.log(error.response);
+      } finally {
+        setLoading(false);
+      }
+    }, 5000);
   };
-
-  // useEffect(() => {
-  //   FetchHotelData(dispatch);
-  // }, [dispatch]);
+  
 
   const handleChildAgeChange = (index, age) => {
     const newAges = [...childrenAges];
@@ -196,7 +197,7 @@ const HotelTab = () => {
       <TouchableOpacity
         style={styles.searchbar}
         onPress={() => SetModalVisible(true)}>
-        <EvilIcons name={'search'} size={20} color="black" />
+        <EvilIcons name={'search'} size={25} color="gray" />
         <Text style={styles.search}>Search Hotels .......</Text>
       </TouchableOpacity>
 

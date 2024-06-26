@@ -57,11 +57,13 @@ const BusListFun = props => {
           <Text
             style={[
               BusListScreenStyles.TravelCompanyText,
-              {color: '#000', fontFamily:'Poppins-Medium'},
+              {color: '#000', fontFamily:'Poppins-Medium',textTransform:'capitalize'},
             ]}>
             {t(item.travel_name)}
           </Text>
-          <Text style={BusListScreenStyles.AcNonAcText}>
+          <Text style={{color: Colors.gray_text_color,
+      fontSize: SF(12), paddingTop: SH(7),fontFamily:'Poppins-Regular',
+      textTransform:'capitalize'}}>
             {t(item.bus_type)}
           </Text>
         </View>
@@ -76,7 +78,8 @@ const BusListFun = props => {
           {/* <Text style={BusListScreenStyles.DiscountAmountText}>
             ₹ {item.DiscountAmount}
           </Text> */}
-          <Text style={BusListScreenStyles.PercentaText}>
+          <Text style={{ color: Colors.green,fontSize: SF(10),
+            paddingTop: SH(3),fontFamily:'Poppins-Regular'}}>
             <VectorIcon
               icon="MaterialCommunityIcons"
               name="brightness-percent"
@@ -98,7 +101,7 @@ const BusListFun = props => {
           },
         ]}>
         <View>
-          <Text style={BusListScreenStyles.BusComonStyle}>
+          <Text style={{color: '#000',fontSize: SF(14),paddingTop: SH(8),fontFamily:'Poppins-Medium'}}>
             {t(item.available_seats)} Seats Left
           </Text>
         </View>
@@ -109,7 +112,7 @@ const BusListFun = props => {
           <Text
             style={[
               BusListScreenStyles.BusComonStyle,
-              {color: '#000', fontWeight: '700'},
+              {color: '#000', fontFamily:'Poppins-Medium'},
             ]}>
             {departureTime}
           </Text>
@@ -130,7 +133,7 @@ const BusListFun = props => {
               {
                 marginHorizontal: 5,
                 alignSelf: 'center',
-                fontWeight: '700',
+                fontFamily:'Poppins-Medium',
                 color: '#000',
               },
             ]}>

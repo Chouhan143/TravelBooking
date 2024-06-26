@@ -40,7 +40,7 @@ const Register = props => {
   const [state, setState] = useState(stateArray);
   const [loading, setLoading] = useState(false);
   console.log(state);
-  const [stateError, setStateError] = useState(stateErrorArray);
+  // const [stateError, setStateError] = useState(stateErrorArray);
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const {t} = useTranslation();
   const onChangeText = (text, type) => {
