@@ -42,6 +42,7 @@ const BusSeatScreen = props => {
     [Colors],
   );
 
+  console.log('tId', tId);
   const combinedData = [...lowerSeat, ...lowerSeatR];
 
   // console.log('L', combinedData);
@@ -69,7 +70,7 @@ const BusSeatScreen = props => {
       console.log('Result  >>>', res.data);
       setLowerSeat(res.data.Result[0]);
       setLowerSeatR(res.data.Result[1]);
-      // console.log('again test', res.data.Result[0]);
+      console.log('again test', res.data.Result[0]);
       setUperSeat(res.data.ResultUpperSeat[0]);
       setTid(res.data.TraceId);
       // console.log('Upper data : ',res.data.ResultUpperSeat[0])
@@ -119,7 +120,7 @@ const BusSeatScreen = props => {
     {
       id: 4,
       Seaticon: 'seat',
-      SeaticonColor: Colors.chinese_silver,
+      SeaticonColor: 'pink',
       text: 'BusSeatShowData_text_4',
     },
     {
@@ -137,7 +138,7 @@ const BusSeatScreen = props => {
   ];
 
   return (
-    <View style={{width: '100%',height: '100%',backgroundColor:'white'}}>
+    <View style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
       {/* <View>
         <View>
           <FlatList
@@ -163,8 +164,7 @@ const BusSeatScreen = props => {
             <ActivityIndicator size="large" color="blue" />
           </View>
         ) : (
-          <View style={{width: '100%',
-      height: '100%',padding:SW(20)}}>
+          <View style={{width: '100%', height: '100%', padding: SW(20)}}>
             <View>
               {tabShow == '1' ? (
                 <View>
@@ -190,7 +190,6 @@ const BusSeatScreen = props => {
                     )}
                     keyExtractor={(item, index) => item.id || index.toString()}
                     showsHorizontalScrollIndicator={false}
-                    
                   />
                 </View>
               )}
@@ -285,18 +284,24 @@ const BusSeatScreen = props => {
               {t('Book_for')}
             </Text> */}
           </View>
-          <View style={{ width: '40%',
-            paddingLeft: SH(20),
-            paddingRight: SH(5),paddingTop:SH(10)}}>
+          <View
+            style={{
+              width: '40%',
+              paddingLeft: SH(20),
+              paddingRight: SH(5),
+              paddingTop: SH(10),
+            }}>
             <Button
-              title={t('Proceed')}
-              ButtonStyle={BusSeatScreenStyles.ButtonStyle}
+              title={busFare === 0 ? t('Select seat') : t('Proceed')}
+              ButtonStyle={
+                busFare === 0 ? 'gray' : BusSeatScreenStyles.ButtonStyle
+              }
               onPress={() =>
                 navigation.navigate(RouteName.BORDING_DROPING_POINT, {
                   traceId: tId,
                 })
               }
-
+              disable={busFare === 0}
               // onPress={() =>
               //   navigation.navigate(RouteName.PASSANGER_INFORMATION, {
               //     traceId: tId,

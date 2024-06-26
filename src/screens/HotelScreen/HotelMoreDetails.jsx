@@ -26,8 +26,8 @@ export default function HotelMoreDetails() {
     setReserve(!reserve);
   };
 
-  const handleRadio = () => {
-    setUserRadio(!userRadio);
+  const handleRadio = value => {
+    setUserRadio(value);
   };
 
   useEffect(() => {
@@ -321,15 +321,30 @@ export default function HotelMoreDetails() {
               <View style={{paddingVertical: 10}}>
                 <Text style={styles.Text}>Choose No of guest</Text>
                 <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity style={styles.guestChoose}>
-                    <Fontisto name={'radio-btn-active'} size={18} />
+                  <TouchableOpacity
+                    style={styles.guestChoose}
+                    onPress={() => handleRadio('single')}>
+                    <Fontisto
+                      name={
+                        userRadio === 'single'
+                          ? 'radio-btn-active'
+                          : 'radio-btn-passive'
+                      }
+                      size={18}
+                    />
                     <FontAwesome5 name={'user-alt'} size={18} />
                   </TouchableOpacity>
-
                   <TouchableOpacity
                     style={[styles.guestChoose, {marginLeft: SW(15)}]}
-                    onPress={() => setUserRadio(true)}>
-                    <Fontisto name={'radio-btn-active'} size={18} />
+                    onPress={() => handleRadio('couple')}>
+                    <Fontisto
+                      name={
+                        userRadio === 'couple'
+                          ? 'radio-btn-active'
+                          : 'radio-btn-passive'
+                      }
+                      size={18}
+                    />
                     <FontAwesome5 name={'user-friends'} size={20} />
                   </TouchableOpacity>
                 </View>

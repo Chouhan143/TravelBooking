@@ -5,15 +5,15 @@ import {useTheme} from '@react-navigation/native';
 import {LikeUnlike} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateSelectedSeats, updateTotalPrice} from '../../redux/action';
-import { SH ,SW} from '../../utils';
+import {SH, SW} from '../../utils';
 const BusSeatDataFlatlist = props => {
   const {Colors} = useTheme();
   const {item, index} = props;
 
   const SeatPrice = item.Price.PublishedPrice;
-  console.log('SeatPrice', SeatPrice);
+  // console.log('SeatPrice', SeatPrice);
   const seatName = item.SeatName;
-  console.log('seatName', seatName);
+  // console.log('seatName', seatName);
 
   const dispatch = useDispatch();
   const BusSeatScreenStyles = useMemo(
@@ -32,28 +32,42 @@ const BusSeatDataFlatlist = props => {
   };
 
   // Update price according to seat selected
+  // useEffect(() => {
+  //   // Ensure props.busSeats is defined and not empty before calculating totalPrice
+
+  //   console.log('check');
+
+  //   if (!props.busSeats || props.busSeats.length === 0) {
+  //     return; // Exit early if busSeats is not defined or empty
+  //   }
+
+  //   // Calculate total price based on selected seats
+  //   const totalPrice = selectedSeatData.reduce((total, seatName) => {
+  //     const seat = props.busSeats.find(s => s.SeatName === seatName);
+  //     console.log(seat, 'seat');
+  //     return total + (seat ? seat.Price.PublishedPrice : 0);
+  //   }, 0);
+
+  //   console.log(totalPrice, 'totalPrice');
+
+  //   // Dispatch action to update total price in Redux store
+  //   dispatch(updateTotalPrice(totalPrice));
+  // }, [selectedSeatData, props.busSeats, dispatch]);
+
   useEffect(() => {
-    // Ensure props.busSeats is defined and not empty before calculating totalPrice
-    if (!props.busSeats || props.busSeats.length === 0) {
-      return; // Exit early if busSeats is not defined or empty
-    }
-
-    // Calculate total price based on selected seats
-    const totalPrice = selectedSeatData.reduce((total, seatName) => {
-      const seat = props.busSeats.find(s => s.SeatName === seatName);
-      return total + (seat ? seat.Price.PublishedPrice : 0);
-    }, 0);
-
-    // Dispatch action to update total price in Redux store
+    const totalPrice = SeatPrice * selectedSeatData.length;
     dispatch(updateTotalPrice(totalPrice));
-  }, [selectedSeatData, props.busSeats, dispatch]);
+  }, [selectedSeatData, SeatPrice, dispatch]);
 
   return (
-    <View style={{ flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: SH(10),
-      marginRight:SW(220)}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: SH(10),
+        marginRight: SW(220),
+      }}>
       <View style={BusSeatScreenStyles.Width50}>
         <TouchableOpacity onPress={() => onSelectSeat(item.SeatName)}>
           <LikeUnlike
@@ -66,6 +80,7 @@ const BusSeatDataFlatlist = props => {
             onSelectSeat={onSelectSeat}
             isSelected={selectedSeatData.includes(item.SeatName)}
             seatPrice={`₹${SeatPrice}`}
+            IsLadiesSeat={item.IsLadiesSeat}
           />
         </TouchableOpacity>
       </View>
