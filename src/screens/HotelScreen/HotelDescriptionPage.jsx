@@ -12,10 +12,11 @@ import ReadMoreText from '../../components/commonComponents/ReadMore';
 import Feather from 'react-native-vector-icons/Feather';
 const HotelDescriptionPage = () => {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hotelDetails, setHotelDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     const fetchHotelDetails = async () => {
@@ -70,7 +71,7 @@ const HotelDescriptionPage = () => {
   if (loading || hotelDetails === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="black" />
+        <ActivityIndicator size="large" color={Colors.theme_background} />
       </View>
     );
   }

@@ -58,7 +58,7 @@ const BusSeatScreen = props => {
   console.log(selectedSeatData.join(','));
 
   const busFare = useSelector(state => state.commomReducer.totalPrice);
-
+console.log('bus fare',busFare);
   const getlayout = async () => {
     try {
       setLoading(true);

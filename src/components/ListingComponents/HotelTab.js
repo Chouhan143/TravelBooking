@@ -193,19 +193,13 @@ const HotelTab = () => {
         </Text>
       </View>
 
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={styles.searchbar}
         onPress={() => SetModalVisible(true)}>
         <EvilIcons name={'search'} size={20} color="black" />
         <Text style={styles.search}>Search Hotels .......</Text>
-      </TouchableOpacity> */}
-
-      <TouchableOpacity
-        style={styles.searchbar}
-        onPress={() => navigation.navigate(RouteName.HOTEL_GUEST_DETAILS)}>
-        <EvilIcons name={'search'} size={20} color="black" />
-        <Text style={styles.search}>Search Hotels .......</Text>
       </TouchableOpacity>
+
 
       <View style={styles.dates}>
         <View style={styles.CheckDateBox}>
@@ -255,19 +249,6 @@ const HotelTab = () => {
         </TouchableOpacity>
       )}
 
-      {/* {locationDenied && (
-        <View style={styles.permissionDeniedContainer}>
-          <Text style={styles.permissionDeniedText}>
-            Location access is required to search for nearby hotels. Please
-            enable location access.
-          </Text>
-          <TouchableOpacity
-            style={styles.permissionButton}
-            onPress={requestCameraPermission}>
-            <Text style={styles.permissionButtonText}>Enable Location</Text>
-          </TouchableOpacity>
-        </View>
-      )} */}
 
       <HotelCitySearch
         ModalVisible={ModalVisible}

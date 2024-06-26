@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import {Colors, SF, SH, SW} from '../../utils';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+
 export default function HotelGuestDetails() {
   const [more, setMore] = useState(false);
-
   let moreHandler = () => {
     setMore(!more);
   };
@@ -105,11 +105,13 @@ export default function HotelGuestDetails() {
 <View style={{marginVertical:SH(10)}}>
 <View style={{display:'flex',flexDirection:'row'}}>
 <Text style={styles.inputLabel}>email address </Text>
-<Entypo name={'star'} color='red' size={15}/></View>
+<Entypo name={'star'} color='red' size={15}/>
+</View>
 
 <TextInput style={styles.input}/>
-
+<Text style={{color:'black'}}>confirmation email sent to this mail address </Text>
 </View>
+
 
 </View>
 

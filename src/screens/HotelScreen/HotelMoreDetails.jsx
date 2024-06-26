@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  ActivityIndicator
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -16,12 +17,14 @@ import {RouteName} from '../../routes';
 import {HOTEL_ROOM_DETAILS} from '../../utils/BaseUrl';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import RadioButtonGroup from '../../components/commonComponents/RadioButtonGroup';
 export default function HotelMoreDetails() {
   const [RoomData, setRoomData] = useState(null);
   const [reserve, setReserve] = useState(false);
   const [userRadio, setUserRadio] = useState(false);
-
+  const [selectedOption, setSelectedOption] = useState(null);
+  const options1 = [{ id: 1}, ];
+const options2 = [{ id: 2 }]
   const handlerRemove = () => {
     setReserve(!reserve);
   };
@@ -269,7 +272,7 @@ export default function HotelMoreDetails() {
                 style={{
                   flex: 1,
                   width: SW(170),
-                  height: SH(40),
+                  height: SH(42),
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   alignSelf: 'center',
@@ -294,12 +297,12 @@ export default function HotelMoreDetails() {
 
                 <TextInput
                   placeholder="1"
-                  value="1 room"
+                  value="1 Room"
                   placeholderTextColor={Colors.black_text_color}
-                  textAlign="center"
                   style={{
-                    flex: 1,
-                    fontWeight: 'bold',
+                    fontFamily:'Poppins-Medium',
+                    color:'black',
+                    fontSize:SF(12)
                   }}
                 />
 
@@ -346,8 +349,54 @@ export default function HotelMoreDetails() {
                       size={18}
                     />
                     <FontAwesome5 name={'user-friends'} size={20} />
+                  <TouchableOpacity style={styles.guestChoose}>
+                   {/*} <Fontisto name={'radio-btn-active'} size={18} color={'blue'}/>
+                    <FontAwesome5 name={'user-alt'} size={18} color={'black'}/>*/}
+
+                    {options1.map((option, index) => (
+                        <RadioButtonGroup
+                          key={option.id}
+                          selected={selectedOption === option.id}
+                          onPress={() => setSelectedOption(option.id)}
+                          iconName="user"
+                          additionalIcons={option.id - 1} 
+                        />
+                      ))}
+
                   </TouchableOpacity>
+                  <TouchableOpacity style={styles.guestChoose}>
+                   {options2.map((option, index) => (
+                    <RadioButtonGroup
+                      key={option.id}
+                      selected={selectedOption === option.id}
+                      onPress={() => setSelectedOption(option.id)}
+                      iconName="user"
+                      additionalIcons={option.id  -1} 
+                    />
+                  ))}
+
+                 </TouchableOpacity>
+               
                 </View>
+               <View style={{justifyContent:'space-around',margin:SW(10)}}>
+               <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
+               <View>
+               <Text style={{color:'black'}}>1 room </Text>
+               <Text style={{color:'black'}}>selected </Text>
+               </View>
+               <View style={{display:'flex',flexDirection:'row'}}>
+               <Text style={{color:'black',textDecorationLine:'line-through',marginRight:SW(5)}}>4880</Text>
+               <Text style={{color:'black'}}>5666</Text>
+               </View>
+               <View>
+               <Text style={{color:'black'}}>include taxes and </Text>
+               <Text style={{color:'black'}}>charges </Text> 
+               </View> 
+               </View>
+               <View>
+               <Text style={{color:'black'}}> 1 night , wed 26 jun 2024 - thur jun 2024 </Text>
+               </View>
+               </View>
               </View>
             </>
           ) : null}
@@ -419,10 +468,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: SW(10),
-    paddingHorizontal: SW(20),
+    paddingVertical: SW(7),
+    paddingHorizontal: SW(7),
     borderRadius: 4,
     flexDirection: 'row',
     gap: SW(5),
+    margin:SW(5)
   },
 });
