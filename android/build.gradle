@@ -1,5 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+
+
 buildscript {
     ext {
         buildToolsVersion = "33.0.0"
@@ -15,7 +17,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
+       classpath ('com.android.tools.build:gradle:4.2.0')
         classpath("com.facebook.react:react-native-gradle-plugin")
     }
+}
+
+allprojects {
+   repositories {
+       maven {
+            url  "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
+       }
+   }
 }

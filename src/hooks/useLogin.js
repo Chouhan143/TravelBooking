@@ -22,7 +22,7 @@ const useLogin = () => {
       });
       console.log('login Response', response.data);
       const user_id = response.data.data.user_id.toString();
-      console.log(user_id);
+      console.log('user_id', user_id);
       const status = response.status;
       console.log(status);
       if (status == 200) {

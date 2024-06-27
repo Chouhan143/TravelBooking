@@ -68,17 +68,13 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
-
 android {
     ndkVersion rootProject.ext.ndkVersion
-
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     dexOptions {
    incremental true
    javaMaxHeapSize "4g"
 }
-
     namespace "com.travelbooking"
     defaultConfig {
         applicationId "com.travelbooking"
@@ -107,20 +103,17 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
-
-
-
 }
-
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
+     implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.1")
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-vector-icons')
+  
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
-
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

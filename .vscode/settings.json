@@ -1,0 +1,4 @@
+{
+    "editor.maxTokenizationLineLength": 2000000,
+    "terminal.integrated.scrollback": 10000000
+}

@@ -37,6 +37,7 @@ import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
 import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
 import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
 import HotelGuestDetails from '../screens/HotelScreen/HotelGuestDetails';
+import PaymentIntent from '../screens/PaymentIntent/PaymentIntent';
 import HotelPayment from '../screens/HotelScreen/HotelPayment';
 import BusTicketScreen from '../screens/TicketScreen/BusTicketScreen';
 import FlightTicketScreen from '../screens/TicketScreen/FlightTicketScreen';
@@ -78,103 +79,134 @@ const RootNavigator = props => {
   return (
     <NavigationContainer theme={colorValue}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {isAuthenticated ? (
-          <>
-            <Stack.Screen
-              name={RouteName.SIDE_NAVIGATOR}
-              component={SideNavigator}
-            />
+        {/* {isAuthenticated ? ( */}
+        <>
+          <Stack.Screen
+            name={RouteName.SIDE_NAVIGATOR}
+            component={SideNavigator}
+          />
 
-            <Stack.Screen
-              name={RouteName.BUS_LIST_SCREEN}
-              component={BusListScreen}
-            />
-            <Stack.Screen
-              name={RouteName.BUS_SEAT_SCREEN}
-              component={BusSeatScreen}
-              options={{
-                headerShown: true,
-                title: ' Select Seat',
-              }}
-            />
+          <Stack.Screen
+            name={RouteName.BUS_LIST_SCREEN}
+            component={BusListScreen}
+          />
+          <Stack.Screen
+            name={RouteName.BUS_SEAT_SCREEN}
+            component={BusSeatScreen}
+            options={{
+              headerShown: true,
+              title: ' Select Seat',
+            }}
+          />
 
-            <Stack.Screen
-              name={RouteName.BUS_SELECT_SCREEN}
-              component={BusSelectScreen}
-            />
-            <Stack.Screen
-              name={RouteName.BORDING_DROPING_POINT}
-              component={BoardingDroping}
-              options={{
-                headerShown: true,
-                title: 'Select boarding & droping points',
-              }}
-            />
+          <Stack.Screen
+            name={RouteName.BUS_SELECT_SCREEN}
+            component={BusSelectScreen}
+          />
+          <Stack.Screen
+            name={RouteName.BORDING_DROPING_POINT}
+            component={BoardingDroping}
+            options={{
+              headerShown: true,
+              title: 'Select boarding & droping points',
+            }}
+          />
 
-            <Stack.Screen
-              name={RouteName.PASSANGER_INFORMATION}
-              component={PassengerInformation}
-              options={{
-                headerShown: true,
-                title: 'Passanger Information',
-              }}
-            />
+          <Stack.Screen
+            name={RouteName.PASSANGER_INFORMATION}
+            component={PassengerInformation}
+            options={{
+              headerShown: true,
+              title: 'Passanger Information',
+            }}
+          />
 
-            <Stack.Screen
-              name={RouteName.REVIEW_BOOKING}
-              component={ReviewBooking}
-              options={{
-                headerShown: true,
-                title: 'Review Booking',
-              }}
-            />
+          <Stack.Screen
+            name={RouteName.REVIEW_BOOKING}
+            component={ReviewBooking}
+            options={{
+              headerShown: true,
+              title: 'Review Booking',
+            }}
+          />
 
-            <Stack.Screen
-              name={RouteName.PAYMENT_SCREEN}
-              component={PaymentScreen}
-            />
-            <Stack.Screen
-              name={RouteName.PAYMENT_SUCCESSFULLY}
-              component={PaymentSuccessFully}
-            />
+          <Stack.Screen
+            name={RouteName.PAYMENT_SCREEN}
+            component={PaymentScreen}
+          />
+          <Stack.Screen
+            name={RouteName.PAYMENT_SUCCESSFULLY}
+            component={PaymentSuccessFully}
+          />
 
-            <Stack.Screen
-              name={RouteName.FLIGHT_LIST_SCREEN}
-              component={FlightListScreen}
-            />
+          <Stack.Screen
+            name={RouteName.FLIGHT_LIST_SCREEN}
+            component={FlightListScreen}
+          />
 
-            <Stack.Screen
-              name={RouteName.FLIGHT_DETAILS}
-              component={FlightDetails}
-              options={{
-                headerShown: true,
-                title: 'Flight Details',
-              }}
-            />
-            <Stack.Screen
-              name={RouteName.FLIGHT_TRAVELER_DETAILS}
-              component={FlightTravellerDetails}
-              options={{
-                headerShown: true,
-                title: 'Add Traveller',
-              }}
-            />
-            <Stack.Screen
-              name={RouteName.FLIGHT_MEALS}
-              component={FlightSegments}
-              options={{
-                headerShown: false,
-              }}
-            />
+          <Stack.Screen
+            name={RouteName.FLIGHT_DETAILS}
+            component={FlightDetails}
+            options={{
+              headerShown: true,
+              title: 'Flight Details',
+            }}
+          />
+          <Stack.Screen
+            name={RouteName.FLIGHT_TRAVELER_DETAILS}
+            component={FlightTravellerDetails}
+            options={{
+              headerShown: true,
+              title: 'Add Traveller',
+            }}
+          />
+          <Stack.Screen
+            name={RouteName.FLIGHT_MEALS}
+            component={FlightSegments}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-            <Stack.Screen
-              name={RouteName.FLIGHT_REVIEW_DETAILS}
-              component={FlightReviewDetails}
-              options={{
-                headerShown: false,
-              }}
-            />
+          <Stack.Screen
+            name={RouteName.FLIGHT_REVIEW_DETAILS}
+            component={FlightReviewDetails}
+            options={{
+              headerShown: false,
+            }}
+          />
 
+          <Stack.Screen
+            name={RouteName.TICKET_SCREEN}
+            component={TicketScreen}
+          />
+          <Stack.Screen
+            name={RouteName.HOTEL_LIST_SCREEN}
+            component={HotelListScreen}
+          />
+          <Stack.Screen
+            name={RouteName.HOTEL_DESCRIPTION_SCREEN}
+            component={HotelDescriptionPage}
+          />
+          <Stack.Screen
+            name={RouteName.HOTEL_MORE_DETAILS}
+            component={HotelMoreDetails}
+          />
+          <Stack.Screen
+            name={RouteName.HOTEL_GUEST_DETAILS}
+            component={HotelGuestDetails}
+          />
+          <Stack.Screen
+            name={RouteName.PAYMENT_INTENT}
+            component={PaymentIntent}
+          />
+          <Stack.Screen
+            name={RouteName.HOTEL_PAYMENT}
+            component={HotelPayment}
+          />
+        </>
+        {/* ) : ( */}
+        {/* <>
             <Stack.Screen
               name={RouteName.TICKET_SCREEN}
               component={TicketScreen}
@@ -255,8 +287,8 @@ const RootNavigator = props => {
               name={RouteName.SELECT_LANGUAGE}
               component={TranslationScreen}
             />
-          </>
-        )}
+          </> */}
+        {/* )} */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -3,6 +3,7 @@ const BASE_URL = 'https://srninfotech.com/projects/travel-app/api';
 const LOGIN_ENDPOINT = `${BASE_URL}/login`;
 const REGISTER_ENDPOINT = `${BASE_URL}/register`;
 const OTP_VERYFY_ENDPOINT = `${BASE_URL}/checkotp`;
+const RESEND_OTP = `${BASE_URL}/resend-otp`;
 const BUS_LIST = `${BASE_URL}/bus_list`;
 const UPDATE_NUMBER = `${BASE_URL}/update_number`;
 const BUS_SEARCH = `${BASE_URL}/searchBus`;
@@ -18,9 +19,9 @@ const FLIGHT_FARE_QUOTE = `${BASE_URL}/farequote`;
 const FLIGHT_SSR_MEAL = `${BASE_URL}/ssr`;
 const FLIGHT_SEAT_MAP = `${BASE_URL}/seatmap`;
 const FLIGHT_BOOKLLC = `${BASE_URL}/bookllc`;
-const HOTEL_SEARCH=`${BASE_URL}/search-hotel`;
-const HOTEL_INFO=`${BASE_URL}/hotel-info`;
-const HOTEL_ROOM_DETAILS=`${BASE_URL}/hotel-room`;
+const HOTEL_SEARCH = `${BASE_URL}/search-hotel`;
+const HOTEL_INFO = `${BASE_URL}/hotel-info`;
+const HOTEL_ROOM_DETAILS = `${BASE_URL}/hotel-room`;
 
 export {
   BASE_URL,
@@ -43,5 +44,6 @@ export {
   FLIGHT_BOOKLLC,
   HOTEL_SEARCH,
   HOTEL_INFO,
-  HOTEL_ROOM_DETAILS
+  HOTEL_ROOM_DETAILS,
+  RESEND_OTP,
 };

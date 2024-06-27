@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Image,
+  ToastAndroid,
 } from 'react-native';
 import {Otpstyle} from '../../../styles';
 import RouteName from '../../../routes/RouteName';
@@ -16,6 +17,9 @@ import useOtpVeryfy from '../../../hooks/useOtpVeryfy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {SH, SW, SF} from '../../../utils';
+import axios from 'axios';
+import {RESEND_OTP} from '../../../utils/BaseUrl';
+
 const OtpScreenset = props => {
   const {otpVeryfy, loading, error} = useOtpVeryfy();
   const {t} = useTranslation();
@@ -24,37 +28,15 @@ const OtpScreenset = props => {
   const {navigation} = props;
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [userId, setUserId] = useState(''); // State to hold the user ID
-  const [otp, setOtp] = useState(''); // State to hold the OTP
+  const [userId, setUserId] = useState('');
+  const [otp, setOtp] = useState('');
   const [result, setResult] = useState(false);
-  const [okbutton, Setokbutton] = useState('');
 
   const isAuthenticated = useSelector(
     state => state.commomReducer.isAuthenticated,
   );
 
-  var alertdata = {
-    logout: t('Resand_Otp_Text_Modal'),
-    loginSuccess: t('Login_Successfull'),
-  };
-  // const onoknutton = () => {
-  //   if (okbutton === false) okbutton;
-  //   if (okbutton === true) navigation.navigate(RouteName.SIDE_NAVIGATOR);
-  // };
-
-  const onoknutton = () => {
-    if (result) {
-      setAlertVisible(true);
-      setAlertMessage(t('Login_Successfull'));
-      navigation.navigate(RouteName.SIDE_NAVIGATOR); // Navigate to side navigator upon successful verification
-    } else {
-      setAlertVisible(true);
-      setAlertMessage(t('Resand_Otp_Text_Modal'));
-    }
-  };
-
   useEffect(() => {
-    // Function to retrieve user ID from AsyncStorage
     const getUserIdFromStorage = async () => {
       try {
         const storedUserId = await AsyncStorage.getItem('userId');
@@ -63,25 +45,10 @@ const OtpScreenset = props => {
         }
       } catch (error) {
         console.log('Error retrieving user ID from AsyncStorage:', error);
-        // Handle error
       }
     };
     getUserIdFromStorage();
   }, []);
-
-  // get token >>>>>>>>>>>
-
-  // useEffect(() => {
-  //   const get_Token = async () => {
-  //     if (isAuthenticated) {
-  //       const storedToken = await AsyncStorage.getItem('token'); // Retrieve token
-  //       if (storedToken) {
-  //         dispatch(loginSuccess(storedToken)); // Set authentication state
-  //       }
-  //     }
-  //   };
-  //   get_Token();
-  // }, []);
 
   const handleOTPChange = useCallback(otpValue => {
     setOtp(otpValue);
@@ -89,12 +56,29 @@ const OtpScreenset = props => {
 
   const handleVerify = async () => {
     try {
-      // Call the otpVeryfy function from the custom hook
       await otpVeryfy(userId, otp);
       setResult(true);
+      setAlertVisible(true);
+      setAlertMessage(t('Login_Successfull'));
     } catch (error) {
       console.log('Error verifying OTP:', error.response);
-      // Handle error
+      setAlertVisible(true);
+      setAlertMessage(t('Resand_Otp_Text_Modal'));
+    }
+  };
+
+  const resendOtpReq = async () => {
+    let userId = await AsyncStorage.getItem('userId');
+    try {
+      const payload = {
+        user_id: userId,
+      };
+      const res = await axios.post(RESEND_OTP, payload);
+      const message = res.data.data.message;
+      ToastAndroid.show(((message = message), (duration = 2)));
+      console.log(res.data);
+    } catch (error) {
+      console.log('Error sending OTP', error.response);
     }
   };
 
@@ -167,12 +151,7 @@ const OtpScreenset = props => {
                   }}>
                   {t('Didnt_Receive_Otp')}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    setAlertVisible(true);
-                    setAlertMessage(alertdata.logout);
-                    Setokbutton(false);
-                  }}>
+                <TouchableOpacity onPress={resendOtpReq}>
                   <Text
                     style={{
                       fontFamily: 'Poppins_Medium',
@@ -197,12 +176,6 @@ const OtpScreenset = props => {
                   padding: SW(10),
                   borderRadius: 10,
                 }}
-                // onPress={() => {
-                //   setAlertVisible(true);
-                //   setAlertMessage(alertdata.loginSuccess);
-                //   Setokbutton(true);
-                //   handleVerify();
-                // }}
                 onPress={handleVerify}>
                 <Text
                   style={{
@@ -223,7 +196,12 @@ const OtpScreenset = props => {
         modalVisible={alertVisible}
         setModalVisible={setAlertVisible}
         onPress={() => {
-          setAlertVisible(!alertVisible), onoknutton();
+          setAlertVisible(!alertVisible);
+          if (result) {
+            navigation.navigate(RouteName.SIDE_NAVIGATOR);
+          } else {
+            navigation.navigate(RouteName.OTP_VERYFY_SCREEN);
+          }
         }}
         buttonminview={Otpstyles.buttonotp}
         iconVisible={true}
@@ -232,4 +210,5 @@ const OtpScreenset = props => {
     </View>
   );
 };
+
 export default OtpScreenset;

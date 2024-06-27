@@ -38,12 +38,14 @@ const RouteName = {
   HOTEL_DESCRIPTION_SCREEN: 'HotelDescriptionPage',
   HOTEL_MORE_DETAILS: 'HotelMoreDetails',
   HOTEL_GUEST_DETAILS: 'HotelGuestDetails',
-  HOTEL_PAYMENT:'HotelPayment',
-  BUS_TICKET_SCREEN:'BusTicketScreen',
-  FLIGHT_TICKET_SCREEN:'FlightTicketScreen',
-  HOTEL_TICKET_SCREEN:'HotelTicketScreen',
-  REVIEW_FLIGHT_TICKET_SCREEN:'ReviewFlightTicketStatus',
-  REVIEW_BUS_TICKET_SCREEN:'ReviewBusTicketStatus',
-  REVIEW_HOTEL_TICKET_SCREEN:'ReviewHotelTicketStatus'
+  PAYMENT_INTENT: 'PaymentIntent',
+  HOTEL_PAYMENT: 'HotelPayment',
+  HOTEL_PAYMENT: 'HotelPayment',
+  BUS_TICKET_SCREEN: 'BusTicketScreen',
+  FLIGHT_TICKET_SCREEN: 'FlightTicketScreen',
+  HOTEL_TICKET_SCREEN: 'HotelTicketScreen',
+  REVIEW_FLIGHT_TICKET_SCREEN: 'ReviewFlightTicketStatus',
+  REVIEW_BUS_TICKET_SCREEN: 'ReviewBusTicketStatus',
+  REVIEW_HOTEL_TICKET_SCREEN: 'ReviewHotelTicketStatus',
 };
 export default RouteName;

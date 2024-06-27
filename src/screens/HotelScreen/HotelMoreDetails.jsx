@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -18,17 +18,27 @@ import {HOTEL_ROOM_DETAILS} from '../../utils/BaseUrl';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import {useSelector, useDispatch} from 'react-redux';
+import {roomCounterIncrement, roomCounterDecrement} from '../../redux/action';
+
 export default function HotelMoreDetails() {
+  const dispatch = useDispatch();
   const [RoomData, setRoomData] = useState(null);
   const [reserve, setReserve] = useState(false);
   const [userRadio, setUserRadio] = useState(false);
-  const handlerRemove = () => {
-    setReserve(!reserve);
-  };
-
+  const [reserveIndexes, setReserveIndexes] = useState([]);
   const handleRadio = value => {
     setUserRadio(value);
   };
+
+  const handleIncrement = () => {
+    dispatch(roomCounterIncrement());
+  };
+
+  const handleDecrement = () => {
+    dispatch(roomCounterDecrement());
+  };
+  const count = useSelector(state => state.commomReducer.hotelRoomCounter);
 
   useEffect(() => {
     const fetchRoomData = async () => {
@@ -101,19 +111,34 @@ export default function HotelMoreDetails() {
     )}`;
   };
 
-  const RenderItem = ({item}) => {
+  const handleToggleReserve = index => {
+    setReserveIndexes(prevState =>
+      prevState.includes(index)
+        ? prevState.filter(i => i !== index)
+        : [...prevState, index],
+    );
+  };
+
+  const RenderItem = ({item, index}) => {
+    const dayRate = item.DayRates.map(day => Math.floor(day.Amount));
+    const Date = item.DayRates.map(day => day.Date);
+    const priceMulRooms = dayRate * count;
+
+    const handlerRemove = index => {
+      setSelectedIndex(index === selectedIndex ? null : index);
+    };
+
     return (
       <View style={styles.itemContainer}>
         <Text style={styles.itemText}>{item.RoomTypeName}</Text>
-        {item.DayRates.map((rate, index) => (
-          <View key={index} style={styles.rateContainer}>
-            <Text style={styles.rateText}>
-              <FontAwesome name={'rupee'} color="black" />
-              {rate.Amount}
-            </Text>
-            <Text style={styles.rateText}>{formatDate(rate.Date)}</Text>
-          </View>
-        ))}
+        <View style={styles.rateContainer}>
+          <Text style={styles.rateText}>
+            <FontAwesome name={'rupee'} color="black" />
+            {dayRate}
+          </Text>
+          <Text style={styles.rateText}>{formatDate(Date)}</Text>
+        </View>
+
         {item.Amenities.map((amenties, index) => (
           <View key={index} style={styles.rateContainer}>
             <Text style={styles.rateText}>{amenties}</Text>
@@ -210,7 +235,7 @@ export default function HotelMoreDetails() {
               }}
             />
 
-            {reserve ? (
+            {reserveIndexes.includes(index) ? (
               <TouchableOpacity
                 style={{
                   borderWidth: SH(1),
@@ -227,7 +252,7 @@ export default function HotelMoreDetails() {
                   flexDirection: 'row',
                   gap: 10,
                 }}
-                onPress={handlerRemove}>
+                onPress={() => handleToggleReserve(index)}>
                 <FontAwesome6
                   name={'delete-left'}
                   size={18}
@@ -254,7 +279,7 @@ export default function HotelMoreDetails() {
                   alignItems: 'center',
                   marginVertical: SH(15),
                 }}
-                onPress={handlerRemove}>
+                onPress={() => handleToggleReserve(index)}>
                 <Text style={{color: 'white', fontFamily: 'Poppins-Bold'}}>
                   Reserve
                 </Text>
@@ -263,7 +288,7 @@ export default function HotelMoreDetails() {
           </View>
           {/* counter functinality here  */}
 
-          {reserve ? (
+          {reserveIndexes.includes(index) ? (
             <>
               <View
                 style={{
@@ -284,7 +309,8 @@ export default function HotelMoreDetails() {
                     alignItems: 'center',
                     borderRightWidth: SW(1),
                     borderRightColor: Colors.gray_color,
-                  }}>
+                  }}
+                  onPress={handleDecrement}>
                   <FontAwesome6
                     name={'minus'}
                     size={15}
@@ -294,14 +320,16 @@ export default function HotelMoreDetails() {
 
                 <TextInput
                   placeholder="1"
-                  value="1 Room"
+                  value={`${count} room`}
                   placeholderTextColor={Colors.black_text_color}
                   style={{
-                    fontFamily:'Poppins-Medium',
-                    color:'black',
-                    fontSize:SF(12)
+                    fontFamily: 'Poppins-Medium',
+                    color: 'black',
+                    fontSize: SF(12),
+                    alignSelf: 'center',
                   }}
                 />
+                {/* <Text>{count}</Text> */}
 
                 <TouchableOpacity
                   style={{
@@ -309,7 +337,8 @@ export default function HotelMoreDetails() {
                     alignItems: 'center',
                     borderLeftWidth: SW(1),
                     borderLeftColor: Colors.gray_color,
-                  }}>
+                  }}
+                  onPress={handleIncrement}>
                   <FontAwesome6
                     name={'plus'}
                     size={15}
@@ -331,7 +360,7 @@ export default function HotelMoreDetails() {
                           : 'radio-btn-passive'
                       }
                       size={18}
-                      color={userRadio === 'single' ?'blue':'gray'}
+                      color={userRadio === 'single' ? 'blue' : 'gray'}
                     />
                     <FontAwesome5 name={'user-alt'} size={18} color={'#000'} />
                   </TouchableOpacity>
@@ -345,35 +374,53 @@ export default function HotelMoreDetails() {
                           : 'radio-btn-passive'
                       }
                       size={18}
-                      color={userRadio === 'couple' ?'blue':'gray'}
+                      color={userRadio === 'couple' ? 'blue' : 'gray'}
                     />
-                    <FontAwesome5 name={'user-friends'} size={20} color={'#000'} />
-                    </TouchableOpacity>
-                  
-               
+                    <FontAwesome5
+                      name={'user-friends'}
+                      size={20}
+                      color={'#000'}
+                    />
+                  </TouchableOpacity>
                 </View>
-               <View style={{justifyContent:'space-around',margin:SW(10)}}>
-               <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
-               <View>
-               <Text style={styles.text}>1 room </Text>
-               <Text style={styles.text}>selected </Text>
-               </View>
-               <View style={{display:'flex',flexDirection:'row'}}>
-               <Text style={{color:'red',textDecorationLine:'line-through',marginRight:SW(5)}}>
-               <FontAwesome name={'rupee'} size={12} color={'red'}/>
-               4,880</Text>
-               <Text style={styles.text}>
-               <FontAwesome name={'rupee'} size={12} color={'#000'}/>5,666</Text>
-               </View>
-               <View>
-               <Text style={styles.text}>include taxes and </Text>
-               <Text style={styles.text}>charges </Text> 
-               </View> 
-               </View>
-               <View>
-               <Text style={[styles.text,{textAlign:'center'}]}> (1 night , wed 26 jun 2024 - thur jun 2024) </Text>
-               </View>
-               </View>
+                <View style={{justifyContent: 'space-around', margin: SW(10)}}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    }}>
+                    <View>
+                      <Text style={styles.text}>{count} room </Text>
+                      <Text style={styles.text}>selected </Text>
+                    </View>
+                    <View style={{display: 'flex', flexDirection: 'row'}}>
+                      {/* <Text
+                        style={{
+                          color: 'red',
+                          textDecorationLine: 'line-through',
+                          marginRight: SW(5),
+                        }}>
+                        <FontAwesome name={'rupee'} size={12} color={'red'} />
+                        {priceMulRooms}
+                      </Text> */}
+                      <Text style={styles.text}>
+                        <FontAwesome name={'rupee'} size={12} color={'#000'} />
+                        {priceMulRooms}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={styles.text}>include taxes and </Text>
+                      <Text style={styles.text}>charges </Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text style={[styles.text, {textAlign: 'center'}]}>
+                      {' '}
+                      (1 night , wed 26 jun 2024 - thur jun 2024){' '}
+                    </Text>
+                  </View>
+                </View>
               </View>
             </>
           ) : null}
@@ -382,22 +429,34 @@ export default function HotelMoreDetails() {
     );
   };
 
-    return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <Text style={{textAlign:'center',
-            paddingTop:SH(15),fontFamily:'Poppins-Bold',fontSize:SF(20),
-            textTransform:'capitalize',color:Colors.theme_background}}>Select Room</Text>
-            <FlatList
-                data={RoomData}
-                renderItem={RenderItem}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.listContainer}
-            />
-            <TouchableOpacity style={styles.continueButton}>
-                <Text style={styles.continueButtonText} onPress={()=>navigation.navigate(RouteName.HOTEL_GUEST_DETAILS)}>Continue</Text>
-            </TouchableOpacity>
-        </View>
-    )
+  return (
+    <View style={{flex: 1, backgroundColor: 'white'}}>
+      <Text
+        style={{
+          textAlign: 'center',
+          paddingTop: SH(15),
+          fontFamily: 'Poppins-Bold',
+          fontSize: SF(20),
+          textTransform: 'capitalize',
+          color: Colors.theme_background,
+        }}>
+        Select Room
+      </Text>
+      <FlatList
+        data={RoomData}
+        renderItem={RenderItem}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.listContainer}
+      />
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={() => navigation.navigate(RouteName.HOTEL_GUEST_DETAILS)}>
+        <Text style={styles.continueButtonText}>Continue</Text>
+
+        <Text style={styles.continueButtonText}> ₹4000</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -435,12 +494,14 @@ const styles = StyleSheet.create({
   continueButton: {
     backgroundColor: Colors.theme_background,
     padding: SH(15),
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   continueButtonText: {
     color: 'white',
     textAlign: 'center',
     fontFamily: 'Poppins-Bold',
-    fontSize:SF(17)
+    fontSize: SF(17),
   },
   guestChoose: {
     borderWidth: 1,
@@ -451,11 +512,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flexDirection: 'row',
     gap: SW(5),
-    margin:SW(5)
+    margin: SW(5),
   },
-  text:{
-  color:'#000',
-  fontSize:SF(12),
-  fontFamily:'Poppins-Regular'
-  }
+  text: {
+    color: '#000',
+    fontSize: SF(12),
+    fontFamily: 'Poppins-Regular',
+  },
 });
