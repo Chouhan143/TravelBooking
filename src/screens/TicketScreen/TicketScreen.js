@@ -2,147 +2,84 @@ import React, {useMemo} from 'react';
 import {
   Text,
   View,
-  ScrollView,
-  KeyboardAvoidingView,
   Image,
+  TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import {TicketScreenStyle} from '../../styles';
-import {AppHeader, Button, Spacing} from '../../components';
-import {SF, SH, SW} from '../../utils';
-import images from '../../index';
+import {AppHeader} from '../../components';
+import {Colors, SF, SH, SW} from '../../utils';
 import {RouteName} from '../../routes';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-
 const TicketScreen = props => {
   const {navigation} = props;
   const {t} = useTranslation();
-  const {Colors} = useTheme();
-  const TicketScreenStyles = useMemo(() => TicketScreenStyle(Colors), [Colors]);
 
   return (
     <View
-      style={[
-        TicketScreenStyles.minstyleviewphotograpgy,
-        TicketScreenStyles.bgColorset,
-      ]}>
-      <View style={{flex:1,backgroundColor:'white',marginTop:SH(30)}}>
+      style={{flex:1,backgroundColor:'white',paddingTop:SH(20)}}>
+      <View style={{flex:1,backgroundColor:'white'}}>
         <AppHeader
           headerTitle={t('Download_Ticket')}
           Iconname={true}
           onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}
           
         />
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          ContentContainerStyle={TicketScreenStyles.MainViewTicketScreen}>
-          <KeyboardAvoidingView enabled>
-            <View style={TicketScreenStyles.minflexview}>
-              <View style={TicketScreenStyles.MinViewSigninScreen}>
-               
-                <View style={TicketScreenStyles.qrcodescanner}>
-                  <View>
-                    <Text style={{color:'black',fontFamily:'Poppins-Bold',fontSize:SF(20)}}>
-                      {t('Baroda_Surat')}
-                    </Text>
-                    {/* <Image source={images.Ticket_Qr} resizeMode={'contain'} style={TicketScreenStyles.imagestyleset} /> */}
-                    <Text style={{color:Colors.theme_background}}>
-                      ( CBCE - 1068-51042 )
-                    </Text>
-                  </View>
-                </View>
-                <View>
-                  <Spacing space={SH(15)} />
-                  <View style={TicketScreenStyles.Flexviewnametitle}>
-                    <View>
-                      <Text style={TicketScreenStyles.nametextstyles}>
-                        {t('name')}
-                      </Text>
-                      <Text style={TicketScreenStyles.nametextstylestwo}>
-                        {t('Graham_Gooch')}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={TicketScreenStyles.nametextstyles}>
-                        {t('Ticket_No')}
-                      </Text>
-                      <Text style={TicketScreenStyles.nametextstylestwo}>
-                        # 82403
-                      </Text>
-                    </View>
-                  </View>
-                  <Spacing space={SH(10)} />
-                  <View style={TicketScreenStyles.Flexviewnametitle}>
-                    <View>
-                      <Text style={TicketScreenStyles.nametextstyles}>
-                        {t('Date')}
-                      </Text>
-                      <Text style={TicketScreenStyles.nametextstylestwo}>
-                        Jun 17, 2023
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={TicketScreenStyles.nametextstyles}>
-                        {t('Destination')}
-                      </Text>
-                      <Text style={TicketScreenStyles.nametextstylestwo}>
-                        {t('Delhi')}
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <Spacing space={SH(10)} />
-                    <View style={TicketScreenStyles.Flexviewnametitle}>
-                      <View>
-                        <Text style={TicketScreenStyles.nametextstyles}>
-                          {t('Departure')}
-                        </Text>
-                        <Text style={TicketScreenStyles.nametextstylestwo}>
-                          08:00 PM
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={TicketScreenStyles.nametextstyles}>
-                          {t('Class')}
-                        </Text>
-                        <Text style={TicketScreenStyles.nametextstylestwo}>
-                          {t('Economy')}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                  <Spacing space={SH(10)} />
-                  <View style={TicketScreenStyles.Flexviewnametitle}>
-                    <View>
-                      <Text style={TicketScreenStyles.nametextstyles}>
-                        {t('Seat')}
-                      </Text>
-                      <Text style={TicketScreenStyles.nametextstylestwo}>
-                        18
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={TicketScreenStyles.nametextstyles}>
-                        {t('Ticket_Price')}
-                      </Text>
-                      <Text style={TicketScreenStyles.nametextstylestwo}>
-                        ₹ 1770.00
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </KeyboardAvoidingView>
-        </ScrollView>
-        <View style={ { marginBottom:SH(50),margin:SW(30)}}>
-          <Button
-            onPress={() => navigation.navigate(RouteName.HOME_TAB)}
-            title={t('Download_Ticket')}
-          />
+
+        <View style={{margin:SW(8),display:'flex',flexDirection:'row'}}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(RouteName.REVIEW_BUS_TICKET_SCREEN)}>
+        <Text style={styles.buttonText}>Bus Ticket</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(RouteName.REVIEW_FLIGHT_TICKET_SCREEN)}>
+        <Text style={styles.buttonText}>Flight Ticket</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(RouteName.REVIEW_HOTEL_TICKET_SCREEN)}>
+        <Text style={styles.buttonText}>Hotel Ticket</Text>
+        </TouchableOpacity>
+        
         </View>
+       
+        <View>
+        <Image source={require('../../images/TicketBook.png')} 
+        style={{width:SW(375),height:SH(460),resizeMode:'cover'}}/>
+        </View>
+        <Text style={{color:'#000',margin:SW(12),textAlign:'center',
+          textTransform:'capitalize',fontSize:SF(12),fontFamily:'Poppins-Regular',
+          backgroundColor:'#f5f6f7',padding:SW(20),
+          borderColor:'#000',borderWidth:1,borderRadius:10,marginTop:0
+        }}>
+        Your payment was successful. You can now download your ticket or cancel 
+        your booking on the next screen.</Text>
+
       </View>
     </View>
   );
 };
 export default TicketScreen;
+
+const styles=StyleSheet.create(
+  {
+    buttonText:{
+        color:'white',
+        fontFamily:'Poppins-Medium',
+        textTransform:'uppercase',
+        fontSize:SF(15),
+        textAlign:'center'
+  },
+  button:{
+    backgroundColor:Colors.theme_background,
+    paddingVertical:SH(20),
+    paddingHorizontal:SW(15),
+   
+  },
+  Buttombutton:{
+    backgroundColor:Colors.theme_background,
+    paddingVertical:SH(20),
+    paddingHorizontal:SW(14),
+    marginBottom:SH(10),
+    borderRadius:10
+  }
+  }
+)
+

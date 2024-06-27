@@ -21,6 +21,7 @@ function Buttons(props) {
           backgroundColor: Colors.theme_background,
           borderRadius: SH(7),
           width: '100%',
+          marginBottom:SH(10)
         },
         buttonTextStyle: {
           color: Colors.white_text_color,

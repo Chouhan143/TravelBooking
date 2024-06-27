@@ -38,6 +38,12 @@ import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
 import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
 import HotelGuestDetails from '../screens/HotelScreen/HotelGuestDetails';
 import HotelPayment from '../screens/HotelScreen/HotelPayment';
+import BusTicketScreen from '../screens/TicketScreen/BusTicketScreen';
+import FlightTicketScreen from '../screens/TicketScreen/FlightTicketScreen';
+import HotelTicketScreen from '../screens/TicketScreen/HotelTicketScreen';
+import ReviewBusTicketStatus from '../screens/TicketScreen/ReviewBusTicketStatus';
+import ReviewFlightTicketStatus from '../screens/TicketScreen/ReviewFlightTicketStatus';
+import ReviewHotelTicketStatus from '../screens/TicketScreen/ReviewHotelTicketStatus';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -193,6 +199,30 @@ const RootNavigator = props => {
               name={RouteName.HOTEL_PAYMENT}
               component={HotelPayment}
             />
+            <Stack.Screen
+            name={RouteName.BUS_TICKET_SCREEN}
+            component={BusTicketScreen}
+          />
+          <Stack.Screen
+          name={RouteName.FLIGHT_TICKET_SCREEN}
+          component={FlightTicketScreen}
+        />
+        <Stack.Screen
+        name={RouteName.HOTEL_TICKET_SCREEN}
+        component={HotelTicketScreen}
+      />
+      <Stack.Screen
+      name={RouteName.REVIEW_BUS_TICKET_SCREEN}
+      component={ReviewBusTicketStatus}
+    />
+    <Stack.Screen
+    name={RouteName.REVIEW_FLIGHT_TICKET_SCREEN}
+    component={ReviewFlightTicketStatus}
+  />
+  <Stack.Screen
+  name={RouteName.REVIEW_HOTEL_TICKET_SCREEN}
+  component={ReviewHotelTicketStatus}
+/>
           </>
         ) : (
           <>
