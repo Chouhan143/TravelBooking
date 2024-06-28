@@ -204,33 +204,6 @@ const RootNavigator = props => {
             name={RouteName.HOTEL_PAYMENT}
             component={HotelPayment}
           />
-        </>
-        {/* ) : ( */}
-        {/* <>
-            <Stack.Screen
-              name={RouteName.TICKET_SCREEN}
-              component={TicketScreen}
-            />
-            <Stack.Screen
-              name={RouteName.HOTEL_LIST_SCREEN}
-              component={HotelListScreen}
-            />
-            <Stack.Screen
-              name={RouteName.HOTEL_DESCRIPTION_SCREEN}
-              component={HotelDescriptionPage}
-            />
-            <Stack.Screen
-              name={RouteName.HOTEL_MORE_DETAILS}
-              component={HotelMoreDetails}
-            />
-            <Stack.Screen
-              name={RouteName.HOTEL_GUEST_DETAILS}
-              component={HotelGuestDetails}
-            />
-            <Stack.Screen
-              name={RouteName.HOTEL_PAYMENT}
-              component={HotelPayment}
-            />
             <Stack.Screen
             name={RouteName.BUS_TICKET_SCREEN}
             component={BusTicketScreen}
@@ -255,6 +228,10 @@ const RootNavigator = props => {
   name={RouteName.REVIEW_HOTEL_TICKET_SCREEN}
   component={ReviewHotelTicketStatus}
 />
+        </>
+        {/* ) : ( */}
+        {/* <>
+            
           </>
         ) : (
           <>

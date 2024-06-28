@@ -44,6 +44,7 @@ import {
   ROOM_COUNTERS,
   ROOM_COUNTERS_INCREMENT,
   ROOM_COUNTERS_DECREMENT,
+  SET_HOTEL_RESULT,
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -410,6 +411,7 @@ export default function commomReducer(state = initialState, action) {
         hotelInfo: action.payload,
       };
 
+        
     case SET_HOTEL_ROOM_DETAILS:
       return {
         ...state,

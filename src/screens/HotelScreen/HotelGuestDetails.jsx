@@ -6,7 +6,17 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { RouteName } from '../../routes';
+import { useSelector } from 'react-redux';
+import ReadMoreText from '../../components/commonComponents/ReadMore';
+
+
 export default function HotelGuestDetails() {
+  const hotelDetails=useSelector(state=>state.commomReducer.hotelInfo);
+  const hotelData = useSelector(state => state.commomReducer.hotelData);
+  const count = useSelector(state => state.commomReducer.hotelRoomCounter);
+  const RoomData = useSelector(state => state.commomReducer.hotelRoomDetails);
+  console.log('RoomData',RoomData);
+
   const navigation = useNavigation();
   const [more, setMore] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -27,6 +37,18 @@ export default function HotelGuestDetails() {
       navigation.navigate(RouteName.HOTEL_PAYMENT)
     }
   };
+  const cleanUpDescription = (description) => {
+    let cleanedDescription = description?.replace(/<b\s*\/?>/gi, ''); // Remove <b> tags
+    cleanedDescription = cleanedDescription?.replace(/<\/?b\s*\/?>/gi, ''); // Remove both <b> and </b> tags
+    cleanedDescription = cleanedDescription?.replace(/<br\s*\/?>/gi, ''); // Remove <br> tags
+    cleanedDescription = cleanedDescription?.replace(/&nbsp;/gi, ' '); // Remove &nbsp;
+    cleanedDescription = cleanedDescription?.trim(); // Trim leading/trailing spaces
+    return cleanedDescription;
+  };
+  const formatDate = dateString => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.gest}>
@@ -41,13 +63,17 @@ export default function HotelGuestDetails() {
             <Text style={styles.normalText}>****</Text>
           </View>
           <View>
-            <Text style={styles.hotelName}>Hotel Amrald</Text>
+            <Text style={styles.hotelName}>{hotelDetails.HotelName}</Text>
           </View>
           <View style={{ paddingTop: SF(5) }}>
-            <Text style={styles.hotelDescription}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Explicabo, quod.
-            </Text>
+           
+            <ReadMoreText text={cleanUpDescription(hotelDetails.Description)}
+            textStyle={{color:'black',fontSize:SF(13)}}
+            readMoreStyle={{
+              color: Colors.theme_background, fontFamily: 'Poppins-Bold',
+              fontSize: SF(13), marginLeft: 0, marginTop: SH(5)
+            }}/>
+           
           </View>
         </View>
         <View style={styles.bottomLineCheckIn}>
@@ -55,20 +81,21 @@ export default function HotelGuestDetails() {
             style={[
               styles.star,
 
-              { justifyContent: 'space-between', paddingTop: SH(10) },
+              { justifyContent: 'space-between', paddingTop: SH(10),marginHorizontal:SW(5) },
             ]}>
             <View>
               <Text style={styles.normalText}>Check-In</Text>
-              <Text style={styles.normalText}>Tue 25 jun 2024</Text>
+              <Text style={styles.normalText}>{formatDate(hotelData.CheckInDate)}</Text>
             </View>
             <View style={styles.verticleLine} />
 
-            <View>
+            <View >
               <Text style={styles.normalText}>Check-out</Text>
-              <Text style={styles.normalText}>Tue 27 jun 2024</Text>
+              <Text style={styles.normalText}>{formatDate(hotelData.CheckOutDate)}</Text>
             </View>
           </View>
           <View>
+          {/* number of neights update krna h */}
             <Text style={styles.normalText}>Total lenght of nights : 2</Text>
           </View>
         </View>
@@ -76,7 +103,11 @@ export default function HotelGuestDetails() {
         <View style={[styles.hotelDetail, { borderTopWidth: 0 }]}>
           <Text style={styles.normalText}>You selected</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.normalText}>3 rooms for 2 adults</Text>
+            <Text style={styles.normalText}>{count} rooms for {
+              hotelData.NoOfRooms.map(item=>{
+                return item.NoOfAdults
+              })
+            } adults</Text>
             <TouchableOpacity onPress={moreHandler}>
               <Entypo
                 name={more ? 'chevron-down' : 'chevron-up'}
@@ -85,6 +116,7 @@ export default function HotelGuestDetails() {
               />
             </TouchableOpacity>
           </View>
+          {/* update krna h */ }
           {more ? <Text style={styles.normalText}>1 * Deluxe Double Room</Text> : null}
         </View>
         <View style={[styles.hotelDetail, { borderTopWidth: 0 }]}>
@@ -92,7 +124,13 @@ export default function HotelGuestDetails() {
           <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={styles.normalText}>original price</Text>
             <Text style={styles.normalText}>
-              <FontAwesome name={'rupee'} color={'black'} size={15} />4,480</Text>
+              <FontAwesome name={'rupee'} color={'black'} size={15} />
+              {RoomData.map((item)=>(
+                  <Text>{item.Price.RoomPrice}</Text>
+              ))
+
+              }
+              </Text>
           </View>
         </View>
         <View style={styles.DetailsContanier}>
@@ -228,12 +266,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     fontSize: SF(18),
   },
-  hotelDescription: {
-    color: Colors.gray_text_color,
-    fontWeight: '400',
-    fontSize: SF(14),
-    fontFamily: 'Poppins-Regular',
-  },
+  
   verticleLine: {
     width: SW(10),
     height: SH(1),

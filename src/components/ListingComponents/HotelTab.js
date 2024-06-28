@@ -25,6 +25,7 @@ import {DatePicker, Lottie} from '../commonComponents';
 import FormatedDate from '../commonComponents/FormatedDate';
 import {RouteName} from '../../routes';
 import HotelCitySearch from '../commonComponents/HotelCitySearch';
+import { setHotelResult } from '../../redux/action';
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
@@ -131,7 +132,7 @@ const HotelTab = () => {
   const FetchHotelData = async () => {
     let checkInDate = new Date(checkinDate);
     let checkOutDate = new Date(checkoutDate);
-    // this date pass to api payloads
+    // // this date pass to api payloads
     let formattedCheckInDate = FormatedDate(checkInDate);
     let formattedCheckOutDate = FormatedDate(checkOutDate);
     let noOfNights = calculateNights(checkInDate, checkOutDate);
@@ -162,9 +163,12 @@ const HotelTab = () => {
     setTimeout(async () => {
       try {
         const res = await axios.post(HOTEL_SEARCH, payload);
-        const HotelListArr = res.data.Results;
-        // console.log('Fetched Data:', HotelListArr);
+        const HotelListArr = res.data;
+        // const HotelResult=res.data.Results;
+        // console.log('search Data:', HotelListArr);
         dispatch(setHotelData(HotelListArr));
+        // dispatch(setHotelResult(HotelResult));
+        // console.log('Resultant Data',HotelResult);
         navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
       } catch (error) {
         console.log(error.response);

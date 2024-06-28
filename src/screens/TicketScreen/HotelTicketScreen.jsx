@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView,TouchableOpacity } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, KeyboardAvoidingView,TouchableOpacity,Modal } from 'react-native';
+import React,{useState} from 'react';
 import { SF, SH, SW, Colors } from '../../utils';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
 import { Spacing } from '../../components'; 
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 const HotelTicketScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [cancelModalVisible, setCancelModalVisible] = useState(false);
   const { t } = useTranslation();
   const { Colors } = useTheme();
-
+  const navigation=useNavigation();
   return (
     <View style={styles.Maincontanier} >
       <KeyboardAvoidingView enabled>
@@ -125,14 +129,52 @@ const HotelTicketScreen = () => {
             </View>
           </View>
         </View>
-        <View style={{margin:SW(10),marginTop:SH(20)}}>
-        <TouchableOpacity style={styles.button} >
+        
+        <View style={{ margin: SW(10), marginTop: SH(20) }}>
+        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
           <Text style={styles.buttonText}>Download</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} >
+
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalView}>
+          <AntDesign name={'checkcircle'} color='#28f77e'  size={45}
+          style={{position:'absolute',marginTop:-SH(20)}}/>
+            <Text style={styles.modalText}>
+              You successfully Downloaded Your Bus Booking Ticket
+            </Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={styles.modalButton} onPress={()=>navigation.navigate(RouteName.SIDE_NAVIGATOR)}>Back To Home</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
+        <TouchableOpacity style={styles.button} onPress={() => setCancelModalVisible(true)}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-        </View>
+
+        <Modal
+          visible={cancelModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setCancelModalVisible(false)}
+        >
+          <View style={styles.modalView}>
+          <AntDesign name={'checkcircle'} color='#28f77e'  size={45}
+          style={{position:'absolute',marginTop:-SH(20)}}/>
+            <Text style={styles.modalText}>
+              You successfully Cancelled Your Bus Booking Ticket
+            </Text>
+            <TouchableOpacity onPress={() => setCancelModalVisible(false)}>
+              <Text style={styles.modalButton} onPress={()=>navigation.navigate(RouteName.SIDE_NAVIGATOR)}>Back To Home</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
         <Text style={styles.Text}>
   Generate your Hotel ticket PDF by pressing the "Download" 
   button or cancel your booking by pressing the "Cancel" button.
@@ -215,5 +257,32 @@ const styles = StyleSheet.create({
    margin:SW(10),
    marginHorizontal:SW(25)
 
-  }
+  },
+  modalView: {
+    margin: SH(20),
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: SH(35),
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    marginTop:SH(300)
+  },
+  modalText: {
+    marginBottom: SH(15),
+    textAlign: 'center',
+    color: 'black',
+    fontFamily:'Poppins-Medium'
+  },
+  modalButton: {
+    color: '#28f77e',
+    marginTop: SH(10),
+    fontFamily:'Poppins-Bold'
+  },
 });

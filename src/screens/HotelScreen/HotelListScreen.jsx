@@ -22,6 +22,12 @@ export default function HotelListScreen() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const hotelData = useSelector(state => state.commomReducer.hotelData);
+  const hotelDataResult = hotelData.Results;
+  
+  
+  console.log("hotelData result >>>>>>",hotelDataResult);
+
+  // console.log('hotelDescriptionData', hotelDescriptionData);
 
   const currentLocation = useSelector(
     state => state.commomReducer.positionLatLong,
@@ -39,7 +45,6 @@ export default function HotelListScreen() {
   // console.log('currentLocationLong', currentLocationLong);
 
   const navigation = useNavigation();
-  const [imageError, setImageError] = useState(false);
   const renderItem = ({item}) => {
     const Price = Math.round(item?.Price?.RoomPrice);
 
@@ -194,7 +199,7 @@ export default function HotelListScreen() {
       </View>
       <View style={styles.listContainer}>
         <FlatList
-          data={hotelData}
+          data={hotelDataResult}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           contentContainerStyle={styles.contentContainerStyle}
