@@ -4,14 +4,12 @@ import { SF, SH, SW,Colors } from '../../utils';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
 import { Spacing, ConfirmationAlert } from '../../components';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
 const BusTicketScreen = ({ navigation }) => {
   const { t } = useTranslation();
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
   return (
-    <AlertNotificationRoot>
     <View  style={styles.Maincontainer}>
       <KeyboardAvoidingView enabled>
        
@@ -111,23 +109,10 @@ const BusTicketScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={()=> Dialog.show({
-                type: ALERT_TYPE.SUCCESS,
-                title: 'Success',
-                textBody: 'Congrats! You Successfully Downloaded Your Bus Booking Ticket',
-                button: 'Close',
-                
-              })}>
+             <TouchableOpacity style={styles.button} >
               <Text style={styles.buttonText}>Download</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() =>
-                Dialog.show({
-                  type: ALERT_TYPE.SUCCESS,
-                  title: 'Success',
-                  textBody: 'Congrats! You Successfully Cancelled Your Bus Booking Ticket',
-                  button: 'Close',
-                })
-              }>
+            <TouchableOpacity style={styles.button} >
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -138,7 +123,6 @@ const BusTicketScreen = ({ navigation }) => {
         
       </KeyboardAvoidingView>
       </View>
-    </AlertNotificationRoot>
   );
 };
 

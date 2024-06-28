@@ -1,18 +1,19 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity,Modal} from 'react-native';
+import React, { useState } from 'react';
 import { SF, SH, SW ,Colors} from '../../utils';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
 // Ensure Spacing is correctly imported or defined
 import { Spacing } from '../../components'; 
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
-
-const FlightTicketScreen = ({ navigation }) => {
+// import { useNavigation } from '@react-navigation/native';
+const FlightTicketScreen = () => {
+  // const navigation=useNavigation();
+  const [Modal,setModal]=useState();
+  const [Modal1,setModal1]=useState();
   const { t } = useTranslation();
   const { Colors } = useTheme();
 
   return (
-    <AlertNotificationRoot>
       <View style={styles.Maincontainer}>
         <KeyboardAvoidingView enabled>
           <View style={styles.container}>
@@ -111,27 +112,47 @@ const FlightTicketScreen = ({ navigation }) => {
             </View>
           </View>
           <View style={{ margin: SW(10), marginTop: SH(20) }}>
-            <TouchableOpacity style={styles.button} onPress={() =>
-                Dialog.show({
-                  type: ALERT_TYPE.SUCCESS,
-                  title: 'Success',
-                  textBody: 'Congrats! You Successfully Downloaded Your Flight Booking Ticket',
-                  button: 'Close',
-                  
-                })
+            <TouchableOpacity style={styles.button} onPress={() =>setModal(true)
+               
               }>
               <Text style={styles.buttonText}>Download</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() =>
-                Dialog.show({
-                  type: ALERT_TYPE.SUCCESS,
-                  title: 'Success',
-                  textBody: 'Congrats! You Successfully Cancelled Your Flight Booking Ticket',
-                  button: 'Close',
-                })
+            <Modal
+            visible={Modal}
+            transparent={true}
+            height={100}
+            animationType="slide"
+            onRequestClose={() => {
+            setModal(!Modal);
+            }}>
+            <View>
+            <Text style={{color:'black',justifyContent:'center'}}>
+            You successfully Downloaded Your Flight Booking Ticket</Text>
+            <TouchableOpacity>
+            <Text style={{color:'black'}}>Back To Home</Text>
+            </TouchableOpacity>
+            </View>
+            </Modal>
+            <TouchableOpacity style={styles.button} onPress={() =>setModal1(true)
               }>
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
+            <Modal
+            visible={Modal}
+            transparent={true}
+            height={100}
+            animationType="slide"
+            onRequestClose={() => {
+            setModal1(!Modal1);
+            }}>
+            <View>
+            <Text style={{color:'black',justifyContent:'center'}}>
+            You successfully Cancelled Your Flight Booking Ticket</Text>
+            <TouchableOpacity>
+            <Text style={{color:'black'}}>Back To Home</Text>
+            </TouchableOpacity>
+            </View>
+            </Modal>
           </View>
           <Text style={styles.infoText}>
             Generate your Flight ticket PDF by pressing the "Download" button or cancel your booking by pressing the "Cancel" button.
@@ -139,7 +160,6 @@ const FlightTicketScreen = ({ navigation }) => {
           
         </KeyboardAvoidingView>
       </View>
-    </AlertNotificationRoot>
   );
 };
 

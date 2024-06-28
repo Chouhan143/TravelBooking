@@ -4,13 +4,11 @@ import { SF, SH, SW, Colors } from '../../utils';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
 import { Spacing } from '../../components'; 
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
 const HotelTicketScreen = () => {
   const { t } = useTranslation();
   const { Colors } = useTheme();
 
   return (
-    <AlertNotificationRoot>
     <View style={styles.Maincontanier} >
       <KeyboardAvoidingView enabled>
         <View style={styles.container}>
@@ -128,25 +126,10 @@ const HotelTicketScreen = () => {
           </View>
         </View>
         <View style={{margin:SW(10),marginTop:SH(20)}}>
-        <TouchableOpacity style={styles.button} onPress={() =>
-            Dialog.show({
-              type: ALERT_TYPE.SUCCESS,
-              title: 'Success',
-              textBody: 'Congrats! You Successfully Downloaded Your Hotel Booking Ticket',
-              button: 'Close',
-              
-            })
-          }>
+        <TouchableOpacity style={styles.button} >
           <Text style={styles.buttonText}>Download</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() =>
-            Dialog.show({
-              type: ALERT_TYPE.SUCCESS,
-              title: 'Success',
-              textBody: 'Congrats! You Successfully Cancelled Your Hotel Booking Ticket',
-              button: 'Close',
-            })
-          }>
+        <TouchableOpacity style={styles.button} >
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
         </View>
@@ -156,7 +139,6 @@ const HotelTicketScreen = () => {
 </Text>
       </KeyboardAvoidingView>
     </View>
-    </AlertNotificationRoot>
   );
 };
 
