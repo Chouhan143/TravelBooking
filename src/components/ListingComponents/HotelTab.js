@@ -165,7 +165,7 @@ const HotelTab = () => {
         const res = await axios.post(HOTEL_SEARCH, payload);
         const HotelListArr = res.data;
         // const HotelResult=res.data.Results;
-        // console.log('search Data:', HotelListArr);
+        //  console.log('search Data:', HotelListArr);
         dispatch(setHotelData(HotelListArr));
         // dispatch(setHotelResult(HotelResult));
         // console.log('Resultant Data',HotelResult);

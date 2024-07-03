@@ -22,7 +22,8 @@ const FLIGHT_BOOKLLC = `${BASE_URL}/bookllc`;
 const HOTEL_SEARCH = `${BASE_URL}/search-hotel`;
 const HOTEL_INFO = `${BASE_URL}/hotel-info`;
 const HOTEL_ROOM_DETAILS = `${BASE_URL}/hotel-room`;
-
+const HOTEL_BLOCK=`${BASE_URL}/hotel-block`;
+const HOTEL_BOOK=`${BASE_URL}/hotel-book`;
 export {
   BASE_URL,
   LOGIN_ENDPOINT,
@@ -44,6 +45,8 @@ export {
   FLIGHT_BOOKLLC,
   HOTEL_SEARCH,
   HOTEL_INFO,
+  HOTEL_BLOCK,
   HOTEL_ROOM_DETAILS,
   RESEND_OTP,
+  HOTEL_BOOK
 };

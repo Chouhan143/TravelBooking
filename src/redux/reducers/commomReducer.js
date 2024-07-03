@@ -45,6 +45,8 @@ import {
   ROOM_COUNTERS_INCREMENT,
   ROOM_COUNTERS_DECREMENT,
   SET_HOTEL_RESULT,
+  SET_BLOCK_ROOM_DETAILS,
+  SET_BOOK_DETAILS
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -86,6 +88,8 @@ const initialState = {
   hotelInfo: [],
   hotelRoomDetails: [],
   hotelRoomCounter: 1,
+  hotelBlock:{},
+  hotelBook:{}
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -417,6 +421,17 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         hotelRoomDetails: action.payload,
       };
+
+      case SET_BLOCK_ROOM_DETAILS:
+      return {
+        ...state,
+        hotelBlock: action.payload,
+      };
+      case SET_BOOK_DETAILS:
+        return {
+          ...state,
+          hotelBook: action.payload,
+        };
 
     case GEOLOCATION_POSITIONS:
       return {

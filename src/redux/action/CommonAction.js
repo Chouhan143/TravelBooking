@@ -41,6 +41,8 @@ import {
   ROOM_COUNTERS,
   ROOM_COUNTERS_DECREMENT,
   ROOM_COUNTERS_INCREMENT,
+  SET_BLOCK_ROOM_DETAILS,
+  SET_BOOK_DETAILS
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -235,6 +237,16 @@ export const setHotelRoomDetails = hotelroomdetails => ({
   type: SET_HOTEL_ROOM_DETAILS,
   payload: hotelroomdetails,
 });
+
+export const setBlockRoomDetails=hotelBlock=>({
+    type:SET_BLOCK_ROOM_DETAILS,
+    payload:hotelBlock
+  });
+
+  export const setBookingDetails=hotelBook=>({
+    type:SET_BOOK_DETAILS,
+    payload:hotelBook
+  });
 
 export const getLocationLatLong = positions => ({
   type: GEOLOCATION_POSITIONS,

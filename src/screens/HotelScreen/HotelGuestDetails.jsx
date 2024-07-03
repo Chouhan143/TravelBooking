@@ -8,15 +8,21 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteName } from '../../routes';
 import { useSelector } from 'react-redux';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
-
-
+import he from 'he';
+import axios from 'axios';
+import { HOTEL_BOOK } from '../../utils/BaseUrl';
+import { setBookingDetails } from '../../redux/action';
+import { useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
 export default function HotelGuestDetails() {
   const hotelDetails=useSelector(state=>state.commomReducer.hotelInfo);
   const hotelData = useSelector(state => state.commomReducer.hotelData);
   const count = useSelector(state => state.commomReducer.hotelRoomCounter);
   const RoomData = useSelector(state => state.commomReducer.hotelRoomDetails);
-  console.log('RoomData',RoomData);
-
+  const dispatch=useDispatch();
+  // console.log('RoomData',RoomData);
+  const BlockRoom=useSelector(state=>state.commomReducer.hotelBlock);
+  console.log('Block Room Guest',BlockRoom);
   const navigation = useNavigation();
   const [more, setMore] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -25,24 +31,101 @@ export default function HotelGuestDetails() {
   const [country, setCountry] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showError, setShowError] = useState(false);
+  const [bookingStatus,SetBookingStatus]=useState(null);
   let moreHandler = () => {
     setMore(!more);
   };
-  const handleReview = () => {
+
+  const BookingConfirmed = async () => {
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+    const firstName = ""; 
+    const lastName = ""; 
+    const email = ""; 
+    const country = ""; 
+    const phoneNumber = ""; 
+  
     if (!firstName || !lastName || !email || !country || !phoneNumber) {
       setShowError(true);
-    } else {
-
-      setShowError(false);
-      navigation.navigate(RouteName.HOTEL_PAYMENT)
+      Toast.show({
+        type: 'error',
+        text1: 'Missing Information',
+        text2: 'Please fill out all required fields.',
+        textStyle: { color: 'red', fontSize: 12 },
+      });
+      return; // Return early if fields are missing
+    }
+  
+    setShowError(false);
+  
+    try {
+      const payload = {
+        ResultIndex: 9,
+        HotelCode: "341089",
+        HotelName: "The Manor",
+        NoOfRooms: "1",
+        HotelRoomsDetails: [
+          {
+            RoomId: 0,
+            RoomIndex: 4,
+            Price: {
+              PublishedPrice: 15464.3,
+            },
+          },
+        ],
+        SrdvIndex: "65",
+        SrdvType: "SingleTB",
+        TraceId: "1",
+      };
+  
+      const response = await axios.post(HOTEL_BOOK, payload);
+      const BookingResult = response.data;
+      dispatch(setBookingDetails(BookingResult));
+      console.log('BookingResult', BookingResult);
+  
+      const { HotelBookingStatus } = BookingResult.BookResult;
+      SetBookingStatus(HotelBookingStatus);
+  
+      if (HotelBookingStatus === 'Confirmed') {
+        Toast.show({
+          type: 'success',
+          text1: 'Booking Confirmed',
+          text2: 'Your booking has been confirmed!',
+          textStyle: { color: 'green', fontSize: 12 },
+        });
+        navigation.navigate(RouteName.HOTEL_PAYMENT);
+      } else {
+        navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
+        Toast.show({
+          type: 'error',
+          text1: 'Booking Not Confirmed',
+          text2: 'Your booking could not be confirmed.',
+          textStyle: { color: 'red', fontSize: 12 },
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'An error occurred during booking.',
+        textStyle: { color: 'red', fontSize: 12 },
+      });
     }
   };
+
   const cleanUpDescription = (description) => {
-    let cleanedDescription = description?.replace(/<b\s*\/?>/gi, ''); // Remove <b> tags
-    cleanedDescription = cleanedDescription?.replace(/<\/?b\s*\/?>/gi, ''); // Remove both <b> and </b> tags
-    cleanedDescription = cleanedDescription?.replace(/<br\s*\/?>/gi, ''); // Remove <br> tags
-    cleanedDescription = cleanedDescription?.replace(/&nbsp;/gi, ' '); // Remove &nbsp;
-    cleanedDescription = cleanedDescription?.trim(); // Trim leading/trailing spaces
+    if (!description) return '';
+
+    let cleanedDescription = he.decode(description); // Decode HTML entities
+    cleanedDescription = cleanedDescription.replace(/<\/?(ul|li|b|i|strong|em|span)\b[^>]*>/gi, ''); // Remove specific tags
+    cleanedDescription = cleanedDescription.replace(/<br\s*\/?>|<p\s*\/?>|<\/p>/gi, '\n'); // Replace tags with newlines
+    cleanedDescription = cleanedDescription.replace(/\\|\|/g, ''); // Remove slashes and pipes
+    cleanedDescription = cleanedDescription.replace(/\s{2,}/g, ' '); // Replace multiple spaces
+    cleanedDescription = cleanedDescription.replace(/\n{2,}/g, '\n'); // Replace multiple newlines
+    cleanedDescription = cleanedDescription.replace(/\/\/+|\\|\|/g, '');
+    cleanedDescription = cleanedDescription.trim(); // Trim leading/trailing whitespace
+    cleanedDescription = cleanedDescription.replace(/"/g, ''); // Remove single quotes
     return cleanedDescription;
   };
   const formatDate = dateString => {
@@ -58,23 +141,37 @@ export default function HotelGuestDetails() {
       <ScrollView style={{ height: '100%', paddingHorizontal: SW(20) }} showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.hotelDetail}>
-          <View style={styles.star}>
-            <Text style={styles.normalText}>Hotel</Text>
-            <Text style={styles.normalText}>****</Text>
-          </View>
           <View>
             <Text style={styles.hotelName}>{hotelDetails.HotelName}</Text>
           </View>
           <View style={{ paddingTop: SF(5) }}>
-           
-            <ReadMoreText text={cleanUpDescription(hotelDetails.Description)}
-            textStyle={{color:'black',fontSize:SF(13)}}
+          <Text style={styles.hotelName}>HotelNorms</Text>
+          <ReadMoreText
+            text={cleanUpDescription(BlockRoom?.BlockRoomResult?.HotelNorms || '')}
+            textStyle={{ color: 'black', fontSize: SF(13) }}
             readMoreStyle={{
-              color: Colors.theme_background, fontFamily: 'Poppins-Bold',
-              fontSize: SF(13), marginLeft: 0, marginTop: SH(5)
-            }}/>
-           
-          </View>
+              color: Colors.theme_background,
+              fontFamily: 'Poppins-Bold',
+              fontSize: SF(13),
+              marginLeft: 0,
+              marginTop: SH(5),
+            }}
+          />
+        </View>
+        <View style={{ paddingTop: SF(5) }}>
+        <Text style={styles.hotelName}>HotelPolicyDetail</Text>
+        <ReadMoreText
+          text={cleanUpDescription(BlockRoom?.BlockRoomResult?.HotelPolicyDetail || '')}
+          textStyle={{ color: 'black', fontSize: SF(13) }}
+          readMoreStyle={{
+            color: Colors.theme_background,
+            fontFamily: 'Poppins-Bold',
+            fontSize: SF(13),
+            marginLeft: 0,
+            marginTop: SH(5),
+          }}
+        />
+      </View>
         </View>
         <View style={styles.bottomLineCheckIn}>
           <View
@@ -126,14 +223,14 @@ export default function HotelGuestDetails() {
             <Text style={styles.normalText}>
               <FontAwesome name={'rupee'} color={'black'} size={15} />
               {RoomData.map((item)=>(
-                  <Text>{item.Price.RoomPrice}</Text>
+                  <Text>{Math.floor(item.Price.RoomPrice)}</Text>
               ))
 
               }
               </Text>
           </View>
         </View>
-        <View style={styles.DetailsContanier}>
+       <View style={styles.DetailsContanier}>
           <Text style={styles.inputHeading}>enter your details </Text>
           <View style={{
             display: 'flex', flexDirection: 'row',
@@ -195,23 +292,23 @@ export default function HotelGuestDetails() {
         </View>
 
       </ScrollView>
-      <TouchableOpacity
+      <View
         style={{
           backgroundColor: Colors.theme_background, padding: SW(12),
           display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
         }}
-        onPress={handleReview}>
+       >
         <Text style={{
           color: 'white', fontFamily: 'Poppins-Bold', textAlign: 'center',
           textTransform: 'capitalize', fontSize: SF(15)
         }}>
           <FontAwesome name={'rupee'} color={'white'} size={15} />4,480</Text>
-        <Text style={{
+        <Text onPress={BookingConfirmed} style={{
           color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
           textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
           padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5
         }}>proceed to pay</Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 }

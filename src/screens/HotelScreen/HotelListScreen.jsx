@@ -24,8 +24,7 @@ export default function HotelListScreen() {
   const hotelData = useSelector(state => state.commomReducer.hotelData);
   const hotelDataResult = hotelData.Results;
   
-  
-  console.log("hotelData result >>>>>>",hotelDataResult);
+  // console.log("hotelData result >>>>>>",hotelDataResult);
 
   // console.log('hotelDescriptionData', hotelDescriptionData);
 

@@ -18,12 +18,10 @@ const HotelDescriptionPage = () => {
   const [loading, setLoading] = useState(false);
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  // const [hotelDetails, setHotelDetails] = useState(null);
   const dispatch = useDispatch();
 
   const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
 
-  console.log('Data Info', hotelDetails);
   useEffect(() => {
     const fetchHotelDetails = async () => {
       try {
@@ -38,7 +36,6 @@ const HotelDescriptionPage = () => {
         const res = await axios.post(HOTEL_INFO, payload);
         const hotelInfoArr = res.data.HotelInfoResult.HotelDetails;
         dispatch(setHotelInfo(hotelInfoArr));
-        console.log('hotelInfoArr', hotelInfoArr);
         setLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -55,18 +52,17 @@ const HotelDescriptionPage = () => {
     }
 
     return (
-      <View style={{ elevation: 0.5, padding: 7 }}>
-        <View key={index}>
-          <ImageBackground source={{ uri: item }} style={styles.image} />
-          <TouchableOpacity
-            onPress={() => navigation.navigate('HotelListScreen')}
-            style={{ padding: 20, position: 'absolute', zIndex: 999, left: -20, top: -10 }}>
-            <AntDesign name={'arrowleft'} size={35} color={'white'} />
-          </TouchableOpacity>
-        </View>
+      <View style={{ elevation: 0.5, padding: 7 }} key={index}>
+        <ImageBackground source={{ uri: item }} style={styles.image} />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HotelListScreen')}
+          style={{ padding: 20, position: 'absolute', zIndex: 999, left: -20, top: -10 }}>
+          <AntDesign name={'arrowleft'} size={35} color={'white'} />
+        </TouchableOpacity>
       </View>
     );
   };
+
   const renderStars = (rating) => {
     let stars = [];
     for (let i = 0; i < rating; i++) {
@@ -92,11 +88,14 @@ const HotelDescriptionPage = () => {
     return cleanedDescription;
   };
 
+  const filteredImages = hotelDetails.Images && Array.isArray(hotelDetails.Images) 
+    ? hotelDetails.Images.filter(image => image.trim() !== '') 
+    : [];
   return (
     <View style={{ flex: 1, backgroundColor: 'white', paddingBottom: 0 }}>
       <AppIntroSlider
         ref={sliderRef}
-        data={hotelDetails.Images}
+        data={filteredImages}
         renderItem={renderItem}
         showNextButton={false}
         showDoneButton={false}
@@ -104,7 +103,7 @@ const HotelDescriptionPage = () => {
         dotStyle={styles.dot}
       />
       <View style={styles.pagination}>
-        <Text style={styles.paginationText}>{`${currentIndex + 1} / ${hotelDetails?.Images?.length}`}</Text>
+        <Text style={styles.paginationText}>{`${currentIndex + 1} / ${filteredImages.length}`}</Text>
       </View>
       <ScrollView style={styles.descriptionCard} height='62%'>
         <View style={{ paddingBottom: SH(30) }}>
@@ -135,20 +134,23 @@ const HotelDescriptionPage = () => {
           <View>
             <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold' }}>HotelFacilities</Text>
             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-              {hotelDetails.HotelFacilities.map((item, index) => (
-
-                <View >
-                  <Text key={index} style={{
+              {hotelDetails?.HotelFacilities?.map((item, index) => (
+                <View key={index} style={{ marginBottom: SH(10) }}>
+                  <Text style={{
                     color: 'black',
-                    padding: SW(5), borderColor: '#60d3f0', borderRadius: 7, fontFamily: 'Poppins-Regular',
-                    borderWidth: 1, marginBottom: SH(10), fontSize: SF(10), marginRight: SW(5)
+                    padding: SW(5),
+                    borderColor: '#60d3f0',
+                    borderRadius: 7,
+                    fontFamily: 'Poppins-Regular',
+                    borderWidth: 1,
+                    fontSize: SF(10),
+                    marginRight: SW(5)
                   }}>
-                    {item}</Text>
+                    {item}
+                  </Text>
                 </View>
-
               ))}
             </View>
-
           </View>
         </View>
       </ScrollView>
@@ -202,4 +204,5 @@ const styles = StyleSheet.create({
     paddingBottom: SH(80),
   },
 });
+
 

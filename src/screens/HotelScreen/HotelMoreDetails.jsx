@@ -7,6 +7,7 @@ import {
   FlatList,
   TextInput,
   ActivityIndicator,
+  Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -14,21 +15,22 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { Colors, SH, SW, SF } from '../../utils';
 import { RouteName } from '../../routes';
-import { HOTEL_ROOM_DETAILS } from '../../utils/BaseUrl';
+import { HOTEL_BLOCK, HOTEL_ROOM_DETAILS } from '../../utils/BaseUrl';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { useSelector, useDispatch } from 'react-redux';
-import { roomCounterIncrement, roomCounterDecrement } from '../../redux/action';
+import { roomCounterIncrement, roomCounterDecrement, setBlockRoomDetails } from '../../redux/action';
 import { setHotelRoomDetails } from '../../redux/action';
-
+import Toast from 'react-native-toast-message';
 export default function HotelMoreDetails() {
   const dispatch = useDispatch();
   const [reserve, setReserve] = useState(false);
   const [userRadio, setUserRadio] = useState(false);
   const [loading, setLoading] = useState(true); // Set initial loading to true
   const [reserveIndexes, setReserveIndexes] = useState([]);
-  
+  const [availabilityType, setAvailabilityType] = useState(null);
+  const navigation = useNavigation();
   const handleRadio = value => {
     setUserRadio(value);
   };
@@ -43,7 +45,11 @@ export default function HotelMoreDetails() {
   
   const count = useSelector(state => state.commomReducer.hotelRoomCounter);
   const RoomData = useSelector(state => state.commomReducer.hotelRoomDetails); 
-  
+  const BlockRoom=useSelector(state=>state.commomReducer.hotelBlock);
+  console.log('Block Room Data ',BlockRoom);
+  // const AvailabilityType=BlockRoom.BlockRoomResult.AvailabilityType;
+
+  // console.log('AvailabilityType',AvailabilityType);
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
@@ -57,6 +63,7 @@ export default function HotelMoreDetails() {
         const res = await axios.post(HOTEL_ROOM_DETAILS, payload);
         const RoomDataArr = res.data.GetHotelRoomResult.HotelRoomsDetails;
         dispatch(setHotelRoomDetails(RoomDataArr));
+        console.log('Room Data ',JSON.stringify(RoomDataArr))
         setLoading(false); 
       } catch (error) {
         console.log('error', error);
@@ -65,8 +72,81 @@ export default function HotelMoreDetails() {
     };
     fetchRoomData();
   }, []);
+ 
+  const FETCH_HOTEL_BLOCK = async () => {
+    try {
+      const payload = {
+        SrdvIndex: '65',
+        SrdvType: 'SingleTB',
+        ResultIndex: '9',
+        TraceId: '1',
+        HotelCode: '341089',
+        HotelName: 'The Manor',
+        NoOfRooms: '1',
+        HotelRoomsDetails: [{
+          ChildCount: '0',
+          RequireAllPaxDetails: false,
+          RoomId: '0',
+          RoomStatus: '0',
+          RoomTypeCode: '211504640|4|1',
+          RoomTypeName: 'Deluxe Room',
+          RatePlanCode: '230104963',
+          DayRates: [
+            {
+              Amount: '12325',
+              Date: '2019-09-28T00:00:00'
+            }
+          ],
+          Price: {
+            Discount: '2175',
+            PublishedPrice: '15464.3'
+          },
+          Amenities: [
+            'Breakfast Buffet'
+          ],
+          SmokingPreference: '0',
+          BedTypes: [
+            {
+              BedTypeCode: '13',
+              BedTypeDescription: '1 double bed'
+            }
+          ],
+          LastCancellationDate: '2019-09-17T00:00:00',
+          Inclusion: [
+            'Breakfast Buffet'
+          ]
+        }]
+      };
+      const res = await axios.post(HOTEL_BLOCK, payload);
+      const RoomDataArr = res.data;
+      const { AvailabilityType } = RoomDataArr.BlockRoomResult;
+      setAvailabilityType(AvailabilityType);
+      console.log('Block hotel details', RoomDataArr);
+      dispatch(setBlockRoomDetails(RoomDataArr));
 
-  const navigation = useNavigation();
+      if (AvailabilityType === 'Confirm') {
+        Toast.show({
+          type: 'success',
+          text1: 'Room is already Booked',
+          text2: 'This room is blocked for some time !',
+          textStyle: { color: 'green', fontSize: 12 },
+        });
+        navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
+      } else {
+        navigation.navigate(RouteName.HOTEL_MORE_DETAILS);
+        Toast.show({
+          type: 'error',
+          text1: 'Room is Blocked for a while ',
+          text2: 'try after some time !',
+          textStyle: { color: 'red', fontSize: 12 },
+        });
+      }
+    } catch (error) {
+      console.log('Error fetching hotel block data', error);
+    } finally {
+      setLoading(false); 
+    }
+  };
 
   const formatDate = dateString => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -123,7 +203,7 @@ export default function HotelMoreDetails() {
         : [...prevState, index],
     );
   };
-
+  
   const RenderItem = ({ item, index }) => {
     const dayRate = item.DayRates.map(day => Math.floor(day.Amount));
     const RoomPrice = Math.floor(item.Price.RoomPrice);
@@ -421,6 +501,15 @@ export default function HotelMoreDetails() {
                             {' '}
                             (1 night , wed 26 jun 2024 - thur jun 2024){' '}
                           </Text>
+                          <TouchableOpacity
+                          style={styles.continueButton}
+                          onPress={FETCH_HOTEL_BLOCK}>
+                          
+                          <Text style={styles.continueButtonText}>
+                            Confirm Your Booking with next step
+                          </Text>
+                        </TouchableOpacity>
+
                         </View>
                       </View>
                     </View>
@@ -450,16 +539,6 @@ export default function HotelMoreDetails() {
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.listContainer}
       />
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={() => navigation.navigate(RouteName.HOTEL_GUEST_DETAILS)}>
-        <Text style={styles.continueButtonText}>Continue </Text>
-
-        <Text style={styles.continueButtonText}>
-        <FontAwesome name={'rupee'} color="white" size={15} />
-        4000
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -498,15 +577,18 @@ const styles = StyleSheet.create({
    },
    continueButton: {
      backgroundColor: Colors.theme_background,
-     padding: SH(15),
+     padding: SH(7),
      flexDirection: 'row',
      justifyContent: 'center',
+     borderRadius:10,
+      margin:SW(5)
    },
    continueButtonText: {
      color: 'white',
      textAlign: 'center',
      fontFamily: 'Poppins-Bold',
-     fontSize: SF(17),
+     fontSize: SF(12),
+    
    },
    guestChoose: {
      borderWidth: 1,
