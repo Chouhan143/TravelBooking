@@ -79,7 +79,7 @@ const RootNavigator = props => {
   return (
     <NavigationContainer theme={colorValue}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* {isAuthenticated ? ( */}
+        {isAuthenticated ? ( 
         <>
           <Stack.Screen
             name={RouteName.SIDE_NAVIGATOR}
@@ -204,7 +204,7 @@ const RootNavigator = props => {
             name={RouteName.HOTEL_PAYMENT}
             component={HotelPayment}
           />
-            <Stack.Screen
+          <Stack.Screen
             name={RouteName.BUS_TICKET_SCREEN}
             component={BusTicketScreen}
           />
@@ -229,12 +229,9 @@ const RootNavigator = props => {
   component={ReviewHotelTicketStatus}
 />
         </>
-        {/* ) : ( */}
-        {/* <>
-            
-          </>
-        ) : (
-          <>
+         ) : ( 
+       <>
+          
             <Stack.Screen name={'SplashScreen'} component={SplashScreen} />
             <Stack.Screen
               name={RouteName.LOGIN_SCREEN}
@@ -264,8 +261,8 @@ const RootNavigator = props => {
               name={RouteName.SELECT_LANGUAGE}
               component={TranslationScreen}
             />
-          </> */}
-        {/* )} */}
+          </> 
+       )}
       </Stack.Navigator>
     </NavigationContainer>
   );
