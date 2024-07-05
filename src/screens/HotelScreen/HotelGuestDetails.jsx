@@ -37,27 +37,6 @@ export default function HotelGuestDetails() {
   };
 
   const BookingConfirmed = async () => {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
-    const firstName = ""; 
-    const lastName = ""; 
-    const email = ""; 
-    const country = ""; 
-    const phoneNumber = ""; 
-  
-    if (!firstName || !lastName || !email || !country || !phoneNumber) {
-      setShowError(true);
-      Toast.show({
-        type: 'error',
-        text1: 'Missing Information',
-        text2: 'Please fill out all required fields.',
-        textStyle: { color: 'red', fontSize: 12 },
-      });
-      return; // Return early if fields are missing
-    }
-  
-    setShowError(false);
-  
     try {
       const payload = {
         ResultIndex: 9,
@@ -73,11 +52,48 @@ export default function HotelGuestDetails() {
             },
           },
         ],
+        LastCancellationDate: "2020-04-16T23:59:59",
+        CancellationPolicies: [
+          {
+            Charge: 1658,
+            ChargeType: 1,
+            Currency: "INR",
+            FromDate: "2020-04-17T00:00:00",
+            ToDate: "2020-04-20T23:59:59"
+          },
+          {
+            Charge: 100,
+            ChargeType: 2,
+            Currency: "INR",
+            FromDate: "2020-04-21T00:00:00",
+            ToDate: "2020-05-01T23:59:59"
+          },
+          {
+            Charge: 100,
+            ChargeType: 2,
+            Currency: "INR",
+            FromDate: "2020-04-30T00:00:00",
+            ToDate: "2020-05-01T00:00:00"
+          }
+        ],
+        CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
         SrdvIndex: "65",
         SrdvType: "SingleTB",
         TraceId: "1",
       };
   
+      if (!firstName || !lastName || !email || !country || !phoneNumber) {
+        setShowError(true);
+        Toast.show({
+          type: 'error',
+          text1: 'Missing Information',
+          text2: 'Please fill out all required fields.',
+          textStyle: { color: 'red', fontSize: 12 },
+        });
+        return; // Return early if fields are missing
+      }
+  
+      setShowError(false);
       const response = await axios.post(HOTEL_BOOK, payload);
       const BookingResult = response.data;
       dispatch(setBookingDetails(BookingResult));
@@ -93,7 +109,7 @@ export default function HotelGuestDetails() {
           text2: 'Your booking has been confirmed!',
           textStyle: { color: 'green', fontSize: 12 },
         });
-        navigation.navigate(RouteName.HOTEL_PAYMENT);
+    navigation.navigate(RouteName.PAYMENT_INTENT);
       } else {
         navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
         Toast.show({
@@ -304,10 +320,11 @@ export default function HotelGuestDetails() {
         }}>
           <FontAwesome name={'rupee'} color={'white'} size={15} />4,480</Text>
         <Text onPress={BookingConfirmed} style={{
-          color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
-          textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
-          padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5
-        }}>proceed to pay</Text>
+  color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
+  textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
+  padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5
+}}>proceed to pay</Text>
+
       </View>
     </View>
   );

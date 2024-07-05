@@ -111,10 +111,31 @@ export default function HotelMoreDetails() {
               BedTypeDescription: '1 double bed'
             }
           ],
-          LastCancellationDate: '2019-09-17T00:00:00',
-          Inclusion: [
-            'Breakfast Buffet'
-          ]
+         LastCancellationDate: "2020-04-16T23:59:59",
+        CancellationPolicies: [
+      {
+        Charge: 1658,
+        ChargeType: 1,
+        Currency: "INR",
+        FromDate: "2020-04-17T00:00:00",
+        ToDate: "2020-04-20T23:59:59"
+      },
+      {
+        Charge: 100,
+        ChargeType: 2,
+        Currency: "INR",
+        FromDate: "2020-04-21T00:00:00",
+        ToDate: "2020-05-01T23:59:59"
+      },
+      {
+        Charge: 100,
+        ChargeType: 2,
+        Currency: "INR",
+        FromDate: "2020-04-30T00:00:00",
+        ToDate: "2020-05-01T00:00:00"
+      }
+    ],
+    CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
         }]
       };
       const res = await axios.post(HOTEL_BLOCK, payload);

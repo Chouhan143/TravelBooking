@@ -11,7 +11,7 @@ import {RouteName, SideNavigator} from '../routes';
 import {
   LoginScreen,
   RegisterScreen,
-  OtpVeryfiveScreen,
+  // OtpVeryfiveScreen,
   SplashScreen,
   RegistrationSuccessful,
   Swiperscreen,
@@ -45,7 +45,10 @@ import HotelTicketScreen from '../screens/TicketScreen/HotelTicketScreen';
 import ReviewBusTicketStatus from '../screens/TicketScreen/ReviewBusTicketStatus';
 import ReviewFlightTicketStatus from '../screens/TicketScreen/ReviewFlightTicketStatus';
 import ReviewHotelTicketStatus from '../screens/TicketScreen/ReviewHotelTicketStatus';
-
+import HomeTab from '../screens/Home/Tab/HomeTab';
+import { HomeScsreenTabAll } from './TabNavigator';
+import { ROOM_COUNTERS_DECREMENT } from '../redux/actiontypes';
+import OtpVerifyScreen from '../screens/Authantication/OtpVerifyScreen/OtpVerifyScreen';
 const RootNavigator = props => {
   // const navigation = useNavigation();
   const {colorrdata} = useSelector(state => state.commomReducer) || {};
@@ -77,10 +80,12 @@ const RootNavigator = props => {
   }, [colorrdata, Colors]);
 
   return (
-    <NavigationContainer theme={colorValue}>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        {isAuthenticated ? ( 
-        <>
+    <NavigationContainer theme={colorValue} >
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={RouteName.SWIPER_SCREEN}>
+    <Stack.Screen
+      name={RouteName.HOME_SCREEN_TAB_ALL}
+      component={HomeScsreenTabAll}
+    />
           <Stack.Screen
             name={RouteName.SIDE_NAVIGATOR}
             component={SideNavigator}
@@ -228,10 +233,7 @@ const RootNavigator = props => {
   name={RouteName.REVIEW_HOTEL_TICKET_SCREEN}
   component={ReviewHotelTicketStatus}
 />
-        </>
-         ) : ( 
-       <>
-          
+       
             <Stack.Screen name={'SplashScreen'} component={SplashScreen} />
             <Stack.Screen
               name={RouteName.LOGIN_SCREEN}
@@ -250,8 +252,8 @@ const RootNavigator = props => {
               component={RegistrationSuccessful}
             />
             <Stack.Screen
-              name={RouteName.OTP_VERYFY_SCREEN}
-              component={OtpVeryfiveScreen}
+              name={RouteName.OTP_VERIFY_SCREEN}
+              component={OtpVerifyScreen}
             />
             <Stack.Screen
               name={RouteName.SWIPER_SCREEN}
@@ -261,8 +263,7 @@ const RootNavigator = props => {
               name={RouteName.SELECT_LANGUAGE}
               component={TranslationScreen}
             />
-          </> 
-       )}
+          
       </Stack.Navigator>
     </NavigationContainer>
   );

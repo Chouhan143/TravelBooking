@@ -1,5 +1,4 @@
 const BASE_URL = 'https://srninfotech.com/projects/travel-app/api';
-
 const LOGIN_ENDPOINT = `${BASE_URL}/login`;
 const REGISTER_ENDPOINT = `${BASE_URL}/register`;
 const OTP_VERYFY_ENDPOINT = `${BASE_URL}/checkotp`;
