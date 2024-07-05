@@ -309,7 +309,7 @@ export default OtpVerifyScreen;
 
 const styles = StyleSheet.create({
   image: {
-    width: '70%', height: SH(300), resizeMode: 'contain', marginTop: SH(100),
+    width: '100%', height: SH(400), resizeMode: 'contain', marginTop: SH(20),
   },
   heading: {
     color: 'black',
@@ -331,20 +331,23 @@ const styles = StyleSheet.create({
     margin: SH(10),
     textAlign: 'left',
     color: 'black',
-    paddingRight: SW(200),
+    paddingRight: SW(190),
+    paddingLeft:SW(15)
   },
   BottomText: {
-    color: Colors.theme_background,
+    color: 'black',
     flexWrap: 'wrap',
     textAlign: 'center',
     fontSize: SF(10),
-    marginHorizontal: SW(30),
-    marginVertical: SH(20),
+    marginTop: SW(135),
+    marginVertical: SH(15),
+    marginHorizontal:SW(5),
     backgroundColor: 'white',
     padding: SW(20),
     borderRadius: 10,
-    borderColor: Colors.theme_background,
+    borderColor: '#f2a26f',
     borderWidth: 1,
     textTransform: 'capitalize',
+    elevation:10
   },
 });
