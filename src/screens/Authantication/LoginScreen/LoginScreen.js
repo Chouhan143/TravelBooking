@@ -306,6 +306,6 @@ const styles = StyleSheet.create({
     padding: SH(10),
   },
   image: {
-    width:SW(500), height: SH(400), resizeMode: 'contain',
+    width:SW(500), height: SH(450), resizeMode: 'contain',
   },
 });

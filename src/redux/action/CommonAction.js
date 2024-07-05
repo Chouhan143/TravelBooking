@@ -323,7 +323,8 @@ import {
   SET_BLOCK_ROOM_DETAILS,
   SET_BOOK_DETAILS,
   SET_MOBILE_NUMBER,
-  SET_OTP
+  SET_OTP,
+  SET_BUS_LIST
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -549,4 +550,9 @@ export const roomCounterIncrement = () => ({
 
 export const roomCounterDecrement = () => ({
   type: ROOM_COUNTERS_DECREMENT,
+});
+
+export const setBusList = busList => ({
+  type:SET_BUS_LIST,
+  payload: busList,
 });

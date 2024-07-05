@@ -524,7 +524,8 @@ import {
   SET_BLOCK_ROOM_DETAILS,
   SET_BOOK_DETAILS,
   SET_MOBILE_NUMBER,
-  SET_OTP
+  SET_OTP,
+  SET_BUS_LIST
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -569,7 +570,8 @@ const initialState = {
   hotelBlock:{},
   hotelBook:{},
  mobileNumber: '',
-  otp: ''
+  otp: '',
+  busList:{},
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -916,11 +918,7 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         hotelBlock: action.payload,
       };
-      case SET_BOOK_DETAILS:
-        return {
-          ...state,
-          hotelBook: action.payload,
-        };
+    c
 
     case GEOLOCATION_POSITIONS:
       return {
@@ -940,6 +938,13 @@ export default function commomReducer(state = initialState, action) {
         hotelRoomCounter: Math.max(state.hotelRoomCounter - 1, 1), // Ensure counter doesn't go below 0
       };
 
+      // bus list data 
+
+      case SET_BUS_LIST:
+        return {
+          ...state,
+          busList: action.payload,
+        };
     default: {
       return state;
     }

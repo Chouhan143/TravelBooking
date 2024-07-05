@@ -6,8 +6,13 @@ import {VectorIcon} from '../commonComponents';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-
+import { useSelector } from 'react-redux';
 const BusListFun = props => {
+  // const ReduxBusList=useSelector(state=>state.commomReducer.busList);
+  // const ResultBusList=ReduxBusList.Result;
+  // console.log('ResultBusList',ResultBusList);
+  // console.log('ReduxBusList',ReduxBusList);
+  // console.log(ResultBusList.ArrivalTime);
   const {index, item, onPress} = props;
   const {t} = useTranslation();
   const BusListScreenStyles = useMemo(

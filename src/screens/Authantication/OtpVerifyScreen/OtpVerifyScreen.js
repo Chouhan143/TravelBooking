@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: SF(10),
     marginTop: SW(135),
-    marginVertical: SH(15),
+    marginVertical: SH(10),
     marginHorizontal:SW(5),
     backgroundColor: 'white',
     padding: SW(20),

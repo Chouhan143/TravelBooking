@@ -15,7 +15,7 @@ const BusListScreen = props => {
   const navigation = useNavigation();
   const {busData, destinationCity, sourceCity, departDate} = route.params;
   const [travelingDate, setTravelingDate] = useState('');
-
+  console.log('busData',busData);
   useEffect(() => {
     const updatedDate = new Date(departDate);
     const options = {
@@ -78,6 +78,7 @@ const BusListScreen = props => {
               <View>
                 <FlatList
                   data={busData}
+                
                   renderItem={({item, index}) => (
                     <BusListFun
                       item={item}
