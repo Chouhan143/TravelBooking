@@ -372,7 +372,7 @@ export const setTraceId = traceId => ({
   type: SET_TRACE_ID,
   traceId: traceId,
 });
-export const setResultrIndex = ResultIndex => ({
+export const setResultIndex = ResultIndex => ({
   type: SET_RESULT_INDEX,
   ResultIndex: ResultIndex,
 });

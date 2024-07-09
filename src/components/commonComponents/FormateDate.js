@@ -11,5 +11,5 @@ export const formatDate = date => {
     month = `0${month}`;
   }
 
-  return `${day}/${month}/${year}`;
+  return `${year}/${month}/${day}`;
 };

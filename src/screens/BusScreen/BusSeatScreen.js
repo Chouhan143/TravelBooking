@@ -51,6 +51,7 @@ const BusSeatScreen = props => {
 
   const getTraceIdFromRedux = useSelector(state => state.commomReducer.traceId);
   const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
+  console.log('ResultIndex',ResultIndex);
   console.log('getTraceIdFromRedux',getTraceIdFromRedux);
   const selectedSeatData = useSelector(
     state => state.commomReducer.selectedSeats,

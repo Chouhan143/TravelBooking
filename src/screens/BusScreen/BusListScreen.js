@@ -16,7 +16,7 @@ const BusListScreen = props => {
   const {busData, destinationCity, sourceCity, departDate} = route.params;
   const [travelingDate, setTravelingDate] = useState('');
   const TraceId=useSelector(state=>state.commomReducer.traceId);
-  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
+  const resultIndex = useSelector((state) => state.resultIndex);
   useEffect(() => {
     const updatedDate = new Date(departDate);
     const options = {
@@ -45,7 +45,7 @@ const BusListScreen = props => {
 
     navigation.navigate(RouteName.BUS_SEAT_SCREEN, {
       traceId:TraceId,
-      indexResult:ResultIndex,
+      indexResult:resultIndex,
     });
   };
 

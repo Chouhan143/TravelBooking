@@ -639,7 +639,6 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         ResultIndex: action.ResultIndex,
       };
-
     case UPDATE_SELECTED_SEATS:
       return {
         ...state,
