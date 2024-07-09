@@ -525,7 +525,9 @@ import {
   SET_BOOK_DETAILS,
   SET_MOBILE_NUMBER,
   SET_OTP,
-  SET_BUS_LIST
+  SET_BUS_LIST,
+  SET_TOTAL_HOTEL_PRICE,
+  SET_RESULT_INDEX
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -537,6 +539,7 @@ const initialState = {
   isAuthenticated: false,
   token: null,
   traceId: null,
+  ResultIndex:null,
   selectedSeats: [],
   totalPrice: null,
   passengers: [],
@@ -569,7 +572,7 @@ const initialState = {
   hotelRoomCounter: 1,
   hotelBlock:{},
   hotelBook:{},
- mobileNumber: '',
+  mobileNumber: '',
   otp: '',
   busList:{},
 };
@@ -618,8 +621,8 @@ export default function commomReducer(state = initialState, action) {
       };
       case SET_MOBILE_NUMBER:
         return {
-          ...state,
-          mobileNumber: action.payload,
+            ...state,
+            mobileNumber: action.payload,
         };
       case SET_OTP:
         return {
@@ -630,6 +633,11 @@ export default function commomReducer(state = initialState, action) {
       return {
         ...state,
         traceId: action.traceId,
+      };
+      case SET_RESULT_INDEX:
+      return {
+        ...state,
+        ResultIndex: action.ResultIndex,
       };
 
     case UPDATE_SELECTED_SEATS:
@@ -642,7 +650,11 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         totalPrice: action.payload,
       };
-
+      case SET_TOTAL_HOTEL_PRICE:
+        return {
+          ...state,
+          totalHotelPrice: action.payload,
+        };
     case ADD_PASSENGER:
       return {
         ...state,

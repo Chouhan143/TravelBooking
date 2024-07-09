@@ -84,7 +84,7 @@ const Translation = props => {
           }}>
           <Text
             style={LanguageStyles.btnText}
-            onPress={() => navigation.navigate(RouteName.HOME_SCREEN_TAB_ALL)}>
+            onPress={() => navigation.navigate(RouteName.REGISTER_SCREEN)}>
             Confirm
           </Text>
         </TouchableOpacity>

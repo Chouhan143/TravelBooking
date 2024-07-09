@@ -5,20 +5,22 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import { useSelector } from 'react-redux';
 const BusSelectScreen = ({route}) => {
   const navigation = useNavigation();
   const {busData, destinationCity, sourceCity} = route.params;
-
+  const TraceId=useSelector(state=>state.commomReducer.traceId);
+  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
+  console.log('busData List',busData);
   const renderItem = ({item}) => {
     console.log(item.Price);
     // Extracting time from the departure_time string
-    const departureTime = new Date(item.departure_time).toLocaleTimeString([], {
+    const departureTime = new Date(item.DepartureTime).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     });
 
-    const arivalTime = new Date(item.arrival_time).toLocaleTimeString([], {
+    const arivalTime = new Date(item.ArrivalTime).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     });
@@ -33,8 +35,8 @@ const BusSelectScreen = ({route}) => {
 
     const handleItemPress = () => {
       navigation.navigate(RouteName.BUS_SEAT_SCREEN, {
-        traceId: item.trace_id,
-        indexResult: item.result_index,
+        traceId:TraceId,
+        indexResult:ResultIndex,
       });
     };
 
@@ -55,8 +57,8 @@ const BusSelectScreen = ({route}) => {
         </View>
 
         <View style={{paddingTop: 10}}>
-          <Text style={styles.busName}>{item.travel_name}</Text>
-          <Text style={styles.busInfo}> {item.bus_type}</Text>
+          <Text style={styles.busName}>{item.TravelName}</Text>
+          <Text style={styles.busInfo}> {item.BusType}</Text>
         </View>
       </TouchableOpacity>
     );

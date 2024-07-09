@@ -37,7 +37,6 @@ import HotelListScreen from '../screens/HotelScreen/HotelListScreen';
 import HotelDescriptionPage from '../screens/HotelScreen/HotelDescriptionPage';
 import HotelMoreDetails from '../screens/HotelScreen/HotelMoreDetails';
 import HotelGuestDetails from '../screens/HotelScreen/HotelGuestDetails';
-import PaymentIntent from '../screens/PaymentIntent/PaymentIntent';
 import HotelPayment from '../screens/HotelScreen/HotelPayment';
 import BusTicketScreen from '../screens/TicketScreen/BusTicketScreen';
 import FlightTicketScreen from '../screens/TicketScreen/FlightTicketScreen';
@@ -49,6 +48,9 @@ import HomeTab from '../screens/Home/Tab/HomeTab';
 import { HomeScsreenTabAll } from './TabNavigator';
 import { ROOM_COUNTERS_DECREMENT } from '../redux/actiontypes';
 import OtpVerifyScreen from '../screens/Authantication/OtpVerifyScreen/OtpVerifyScreen';
+import Toast from 'react-native-toast-message';
+import BusBooking from '../screens/BusScreen/BusBooking';
+
 const RootNavigator = props => {
   // const navigation = useNavigation();
   const {colorrdata} = useSelector(state => state.commomReducer) || {};
@@ -86,6 +88,10 @@ const RootNavigator = props => {
       name={RouteName.HOME_SCREEN_TAB_ALL}
       component={HomeScsreenTabAll}
     />
+    <Stack.Screen
+    name={RouteName.HOME_TAB}
+    component={HomeTab}
+  />
           <Stack.Screen
             name={RouteName.SIDE_NAVIGATOR}
             component={SideNavigator}
@@ -94,6 +100,10 @@ const RootNavigator = props => {
           <Stack.Screen
             name={RouteName.BUS_LIST_SCREEN}
             component={BusListScreen}
+          />
+          <Stack.Screen
+            name={RouteName.BUS_BOOKING}
+            component={BusBooking}
           />
           <Stack.Screen
             name={RouteName.BUS_SEAT_SCREEN}
@@ -139,6 +149,7 @@ const RootNavigator = props => {
             name={RouteName.PAYMENT_SCREEN}
             component={PaymentScreen}
           />
+
           <Stack.Screen
             name={RouteName.PAYMENT_SUCCESSFULLY}
             component={PaymentSuccessFully}
@@ -202,10 +213,6 @@ const RootNavigator = props => {
             component={HotelGuestDetails}
           />
           <Stack.Screen
-            name={RouteName.PAYMENT_INTENT}
-            component={PaymentIntent}
-          />
-          <Stack.Screen
             name={RouteName.HOTEL_PAYMENT}
             component={HotelPayment}
           />
@@ -265,6 +272,7 @@ const RootNavigator = props => {
             />
           
       </Stack.Navigator>
+ 
     </NavigationContainer>
   );
 };

@@ -12,7 +12,7 @@ import {Button, Input} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
 import axios from 'axios';
-import {BLOKING_SEAT} from '../../utils/BaseUrl';
+import {BOOKING_SEAT} from '../../utils/BaseUrl';
 import Toast from 'react-native-toast-message';
 import { SF, SH, SW } from '../../utils';
 
@@ -23,6 +23,8 @@ const ReviewBooking = () => {
   // bus details
   const busDetails = useSelector(state => state.commomReducer.detailsStore);
 
+  const TraceId = useSelector(state => state.commomReducer.traceId);
+  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
   const handlePassengerEmailChange = email => {
     setPassengerEmail(email);
   };
@@ -43,7 +45,7 @@ const ReviewBooking = () => {
   });
 
   const formattedTime = date.toLocaleTimeString('en-US', {
-    hour: '2-digit', // Two-digit hour (e.g., "14")
+    hour: '2-digit', // Two-digit hour (e.g.,14")
     minute: '2-digit', // Two-digit minute (e.g., "45")
   });
 
@@ -82,9 +84,7 @@ const ReviewBooking = () => {
   console.log('dds', commaSepratedSeat);
 
   const totalFare = useSelector(state => state.commomReducer.totalPrice);
-  const traceId = useSelector(state => state.commomReducer.traceId);
-  console.log(traceId);
-
+ 
   const passengersArray = pessengerData.map(passenger => ({
     name: passenger.passengerName,
     age: passenger.passengerAge,
@@ -94,59 +94,137 @@ const ReviewBooking = () => {
   }));
 
   console.log('passengersArray', passengersArray);
-
-  // const blockSeat = async () => {
-  //   // droppingpointid, 'boarding_point', 'title_name', 'name', 'price', 'email', 'phoneno', 'gender', 'trace_id',
-  //   // 'seat_no', 'address', 'age', 'bus_name',
-
-  //   try {
-  //     const options = {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     };
-
-  //     const payload = {
-  //       dropping_point: selectedBoardingPoint.CityPointLocation,
-  //       boarding_point: selectedDroppingPoint.CityPointLocation,
-  //       name: passengerName,
-  //       last_name: passengerLName,
-  //       price: totalFare,
-  //       email: passengerEmail,
-  //       phoneno: passengerPhone,
-  //       gender: gender,
-  //       trace_id: traceId,
-  //       seat_no: 5,
-  //       address: passengerAddress,
-  //       age: passengerAge,
-  //       bus_name: busDetails.travel_name,
-  //     };
-  //     console.log(payload);
-  //     const res = await axios.post(BLOKING_SEAT, payload, options);
-  //     console.log('res', res);
-  //   } catch (error) {
-  //     console.log(error.response.data.errors);
-  //   }
-  // };
-
-  const blockSeat = async () => {
+  
+  const BookSeat = async () => {
     try {
       const payload = {
-        passengers: passengersArray,
-        email: passengerEmail,
-        phoneno: passengerPhone,
-        price: totalFare,
-        seat_no: commaSepratedSeat, // Assuming updateSelecSeats is an array of seat numbers
-        trace_id: traceId,
-        dropping_point: selectedDroppingPoint.CityPointLocation,
-        boarding_point: selectedBoardingPoint.CityPointLocation,
-        bus_name: busDetails.travel_name,
+        "ResultIndex": "1",
+        "TraceId": "1",
+        "BoardingPointId": 1,
+        "DroppingPointId": 1,
+        "RefID": "1",
+        "Passenger": [
+          {
+            "LeadPassenger": true,
+            "PassengerId": 0,
+            "Title": "Mr",
+            "FirstName": "Tanish",
+            "LastName": "Singh",
+            "Email": "amit@srdvtechnologies.com",
+            "Phoneno": "9643737502",
+            "Gender": "1",
+            "IdType": null,
+            "IdNumber": null,
+            "Address": "Modinagar",
+            "Age": "22",
+            "Seat": {
+              "ColumnNo": "001",
+              "Height": 1,
+              "IsLadiesSeat": false,
+              "IsMalesSeat": false,
+              "IsUpper": false,
+              "RowNo": "000",
+              "SeatFare": 400,
+              "SeatIndex": 2,
+              "SeatName": "2",
+              "SeatStatus": true,
+              "SeatType": 1,
+              "Width": 1,
+              "Price": {
+                "CurrencyCode": "INR",
+                "BasePrice": 400,
+                "Tax": 0,
+                "OtherCharges": 0,
+                "Discount": 0,
+                "PublishedPrice": 300,
+                "PublishedPriceRoundedOff": 400,
+                "OfferedPrice": 380,
+                "OfferedPriceRoundedOff": 380,
+                "AgentCommission": 20,
+                "AgentMarkUp": 0,
+                "TDS": 8,
+                "GST": {
+                  "CGSTAmount": 0,
+                  "CGSTRate": 0,
+                  "CessAmount": 0,
+                  "CessRate": 0,
+                  "IGSTAmount": 0,
+                  "IGSTRate": 18,
+                  "SGSTAmount": 0,
+                  "SGSTRate": 0,
+                  "TaxableAmount": 0
+                }
+              }
+            }
+          },
+          {
+            "LeadPassenger": false,
+            "PassengerId": 0,
+            "Title": "Mr",
+            "FirstName": "ramesh",
+            "LastName": "Tomar",
+            "Email": "ramesh@srdvtechnologies.com",
+            "Phoneno": "1234567890",
+            "Gender": "1",
+            "IdType": null,
+            "IdNumber": null,
+            "Address": "Modinagar",
+            "Age": "28",
+            "Seat": {
+              "ColumnNo": "002",
+              "Height": 1,
+              "IsLadiesSeat": false,
+              "IsMalesSeat": false,
+              "IsUpper": false,
+              "RowNo": "000",
+              "SeatFare": 400,
+              "SeatIndex": 3,
+              "SeatName": "3",
+              "SeatStatus": true,
+              "SeatType": 1,
+              "Width": 1,
+              "Price": {
+                "CurrencyCode": "INR",
+                "BasePrice": 400,
+                "Tax": 0,
+                "OtherCharges": 0,
+                "Discount": 0,
+                "PublishedPrice": 400,
+                "PublishedPriceRoundedOff": 400,
+                "OfferedPrice": 380,
+                "OfferedPriceRoundedOff": 380,
+                "AgentCommission": 20,
+                "AgentMarkUp": 0,
+                "TDS": 8,
+                "GST": {
+                  "CGSTAmount": 0,
+                  "CGSTRate": 0,
+                  "CessAmount": 0,
+                  "CessRate": 0,
+                  "IGSTAmount": 0,
+                  "IGSTRate": 18,
+                  "SGSTAmount": 0,
+                  "SGSTRate": 0,
+                  "TaxableAmount": 0
+                }
+              }
+            }
+          }
+        ]
       };
-      const res = await axios.post(BLOKING_SEAT, payload);
-      const status = res.data.result.status;
-      console.log('res', res.data.result.status);
-      if (status === 200) {
-        navigation.replace(RouteName.PAYMENT_SCREEN);
+      const res = await axios.post(BOOKING_SEAT, payload);
+      const Result=res.data;
+      console.log('response',JSON.stringify(Result));
+      const BusBookingStatus =Result.result.data.Result.BusBookingStatus;
+      console.log('status.BusBookingStatus',BusBookingStatus);
+      if (BusBookingStatus ===  "Confirmed") {
+        Toast.show({
+          type: 'success',
+          text1: 'Seat is Booked ',
+          text2: 'This seat is booked  successfully please pay now !',
+          textStyle: { color: 'green', fontSize: 12 },
+        });
+        navigation.replace(RouteName.HOTEL_PAYMENT);
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
@@ -161,10 +239,11 @@ const ReviewBooking = () => {
         console.log(error);
       }
     }
+   
   };
-
-  const paymentHandle = () => {
-    blockSeat();
+  
+  const BookingStatus = () => {
+    BookSeat();
   };
 
   return (
@@ -189,7 +268,7 @@ const ReviewBooking = () => {
                fontFamily:'Poppins-Medium',
                 marginBottom: 10,
               }}>
-              {busDetails.travel_name}
+              {busDetails.TravelName}
             </Text>
 
             <View
@@ -350,7 +429,7 @@ const ReviewBooking = () => {
             </Text>
           </View>
           <View>
-            <Button title={'Proceed To Pay'} onPress={paymentHandle} />
+            <Button title={' Pay To Proceed '} onPress={BookingStatus} />
           </View>
         </View>
       </View>

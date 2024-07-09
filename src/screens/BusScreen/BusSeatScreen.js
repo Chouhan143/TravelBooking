@@ -26,7 +26,7 @@ import {SH, SW} from '../../utils';
 
 const BusSeatScreen = props => {
   const {route} = props;
-  const {traceId, indexResult} = route.params;
+  const {indexResult} = route.params;
   const [selectedSeats, setSelectedSeats] = useState([]);
   const {navigation} = props;
   const {t} = useTranslation();
@@ -50,6 +50,8 @@ const BusSeatScreen = props => {
   // console.log('U', uperSeat);
 
   const getTraceIdFromRedux = useSelector(state => state.commomReducer.traceId);
+  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
+  console.log('getTraceIdFromRedux',getTraceIdFromRedux);
   const selectedSeatData = useSelector(
     state => state.commomReducer.selectedSeats,
   );
@@ -58,14 +60,15 @@ const BusSeatScreen = props => {
   console.log(selectedSeatData.join(','));
 
   const busFare = useSelector(state => state.commomReducer.totalPrice);
-console.log('bus fare',busFare);
+  console.log('bus fare',busFare);
   const getlayout = async () => {
     try {
       setLoading(true);
       const payload = {
-        TraceId: traceId,
-        ResultIndex: indexResult,
+        TraceId: getTraceIdFromRedux,
+        ResultIndex: ResultIndex,
       };
+      console.log('bus payload',payload);
       const res = await axios.post(BUS_ADDSEAT_LAYOUT, payload);
       console.log('Result  >>>', res.data);
       setLowerSeat(res.data.Result[0]);
@@ -86,15 +89,6 @@ console.log('bus fare',busFare);
     getlayout();
   }, []);
 
-  const MobileSelectData = [
-    {
-      id: 1,
-      img: images.HomeViIcon,
-      Cityfrom: 'Delhi_Text',
-      Cityto: 'Mumbai_Text',
-      CardType: 'Mon_Text',
-    },
-  ];
 
   const BusSeatShowData = [
     {
@@ -139,21 +133,6 @@ console.log('bus fare',busFare);
 
   return (
     <View style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
-      {/* <View>
-        <View>
-          <FlatList
-            data={MobileSelectData}
-            renderItem={({item}) => (
-              <MobileSelect
-                item={item}
-                onPress={() => navigation.navigate(RouteName.BUS_LIST_SCREEN)}
-              />
-            )}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </View> */}
       <ScrollView
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps="handled"

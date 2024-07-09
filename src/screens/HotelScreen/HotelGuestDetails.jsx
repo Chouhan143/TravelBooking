@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteName } from '../../routes';
 import { useSelector } from 'react-redux';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
+import { useRoute } from '@react-navigation/native'
 import he from 'he';
 import axios from 'axios';
 import { HOTEL_BOOK } from '../../utils/BaseUrl';
@@ -15,15 +16,18 @@ import { setBookingDetails } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-toast-message';
 export default function HotelGuestDetails() {
+    const route = useRoute();
+  const { room } = route.params;
+  const navigation=useNavigation();
   const hotelDetails=useSelector(state=>state.commomReducer.hotelInfo);
   const hotelData = useSelector(state => state.commomReducer.hotelData);
+  const TotalHotelPrice=useSelector(state=>state.commomReducer.totalHotelPrice);
+  console.log('hotelData',hotelData);
   const count = useSelector(state => state.commomReducer.hotelRoomCounter);
   const RoomData = useSelector(state => state.commomReducer.hotelRoomDetails);
   const dispatch=useDispatch();
-  // console.log('RoomData',RoomData);
+   console.log('RoomData',JSON.stringify(RoomData));
   const BlockRoom=useSelector(state=>state.commomReducer.hotelBlock);
-  console.log('Block Room Guest',BlockRoom);
-  const navigation = useNavigation();
   const [more, setMore] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -109,7 +113,7 @@ export default function HotelGuestDetails() {
           text2: 'Your booking has been confirmed!',
           textStyle: { color: 'green', fontSize: 12 },
         });
-    navigation.navigate(RouteName.PAYMENT_INTENT);
+    navigation.navigate(RouteName.HOTEL_PAYMENT);
       } else {
         navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
         Toast.show({
@@ -215,8 +219,8 @@ export default function HotelGuestDetails() {
         {/* Selected rooms for adults */}
         <View style={[styles.hotelDetail, { borderTopWidth: 0 }]}>
           <Text style={styles.normalText}>You selected</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.normalText}>{count} rooms for {
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between',display:'flex' }}>
+           <Text style={styles.normalText}>{count} rooms for {
               hotelData.NoOfRooms.map(item=>{
                 return item.NoOfAdults
               })
@@ -230,7 +234,7 @@ export default function HotelGuestDetails() {
             </TouchableOpacity>
           </View>
           {/* update krna h */ }
-          {more ? <Text style={styles.normalText}>1 * Deluxe Double Room</Text> : null}
+          {more ? <Text style={styles.normalText}>{room.RoomTypeName}</Text> : null}
         </View>
         <View style={[styles.hotelDetail, { borderTopWidth: 0 }]}>
           <Text style={styles.paymentText}>your payment summary</Text>
@@ -238,11 +242,8 @@ export default function HotelGuestDetails() {
             <Text style={styles.normalText}>original price</Text>
             <Text style={styles.normalText}>
               <FontAwesome name={'rupee'} color={'black'} size={15} />
-              {RoomData.map((item)=>(
-                  <Text>{Math.floor(item.Price.RoomPrice)}</Text>
-              ))
-
-              }
+             
+                  <Text>{Math.floor(room.Price.RoomPrice)}</Text>
               </Text>
           </View>
         </View>
@@ -264,7 +265,8 @@ export default function HotelGuestDetails() {
               <Text style={styles.inputLabel}>first name </Text>
               <Entypo name={'star'} color='red' size={15} /></View>
 
-            <TextInput style={styles.input} onChangeText={setFirstName} />
+            <TextInput style={styles.input} onChangeText={setFirstName}
+             />
             {showError && !firstName && <Text style={styles.errorText}>Please enter your first name.</Text>}
           </View>
           <View style={{ marginVertical: SH(10) }}>
@@ -301,7 +303,7 @@ export default function HotelGuestDetails() {
               <Entypo name={'star'} color='red' size={15} />
             </View>
 
-            <TextInput style={styles.input} onChangeText={setPhoneNumber} />
+            <TextInput style={styles.input} onChangeText={setPhoneNumber} keyboardType="numeric" />
             {showError && !phoneNumber && <Text style={styles.errorText}>Please enter phone number .</Text>}
           </View>
 
@@ -318,11 +320,11 @@ export default function HotelGuestDetails() {
           color: 'white', fontFamily: 'Poppins-Bold', textAlign: 'center',
           textTransform: 'capitalize', fontSize: SF(15)
         }}>
-          <FontAwesome name={'rupee'} color={'white'} size={15} />4,480</Text>
+       <FontAwesome name={'rupee'} color={'white'} size={15} />{TotalHotelPrice}</Text>
         <Text onPress={BookingConfirmed} style={{
   color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
   textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
-  padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5
+  padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5,
 }}>proceed to pay</Text>
 
       </View>
@@ -431,3 +433,43 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize'
   },
 });
+
+// import React from 'react';
+// import { View, Text, StyleSheet } from 'react-native';
+// import { useRoute } from '@react-navigation/native';
+
+// const GuestDetailScreen = () => {
+//   const route = useRoute();
+//   const { room } = route.params;
+
+//   if (!room) {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>No room selected</Text>
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Guest Details for {room.RoomTypeName}</Text>
+//       <Text style={styles.title}>Price: {room.Price.OfferedPriceRoundedOff}</Text>
+//       <Text style={styles.title}>Cancellation Policy: {room.CancellationPolicy}</Text>
+//       {/* Add more guest detail form elements here */}
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     padding: 20,
+//   },
+//   title: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: 'black',
+//   },
+// });
+
+// export default GuestDetailScreen;

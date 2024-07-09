@@ -9,7 +9,7 @@ const RouteName = {
   REGIATRAION_SUCCESSFULL: 'RegistrationSuccessful',
   HOME_SCREEN_TAB_ALL:'HomeScsreenTabAll',
   HOME_TAB: 'HomeTab',
-  BOOKING_TAB: 'BookingTabss',
+  BOOKING_TAB: 'BookingTab',
   HISTORY_TAB: 'HistoryTabss',
   PROFILE_TAB: 'Profiless',
   SELECT_LANGUAGE: 'TranslationScreen',
@@ -39,7 +39,6 @@ const RouteName = {
   HOTEL_DESCRIPTION_SCREEN: 'HotelDescriptionPage',
   HOTEL_MORE_DETAILS: 'HotelMoreDetails',
   HOTEL_GUEST_DETAILS: 'HotelGuestDetails',
-  PAYMENT_INTENT: 'PaymentIntent',
   HOTEL_PAYMENT: 'HotelPayment',
   HOTEL_PAYMENT: 'HotelPayment',
   BUS_TICKET_SCREEN: 'BusTicketScreen',
@@ -48,5 +47,6 @@ const RouteName = {
   REVIEW_FLIGHT_TICKET_SCREEN: 'ReviewFlightTicketStatus',
   REVIEW_BUS_TICKET_SCREEN: 'ReviewBusTicketStatus',
   REVIEW_HOTEL_TICKET_SCREEN: 'ReviewHotelTicketStatus',
+  BUS_BOOKING:'BusBooking',
 };
 export default RouteName;

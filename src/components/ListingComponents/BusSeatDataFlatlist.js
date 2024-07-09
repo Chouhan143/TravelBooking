@@ -31,28 +31,6 @@ const BusSeatDataFlatlist = props => {
     dispatch(updateSelectedSeats(updatedSelectedSeats));
   };
 
-  // Update price according to seat selected
-  // useEffect(() => {
-  //   // Ensure props.busSeats is defined and not empty before calculating totalPrice
-
-  //   console.log('check');
-
-  //   if (!props.busSeats || props.busSeats.length === 0) {
-  //     return; // Exit early if busSeats is not defined or empty
-  //   }
-
-  //   // Calculate total price based on selected seats
-  //   const totalPrice = selectedSeatData.reduce((total, seatName) => {
-  //     const seat = props.busSeats.find(s => s.SeatName === seatName);
-  //     console.log(seat, 'seat');
-  //     return total + (seat ? seat.Price.PublishedPrice : 0);
-  //   }, 0);
-
-  //   console.log(totalPrice, 'totalPrice');
-
-  //   // Dispatch action to update total price in Redux store
-  //   dispatch(updateTotalPrice(totalPrice));
-  // }, [selectedSeatData, props.busSeats, dispatch]);
 
   useEffect(() => {
     const totalPrice = SeatPrice * selectedSeatData.length;

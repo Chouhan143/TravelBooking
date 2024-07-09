@@ -40,7 +40,6 @@ const HotelTab = () => {
   const [roomsCount, setRoomsCount] = useState(1);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   // Location Permissions requests
 
   const requestCameraPermission = async () => {
@@ -165,10 +164,10 @@ const HotelTab = () => {
         const res = await axios.post(HOTEL_SEARCH, payload);
         const HotelListArr = res.data;
         // const HotelResult=res.data.Results;
-        //  console.log('search Data:', HotelListArr);
+        console.log('search Data:', HotelListArr);
         dispatch(setHotelData(HotelListArr));
         // dispatch(setHotelResult(HotelResult));
-        // console.log('Resultant Data',HotelResult);
+        //console.log('Resultant Data',HotelResult);
         navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
       } catch (error) {
         console.log(error.response);

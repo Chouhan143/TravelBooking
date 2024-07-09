@@ -21,6 +21,8 @@ import {FlightsListScreenStyle} from '../../styles';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
 import Toast from 'react-native-toast-message';
+import axios from 'axios';
+import {BLOKING_SEAT} from '../../utils/BaseUrl';
 const PassengerInformation = ({route}) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
@@ -53,7 +55,156 @@ const PassengerInformation = ({route}) => {
   const [radioChecked, setRadioChecked] = useState(
     Array(pessengerData.length).fill(false),
   );
+  const TraceId = useSelector(state => state.commomReducer.traceId);
+  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
 
+  const blockSeat = async () => {
+    try {
+      const payload = {
+        ResultIndex: ResultIndex,
+        TraceId: TraceId,
+        BoardingPointId: 1,
+        DroppingPointId: 1,
+        RefID: "1",
+        Passenger: [
+          {
+            LeadPassenger: true,
+            PassengerId: 0,
+            Title: "Mr",
+            FirstName: "Tanish",
+            LastName: "Singh",
+            Email: "amit@srdvtechnologies.com",
+            Phoneno: "9643737502",
+            Gender: 1,
+            IdType: null,
+            IdNumber: null,
+            Address: "Modinagar",
+            Age: 22,
+            Seat: {
+              ColumnNo: "001",
+              Height: 1,
+              IsLadiesSeat: false,
+              IsMalesSeat: false,
+              IsUpper: false,
+              RowNo: "000",
+              SeatFare: 400,
+              SeatIndex: 2,
+              SeatName: "2",
+              SeatStatus: true,
+              SeatType: 1,
+              Width: 1,
+              Price: {
+                CurrencyCode: "INR",
+                BasePrice: 400,
+                Tax: 0,
+                OtherCharges: 0,
+                Discount: 0,
+                PublishedPrice: 300,
+                PublishedPriceRoundedOff: 400,
+                OfferedPrice: 380,
+                OfferedPriceRoundedOff: 380,
+                AgentCommission: 20,
+                AgentMarkUp: 0,
+                TDS: 8,
+                GST: {
+                  CGSTAmount: 0,
+                  CGSTRate: 0,
+                  CessAmount: 0,
+                  CessRate: 0,
+                  IGSTAmount: 0,
+                  IGSTRate: 18,
+                  SGSTAmount: 0,
+                  SGSTRate: 0,
+                  TaxableAmount: 0,
+                },
+              },
+            },
+          },
+          {
+            LeadPassenger: false,
+            PassengerId: 0,
+            Title: "Mr",
+            FirstName: "ramesh",
+            LastName: "Tomar",
+            Email: "ramesh@srdvtechnologies.com",
+            Phoneno: "1234567890",
+            Gender: "1",
+            IdType: null,
+            IdNumber: null,
+            Address: "Modinagar",
+            Age: "28",
+            Seat: {
+              ColumnNo: "002",
+              Height: 1,
+              IsLadiesSeat: false,
+              IsMalesSeat: false,
+              IsUpper: false,
+              RowNo: "000",
+              SeatFare: 400,
+              SeatIndex: 3,
+              SeatName: "3",
+              SeatStatus: true,
+              SeatType: 1,
+              Width: 1,
+              Price: {
+                CurrencyCode: "INR",
+                BasePrice: 400,
+                Tax: 0,
+                OtherCharges: 0,
+                Discount: 0,
+                PublishedPrice: 400,
+                PublishedPriceRoundedOff: 400,
+                OfferedPrice: 380,
+                OfferedPriceRoundedOff: 380,
+                AgentCommission: 20,
+                AgentMarkUp: 0,
+                TDS: 8,
+                GST: {
+                  CGSTAmount: 0,
+                  CGSTRate: 0,
+                  CessAmount: 0,
+                  CessRate: 0,
+                  IGSTAmount: 0,
+                  IGSTRate: 18,
+                  SGSTAmount: 0,
+                  SGSTRate: 0,
+                  TaxableAmount: 0,
+                },
+              },
+            },
+          },
+        ],
+      };
+      const res = await axios.post(BLOKING_SEAT, payload);
+      const status = res.data.result.status;
+      console.log('res', res.data.result.status);
+      if (status === 200) {
+        Toast.show({
+          type: 'success',
+          text1: 'Seat is Blocked ',
+          text2: 'This seat is blocked for some time !',
+          textStyle: { color: 'green', fontSize: 12 },
+        });
+        navigation.replace(RouteName.REVIEW_BOOKING);
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+        const errorArr = error.response.data.errors;
+        const errorMessage = Object.values(errorArr).join('\n');
+        Toast.show({
+          type: 'error',
+          text1: errorMessage,
+        });
+        console.log(errorArr);
+      } else {
+        console.log(error);
+      }
+    }
+  };
+  
+  const BlockingSeat = () => {
+    blockSeat();
+  };
   console.log('radioChecked', radioChecked);
 
   const handleRadioPress = index => {
@@ -374,9 +525,7 @@ const PassengerInformation = ({route}) => {
                     ? 'green'
                     : 'gray',
               }}
-              onPress={() => {
-                navigation.navigate(RouteName.REVIEW_BOOKING);
-              }}
+              onPress={BlockingSeat}
               disabled={checkedItemCount !== selectedSeatData.length}>
               <Text style={{color: '#fff', fontFamily: '700', fontSize: 18}}>
                 Continue
@@ -421,22 +570,6 @@ const PassengerInformation = ({route}) => {
                 onChangeText={handlePassengerLNameChange}
                 value={passengerLName}
               />
-
-              {/* <Input
-                title="Email"
-                placeholder="Enter email"
-                onChangeText={handlePassengerEmailChange}
-                value={passengerEmail}
-                keyboardType="email-address"
-              />
-
-              <Input
-                title="Phone No."
-                placeholder="Enter phone number"
-                onChangeText={handlePassengerPhoneChange}
-                value={passengerPhone}
-                keyboardType="phone-pad"
-              /> */}
 
               <Input
                 title="Address"

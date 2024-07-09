@@ -6,13 +6,8 @@ import {VectorIcon} from '../commonComponents';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { useSelector } from 'react-redux';
+
 const BusListFun = props => {
-  // const ReduxBusList=useSelector(state=>state.commomReducer.busList);
-  // const ResultBusList=ReduxBusList.Result;
-  // console.log('ResultBusList',ResultBusList);
-  // console.log('ReduxBusList',ReduxBusList);
-  // console.log(ResultBusList.ArrivalTime);
   const {index, item, onPress} = props;
   const {t} = useTranslation();
   const BusListScreenStyles = useMemo(
@@ -20,18 +15,18 @@ const BusListFun = props => {
     [Colors],
   );
 
-  const departureTime = new Date(item.departure_time).toLocaleTimeString([], {
+  const departureTime = new Date(item.DepartureTime).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   });
 
-  const arivalTime = new Date(item.arrival_time).toLocaleTimeString([], {
+  const arrivalTime = new Date(item.ArrivalTime).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   });
 
-  const depTime = new Date(item.departure_time).getTime();
-  const arrTime = new Date(item.arrival_time).getTime();
+  const depTime = new Date(item.DepartureTime).getTime();
+  const arrTime = new Date(item.ArrivalTime).getTime();
   const durationMs = arrTime - depTime;
 
   // Convert milliseconds to hours and minutes
@@ -41,16 +36,7 @@ const BusListFun = props => {
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: Colors.white_text_color,
-      // shadowColor: Colors.gray_text_color,
-      // shadowOffset: {
-      //   width: SW(0),
-      //   height: Platform.OS === 'ios' ? 2 : 5,
-      //   minHeight: '100%',
-      // },
-      // shadowOpacity: 1,
-      // shadowRadius: Platform.OS === 'ios' ? 2 : 50,
-      // elevation: Platform.OS === 'ios' ? 1 : 20,
+      backgroundColor: Colors.white_text_color,
       borderColor:Colors.theme_background,borderWidth:1,
       borderRadius: SW(10),
       padding: SH(20),
@@ -64,12 +50,12 @@ const BusListFun = props => {
               BusListScreenStyles.TravelCompanyText,
               {color: '#000', fontFamily:'Poppins-Medium',textTransform:'capitalize'},
             ]}>
-            {t(item.travel_name)}
+            {t(item.TravelName)}
           </Text>
           <Text style={{color: Colors.gray_text_color,
       fontSize: SF(12), paddingTop: SH(7),fontFamily:'Poppins-Regular',
       textTransform:'capitalize'}}>
-            {t(item.bus_type)}
+            {t(item.BusType)}
           </Text>
         </View>
         <View style={BusListScreenStyles.TextrightSet}>
@@ -78,7 +64,7 @@ const BusListFun = props => {
               BusListScreenStyles.MainPriceText,
               {color: '#000', fontFamily:'Poppins-Medium'},
             ]}>
-            ₹ {item.price}
+            ₹ {item.Price.BasePrice}
           </Text>
           {/* <Text style={BusListScreenStyles.DiscountAmountText}>
             ₹ {item.DiscountAmount}
@@ -90,7 +76,7 @@ const BusListFun = props => {
               name="brightness-percent"
               style={BusListScreenStyles.Percentaticon}
             />{' '}
-            {t(item.Off)}
+            {item.Price.OfferedPrice}
           </Text>
         </View>
       </View>
@@ -107,7 +93,7 @@ const BusListFun = props => {
         ]}>
         <View>
           <Text style={{color: '#000',fontSize: SF(14),paddingTop: SH(8),fontFamily:'Poppins-Medium'}}>
-            {t(item.available_seats)} Seats Left
+            {item.AvailableSeats} Seats Left
           </Text>
         </View>
         <View
@@ -119,7 +105,7 @@ const BusListFun = props => {
               BusListScreenStyles.BusComonStyle,
               {color: '#000', fontFamily:'Poppins-Medium'},
             ]}>
-            {departureTime}
+            {departureTime }
           </Text>
 
           <Fontisto
@@ -142,25 +128,11 @@ const BusListFun = props => {
                 color: '#000',
               },
             ]}>
-            {arivalTime}
+           {arrivalTime}
           </Text>
           <Text style={BusListScreenStyles.BusComonStyle}>({hours}h)</Text>
         </View>
       </View>
-      {/* <View style={BusListScreenStyles.LinkBox}>
-        <View style={BusListScreenStyles.RatingBox}>
-          <Text style={BusListScreenStyles.RatingText}>{item.rating}</Text>
-        </View>
-        <Text style={BusListScreenStyles.LinkBoxtext}>
-          {t(item.ratingCount)}
-        </Text>
-        <Text style={BusListScreenStyles.LinkBoxtext}>
-          {t(item.BordandDep)}
-        </Text>
-        <Text style={BusListScreenStyles.LinkBoxtext}>
-          {t(item.cancelpolicy)}
-        </Text>
-      </View> */}
     </TouchableOpacity>
   );
 };

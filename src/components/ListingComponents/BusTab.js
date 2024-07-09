@@ -18,7 +18,7 @@ import axios from 'axios';
 import {BUS_LIST, BUS_SEARCH} from '../../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
-import {setBusList, setTraceId} from '../../redux/action';
+import {setResultIndex, setTraceId} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 import {Calendar} from 'react-native-calendars';
 import Toast from 'react-native-toast-message';
@@ -67,7 +67,7 @@ const BusTab = props => {
     try {
       const res = await axios.get(BUS_LIST);
       const busListArr = res.data.data;
-      //  console.log('busListArr',busListArr);
+
       setBusData(Array.isArray(busListArr) ? busListArr : []);
     } catch (error) {
       console.error('error', error);
@@ -86,11 +86,14 @@ const BusTab = props => {
     const year = selectedDate.getFullYear();
     const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
     const day = String(selectedDate.getDate()).padStart(2, '0');
-   
+
+    // Concatenate the components to form the desired date format
     const formattedDate = `${year}-${month}-${day}`;
 
+    // Set the departDate state with the formatted date
     setDepartDate(formattedDate);
-    
+
+    // Ab yahan par API request bhej sakte ho, ya kuch aur actions perform kar sakte ho
   };
   // calendershow
 
@@ -103,76 +106,60 @@ const BusTab = props => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-     
+      // Make sure sourceCity, destinationCity, and departDate are set before making the API call
       if (sourceCity && destinationCity && departDate) {
         const payload = {
           source_city: sourceCity,
           destination_city: destinationCity,
           depart_date: departDate,
         };
-        console.log('Payload:', payload);
-  
+        console.log('payload', payload);
         const res = await axios.post(BUS_SEARCH, payload);
-        // const ReduxData=res.data;
-        // dispatch(setBusList(ReduxData));
-        // console.log('ReduxData',JSON.stringify(ReduxData));
-       
+        // console.log('bus search data ',res.data);
+        // Check if response status is successful
         if (res.status === 200) {
-          console.log('Response:', res.data);
-  
-          
-          const { TraceId, Result } = res.data;
-  
-          if (TraceId && Result) {
-            dispatch(setTraceId(TraceId));
-            navigation.navigate(RouteName.BUS_LIST_SCREEN, {
-              busData: Result,
-              sourceCity: sourceCity,
-              destinationCity: destinationCity,
-              departDate: departDate,
-            });
-          } else {
-            console.error('Error: TraceId or Result is missing in the response');
-            Toast.show({
-              type: 'error',
-              text1: 'Error: TraceId or Result is missing in the response',
-              text1Style: { color: '#000', fontSize: 12 },
-            });
-          }
+          console.log('check tradce is status', res.data.original_response);
+          const updateTraceIdonRedux = res.data.original_response.TraceId;
+          dispatch(setTraceId(updateTraceIdonRedux));
+          console.log('Trace Id ',updateTraceIdonRedux);
+          const ResultData=res.data.data.Result;
+           const ResultIndex=ResultData[0].ResultIndex;
+          // console.log('ResultIndex',ResultIndex);
+          dispatch(setResultIndex(ResultIndex));
+          console.log('Redux stored Result Index',ResultIndex);
+          // console.log('Result data',ResultIndex);
+          navigation.navigate(RouteName.BUS_LIST_SCREEN, {
+            busData: res.data.data.Result,
+            sourceCity: sourceCity,
+            destinationCity: destinationCity,
+            departDate: departDate,
+          });
         } else {
           console.error(
             'Error searching buses: Unexpected response status',
             res.status,
-            res.data
           );
-          Toast.show({
-            type: 'error',
-            text1: `Unexpected response status: ${res.status}`,
-            text1Style: { color: '#000', fontSize: 12 },
-          });
         }
       } else {
-        
+        // Handle case where required fields are not set
         Toast.show({
           type: 'error',
           text1:
             'Please select source city, destination city, and departure date.',
-          text1Style: { color: '#000', fontSize: 12 },
+          text1Style: {color: '#000', fontSize: 12},
         });
       }
     } catch (error) {
       Toast.show({
         type: 'error',
-        text1: 'Error searching buses',
-        text2: error.message,
-        text1Style: { color: '#000', fontSize: 12 },
+        text1: error,
+        text1Style: {color: '#000', fontSize: 12},
       });
       console.error('Error searching buses:', error);
     } finally {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     const filteredDataFrom = busData.filter(item =>

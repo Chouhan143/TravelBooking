@@ -12,7 +12,6 @@ import images from '../../../index';
 import { ScrollView } from 'react-native-virtualized-view';
 import axios, { Axios } from 'axios';
 import { OFFERS_DATA } from '../../../utils/BaseUrl';
-
 const HomeTab = props => {
   const { t } = useTranslation();
   const { navigation } = props;

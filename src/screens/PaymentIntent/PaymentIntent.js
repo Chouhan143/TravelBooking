@@ -13,13 +13,14 @@ import axios from 'axios';
 import {sha256} from 'react-native-sha256';
 import base64 from 'react-native-base64';
 import uuid from 'react-native-uuid';
+import HotelPayment from '../HotelScreen/HotelPayment';
 
 const PaymentScreen = () => {
   const [sdkInitialized, setSdkInitialized] = useState(false);
   const [phonePeInstalled, setPhonePeInstalled] = useState(false);
   const [gPayInstalled, setGPayInstalled] = useState(false);
   const [paytmInstalled, setPaytmInstalled] = useState(false);
-  const [merchantId, setMerchantId] = useState(null);
+  const [merchantId, setMerchantId] = useState(null);HotelPayment
   const [merchantTransactionId, setMerchantTransactionId] = useState(null);
 
   useEffect(() => {

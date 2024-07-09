@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Text, View, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {BusListScreenStyle} from '../../styles';
 import {RouteName} from '../../routes';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {get_data_action} from '../../redux/action/CommonAction';
 import {useTranslation} from 'react-i18next';
 import {useNavigation, useTheme} from '@react-navigation/native';
@@ -15,7 +15,8 @@ const BusListScreen = props => {
   const navigation = useNavigation();
   const {busData, destinationCity, sourceCity, departDate} = route.params;
   const [travelingDate, setTravelingDate] = useState('');
-  console.log('busData',busData);
+  const TraceId=useSelector(state=>state.commomReducer.traceId);
+  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
   useEffect(() => {
     const updatedDate = new Date(departDate);
     const options = {
@@ -40,11 +41,11 @@ const BusListScreen = props => {
     // Dispatch action to store selected item data
     dispatch(get_data_action(item));
 
-    console.log('bustype', item.bus_type);
+    console.log('bustype', item.BusType);
 
     navigation.navigate(RouteName.BUS_SEAT_SCREEN, {
-      traceId: item.trace_id,
-      indexResult: item.result_index,
+      traceId:TraceId,
+      indexResult:ResultIndex,
     });
   };
 
@@ -78,7 +79,6 @@ const BusListScreen = props => {
               <View>
                 <FlatList
                   data={busData}
-                
                   renderItem={({item, index}) => (
                     <BusListFun
                       item={item}

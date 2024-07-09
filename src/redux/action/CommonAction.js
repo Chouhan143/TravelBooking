@@ -324,7 +324,9 @@ import {
   SET_BOOK_DETAILS,
   SET_MOBILE_NUMBER,
   SET_OTP,
-  SET_BUS_LIST
+  SET_BUS_LIST,
+  SET_TOTAL_HOTEL_PRICE,
+  SET_RESULT_INDEX,
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -334,10 +336,9 @@ export const color_picker_set_action = data => dispatch => {
 export const get_data_action = data => dispatch => {
   dispatch({type: DATA_DETAILES_TYPE, detailsStore: data});
 };
-
 export const tab_action = id => dispatch => {
-  dispatch({type: TAB_ID_TYPE, tabid: id});
-};
+    dispatch({type: TAB_ID_TYPE, tabid: id});
+  };
 
 export const ticket_type_action = data => dispatch => {
   dispatch({type: TICKET_DATA_TYPE, TicketData: data});
@@ -356,10 +357,12 @@ export const logout = () => {
   };
 };
 
-export const setMobileNumber = (mobileNumber) => ({
-  type: SET_MOBILE_NUMBER,
-  payload: mobileNumber,
-});
+export const setMobileNumber = (mobileNumber) => {
+  return {
+      type: SET_MOBILE_NUMBER,
+      mobileNumber: mobileNumber,
+  };
+};
 
 export const setOtp = (otp) => ({
   type: SET_OTP,
@@ -369,7 +372,10 @@ export const setTraceId = traceId => ({
   type: SET_TRACE_ID,
   traceId: traceId,
 });
-
+export const setResultrIndex = ResultIndex => ({
+  type: SET_RESULT_INDEX,
+  ResultIndex: ResultIndex,
+});
 export const updateSelectedSeats = selectedSeats => ({
   type: 'UPDATE_SELECTED_SEATS',
   payload: selectedSeats,
@@ -378,6 +384,10 @@ export const updateSelectedSeats = selectedSeats => ({
 export const updateTotalPrice = totalPrice => ({
   type: UPDATE_TOTAL_PRICE,
   payload: totalPrice,
+});
+export const setHotelTotalPrice = totalHotelPrice => ({
+  type: SET_TOTAL_HOTEL_PRICE,
+  payload: totalHotelPrice,
 });
 
 export const addPassenger = passenger => ({

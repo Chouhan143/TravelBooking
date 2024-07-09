@@ -179,8 +179,8 @@ const DropingPoint = () => {
     setSelectedItem(item);
     dispatch(selectDroppingPoint(item));
     // Navigate to another screen upon selecting a boarding point
-    // navigation.navigate(RouteName.PASSANGER_INFORMATION, {selectedItem: item});
-    navigation.navigate(RouteName.PAYMENT_INTENT);
+    navigation.navigate(RouteName.PASSANGER_INFORMATION, {selectedItem: item});
+    
   };
 
   return (
