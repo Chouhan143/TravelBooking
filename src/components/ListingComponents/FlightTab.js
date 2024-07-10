@@ -56,36 +56,26 @@ const FlightTab = props => {
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
   const [departureDate, setDepartureDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
-  const [isDestinationCityFocused, setIsDestinationCityFocused] =useState(false);
+
+  const [isDestinationCityFocused, setIsDestinationCityFocused] =
+    useState(false);
 
   const RadioData = [
     {label: t('Economy'), value: '1'},
     {label: t('Premium_Economy'), value: '2'},
     {label: t('Business'), value: '3'},
   ];
-  const formatDateTime = date => {
-    const d = new Date(date);
-    const yyyy = d.getFullYear();
-    const mm = (`0${d.getMonth() + 1}`).slice(-2);
-    const dd = (`0${d.getDate()}`).slice(-2);
-    const hh = (`0${d.getHours()}`).slice(-2);
-    const min = (`0${d.getMinutes()}`).slice(-2);
-    const ss = (`0${d.getSeconds()}`).slice(-2);
-    return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}`;
-  };
 
   useEffect(() => {
     const flightCity = async () => {
       try {
         const res = await getData(FLIGHT_CITY_LIST);
-        // console.log('FlightList',res.data);
-        const ResultData=res.data;
-        const transformedData = ResultData.map(airport => ({
+
+        const transformedData = res.data.map(airport => ({
           label: airport.airport_city_name,
           cityCode: airport.airport_city_code,
           value: airport.airport_id.toString(),
         }));
-        console.log('transformedData',transformedData);
         setCityData(transformedData);
       } catch (error) {
         console.log('error >', error);
@@ -97,30 +87,20 @@ const FlightTab = props => {
   const handleFlightSearch = () => {
     let segments = [
       {
-        // Origin: sourceCityCode,
-        // Destination: destinationCityCode,
-        // FlightCabinClass: state.FloorNumber,
-        // PreferredDepartureTime: `${departureDate}T00:00:00`,
-        // PreferredArrivalTime: `${departureDate}T01:00:00`,
         Origin: sourceCityCode,
         Destination: destinationCityCode,
         FlightCabinClass: state.FloorNumber,
-        PreferredDepartureTime: formatDateTime(`${departureDate}T00:00:00`),
-        PreferredArrivalTime: formatDateTime(`${departureDate}T01:00:00`),
+        PreferredDepartureTime: `${departureDate}T00:00:00`,
+        PreferredArrivalTime: `${departureDate}T01:00:00`,
       },
     ];
     if (tabTrip === '2') {
       segments.push({
-        // Origin: destinationCityCode,
-        // Destination: sourceCityCode,
-        // FlightCabinClass: state.FloorNumber,
-        // PreferredDepartureTime: `${returnDate}T00:00:00`,
-        // PreferredArrivalTime: `${returnDate}T01:00:00`,
         Origin: destinationCityCode,
         Destination: sourceCityCode,
         FlightCabinClass: state.FloorNumber,
-        PreferredDepartureTime: formatDateTime(`${returnDate}T00:00:00`),
-        PreferredArrivalTime: formatDateTime(`${returnDate}T01:00:00`),
+        PreferredDepartureTime: `${returnDate}T00:00:00`,
+        PreferredArrivalTime: `${returnDate}T01:00:00`,
       });
     }
     const payload = {
@@ -142,16 +122,11 @@ const FlightTab = props => {
       JourneyType: tabTrip,
       Segments: [
         {
-          // Origin: sourceCityCode,
-          // Destination: destinationCityCode,
-          // FlightCabinClass: state.FloorNumber,
-          // PreferredDepartureTime: `${departureDate}T00:00:00`,
-          // PreferredArrivalTime: `${departureDate}T01:00:00`,
           Origin: sourceCityCode,
           Destination: destinationCityCode,
           FlightCabinClass: state.FloorNumber,
-          PreferredDepartureTime: formatDateTime(`${departureDate}T00:00:00`),
-          PreferredArrivalTime: formatDateTime(`${departureDate}T01:00:00`),
+          PreferredDepartureTime: `${departureDate}T00:00:00`,
+          PreferredArrivalTime: `${departureDate}T01:00:00`,
         },
       ],
     };
