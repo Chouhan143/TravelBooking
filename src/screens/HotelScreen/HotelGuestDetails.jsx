@@ -265,7 +265,7 @@ export default function HotelGuestDetails() {
               <Text style={styles.inputLabel}>first name </Text>
               <Entypo name={'star'} color='red' size={15} /></View>
 
-            <TextInput style={styles.input} onChangeText={setFirstName}
+            <TextInput style={styles.input} onChangeText={setFirstName} keyboardType="name-phone-pad"
              />
             {showError && !firstName && <Text style={styles.errorText}>Please enter your first name.</Text>}
           </View>
@@ -274,7 +274,7 @@ export default function HotelGuestDetails() {
               <Text style={styles.inputLabel}>last name  </Text>
               <Entypo name={'star'} color='red' size={15} /></View>
 
-            <TextInput style={styles.input} onChangeText={setLastName} />
+            <TextInput style={styles.input} onChangeText={setLastName} keyboardType="name-phone-pad"/>
             {showError && !lastName && <Text style={styles.errorText}>Please enter your last name .</Text>}
           </View>
           <View style={{ marginVertical: SH(10) }}>
@@ -283,7 +283,7 @@ export default function HotelGuestDetails() {
               <Entypo name={'star'} color='red' size={15} />
             </View>
 
-            <TextInput style={styles.input} onChangeText={setEmail} />
+            <TextInput style={styles.input} onChangeText={setEmail} keyboardType="email-address"/>
             {showError && !email && <Text style={styles.errorText}>Please enter your email .</Text>}
             <Text style={{ color: 'black' }}>confirmation email sent to this mail address </Text>
           </View>
@@ -293,7 +293,7 @@ export default function HotelGuestDetails() {
               <Entypo name={'star'} color='red' size={15} />
             </View>
 
-            <TextInput style={styles.input} onChangeText={setCountry} />
+            <TextInput style={styles.input} onChangeText={setCountry} keyboardType="name-phone-pad" />
             {showError && !country && <Text style={styles.errorText}>Please enter your country.</Text>}
           </View>
 

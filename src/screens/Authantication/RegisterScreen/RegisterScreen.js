@@ -98,6 +98,7 @@ const RegisterScreen = () => {
           style={styles.input}
           value={email}
           onChangeText={setEmail}
+           keyboardType="email-address"
         />
         <TextInput
           placeholder="Enter your Name"
@@ -105,6 +106,7 @@ const RegisterScreen = () => {
           style={styles.input}
           value={fullname}
           onChangeText={setFullName}
+           keyboardType="name-phone-pad"
         />
         <TextInput
           placeholder="Enter your Referral Code (Optional)"
