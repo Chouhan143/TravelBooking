@@ -1,25 +1,25 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Flight_SEARCH} from '../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../routes';
 import {storeFlightData} from '../redux/action';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-
+import { Flight_SEARCH } from '../utils/BaseUrl';
 const useFlightSearch = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [errors, setErrors] = useState(null); // State to hold errors
   const [loading, setLoading] = useState(false);
 
-  const FsearchData = async payload => {
+  const FsearchData = async searchPayload => {
     setLoading(true);
     setErrors(null);
 
     try {
-      const res = await axios.post(Flight_SEARCH, payload);
+      const res = await axios.post(Flight_SEARCH, searchPayload);
+      // console.log('search flight data ',res.data);
       if (res.status === 200) {
         dispatch(storeFlightData(res.data, res.data.Results));
         const test1 = res?.data?.Results?.flat();
@@ -31,7 +31,7 @@ const useFlightSearch = () => {
           }),
         );
         navigation.navigate(RouteName.FLIGHT_LIST_SCREEN, {
-          searchParams: payload,
+          searchParams: searchPayload,
         });
       } else {
         // Handle case where required fields are not set

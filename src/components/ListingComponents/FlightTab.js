@@ -30,8 +30,10 @@ import FlightDatePicker from '../commonComponents/FlightDatePicker';
 
 const FlightTab = props => {
   const {t} = useTranslation();
-  const {FsearchData, errors, loading} = useFlightSearch();
+  const {FsearchData} = useFlightSearch();
   const {calendarDataGet} = useFlightGetCalendar();
+  const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {onPress, tabTrip, setTabTrip} = props;
   const {Colors} = useTheme();
   const dispatch = useDispatch();
@@ -103,15 +105,30 @@ const FlightTab = props => {
         PreferredArrivalTime: `${returnDate}T01:00:00`,
       });
     }
-    const payload = {
+    const searchPayload = {
       AdultCount: state.AdultCount,
       ChildCount: state.ChildCount,
       InfantCount: state.InfantCount,
-      JourneyType: tabTrip,
-      Segments: segments,
+      // JourneyType: tabTrip,
+      // Segments: segments,
+    //   "AdultCount": "1",
+    // "ChildCount": "0",
+    // "InfantCount": "0",
+    "JourneyType": "1",
+    
+    "Segments": [
+        {
+            "Origin": "LKO",
+            "Destination": "KWI",
+            "FlightCabinClass": "1",
+            "PreferredDepartureTime": "2024-07-11T00:00:00",
+            "PreferredArrivalTime": "2024-07-11T00:00:00"
+        }
+    ]
     };
-    FsearchData(payload);
-    dispatch(flightSearchPayload(payload));
+    FsearchData(searchPayload);
+    console.log('search payload',searchPayload);
+    dispatch(flightSearchPayload(searchPayload));
 
     // calender payload send in api request
 

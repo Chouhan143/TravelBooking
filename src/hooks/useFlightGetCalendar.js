@@ -16,7 +16,7 @@ const useFlightGetCalendar = () => {
     setErrors(null);
     try {
       const res = await axios.post(FLIGHT_GET_CALENDAR, calendarPayload);
-      //   console.log('date calender', res);
+      console.log('date calender', res);
       if (res.status === 200) {
         dispatch(getCalenderData(res.data.Results));
 

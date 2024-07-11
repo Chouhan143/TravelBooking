@@ -186,7 +186,7 @@ const FlightListScreen = props => {
       };
 
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
-
+       console.log('FLIGHT_FARE_QUOTE',res.data);
       dispatch(flightFareQutesData(res.data.Results));
 
       setFlightBottomData(res.data.Results);

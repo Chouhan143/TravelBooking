@@ -68,6 +68,7 @@ const Seat = ({route}) => {
     try {
       setLoading(true);
       const res = await axios.post(FLIGHT_SEAT_MAP, payload);
+      console.log('FLIGHT_SEAT_MAP',res.data);
       const seatData = res.data.Results || [];
       setSeatData(seatData);
       // console.log('seat res:', seatData);
