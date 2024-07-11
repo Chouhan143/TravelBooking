@@ -33,12 +33,6 @@ const FlightMobileSelect = props => {
             />{' '}
             {t(item.Cityto)}
           </Text>
-          <Text style={{color: Colors.theme_background,
-        fontSize: SF(15),
-        lineHeight: 16,
-        paddingTop: SH(5),}}>
-            {t(item.CardType)}
-          </Text>
         </View>
       </View>
     </View>

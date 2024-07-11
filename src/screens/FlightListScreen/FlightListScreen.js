@@ -123,7 +123,6 @@ const FlightListScreen = props => {
       img: images.HomeViIcon,
       Cityfrom: flightTraceIdDetails.Destination,
       Cityto: flightTraceIdDetails.Origin,
-      CardType: 'Mon_Text',
     },
   ];
 

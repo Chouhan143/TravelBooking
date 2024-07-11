@@ -116,13 +116,13 @@ const FlightTab = props => {
     // "InfantCount": "0",
     "JourneyType": "1",
     
-    "Segments": [
+    Segments: [
         {
-            "Origin": "LKO",
-            "Destination": "KWI",
-            "FlightCabinClass": "1",
-            "PreferredDepartureTime": "2024-07-11T00:00:00",
-            "PreferredArrivalTime": "2024-07-11T00:00:00"
+           Origin: sourceCityCode,
+          Destination: destinationCityCode, 
+          FlightCabinClass: state.FloorNumber,
+            PreferredDepartureTime: `${departureDate}T00:00:00`,
+            PreferredArrivalTime: `${departureDate}T01:00:00`,
         }
     ]
     };
@@ -140,7 +140,7 @@ const FlightTab = props => {
       Segments: [
         {
           Origin: sourceCityCode,
-          Destination: destinationCityCode,
+          Destination: destinationCityCode,  
           FlightCabinClass: state.FloorNumber,
           PreferredDepartureTime: `${departureDate}T00:00:00`,
           PreferredArrivalTime: `${departureDate}T01:00:00`,
