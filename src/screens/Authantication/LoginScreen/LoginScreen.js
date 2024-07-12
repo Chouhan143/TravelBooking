@@ -30,7 +30,7 @@ const LoginScreen = () => {
             text2: `Welcome ${LoginStatus.user.name || ''}`,
           });
          
-          navigation.navigate(RouteName.HOME_SCREEN_TAB_ALL); 
+          navigation.navigate("Root"); 
         } else {
           Toast.show({
             type: 'error',

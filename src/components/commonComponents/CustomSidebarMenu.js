@@ -25,7 +25,7 @@ const CustomSidebarMenu = props => {
   };
   const onoknutton = () => {
     dispatch(logout());
-    navigation.navigate(RouteName.LOGIN_SCREEN);
+    navigation.navigate(RouteName.OTP_VERIFY_SCREEN);
   };
   const Onpressfunction = e => {
     navigation.toggleDrawer();

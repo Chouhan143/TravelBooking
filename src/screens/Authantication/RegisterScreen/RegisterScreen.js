@@ -40,32 +40,41 @@ const RegisterScreen = () => {
       referral: referral || '', // Referral is optional
     };
 
-    try {
-      const response = await axios.post('https://app.sajpe.in/api/v1/user/login', payload);
-      const RegisterStatus = response.data;
-      console.log('Register Status', RegisterStatus);
-
-      if (RegisterStatus.message === 'Register successfully') {
-        Toast.show({
-          type: 'success',
-          text1: 'Register Successfully'
-        });
-        navigation.navigate(RouteName.LOGIN_SCREEN);
-      } else {
+      try {
+        const response = await axios.post('https://app.sajpe.in/api/v1/user/login', payload);
+        const RegisterStatus = response.data;
+        // console.log('LoginStatus', LoginStatus);
+  
+        if (RegisterStatus.status) {
+          if (RegisterStatus.message === 'Login successfully.') {
+            Toast.show({
+              type: 'success',
+              text1: 'Register Successfully',
+              text2: `Welcome ${RegisterStatus.user.name || ''}`,
+            });
+           
+            navigation.navigate(RouteName.LOGIN_SCREEN); 
+          } else {
+            Toast.show({
+              type: 'error',
+              text1: RegisterStatus.message || 'Login failed',
+            });
+          }
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed',
+            text2: 'Please check your credentials and try again.',
+          });
+        }
+      } catch (error) {
         Toast.show({
           type: 'error',
-          text1: 'Registration Failed',
-          text2: RegisterStatus.message || 'An error occurred',
+          text1: 'Login failed',
+          text2: error.response?.data?.message || 'Please try again',
         });
+        console.log('error', error);
       }
-    } catch (error) {
-      console.error('Error during registration', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'An error occurred while registering. Please try again.',
-      });
-    }
   };
 
   return (

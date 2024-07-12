@@ -27,6 +27,11 @@ import {
   BusSelectScreen,
   BoardingDroping,
   PassengerInformation,
+  HelpScreen,
+  SettingsScreen,
+  FAQScreen,
+  ReviewsScreen,
+  NotificationScreen,
 } from '../screens';
 import ReviewBooking from '../screens/BusScreen/ReviewBooking';
 import FlightDetails from '../screens/FlightListScreen/FlightDetails';
@@ -45,7 +50,7 @@ import ReviewBusTicketStatus from '../screens/TicketScreen/ReviewBusTicketStatus
 import ReviewFlightTicketStatus from '../screens/TicketScreen/ReviewFlightTicketStatus';
 import ReviewHotelTicketStatus from '../screens/TicketScreen/ReviewHotelTicketStatus';
 import HomeTab from '../screens/Home/Tab/HomeTab';
-import { HomeScsreenTabAll } from './TabNavigator';
+import Root, { HomeScsreenTabAll } from './TabNavigator';
 import { ROOM_COUNTERS_DECREMENT } from '../redux/actiontypes';
 import OtpVerifyScreen from '../screens/Authantication/OtpVerifyScreen/OtpVerifyScreen';
 import Toast from 'react-native-toast-message';
@@ -85,14 +90,10 @@ const RootNavigator = props => {
     <NavigationContainer theme={colorValue} >
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={RouteName.SWIPER_SCREEN}>
     <Stack.Screen
-      name={RouteName.HOME_SCREEN_TAB_ALL}
-      component={HomeScsreenTabAll}
-    />
-    <Stack.Screen
-    name={RouteName.HOME_TAB}
-    component={HomeTab}
+    name={"Root"}
+    component={Root}
   />
-          <Stack.Screen
+        <Stack.Screen
             name={RouteName.SIDE_NAVIGATOR}
             component={SideNavigator}
           />
@@ -270,7 +271,26 @@ const RootNavigator = props => {
               name={RouteName.SELECT_LANGUAGE}
               component={TranslationScreen}
             />
-          
+            <Stack.Screen
+            name={RouteName.HELP_SCREEN}
+            component={HelpScreen}
+          />
+          <Stack.Screen
+          name={RouteName.SETTING_SCREEN}
+          component={SettingsScreen}
+        />
+        <Stack.Screen
+        name={RouteName.FAQ_SCREEN}
+        component={FAQScreen}
+      />
+      <Stack.Screen
+      name={RouteName.REVIEWS_SCREEN}
+      component={ReviewsScreen}
+    />
+    <Stack.Screen
+      name={RouteName.NOTIFICTION_SCREEN}
+      component={NotificationScreen}
+    />
       </Stack.Navigator>
  
     </NavigationContainer>

@@ -58,7 +58,7 @@ const ColorPickerset = (props) => {
               <View style={ColorPickerStyles.setbuttonwidth}>
                 <Button title={t("Ok")}
                   buttonStyle={{ backgroundColor: Colors.theme_background }}
-                  onPress={() => { setModalVisible(false); Platform.OS === 'ios' ? navigation.navigate(RouteName.SIDE_NAVIGATOR) : navigation.replace(RouteName.SIDE_NAVIGATOR) }}
+                  onPress={() => { setModalVisible(false); Platform.OS === 'ios' ? navigation.navigate("Root") : navigation.replace("Root") }}
                 />
               </View>
             </View>
