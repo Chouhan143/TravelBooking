@@ -5,6 +5,7 @@ import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { RouteName } from '../../../routes';
 import axios from 'axios';
+import { REGISTER_ENDPOINT } from '../../../utils/BaseUrl';
 
 const RegisterScreen = () => {
   const [mobile, setMobile] = useState('');
@@ -41,36 +42,36 @@ const RegisterScreen = () => {
     };
 
       try {
-        const response = await axios.post('https://app.sajpe.in/api/v1/user/login', payload);
+        const response = await axios.post(REGISTER_ENDPOINT, payload);
         const RegisterStatus = response.data;
         // console.log('LoginStatus', LoginStatus);
   
         if (RegisterStatus.status) {
           if (RegisterStatus.message === 'Login successfully.') {
-            Toast.show({
-              type: 'success',
-              text1: 'Register Successfully',
-              text2: `Welcome ${RegisterStatus.user.name || ''}`,
-            });
+            // Toast.show({
+            //   type: 'success',
+            //   text1: 'Register Successfully',
+            //   text2: `Welcome ${RegisterStatus.user.name || ''}`,
+            // });
            
             navigation.navigate(RouteName.LOGIN_SCREEN); 
           } else {
             Toast.show({
               type: 'error',
-              text1: RegisterStatus.message || 'Login failed',
+              // text1: RegisterStatus.message || 'Login failed',
             });
           }
         } else {
           Toast.show({
             type: 'error',
-            text1: 'Login failed',
+            text1: 'Register failed',
             text2: 'Please check your credentials and try again.',
           });
         }
       } catch (error) {
         Toast.show({
           type: 'error',
-          text1: 'Login failed',
+          text1: 'Register failed',
           text2: error.response?.data?.message || 'Please try again',
         });
         console.log('error', error);

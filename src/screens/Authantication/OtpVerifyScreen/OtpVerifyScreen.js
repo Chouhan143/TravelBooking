@@ -10,6 +10,7 @@ import Toast from 'react-native-toast-message';
 import { setOtp } from '../../../redux/action';
 import { useDispatch } from 'react-redux';
 import { setMobileNumber } from '../../../redux/action';
+import { OTP_VERYFY_ENDPOINT } from '../../../utils/BaseUrl';
 const OtpVerifyScreen = () => {
   const [otp, Setotp] = useState('');
   const [deviceId, setDeviceId] = useState('');
@@ -31,7 +32,7 @@ const OtpVerifyScreen = () => {
       mobile: mobile,
     };
     try {
-      const response = await axios.post('https://app.sajpe.in/api/v1/user/send_otp', payload);
+      const response = await axios.post(OTP_VERYFY_ENDPOINT, payload);
       const result = response.data;
       Setotp(result.otp);
       dispatch(setOtp(result.otp));

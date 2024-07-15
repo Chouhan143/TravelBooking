@@ -1,8 +1,13 @@
-const BASE_URL = 'https://srninfotech.com/projects/travel-app/api';
-const LOGIN_ENDPOINT = `${BASE_URL}/login`;
-const REGISTER_ENDPOINT = `${BASE_URL}/register`;
-const OTP_VERYFY_ENDPOINT = `${BASE_URL}/checkotp`;
-const RESEND_OTP = `${BASE_URL}/resend-otp`;
+const BASE_URL = 'https://sajyatra.sajpe.in/admin/api';
+const Auth_Base_Url='https://app.sajpe.in/api/v1/user';
+
+
+const LOGIN_ENDPOINT = `${Auth_Base_Url}/login`;
+const REGISTER_ENDPOINT = `${Auth_Base_Url}/login`;
+const OTP_VERYFY_ENDPOINT = `${Auth_Base_Url}/send_otp`;
+
+
+// const RESEND_OTP = `${BASE_URL}/resend-otp`;
 const BUS_LIST = `${BASE_URL}/bus_list`;
 const UPDATE_NUMBER = `${BASE_URL}/update_number`;
 const BUS_SEARCH = `${BASE_URL}/searchBus`;
@@ -47,7 +52,7 @@ export {
   HOTEL_INFO,
   HOTEL_BLOCK,
   HOTEL_ROOM_DETAILS,
-  RESEND_OTP,
+  // RESEND_OTP,
   HOTEL_BOOK,
   BOOKING_SEAT
 };

@@ -1,14 +1,12 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View ,Image, ScrollView} from 'react-native';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Colors, SH, SW, SF } from '../../../utils';
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
-import { RouteName } from '../../../routes';
 import axios from 'axios';
 import images from '../../../index'
+import { LOGIN_ENDPOINT } from '../../../utils/BaseUrl';
 const LoginScreen = () => {
-  const reduxOtp = useSelector(state => state.commomReducer.otp);
   const [otp, setOtp] = useState('');
   const navigation = useNavigation();
   const [mobile, setMobile] = useState('');
@@ -18,7 +16,7 @@ const LoginScreen = () => {
       otp: otp,
     };
     try {
-      const response = await axios.post('https://app.sajpe.in/api/v1/user/login', payload);
+      const response = await axios.post(LOGIN_ENDPOINT, payload);
       const LoginStatus = response.data;
       console.log('LoginStatus', LoginStatus);
 
