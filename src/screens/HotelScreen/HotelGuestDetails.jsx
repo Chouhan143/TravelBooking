@@ -15,6 +15,8 @@ import { HOTEL_BOOK } from '../../utils/BaseUrl';
 import { setBookingDetails } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-toast-message';
+import RazorpayCheckout from 'react-native-razorpay';
+import { Alert } from 'react-native';
 export default function HotelGuestDetails() {
     const route = useRoute();
   const { room } = route.params;
@@ -35,105 +37,206 @@ export default function HotelGuestDetails() {
   const [country, setCountry] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showError, setShowError] = useState(false);
-  const [bookingStatus,SetBookingStatus]=useState(null);
+  const [loading,setLoading]=useState(null);
   let moreHandler = () => {
     setMore(!more);
   };
 
-  const BookingConfirmed = async () => {
-    try {
-      const payload = {
-        ResultIndex: 9,
-        HotelCode: "341089",
-        HotelName: "The Manor",
-        NoOfRooms: "1",
-        HotelRoomsDetails: [
-          {
-            RoomId: 0,
-            RoomIndex: 4,
-            Price: {
-              PublishedPrice: 15464.3,
-            },
-          },
-        ],
-        LastCancellationDate: "2020-04-16T23:59:59",
-        CancellationPolicies: [
-          {
-            Charge: 1658,
-            ChargeType: 1,
-            Currency: "INR",
-            FromDate: "2020-04-17T00:00:00",
-            ToDate: "2020-04-20T23:59:59"
-          },
-          {
-            Charge: 100,
-            ChargeType: 2,
-            Currency: "INR",
-            FromDate: "2020-04-21T00:00:00",
-            ToDate: "2020-05-01T23:59:59"
-          },
-          {
-            Charge: 100,
-            ChargeType: 2,
-            Currency: "INR",
-            FromDate: "2020-04-30T00:00:00",
-            ToDate: "2020-05-01T00:00:00"
-          }
-        ],
-        CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
-        SrdvIndex: "65",
-        SrdvType: "SingleTB",
-        TraceId: "1",
-      };
+  // const BookingConfirmed = async () => {
+  //   try {
+  //     const payload = {
+  //       ResultIndex: 9,
+  //       HotelCode: "341089",
+  //       HotelName: "The Manor",
+  //       NoOfRooms: "1",
+  //       HotelRoomsDetails: [
+  //         {
+  //           RoomId: 0,
+  //           RoomIndex: 4,
+  //           Price: {
+  //             PublishedPrice: 15464.3,
+  //           },
+  //         },
+  //       ],
+  //       LastCancellationDate: "2020-04-16T23:59:59",
+  //       CancellationPolicies: [
+  //         {
+  //           Charge: 1658,
+  //           ChargeType: 1,
+  //           Currency: "INR",
+  //           FromDate: "2020-04-17T00:00:00",
+  //           ToDate: "2020-04-20T23:59:59"
+  //         },
+  //         {
+  //           Charge: 100,
+  //           ChargeType: 2,
+  //           Currency: "INR",
+  //           FromDate: "2020-04-21T00:00:00",
+  //           ToDate: "2020-05-01T23:59:59"
+  //         },
+  //         {
+  //           Charge: 100,
+  //           ChargeType: 2,
+  //           Currency: "INR",
+  //           FromDate: "2020-04-30T00:00:00",
+  //           ToDate: "2020-05-01T00:00:00"
+  //         }
+  //       ],
+  //       CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
+  //       SrdvIndex: "65",
+  //       SrdvType: "SingleTB",
+  //       TraceId: "1",
+  //     };
   
-      if (!firstName || !lastName || !email || !country || !phoneNumber) {
+  //     if (!firstName || !lastName || !email || !country || !phoneNumber) {
+  //       setShowError(true);
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: 'Missing Information',
+  //         text2: 'Please fill out all required fields.',
+  //         textStyle: { color: 'red', fontSize: 12 },
+  //       });
+  //       return; // Return early if fields are missing
+  //     }
+  
+  //     setShowError(false);
+  //     const response = await axios.post(HOTEL_BOOK, payload);
+  //     const BookingResult = response.data;
+  //     dispatch(setBookingDetails(BookingResult));
+  //     console.log('BookingResult', BookingResult);
+  
+  //     const { HotelBookingStatus } = BookingResult.BookResult;
+  //     SetBookingStatus(HotelBookingStatus);
+  
+  //     if (HotelBookingStatus === 'Confirmed') {
+  //       Toast.show({
+  //         type: 'success',
+  //         text1: 'Booking Confirmed',
+  //         text2: 'Your booking has been confirmed!',
+  //         textStyle: { color: 'green', fontSize: 12 },
+  //       });
+  //   navigation.navigate(RouteName.HOTEL_PAYMENT);
+  //     } else {
+  //       navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: 'Booking Not Confirmed',
+  //         text2: 'Your booking could not be confirmed.',
+  //         textStyle: { color: 'red', fontSize: 12 },
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error);
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: 'Error',
+  //       text2: 'An error occurred during booking.',
+  //       textStyle: { color: 'red', fontSize: 12 },
+  //     });
+  //   }
+  // };
+  const handlePayment = async () => {
+    if (!firstName || !lastName || !email || !country || !phoneNumber) {
         setShowError(true);
         Toast.show({
-          type: 'error',
-          text1: 'Missing Information',
-          text2: 'Please fill out all required fields.',
-          textStyle: { color: 'red', fontSize: 12 },
+            type: 'error',
+            text1: 'Missing Information',
+            text2: 'Please fill out all required fields.',
+            textStyle: { color: 'red', fontSize: 12 },
         });
-        return; // Return early if fields are missing
-      }
-  
-      setShowError(false);
-      const response = await axios.post(HOTEL_BOOK, payload);
-      const BookingResult = response.data;
-      dispatch(setBookingDetails(BookingResult));
-      console.log('BookingResult', BookingResult);
-  
-      const { HotelBookingStatus } = BookingResult.BookResult;
-      SetBookingStatus(HotelBookingStatus);
-  
-      if (HotelBookingStatus === 'Confirmed') {
-        Toast.show({
-          type: 'success',
-          text1: 'Booking Confirmed',
-          text2: 'Your booking has been confirmed!',
-          textStyle: { color: 'green', fontSize: 12 },
-        });
-    navigation.navigate(RouteName.HOTEL_PAYMENT);
-      } else {
-        navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
-        Toast.show({
-          type: 'error',
-          text1: 'Booking Not Confirmed',
-          text2: 'Your booking could not be confirmed.',
-          textStyle: { color: 'red', fontSize: 12 },
-        });
-      }
-    } catch (error) {
-      console.log('error', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'An error occurred during booking.',
-        textStyle: { color: 'red', fontSize: 12 },
-      });
+        return;
     }
-  };
 
+    setShowError(false);
+    setLoading(true);
+
+    try {
+        // Example: Creating a payment intent using a provided API
+        // Uncomment and modify the below code if you need to create a payment intent from your server
+        // const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', {
+        //     amount: TotalHotelPrice.toString(),
+        //     user_id: "1"
+        // });
+
+        // Extracting the payment details and Razorpay key from the response
+        // const { razorpay_key, payment_details } = paymentIntentResponse.data;
+
+        const options = {
+            key: 'rzp_test_yc7TRZTpita9FD', // Replace with your Razorpay key
+            amount: parseInt(TotalHotelPrice) * 100, // Convert to smallest currency unit
+            currency: 'INR',
+            name: 'Your Company Name',
+            description: 'Payment for Booking',
+            image: 'https://yourcompany.com/logo.png', // Replace with your logo URL
+            prefill: {
+                email: email, // Use customer email
+                contact: phoneNumber, // Use customer phone number
+                name: `${firstName} ${lastName}` // Use customer name
+            },
+            theme: {
+                color: '#F37254'
+            }
+        };
+
+        RazorpayCheckout.open(options)
+            .then((data) => {
+                // Handle success
+                console.log(`Success: ${data.razorpay_payment_id}`);
+                Alert.alert(`Success: ${data.razorpay_payment_id}`);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Payment Successful',
+                    text2: `Payment ID: ${data.razorpay_payment_id}`
+                });
+                // Call the hotel response API only after successful payment
+                // updateHotelPaymentStatus(data.razorpay_payment_id);
+            })
+            .catch((error) => {
+                // Handle failure
+                console.error(`Error: ${error.code} | ${error.description}`);
+                Toast.show({
+                    type: 'error',
+                    text1: 'Payment Failed',
+                    text2: `${error.description}`
+                });
+                setLoading(false);
+            });
+    } catch (error) {
+        console.error('Payment initiation failed:', error);
+        Toast.show({
+            type: 'error',
+            text1: 'Payment Error',
+            text2: 'An error occurred while initiating the payment.'
+        });
+        setLoading(false);
+    }
+};
+
+// Example function to update hotel payment status
+// const updateHotelPaymentStatus = async (paymentId) => {
+//     try {
+//         // Replace with your actual API call to update the payment status
+//         const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-payment-status', {
+//             payment_id: paymentId,
+//             status: "COMPLETED"
+//         });
+
+//         if (response.data.state === "COMPLETED") {
+//             // Handle the successful status update
+//             console.log('Payment status updated successfully');
+//             // Add any further logic if needed
+//         } else {
+//             console.log('Payment status update failed');
+//         }
+//     } catch (error) {
+//         console.error('Failed to update payment status:', error);
+//         Toast.show({
+//             type: 'error',
+//             text1: 'Update Error',
+//             text2: 'Failed to update the payment status.'
+//         });
+//     }
+// };
   const cleanUpDescription = (description) => {
     if (!description) return '';
 
@@ -321,7 +424,7 @@ export default function HotelGuestDetails() {
           textTransform: 'capitalize', fontSize: SF(15)
         }}>
        <FontAwesome name={'rupee'} color={'white'} size={15} />{TotalHotelPrice}</Text>
-        <Text onPress={BookingConfirmed} style={{
+        <Text onPress={handlePayment} style={{
   color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
   textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
   padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5,
@@ -473,3 +576,4 @@ const styles = StyleSheet.create({
 // });
 
 // export default GuestDetailScreen;
+

@@ -4,15 +4,16 @@ import {FlightsListScreenStyle} from '../../styles';
 import {Colors, SF,SH,SW} from '../../utils';
 import {VectorIcon} from '../../components';
 import {useTranslation} from 'react-i18next';
-
+import { useNavigation } from '@react-navigation/native';
 const FlightMobileSelect = props => {
   const {onPress, item} = props;
+  const navigation=useNavigation();
   // console.log('item', item);
   const {t} = useTranslation();
   return (
     <View style={FlightsListScreenStyle.FlightsCityBox}>
       <View style={FlightsListScreenStyle.BackArrowBoxWidthSet}>
-        <TouchableOpacity onPress={() => onPress()}>
+        <TouchableOpacity onPress={() =>navigation.navigate("Root")}>
           <VectorIcon
             icon="AntDesign"
             name="arrowleft"
