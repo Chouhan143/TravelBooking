@@ -30,12 +30,12 @@ const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
   const [ModalVisible2, SetModalVisible2] = useState(false);
-  const [adultsCount, setAdultsCount] = useState(2);
-  const [NoOfNight, setNoOfNight] = useState(2);
+  const [adultsCount, setAdultsCount] = useState(1);
+  const [NoOfNight, setNoOfNight] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
   const [locationDenied, setLocationDenied] = useState(false);
-  const [checkinDate, setCheckInDate] = useState('');
+  const [checkinDate, setCheckInDate] = useState('30/04/2020');
   const [checkoutDate, setCheckOutDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [roomsCount, setRoomsCount] = useState(1);
@@ -127,18 +127,18 @@ const HotelTab = () => {
   const FetchHotelData = async () => {
     const payload = {
       BookingMode: '5',
-      CheckInDate: '30/04/2020',
-      NoOfNights: '1',
+      CheckInDate:'30/04/2020',
+      NoOfNights:NoOfNight,
       CountryCode: 'IN',
       CityId: '130443',
       ResultCount: null,
       PreferredCurrency: 'INR',
       GuestNationality: 'IN',
-      NoOfRooms: '1',
+      NoOfRooms:roomsCount,
       RoomGuests: [
         {
-          NoOfAdults: 1,
-          NoOfChild: '0',
+          NoOfAdults: adultsCount,
+          NoOfChild: childrenCount,
           ChildAge: [],
         },
       ],

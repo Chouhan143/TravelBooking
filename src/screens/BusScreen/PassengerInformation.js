@@ -204,6 +204,7 @@ const PassengerInformation = ({route}) => {
   
   const BlockingSeat = () => {
     blockSeat();
+    navigation.navigate(RouteName.REVIEW_BOOKING)
   };
   console.log('radioChecked', radioChecked);
 

@@ -15,11 +15,13 @@ import axios from 'axios';
 import {BOOKING_SEAT} from '../../utils/BaseUrl';
 import Toast from 'react-native-toast-message';
 import { SF, SH, SW } from '../../utils';
+import RazorpayCheckout from 'react-native-razorpay';
 
 const ReviewBooking = () => {
   const navigation = useNavigation();
   const [passengerEmail, setPassengerEmail] = useState('');
   const [passengerPhone, setPassengerPhone] = useState('');
+  const [loading,setLoading]=useState('');
   // bus details
   const busDetails = useSelector(state => state.commomReducer.detailsStore);
 
@@ -242,9 +244,123 @@ const ReviewBooking = () => {
    
   };
   
-  const BookingStatus = () => {
-    BookSeat();
-  };
+  // const BookingStatus = () => {
+  //   BookSeat();
+  // };
+
+  const handlePayment = async () => {
+    // if (!firstName || !lastName || !email || !country || !phoneNumber) {
+    //     setShowError(true);
+    //     Toast.show({
+    //         type: 'error',
+    //         text1: 'Missing Information',
+    //         text2: 'Please fill out all required fields.',
+    //         textStyle: { color: 'red', fontSize: 12 },
+    //     });
+    //     return;
+    // }
+
+    // setShowError(false);
+    // setLoading(true);
+
+    try {
+        const payload = {
+            amount: totalFare.toString(),
+            user_id: "1"
+        };
+        const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', payload);
+        console.log('payment create payload', payload);
+
+        const { razorpay_key, payment_details } = paymentIntentResponse.data;
+        console.log('payment_details', payment_details);
+        console.log('razorpay_key', razorpay_key);
+
+        const transaction_id = payment_details.id;
+        const options = {
+            key: razorpay_key,
+            amount: parseInt(totalFare) * 100,
+            currency: 'INR',
+            name: 'SRN INFO TECH ',
+            transaction_id: transaction_id,
+            description: 'Payment for Booking',
+            image: 'https://yourcompany.com/logo.png',
+            prefill: {
+                email: "pallavipatel782@gmail.com",
+                contact: "9893458940",
+                name: `pallavi patel`
+            },
+            theme: {
+                color: '#F37254'
+            }
+        };
+
+        RazorpayCheckout.open(options)
+            .then(async (data) => {
+                const paymentId = data.razorpay_payment_id;
+                console.log(`Success: ${paymentId}`);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Payment Successful',
+                    text2: `Payment ID: ${paymentId}`
+                });
+
+                await updateHotelPaymentStatus(paymentId, transaction_id);
+                await BookingConfirmed();
+                navigation.navigate("Root");
+            })
+            .catch((error) => {
+                console.error(`Error: ${error.code} | ${error.description}`);
+                Toast.show({
+                    type: 'error',
+                    text1: 'Payment Failed',
+                    text2: `${error.description}`
+                });
+                setLoading(false);
+            });
+    } catch (error) {
+        console.error('Payment initiation failed:', error);
+        Toast.show({
+            type: 'error',
+            text1: 'Payment Error',
+            text2: 'An error occurred while initiating the payment.'
+        });
+        setLoading(false);
+    }
+};
+
+const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
+    try {
+        const payload = {
+            payment_id: paymentId,
+            transaction_id: transaction_id,
+        };
+        console.log('Attempting to update payment status with payload:', payload);
+        
+        const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-payment', payload);
+        console.log('Payment update payload', payload);
+        console.log('update response:', response.data);
+        
+        if (response.data.success === 'Payment updated successfully.') {
+            Toast.show({
+                type: 'success',
+                text1: 'Update Successfully',
+                text2: 'Your payment status updated successfully'
+            });
+            console.log('Payment status updated successfully');
+        } else {
+            console.log('Payment status update failed');
+        }
+    } catch (error) {
+        console.error('Failed to update payment status:', error);
+        Toast.show({
+            type: 'error',
+            text1: 'Update Error',
+            text2: 'Failed to update the payment status.'
+        });
+    } finally {
+        setLoading(false); // Ensure loading state is turned off
+    }
+};
 
   return (
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -429,7 +545,7 @@ const ReviewBooking = () => {
             </Text>
           </View>
           <View>
-            <Button title={' Pay To Proceed '} onPress={BookingStatus} />
+            <Button title={' Pay To Proceed '} onPress={handlePayment} />
           </View>
         </View>
       </View>

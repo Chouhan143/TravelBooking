@@ -38,103 +38,104 @@ export default function HotelGuestDetails() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showError, setShowError] = useState(false);
   const [loading,setLoading]=useState(null);
+  const [Booking,SetBookingStatus]=useState('');
   let moreHandler = () => {
     setMore(!more);
   };
 
-  // const BookingConfirmed = async () => {
-  //   try {
-  //     const payload = {
-  //       ResultIndex: 9,
-  //       HotelCode: "341089",
-  //       HotelName: "The Manor",
-  //       NoOfRooms: "1",
-  //       HotelRoomsDetails: [
-  //         {
-  //           RoomId: 0,
-  //           RoomIndex: 4,
-  //           Price: {
-  //             PublishedPrice: 15464.3,
-  //           },
-  //         },
-  //       ],
-  //       LastCancellationDate: "2020-04-16T23:59:59",
-  //       CancellationPolicies: [
-  //         {
-  //           Charge: 1658,
-  //           ChargeType: 1,
-  //           Currency: "INR",
-  //           FromDate: "2020-04-17T00:00:00",
-  //           ToDate: "2020-04-20T23:59:59"
-  //         },
-  //         {
-  //           Charge: 100,
-  //           ChargeType: 2,
-  //           Currency: "INR",
-  //           FromDate: "2020-04-21T00:00:00",
-  //           ToDate: "2020-05-01T23:59:59"
-  //         },
-  //         {
-  //           Charge: 100,
-  //           ChargeType: 2,
-  //           Currency: "INR",
-  //           FromDate: "2020-04-30T00:00:00",
-  //           ToDate: "2020-05-01T00:00:00"
-  //         }
-  //       ],
-  //       CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
-  //       SrdvIndex: "65",
-  //       SrdvType: "SingleTB",
-  //       TraceId: "1",
-  //     };
+  const BookingConfirmed = async () => {
+    try {
+      const payload = {
+        ResultIndex: 9,
+        HotelCode: "341089",
+        HotelName: "The Manor",
+        NoOfRooms: "1",
+        HotelRoomsDetails: [
+          {
+            RoomId: 0,
+            RoomIndex: 4,
+            Price: {
+              PublishedPrice: 15464.3,
+            },
+          },
+        ],
+        LastCancellationDate: "2020-04-16T23:59:59",
+        CancellationPolicies: [
+          {
+            Charge: 1658,
+            ChargeType: 1,
+            Currency: "INR",
+            FromDate: "2020-04-17T00:00:00",
+            ToDate: "2020-04-20T23:59:59"
+          },
+          {
+            Charge: 100,
+            ChargeType: 2,
+            Currency: "INR",
+            FromDate: "2020-04-21T00:00:00",
+            ToDate: "2020-05-01T23:59:59"
+          },
+          {
+            Charge: 100,
+            ChargeType: 2,
+            Currency: "INR",
+            FromDate: "2020-04-30T00:00:00",
+            ToDate: "2020-05-01T00:00:00"
+          }
+        ],
+        CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
+        SrdvIndex: "65",
+        SrdvType: "SingleTB",
+        TraceId: "1",
+      };
   
-  //     if (!firstName || !lastName || !email || !country || !phoneNumber) {
-  //       setShowError(true);
-  //       Toast.show({
-  //         type: 'error',
-  //         text1: 'Missing Information',
-  //         text2: 'Please fill out all required fields.',
-  //         textStyle: { color: 'red', fontSize: 12 },
-  //       });
-  //       return; // Return early if fields are missing
-  //     }
+      if (!firstName || !lastName || !email || !country || !phoneNumber) {
+        setShowError(true);
+        Toast.show({
+          type: 'error',
+          text1: 'Missing Information',
+          text2: 'Please fill out all required fields.',
+          textStyle: { color: 'red', fontSize: 12 },
+        });
+        return; // Return early if fields are missing
+      }
   
-  //     setShowError(false);
-  //     const response = await axios.post(HOTEL_BOOK, payload);
-  //     const BookingResult = response.data;
-  //     dispatch(setBookingDetails(BookingResult));
-  //     console.log('BookingResult', BookingResult);
+      setShowError(false);
+      const response = await axios.post(HOTEL_BOOK, payload);
+      const BookingResult = response.data;
+      dispatch(setBookingDetails(BookingResult));
+      console.log('BookingResult', BookingResult);
   
-  //     const { HotelBookingStatus } = BookingResult.BookResult;
-  //     SetBookingStatus(HotelBookingStatus);
+      const { HotelBookingStatus } = BookingResult.BookResult;
+      SetBookingStatus(HotelBookingStatus);
   
-  //     if (HotelBookingStatus === 'Confirmed') {
-  //       Toast.show({
-  //         type: 'success',
-  //         text1: 'Booking Confirmed',
-  //         text2: 'Your booking has been confirmed!',
-  //         textStyle: { color: 'green', fontSize: 12 },
-  //       });
-  //   navigation.navigate(RouteName.HOTEL_PAYMENT);
-  //     } else {
-  //       navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
-  //       Toast.show({
-  //         type: 'error',
-  //         text1: 'Booking Not Confirmed',
-  //         text2: 'Your booking could not be confirmed.',
-  //         textStyle: { color: 'red', fontSize: 12 },
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log('error', error);
-  //     Toast.show({
-  //       type: 'error',
-  //       text1: 'Error',
-  //       text2: 'An error occurred during booking.',
-  //       textStyle: { color: 'red', fontSize: 12 },
-  //     });
-  //   }
-  // };
+      if (HotelBookingStatus === 'Confirmed') {
+        Toast.show({
+          type: 'success',
+          text1: 'Booking Confirmed',
+          text2: 'Your booking has been confirmed!',
+          textStyle: { color: 'green', fontSize: 12 },
+        });
+    navigation.navigate(RouteName.HOTEL_PAYMENT);
+      } else {
+        navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
+        Toast.show({
+          type: 'error',
+          text1: 'Booking Not Confirmed',
+          text2: 'Your booking could not be confirmed.',
+          textStyle: { color: 'red', fontSize: 12 },
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'An error occurred during booking.',
+        textStyle: { color: 'red', fontSize: 12 },
+      });
+    }
+  };
   const handlePayment = async () => {
     if (!firstName || !lastName || !email || !country || !phoneNumber) {
         setShowError(true);
@@ -192,6 +193,7 @@ export default function HotelGuestDetails() {
                 });
 
                 await updateHotelPaymentStatus(paymentId, transaction_id);
+                await BookingConfirmed();
                 navigation.navigate("Root");
             })
             .catch((error) => {
@@ -547,44 +549,4 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize'
   },
 });
-
-// import React from 'react';
-// import { View, Text, StyleSheet } from 'react-native';
-// import { useRoute } from '@react-navigation/native';
-
-// const GuestDetailScreen = () => {
-//   const route = useRoute();
-//   const { room } = route.params;
-
-//   if (!room) {
-//     return (
-//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//         <Text>No room selected</Text>
-//       </View>
-//     );
-//   }
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Guest Details for {room.RoomTypeName}</Text>
-//       <Text style={styles.title}>Price: {room.Price.OfferedPriceRoundedOff}</Text>
-//       <Text style={styles.title}>Cancellation Policy: {room.CancellationPolicy}</Text>
-//       {/* Add more guest detail form elements here */}
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20,
-//   },
-//   title: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: 'black',
-//   },
-// });
-
-// export default GuestDetailScreen;
 

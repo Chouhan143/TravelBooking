@@ -64,7 +64,7 @@ const Seat = ({route}) => {
       TraceId: TraceId.toString(),
       ResultIndex: ResultIndexValue,
     };
-
+     console.log('search map payload',payload);
     try {
       setLoading(true);
       const res = await axios.post(FLIGHT_SEAT_MAP, payload);
