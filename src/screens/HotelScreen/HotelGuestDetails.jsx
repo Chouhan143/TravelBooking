@@ -151,27 +151,30 @@ export default function HotelGuestDetails() {
     setLoading(true);
 
     try {
-        // Example: Creating a payment intent using a provided API
-        // Uncomment and modify the below code if you need to create a payment intent from your server
-        // const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', {
-        //     amount: TotalHotelPrice.toString(),
-        //     user_id: "1"
-        // });
+        const payload = {
+            amount: TotalHotelPrice.toString(),
+            user_id: "1"
+        };
+        const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', payload);
+        console.log('payment create payload', payload);
 
-        // Extracting the payment details and Razorpay key from the response
-        // const { razorpay_key, payment_details } = paymentIntentResponse.data;
+        const { razorpay_key, payment_details } = paymentIntentResponse.data;
+        console.log('payment_details', payment_details);
+        console.log('razorpay_key', razorpay_key);
 
+        const transaction_id = payment_details.id;
         const options = {
-            key: 'rzp_test_yc7TRZTpita9FD', // Replace with your Razorpay key
-            amount: parseInt(TotalHotelPrice) * 100, // Convert to smallest currency unit
+            key: razorpay_key,
+            amount: parseInt(TotalHotelPrice) * 100,
             currency: 'INR',
-            name: 'Your Company Name',
+            name: 'SRN INFO TECH ',
+            transaction_id: transaction_id,
             description: 'Payment for Booking',
-            image: 'https://yourcompany.com/logo.png', // Replace with your logo URL
+            image: 'https://yourcompany.com/logo.png',
             prefill: {
-                email: email, // Use customer email
-                contact: phoneNumber, // Use customer phone number
-                name: `${firstName} ${lastName}` // Use customer name
+                email: email,
+                contact: phoneNumber,
+                name: `${firstName} ${lastName}`
             },
             theme: {
                 color: '#F37254'
@@ -179,20 +182,19 @@ export default function HotelGuestDetails() {
         };
 
         RazorpayCheckout.open(options)
-            .then((data) => {
-                // Handle success
-                console.log(`Success: ${data.razorpay_payment_id}`);
-                Alert.alert(`Success: ${data.razorpay_payment_id}`);
+            .then(async (data) => {
+                const paymentId = data.razorpay_payment_id;
+                console.log(`Success: ${paymentId}`);
                 Toast.show({
                     type: 'success',
                     text1: 'Payment Successful',
-                    text2: `Payment ID: ${data.razorpay_payment_id}`
+                    text2: `Payment ID: ${paymentId}`
                 });
-                // Call the hotel response API only after successful payment
-                // updateHotelPaymentStatus(data.razorpay_payment_id);
+
+                await updateHotelPaymentStatus(paymentId, transaction_id);
+                navigation.navigate("Root");
             })
             .catch((error) => {
-                // Handle failure
                 console.error(`Error: ${error.code} | ${error.description}`);
                 Toast.show({
                     type: 'error',
@@ -212,31 +214,40 @@ export default function HotelGuestDetails() {
     }
 };
 
-// Example function to update hotel payment status
-// const updateHotelPaymentStatus = async (paymentId) => {
-//     try {
-//         // Replace with your actual API call to update the payment status
-//         const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-payment-status', {
-//             payment_id: paymentId,
-//             status: "COMPLETED"
-//         });
+const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
+    try {
+        const payload = {
+            payment_id: paymentId,
+            transaction_id: transaction_id,
+        };
+        console.log('Attempting to update payment status with payload:', payload);
+        
+        const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-payment', payload);
+        console.log('Payment update payload', payload);
+        console.log('update response:', response.data);
+        
+        if (response.data.success === 'Payment updated successfully.') {
+            Toast.show({
+                type: 'success',
+                text1: 'Update Successfully',
+                text2: 'Your payment status updated successfully'
+            });
+            console.log('Payment status updated successfully');
+        } else {
+            console.log('Payment status update failed');
+        }
+    } catch (error) {
+        console.error('Failed to update payment status:', error);
+        Toast.show({
+            type: 'error',
+            text1: 'Update Error',
+            text2: 'Failed to update the payment status.'
+        });
+    } finally {
+        setLoading(false); // Ensure loading state is turned off
+    }
+};
 
-//         if (response.data.state === "COMPLETED") {
-//             // Handle the successful status update
-//             console.log('Payment status updated successfully');
-//             // Add any further logic if needed
-//         } else {
-//             console.log('Payment status update failed');
-//         }
-//     } catch (error) {
-//         console.error('Failed to update payment status:', error);
-//         Toast.show({
-//             type: 'error',
-//             text1: 'Update Error',
-//             text2: 'Failed to update the payment status.'
-//         });
-//     }
-// };
   const cleanUpDescription = (description) => {
     if (!description) return '';
 

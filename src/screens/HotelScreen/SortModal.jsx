@@ -1,42 +1,64 @@
-import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
-import React,{useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Colors,SF,SH,SW } from '../../utils';
-import RadioButtonGroup from '../../components/commonComponents/RadioButtonGroup';
-const SortModal = ({setModalVisible}) => {
-    const [selectedOption, setSelectedOption] = useState(null);
+import { Colors, SF, SH, SW } from '../../utils';
 
-    const options = [
-        { id: 1, label: 'our top picks' },
-        { id: 2, label: 'price (lowest first) ' },
-        { id: 3, label: 'property rating and price' },
-        { id: 4, label: 'best reviewed & lowest price ' },
-        { id: 5, label: 'distance from downtown ' },
-        { id: 6, label: 'top reviewed' },
-        { id: 7, label: 'homes & apartments first ' },
-    ];
-
+const SortModal = ({ setModalVisible, onSort }) => {
+  const handleSort = (sortOption) => {
+    onSort(sortOption);
+    setModalVisible(false);
+  };
+  
   return (
-    <View>
-    <TouchableOpacity onPress={() =>setModalVisible(false)}>
-    <Entypo name={'cross'} color={Colors.theme_background} size={30} style={{alignSelf:'flex-end'}}/>
-   </TouchableOpacity>
-      <Text style={{color:'black',fontFamily:'Poppins-Bold',fontSize:SF(15)}}>Sort by</Text>
-      <View style={{marginTop:SH(20),marginBottom:SH(65)}}>
-      {options.map(option => (
-        <RadioButtonGroup
-            key={option.id}
-            label={option.label}
-            selected={selectedOption === option.id}
-            onPress={() => setSelectedOption(option.id)}
-            
-        />
-    ))}
+    <View style={{backgroundColor:'#edf3f5',padding:SW(10),borderRadius:10}}>
+      <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+        <Entypo name={'cross'} color={Colors.theme_background} size={30} />
+      </TouchableOpacity>
+      <Text style={styles.title}>Sort by</Text>
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity onPress={() => handleSort('name')} style={styles.optionButton}>
+          <Text style={styles.optionText}>Sort by Name</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSort('highPrice')} style={styles.optionButton}>
+          <Text style={styles.optionText}> High to Low Price</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSort('lowPrice')} style={styles.optionButton}>
+          <Text style={styles.optionText}> Low  to High Price</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSort('rating')} style={styles.optionButton}>
+          <Text style={styles.optionText}>Sort by Rating</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSort('distance')} style={styles.optionButton}>
+          <Text style={styles.optionText}>Sort by Distance</Text>
+        </TouchableOpacity>
       </View>
     </View>
-  )
+  );
 }
 
-export default SortModal
+export default SortModal;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  closeButton: {
+    alignSelf: 'flex-end',
+  },
+  title: {
+    color: 'black',
+    fontFamily: 'Poppins-Bold',
+    fontSize: SF(15),
+    marginBottom: SH(20),
+  },
+  optionsContainer: {
+    marginBottom: SH(65),
+  },
+  optionButton: {
+    paddingVertical: SH(10),
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray',
+  },
+  optionText: {
+    color: 'black',
+    fontFamily: 'Poppins-Regular',
+    fontSize: SF(14),
+  },
+});

@@ -31,6 +31,7 @@ const HotelTab = () => {
   const [ModalVisible1, SetModalVisible1] = useState(false);
   const [ModalVisible2, SetModalVisible2] = useState(false);
   const [adultsCount, setAdultsCount] = useState(2);
+  const [NoOfNight, setNoOfNight] = useState(2);
   const [childrenCount, setChildrenCount] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
   const [locationDenied, setLocationDenied] = useState(false);
@@ -122,20 +123,8 @@ const HotelTab = () => {
     });
   };
 
-  const calculateNights = (checkInDate, checkoutDate) => {
-    let oneday = 24 * 60 * 60 * 1000;
-    return Math.round((checkoutDate - checkInDate) / oneday);
-  };
-
   // hotel search api
   const FetchHotelData = async () => {
-    let checkInDate = new Date(checkinDate);
-    let checkOutDate = new Date(checkoutDate);
-    // // this date pass to api payloads
-    let formattedCheckInDate = FormatedDate(checkInDate);
-    let formattedCheckOutDate = FormatedDate(checkOutDate);
-    let noOfNights = calculateNights(checkInDate, checkOutDate);
-  
     const payload = {
       BookingMode: '5',
       CheckInDate: '30/04/2020',
@@ -184,9 +173,6 @@ const HotelTab = () => {
     setChildrenAges(newAges);
   };
 
-  // const HandleCity = () => {
-  //   navigation.navigate(RouteName.HOTEL_LIST_SCREEN);
-  // };
   return (
     <View style={styles.mainContanier}>
       <View style={styles.header}>
@@ -211,8 +197,10 @@ const HotelTab = () => {
           <DatePicker onDateSelect={date => setCheckInDate(date)} />
         </View>
         <View style={styles.CheckDateBox}>
-          <Text style={styles.checkindate}>check out date</Text>
-          <DatePicker onDateSelect={date => setCheckOutDate(date)} />
+          <Text style={styles.checkindate}>No Of Night</Text>
+          <Text style={styles.ageText} onPress={() => SetModalVisible1(true)}>
+            {NoOfNight}
+          </Text>
         </View>
       </View>
       <View style={styles.ageContanier}>
@@ -372,6 +360,20 @@ const HotelTab = () => {
                 <Entypo name={'plus'} size={20} color="white" />
               </TouchableOpacity>
             </View>
+            <View style={styles.modalContanier}>
+            <Text style={styles.ageModaltext}>NoOfNight</Text>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => setNoOfNight(Math.max(1, NoOfNight - 1))}>
+              <Entypo name={'minus'} size={20} color="white" />
+            </TouchableOpacity>
+            <Text style={{color: 'black'}}>{NoOfNight}</Text>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => setNoOfNight(NoOfNight + 1)}>
+              <Entypo name={'plus'} size={20} color="white" />
+            </TouchableOpacity>
+          </View>
           </View>
           <TouchableOpacity
             style={styles.bottomButtom}
@@ -437,14 +439,16 @@ const styles = StyleSheet.create({
   dates: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent:'space-evenly',
     marginBottom: SH(20),
+    
   },
   checkindate: {
     color: 'black',
     fontFamily: 'Poppins-Regular',
     textTransform: 'capitalize',
     fontSize: SF(12),
+    
   },
   checkoutdate: {
     color: 'black',
@@ -458,8 +462,8 @@ const styles = StyleSheet.create({
     paddingTop: SH(5),
     marginTop: SH(10),
     paddingBottom: SH(5),
-
-    paddingHorizontal: SW(25),
+    paddingLeft:SW(10),
+    paddingHorizontal: SW(57),
     borderRadius: 7,
   },
   ageContanier: {

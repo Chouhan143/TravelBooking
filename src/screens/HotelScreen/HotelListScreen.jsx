@@ -6,8 +6,9 @@ import {
   View,
   TouchableOpacity,
   Modal,
+  TextInput
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SW, SH, SF, Colors} from '../../utils';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -18,38 +19,75 @@ import {useNavigation} from '@react-navigation/native';
 import SortModal from './SortModal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {haversineDistance} from '../../hooks/HaversineDistance';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { format, differenceInDays, parseISO } from 'date-fns';
 export default function HotelListScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [searchText, setSearchText] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const [sortOption, setSortOption] = useState(null);
   const hotelData = useSelector(state => state.commomReducer.hotelData);
-  const hotelDataResult = hotelData.Results;
-  
-  // console.log("hotelData result >>>>>>",hotelDataResult);
-
-  // console.log('hotelDescriptionData', hotelDescriptionData);
+  const hotelDataResult = hotelData.Results || [];
+  const checkInDate = parseISO(hotelData.CheckInDate);
+  const checkOutDate = parseISO(hotelData.CheckOutDate);
+  const formattedCheckInDate = format(checkInDate, 'MMM dd, yyyy');
+  const formattedCheckOutDate = format(checkOutDate, 'MMM dd, yyyy');
+const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
+  // Calculate the number of days between the dates
+  const numberOfNights = differenceInDays(checkOutDate, checkInDate);
 
   const currentLocation = useSelector(
     state => state.commomReducer.positionLatLong,
   );
 
-  console.log('currentLocation', currentLocation);
-
   const currentLocationLat = currentLocation?.coords?.latitude;
-
   const currentLocationLong = currentLocation?.coords?.longitude;
 
   const curLatLong = {currentLocationLat, currentLocationLong};
 
-  // console.log('currentLocationLat', currentLocationLat);
-  // console.log('currentLocationLong', currentLocationLong);
+  useEffect(() => {
+    let data = [...hotelDataResult];
+    
+    if (sortOption) {
+      data = data.sort((a, b) => {
+        switch (sortOption) {
+          case 'name':
+            return a.HotelName.localeCompare(b.HotelName);
+          case 'highPrice':
+            return b.Price.RoomPrice - a.Price.RoomPrice;
+          case 'lowPrice':
+            return a.Price.RoomPrice - b.Price.RoomPrice;
+          case 'rating':
+            return b.StarRating - a.StarRating;
+          case 'distance':
+            const distanceA = haversineDistance(currentLocation.coords, {latitude: a.Latitude, longitude: a.Longitude});
+            const distanceB = haversineDistance(currentLocation.coords, {latitude: b.Latitude, longitude: b.Longitude});
+            return distanceA - distanceB;
+          default:
+            return 0;
+        }
+      });
+    }
+    
+    setFilteredData(data);
+  }, [hotelDataResult, sortOption]);
+
+  const onSearch = (text) => {
+    setSearchText(text);
+    const tempList = hotelDataResult.filter(item =>
+      item.HotelName.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(tempList);
+  };
 
   const navigation = useNavigation();
+  
   const renderItem = ({item}) => {
     const Price = Math.round(item?.Price?.RoomPrice);
 
     const renderStar = rating => {
       let stars = [];
-      for (let i = 0; i <= rating; i++) {
+      for (let i = 0; i < rating; i++) {
         stars.push(
           <FontAwesome key={i} name="star" size={15} color="#FFD700" />,
         );
@@ -122,12 +160,29 @@ export default function HotelListScreen() {
       </TouchableOpacity>
     );
   };
+
+  const handleSort = (sortOption) => {
+    setSortOption(sortOption);
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.MainContanier}>
       <View style={styles.searchView}>
         <View style={styles.searchbar}>
           <EvilIcons name={'search'} size={25} color="white" />
-          <Text style={styles.searchText}>Searched City</Text>
+          <TextInput
+            style={styles.searchText}
+            placeholder='Search by hotel name '
+            placeholderTextColor={'white'}
+            value={searchText}
+            onChangeText={text => onSearch(text)}
+          />
+          {searchText.length > 0 && (
+            <TouchableOpacity onPress={() => onSearch('')} style={{marginLeft:SW(300),position:'absolute',zIndex:999}}>
+              <MaterialIcons name={'clear'} size={25} color="white" />
+            </TouchableOpacity>
+          )}
         </View>
         <View style={styles.dateContainer}>
           <Entypo
@@ -137,23 +192,23 @@ export default function HotelListScreen() {
             style={styles.icon}
           />
           <Text style={styles.headerText}>
-            17 Jan{' '}
-            <Ionicons
-              name={'remove-outline'}
-              color="white"
-              size={15}
-              style={styles.icon}
-            />{' '}
-            18 Jan
-          </Text>
-          <Text style={styles.headerText}>(2 nights)</Text>
+        {formattedCheckInDate}{' '}
+        <Ionicons
+          name={'remove-outline'}
+          color="white"
+          size={15}
+          style={styles.icon}
+        />{' '}
+        {formattedCheckOutDate}
+      </Text>
+          <Text style={styles.headerText}>{numberOfNights} {numberOfNights === 1 ? 'night' : 'nights'}</Text>
           <FontAwesome
             name={'users'}
             color="white"
             size={15}
             style={styles.icon}
           />
-          <Text style={styles.headerText}>2 adults</Text>
+          <Text style={styles.headerText}>{NoOfAdults} adults</Text>
         </View>
       </View>
       <View style={styles.filterContanier}>
@@ -175,7 +230,7 @@ export default function HotelListScreen() {
           onRequestClose={() => setModalVisible(false)}>
           <View style={styles.modalContainer}>
             <View style={styles.childModalContent}>
-              <SortModal setModalVisible={setModalVisible} />
+              <SortModal setModalVisible={setModalVisible} onSort={handleSort} />
             </View>
           </View>
         </Modal>
@@ -198,7 +253,7 @@ export default function HotelListScreen() {
       </View>
       <View style={styles.listContainer}>
         <FlatList
-          data={hotelDataResult}
+          data={filteredData}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           contentContainerStyle={styles.contentContainerStyle}
@@ -222,15 +277,16 @@ const styles = StyleSheet.create({
   searchbar: {
     display: 'flex',
     flexDirection: 'row',
-    padding: SW(15),
     margin: SW(15),
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 5,
+    alignItems: 'center',
   },
   searchText: {
+    flex: 1,
     color: 'white',
-    fontFamily: 'Poppins-Bold',
+    marginLeft: SW(10),
   },
   dateContainer: {
     display: 'flex',
@@ -245,6 +301,7 @@ const styles = StyleSheet.create({
     marginRight: SW(15),
     fontFamily: 'Poppins-Regular',
     color: 'white',
+    marginLeft:SW(5)
   },
   HotelCards: {
     backgroundColor: 'white',
@@ -322,13 +379,13 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     width: '100%',
+    justifyContent:'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    marginTop: SH(400),
+   
   },
   childModalContent: {
     width: '100%',
     padding: SW(20),
-    backgroundColor: 'white',
     paddingTop: 0,
   },
 });
