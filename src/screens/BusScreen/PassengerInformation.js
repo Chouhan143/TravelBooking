@@ -55,14 +55,14 @@ const PassengerInformation = ({route}) => {
   const [radioChecked, setRadioChecked] = useState(
     Array(pessengerData.length).fill(false),
   );
-  const TraceId = useSelector(state => state.commomReducer.traceId);
-  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
-
+  const busSearchData=useSelector(state=>state.commomReducer.busData);
+  const traceId=busSearchData.data.TraceId;
+  const resultIndex=busSearchData.data.Result[0].ResultIndex;
   const blockSeat = async () => {
     try {
       const payload = {
-        ResultIndex: ResultIndex,
-        TraceId: TraceId,
+        ResultIndex:"1",
+        TraceId:"1",
         BoardingPointId: 1,
         DroppingPointId: 1,
         RefID: "1",

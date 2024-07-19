@@ -23,7 +23,7 @@ const TicketScreen = props => {
         <AppHeader
           headerTitle={t('Download_Ticket')}
           Iconname={true}
-          onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}
+          onPress={() => navigation.navigate("root")}
           
         />
 

@@ -9,9 +9,10 @@ import { useSelector } from 'react-redux';
 const BusSelectScreen = ({route}) => {
   const navigation = useNavigation();
   const {busData, destinationCity, sourceCity} = route.params;
-  const TraceId=useSelector(state=>state.commomReducer.traceId);
-  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
-  console.log('busData List',busData);
+  const busSearchData=useSelector(state=>state.commomReducer.busData);
+  console.log('bus seat layout',busSearchData);
+  const traceId=busSearchData.data.TraceId;
+  const resultIndex=busSearchData.data.Result[0].ResultIndex;
   const renderItem = ({item}) => {
     console.log(item.Price);
     // Extracting time from the departure_time string
@@ -35,8 +36,8 @@ const BusSelectScreen = ({route}) => {
 
     const handleItemPress = () => {
       navigation.navigate(RouteName.BUS_SEAT_SCREEN, {
-        traceId:TraceId,
-        indexResult:ResultIndex,
+        traceId:traceId,
+        indexResult:resultIndex,
       });
     };
 

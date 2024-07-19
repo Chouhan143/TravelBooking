@@ -128,7 +128,7 @@ const FlightTicketScreen = () => {
                 You successfully Downloaded Your Flight Booking Ticket
               </Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={styles.modalButton} onPress={()=>navigation.navigate(RouteName.SIDE_NAVIGATOR)}>Back To Home</Text>
+                <Text style={styles.modalButton} onPress={()=>navigation.navigate("Root")}>Back To Home</Text>
               </TouchableOpacity>
             </View>
           </Modal>
@@ -150,7 +150,7 @@ const FlightTicketScreen = () => {
                 You successfully Cancelled Your Flight Booking Ticket
               </Text>
               <TouchableOpacity onPress={() => setCancelModalVisible(false)}>
-                <Text style={styles.modalButton} onPress={()=>navigation.navigate(RouteName.SIDE_NAVIGATOR)}>Back To Home</Text>
+                <Text style={styles.modalButton} onPress={()=>navigation.navigate("Root")}>Back To Home</Text>
               </TouchableOpacity>
             </View>
           </Modal>

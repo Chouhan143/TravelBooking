@@ -34,7 +34,9 @@ export default BoardingDroping;
 // Boarding Point screen here
 const BoardingPoint = () => {
   const dispatch = useDispatch();
-  const traceId = useSelector(state => state.commomReducer.traceId);
+  const busSearchData=useSelector(state=>state.commomReducer.busData);
+  const traceId=busSearchData.data.TraceId;
+ 
   const [boardingData, setBoardingData] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -145,7 +147,9 @@ const BoardingPoint = () => {
 
 const DropingPoint = () => {
   const dispatch = useDispatch();
-  const traceId = useSelector(state => state.commomReducer.traceId);
+  const busSearchData=useSelector(state=>state.commomReducer.busData);
+  const traceId=busSearchData.data.TraceId;
+  
   const [dropingData, setDropingData] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
   const [loading, setLoading] = useState(false);

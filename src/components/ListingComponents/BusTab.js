@@ -18,8 +18,8 @@ import axios from 'axios';
 import {BUS_LIST, BUS_SEARCH} from '../../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
-import {setResultIndex, setTraceId} from '../../redux/action';
-import {useDispatch} from 'react-redux';
+import {setResultIndex, setTraceId,setBusData, setSearchBusData, setResultData} from '../../redux/action';
+import {useDispatch, useSelector} from 'react-redux';
 import {Calendar} from 'react-native-calendars';
 import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -34,8 +34,6 @@ const BusTab = props => {
   const [filteredBusDataTo, setFilteredBusDataTo] = useState([]);
   const [busData, setBusData] = useState([]);
   const [showCalender, setShowCalender] = useState(false);
-  // const [sourceCity, setSourceCity] = useState(''); // State to store the selected source city
-  // const [destinationCity, setDestinationCity] = useState('');
   const [departDate, setDepartDate] = useState(null); // Assuming depart_date is a date
   const [loading, setLoading] = useState(false);
   const [dates, setDates] = useState([]);
@@ -44,8 +42,8 @@ const BusTab = props => {
   const BookingTabStyles = useMemo(() => BookingTabStyle(Colors), [Colors]);
   const [hideFlatList, setHideFlatList] = useState(false);
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
-  const [isDestinationCityFocused, setIsDestinationCityFocused] =
-    useState(false);
+  const [isDestinationCityFocused, setIsDestinationCityFocused] =useState(false);
+
   useEffect(() => {
     // Function to calculate current date and the next five dates
     const calculateDates = () => {
@@ -102,7 +100,6 @@ const BusTab = props => {
   };
 
   // bus search api
-
   const handleSearch = async () => {
     try {
       setLoading(true);
@@ -116,20 +113,13 @@ const BusTab = props => {
         console.log('payload', payload);
         const res = await axios.post(BUS_SEARCH, payload);
         // console.log('bus search data ',res.data);
+        const SearchBusData=res.data;
+        dispatch(setSearchBusData(SearchBusData));
         // Check if response status is successful
         if (res.status === 200) {
-          console.log('check tradce is status', res.data.original_response);
-          const updateTraceIdonRedux = res.data.original_response.TraceId;
-          dispatch(setTraceId(updateTraceIdonRedux));
-          console.log('Trace Id ',updateTraceIdonRedux);
-          const ResultData=res.data.data.Result;
-           const ResultIndex=ResultData[0].ResultIndex;
-          // console.log('ResultIndex',ResultIndex);
-          dispatch(setResultIndex(ResultIndex));
-          console.log('Redux stored Result Index',ResultIndex);
-          // console.log('Result data',ResultIndex);
+          const ResultData= res.data.data.Result;
+          dispatch(setResultData(ResultData));
           navigation.navigate(RouteName.BUS_LIST_SCREEN, {
-            busData: res.data.data.Result,
             sourceCity: sourceCity,
             destinationCity: destinationCity,
             departDate: departDate,

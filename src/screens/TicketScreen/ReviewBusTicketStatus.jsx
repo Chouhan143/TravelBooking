@@ -98,7 +98,7 @@ const ReviewBusTicketStatus = () => {
     </View>
     <TouchableOpacity 
     style={{backgroundColor:Colors.theme_background,padding:SW(20),width:SW(375),
-        borderRadius:5,position:'absolute',top:SH(745)}} onPress={() => navigation.navigate(RouteName.SIDE_NAVIGATOR)}>
+        borderRadius:5,position:'absolute',top:SH(745)}} onPress={() => navigation.navigate("Root")}>
     <Text style={{color:'white',textAlign:'center'}}>Go To Homepage</Text>
     </TouchableOpacity>
     </View>

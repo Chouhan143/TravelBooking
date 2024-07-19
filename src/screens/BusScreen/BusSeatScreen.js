@@ -49,10 +49,10 @@ const BusSeatScreen = props => {
 
   // console.log('U', uperSeat);
 
-  const getTraceIdFromRedux = useSelector(state => state.commomReducer.traceId);
-  const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
-  console.log('ResultIndex',ResultIndex);
-  console.log('getTraceIdFromRedux',getTraceIdFromRedux);
+  const busSearchData=useSelector(state=>state.commomReducer.busData);
+  const traceId=busSearchData.data.TraceId;
+  const resultIndex=busSearchData.data.Result[0].ResultIndex;
+  
   const selectedSeatData = useSelector(
     state => state.commomReducer.selectedSeats,
   );
@@ -66,8 +66,8 @@ const BusSeatScreen = props => {
     try {
       setLoading(true);
       const payload = {
-        TraceId: getTraceIdFromRedux,
-        ResultIndex: ResultIndex,
+        TraceId: traceId,
+        ResultIndex: resultIndex,
       };
       console.log('bus payload',payload);
       const res = await axios.post(BUS_ADDSEAT_LAYOUT, payload);

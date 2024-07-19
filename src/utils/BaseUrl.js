@@ -6,7 +6,6 @@ const LOGIN_ENDPOINT = `${Auth_Base_Url}/login`;
 const REGISTER_ENDPOINT = `${Auth_Base_Url}/login`;
 const OTP_VERYFY_ENDPOINT = `${Auth_Base_Url}/send_otp`;
 
-
 // const RESEND_OTP = `${BASE_URL}/resend-otp`;
 const BUS_LIST = `${BASE_URL}/bus_list`;
 const UPDATE_NUMBER = `${BASE_URL}/update_number`;

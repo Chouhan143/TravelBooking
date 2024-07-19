@@ -148,7 +148,7 @@ const HotelTicketScreen = () => {
               You successfully Downloaded Your Bus Booking Ticket
             </Text>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={styles.modalButton} onPress={()=>navigation.navigate(RouteName.SIDE_NAVIGATOR)}>Back To Home</Text>
+              <Text style={styles.modalButton} onPress={()=>navigation.navigate("Root")}>Back To Home</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -170,7 +170,7 @@ const HotelTicketScreen = () => {
               You successfully Cancelled Your Bus Booking Ticket
             </Text>
             <TouchableOpacity onPress={() => setCancelModalVisible(false)}>
-              <Text style={styles.modalButton} onPress={()=>navigation.navigate(RouteName.SIDE_NAVIGATOR)}>Back To Home</Text>
+              <Text style={styles.modalButton} onPress={()=>navigation.navigate("Root")}>Back To Home</Text>
             </TouchableOpacity>
           </View>
         </Modal>

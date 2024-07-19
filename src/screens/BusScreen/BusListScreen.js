@@ -13,10 +13,15 @@ import {SH,Colors, SF} from '../../utils';
 const BusListScreen = props => {
   const {route} = props;
   const navigation = useNavigation();
-  const {busData, destinationCity, sourceCity, departDate} = route.params;
+  
+  const {destinationCity, sourceCity, departDate} = route.params;
   const [travelingDate, setTravelingDate] = useState('');
-  const TraceId=useSelector(state=>state.commomReducer.traceId);
-  const resultIndex = useSelector((state) => state.resultIndex);
+
+  const busSearchData=useSelector(state=>state.commomReducer.busData);
+  const traceId=busSearchData.data.TraceId;
+  const ResultData=useSelector(state=>state.commomReducer.ResultData);
+  const resultIndex=busSearchData.data.Result[0].ResultIndex;
+  
   useEffect(() => {
     const updatedDate = new Date(departDate);
     const options = {
@@ -44,7 +49,7 @@ const BusListScreen = props => {
     console.log('bustype', item.BusType);
 
     navigation.navigate(RouteName.BUS_SEAT_SCREEN, {
-      traceId:TraceId,
+      traceId:traceId,
       indexResult:resultIndex,
     });
   };
@@ -78,7 +83,7 @@ const BusListScreen = props => {
 
               <View>
                 <FlatList
-                  data={busData}
+                  data={ResultData}
                   renderItem={({item, index}) => (
                     <BusListFun
                       item={item}
