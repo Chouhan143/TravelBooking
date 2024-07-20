@@ -55,125 +55,88 @@ const PassengerInformation = ({route}) => {
   const [radioChecked, setRadioChecked] = useState(
     Array(pessengerData.length).fill(false),
   );
+  
+  const passengersArray = pessengerData.map(passenger => ({
+    name: passenger.passengerName,
+    age: passenger.passengerAge,
+    gender: passenger.gender,
+    address: passenger.passengerAddress,
+    last_name: passenger.passengerLName,
+    email:passenger.passengerEmail,
+    phone:passenger.passengerPhone
+  }));
+  
+  console.log('passengersArray', passengersArray);
+
   const busSearchData=useSelector(state=>state.commomReducer.busData);
+  const passenger = pessengerData[0];
+    console.log('passengers',passenger);
   const traceId=busSearchData.data.TraceId;
   const resultIndex=busSearchData.data.Result[0].ResultIndex;
   const blockSeat = async () => {
     try {
       const payload = {
-        ResultIndex:"1",
-        TraceId:"1",
-        BoardingPointId: 1,
-        DroppingPointId: 1,
-        RefID: "1",
-        Passenger: [
-          {
-            LeadPassenger: true,
-            PassengerId: 0,
-            Title: "Mr",
-            FirstName: "Tanish",
-            LastName: "Singh",
-            Email: "amit@srdvtechnologies.com",
-            Phoneno: "9643737502",
-            Gender: 1,
-            IdType: null,
-            IdNumber: null,
-            Address: "Modinagar",
-            Age: 22,
-            Seat: {
-              ColumnNo: "001",
-              Height: 1,
-              IsLadiesSeat: false,
-              IsMalesSeat: false,
-              IsUpper: false,
-              RowNo: "000",
-              SeatFare: 400,
-              SeatIndex: 2,
-              SeatName: "2",
-              SeatStatus: true,
-              SeatType: 1,
-              Width: 1,
-              Price: {
-                CurrencyCode: "INR",
-                BasePrice: 400,
-                Tax: 0,
-                OtherCharges: 0,
-                Discount: 0,
-                PublishedPrice: 300,
-                PublishedPriceRoundedOff: 400,
-                OfferedPrice: 380,
-                OfferedPriceRoundedOff: 380,
-                AgentCommission: 20,
-                AgentMarkUp: 0,
-                TDS: 8,
-                GST: {
-                  CGSTAmount: 0,
-                  CGSTRate: 0,
-                  CessAmount: 0,
-                  CessRate: 0,
-                  IGSTAmount: 0,
-                  IGSTRate: 18,
-                  SGSTAmount: 0,
-                  SGSTRate: 0,
-                  TaxableAmount: 0,
-                },
+          "ResultIndex": "1",
+          "TraceId": "1",
+          "BoardingPointId": 1,
+          "DroppingPointId": 1,
+          "RefID": "1",
+          "Passenger": [
+              {
+                  "LeadPassenger": true,
+                  "PassengerId": 0,
+                  "Title": "Mr",
+                  "FirstName":passenger.passengerName,
+                  "LastName":passenger.passengerLName,
+                  "Email":passenger.passengerEmail,
+                  "Phoneno":passenger.passengerPhone,
+                  "Gender": passenger.gender,
+                  "IdType": null,
+                  "IdNumber": null,
+                  "Address":passenger.passengerAddress,
+                  "Age":passenger.passengerAge,
+                  "Seat": {
+                      "ColumnNo": "001",
+                      "Height": 1,
+                      "IsLadiesSeat": false,
+                      "IsMalesSeat": false,
+                      "IsUpper": false,
+                      "RowNo": "000",
+                      "SeatFare": 400,
+                      "SeatIndex": 2,
+                      "SeatName": "2",
+                      "SeatStatus": true,
+                      "SeatType": 1,
+                      "Width": 1,
+                      "Price": {
+                          "CurrencyCode": "INR",
+                          "BasePrice": 400,
+                          "Tax": 0,
+                          "OtherCharges": 0,
+                          "Discount": 0,
+                          "PublishedPrice": 400,
+                          "PublishedPriceRoundedOff": 400,
+                          "OfferedPrice": 380,
+                          "OfferedPriceRoundedOff": 380,
+                          "AgentCommission": 20,
+                          "AgentMarkUp": 0,
+                          "TDS": 8,
+                          "GST": {
+                              "CGSTAmount": 0,
+                              "CGSTRate": 0,
+                              "CessAmount": 0,
+                              "CessRate": 0,
+                              "IGSTAmount": 0,
+                              "IGSTRate": 18,
+                              "SGSTAmount": 0,
+                              "SGSTRate": 0,
+                              "TaxableAmount": 0
+                          }
+                      }
+                  }
               },
-            },
-          },
-          {
-            LeadPassenger: false,
-            PassengerId: 0,
-            Title: "Mr",
-            FirstName: "ramesh",
-            LastName: "Tomar",
-            Email: "ramesh@srdvtechnologies.com",
-            Phoneno: "1234567890",
-            Gender: "1",
-            IdType: null,
-            IdNumber: null,
-            Address: "Modinagar",
-            Age: "28",
-            Seat: {
-              ColumnNo: "002",
-              Height: 1,
-              IsLadiesSeat: false,
-              IsMalesSeat: false,
-              IsUpper: false,
-              RowNo: "000",
-              SeatFare: 400,
-              SeatIndex: 3,
-              SeatName: "3",
-              SeatStatus: true,
-              SeatType: 1,
-              Width: 1,
-              Price: {
-                CurrencyCode: "INR",
-                BasePrice: 400,
-                Tax: 0,
-                OtherCharges: 0,
-                Discount: 0,
-                PublishedPrice: 400,
-                PublishedPriceRoundedOff: 400,
-                OfferedPrice: 380,
-                OfferedPriceRoundedOff: 380,
-                AgentCommission: 20,
-                AgentMarkUp: 0,
-                TDS: 8,
-                GST: {
-                  CGSTAmount: 0,
-                  CGSTRate: 0,
-                  CessAmount: 0,
-                  CessRate: 0,
-                  IGSTAmount: 0,
-                  IGSTRate: 18,
-                  SGSTAmount: 0,
-                  SGSTRate: 0,
-                  TaxableAmount: 0,
-                },
-              },
-            },
-          },
-        ],
+             
+          ]
       };
       const res = await axios.post(BLOKING_SEAT, payload);
       const status = res.data.result.status;
@@ -279,7 +242,9 @@ const PassengerInformation = ({route}) => {
       !passengerLName ||
       !passengerAddress ||
       !passengerAge ||
-      !gender
+      !gender||
+      !passengerEmail||
+      !passengerPhone
     ) {
       Toast.show({
         type: 'error',
@@ -444,7 +409,19 @@ const PassengerInformation = ({route}) => {
              onChangeText={handlePassengerAddressChange}
              value={passengerAddress}
            />
-
+           <Input
+           title="email"
+           placeholder="Enter email address"
+           onChangeText={handlePassengerEmailChange}
+           value={passengerEmail}
+         />
+         <Input
+         title="phone number"
+         placeholder="Enter Contact number"
+         onChangeText={handlePassengerPhoneChange}
+         value={passengerPhone}
+         keyboardType="numeric"
+       />
            <Input
              title="Age"
              placeholder="Enter age"
@@ -578,7 +555,19 @@ const PassengerInformation = ({route}) => {
                 onChangeText={handlePassengerAddressChange}
                 value={passengerAddress}
               />
-
+              <Input
+           title="email"
+           placeholder="Enter email address"
+           onChangeText={handlePassengerEmailChange}
+           value={passengerEmail}
+         />
+         <Input
+         title="phone number"
+         placeholder="Enter Contact number"
+         onChangeText={handlePassengerPhoneChange}
+         value={passengerPhone}
+         keyboardType="numeric"
+       />
               <Input
                 title="Age"
                 placeholder="Enter age"

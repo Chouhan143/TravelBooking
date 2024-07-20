@@ -71,15 +71,8 @@ const ReviewBooking = () => {
   // passenger details
 
   const pessengerData = useSelector(state => state.commomReducer.passengers);
+  
   const passenger = pessengerData[0];
-  const name = passenger.passengerName;
-const last_name = passenger.passengerLName;
-const gender= passenger.gender;
-const address= passenger.passengerAddress;
-const age= passenger.passengerAge;
- console.log("Name:", name);
-console.log("Last Name:", last_name);
-console.log("Email:",passengerEmail);
   console.log('pessengerData', pessengerData);
  
   //   updateSelectedSeats
@@ -100,6 +93,8 @@ console.log("Email:",passengerEmail);
     gender: passenger.gender,
     address: passenger.passengerAddress,
     last_name: passenger.passengerLName,
+    email:passenger.passengerEmail,
+    phone:passenger.passengerPhone
   }));
 
   console.log('passengersArray', passengersArray);
@@ -121,15 +116,15 @@ console.log("Email:",passengerEmail);
                   "LeadPassenger": true,
                   "PassengerId": 0,
                   "Title": "Mr",
-                  "FirstName":name,
-                  "LastName":last_name,
+                  "FirstName":passenger.passengerName,
+                  "LastName":passenger.passengerLName,
                   "Email":passengerEmail,
                   "Phoneno":passengerPhone,
-                  "Gender":gender,
+                  "Gender": passenger.gender,
                   "IdType": null,
                   "IdNumber": null,
-                  "Address":address,
-                  "Age":age,
+                  "Address":passenger.passengerAddress,
+                  "Age":passenger.passengerAge,
                   "Seat": {
                       "ColumnNo": "001",
                       "Height": 1,
@@ -170,59 +165,7 @@ console.log("Email:",passengerEmail);
                       }
                   }
               },
-              {
-                  "LeadPassenger": false,
-                  "PassengerId": 0,
-                  "Title": "Mr",
-                  "FirstName":name,
-                  "LastName":last_name,
-                  "Email":passengerEmail,
-                  "Phoneno":passengerPhone,
-                  "Gender":gender,
-                  "IdType": null,
-                  "IdNumber": null,
-                  "Address":address,
-                  "Age":age,
-                  "Seat": {
-                      "ColumnNo": "002",
-                      "Height": 1,
-                      "IsLadiesSeat": false,
-                      "IsMalesSeat": false,
-                      "IsUpper": false,
-                      "RowNo": "000",
-                      "SeatFare": 400,
-                      "SeatIndex": 3,
-                      "SeatName": "3",
-                      "SeatStatus": true,
-                      "SeatType": 1,
-                      "Width": 1,
-                      "Price": {
-                          "CurrencyCode": "INR",
-                          "BasePrice": 400,
-                          "Tax": 0,
-                          "OtherCharges": 0,
-                          "Discount": 0,
-                          "PublishedPrice": 400,
-                          "PublishedPriceRoundedOff": 400,
-                          "OfferedPrice": 380,
-                          "OfferedPriceRoundedOff": 380,
-                          "AgentCommission": 20,
-                          "AgentMarkUp": 0,
-                          "TDS": 8,
-                          "GST": {
-                              "CGSTAmount": 0,
-                              "CGSTRate": 0,
-                              "CessAmount": 0,
-                              "CessRate": 0,
-                              "IGSTAmount": 0,
-                              "IGSTRate": 18,
-                              "SGSTAmount": 0,
-                              "SGSTRate": 0,
-                              "TaxableAmount": 0
-                          }
-                      }
-                  }
-              }
+             
           ]
       };
       const res = await axios.post(BOOKING_SEAT, payload);
@@ -296,9 +239,9 @@ console.log("Email:",passengerEmail);
             description: 'Payment for Booking',
             image: 'https://yourcompany.com/logo.png',
             prefill: {
-                email:email,
+                email:passengerEmail,
                 contact:passengerPhone,
-                name:`${name} ${lastName}`
+                
             },
             theme: {
                 color: '#F37254'
