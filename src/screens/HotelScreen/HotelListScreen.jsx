@@ -21,21 +21,29 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {haversineDistance} from '../../hooks/HaversineDistance';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { format, differenceInDays, parseISO } from 'date-fns';
+import { setHotelInfo } from '../../redux/action';
+import axios from 'axios';
+import { HOTEL_INFO } from '../../utils/BaseUrl';
+import { useDispatch } from 'react-redux';
 export default function HotelListScreen() {
+  const dispatch=useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState(null);
   const hotelData = useSelector(state => state.commomReducer.hotelData);
   const hotelDataResult = hotelData.Results || [];
   const checkInDate = parseISO(hotelData.CheckInDate);
   const checkOutDate = parseISO(hotelData.CheckOutDate);
+  
   const formattedCheckInDate = format(checkInDate, 'MMM dd, yyyy');
   const formattedCheckOutDate = format(checkOutDate, 'MMM dd, yyyy');
 const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
   // Calculate the number of days between the dates
   const numberOfNights = differenceInDays(checkOutDate, checkInDate);
-
+  const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
+  console.log('redux info data',hotelDetails);
   const currentLocation = useSelector(
     state => state.commomReducer.positionLatLong,
   );
@@ -101,10 +109,47 @@ const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
         ? haversineDistance(currentLocation.coords, hotelCoords).toFixed(0)
         : 'Calculating...';
 
+        // hotel info
+
+        const fetchHotelDetails = async () => {
+          try {
+            setLoading(true);
+            console.log("Fetching hotel details...");
+        
+            const payload = {
+              ResultIndex: "9",
+              SrdvIndex: "SrdvTB",
+              SrdvType: "SingleTB",
+              HotelCode: "92G|DEL",
+              TraceId: "1"
+            };
+        
+            console.log("Payload:", payload);
+        
+            const res = await axios.post(HOTEL_INFO, payload);
+            console.log("Response data:", res.data);
+            navigation.navigate('HotelDescriptionPage');
+            
+              const hotelInfoArr = res.data.HotelInfoResult.HotelDetails;
+              console.log("Hotel Info Array:", hotelInfoArr);
+              
+              dispatch(setHotelInfo(hotelInfoArr));
+             
+          
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching hotel details:", error);
+            if (error.response) {
+              console.error("Error response:", error.response);
+            }
+            setLoading(false);
+          }
+        };
+      
     return (
       <TouchableOpacity
         style={styles.HotelCards}
-        onPress={() => navigation.navigate('HotelDescriptionPage')}>
+        onPress={fetchHotelDetails}>
         <View>
           {item.HotelPicture != null ? (
             <Image

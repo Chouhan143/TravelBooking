@@ -16,7 +16,7 @@ import { setBookingDetails } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import RazorpayCheckout from 'react-native-razorpay';
-import { Alert } from 'react-native';
+import { format, differenceInDays, parseISO } from 'date-fns';
 export default function HotelGuestDetails() {
     const route = useRoute();
   const { room } = route.params;
@@ -32,64 +32,69 @@ export default function HotelGuestDetails() {
   const BlockRoom=useSelector(state=>state.commomReducer.hotelBlock);
   const [more, setMore] = useState(false);
   const [firstName, setFirstName] = useState('');
+  const [MiddleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [country, setCountry] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showError, setShowError] = useState(false);
   const [loading,setLoading]=useState(null);
-  const [Booking,SetBookingStatus]=useState('');
   let moreHandler = () => {
     setMore(!more);
   };
-
+  const checkInDate = parseISO(hotelData.CheckInDate);
+  const checkOutDate = parseISO(hotelData.CheckOutDate);
+  const formattedCheckInDate = format(checkInDate, 'MMM dd, yyyy');
+  const formattedCheckOutDate = format(checkOutDate, 'MMM dd, yyyy');
+const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
+  // Calculate the number of days between the dates
+  const numberOfNights = differenceInDays(checkOutDate, checkInDate);
   const BookingConfirmed = async () => {
     try {
       const payload = {
-        ResultIndex: 9,
-        HotelCode: "341089",
-        HotelName: "The Manor",
-        NoOfRooms: "1",
-        HotelRoomsDetails: [
-          {
-            RoomId: 0,
-            RoomIndex: 4,
-            Price: {
-              PublishedPrice: 15464.3,
-            },
-          },
-        ],
-        LastCancellationDate: "2020-04-16T23:59:59",
-        CancellationPolicies: [
-          {
-            Charge: 1658,
-            ChargeType: 1,
-            Currency: "INR",
-            FromDate: "2020-04-17T00:00:00",
-            ToDate: "2020-04-20T23:59:59"
-          },
-          {
-            Charge: 100,
-            ChargeType: 2,
-            Currency: "INR",
-            FromDate: "2020-04-21T00:00:00",
-            ToDate: "2020-05-01T23:59:59"
-          },
-          {
-            Charge: 100,
-            ChargeType: 2,
-            Currency: "INR",
-            FromDate: "2020-04-30T00:00:00",
-            ToDate: "2020-05-01T00:00:00"
-          }
-        ],
-        CancellationPolicy: "SINGLE DELUXE#^#INR 1658.00 will be charged, If cancelled between 17-Apr-2020 00:00:00 and 20-Apr-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 21-Apr-2020 00:00:00 and 01-May-2020 23:59:59.|100.00% of total amount will be charged, If cancelled between 30-Apr-2020 00:00:00 and 01-May-2020 00:00:00.|#!#",
-        SrdvIndex: "65",
-        SrdvType: "SingleTB",
-        TraceId: "1",
+        "ResultIndex": "65","HotelCode": "341089","HotelName": "The Manor",
+        "GuestNationality": "IN","NoOfRooms": "1","ClientReferenceNo": 0,
+        "IsVoucherBooking": true,"HotelRoomsDetails": [{"ChildCount": 0,"RequireAllPaxDetails": false,
+          "RoomId": 0,"RoomStatus": 0,"RoomIndex": 4,"RoomTypeCode": "211504640|4|1",
+          "RoomTypeName": "Deluxe Room","RatePlanCode": "230104963","RatePlan": 13,
+          "InfoSource": "FixedCombination","SequenceNo": "EA~~341089~4",
+          "DayRates": [{"Amount": 12325,"Date": "2019-09-28T00:00:00"}],
+          "SupplierPrice": null,
+          "Price": {
+            "CurrencyCode": "INR","RoomPrice": 12325,
+            "Tax": 3113.3,"ExtraGuestCharge": 0,"ChildCharge": 0,
+            "OtherCharges": 26,"Discount": 2175,"PublishedPrice": 15464.3,
+            "PublishedPriceRoundedOff": 15464,"OfferedPrice": 15464.3,
+            "OfferedPriceRoundedOff": 15464,"AgentCommission": 0,
+            "AgentMarkUp": 0,"ServiceTax": 4.68,"TDS": 0,"ServiceCharge": 0,
+            "TotalGSTAmount": 4.68,"GST": {"CGSTAmount": 0,"CGSTRate": 0,
+              "CessAmount": 0,"CessRate": 0,"IGSTAmount": 4.68,"IGSTRate": 18,
+              "SGSTAmount": 0,"SGSTRate": 0,"TaxableAmount": 26}},
+              "HotelPassenger": [{"Title": "Mr","FirstName":firstName,
+                "MiddleName":MiddleName,"LastName":lastName,"Phoneno":phoneNumber,
+                "Email":email,"PaxType": "1","LeadPassenger": true,
+                "PassportNo": null,"PassportIssueDate": null,"PassportExpDate": null,
+                "PAN": "XXXXXXXXXX"},{"Title": "Mstr","FirstName": "FirstName",
+                  "MiddleName": null,"LastName": "LastName","Phoneno": "9999999999",
+                  "Email": "test@email.com","PaxType": "2","LeadPassenger": false,"Age": "8",
+                  "PassportNo": null,"PassportIssueDate": null,"PassportExpDate": null,"PAN": "XXXXXXXXXX"}],
+                  "RoomPromotion": "Member’s exclusive price","Amenities": ["Breakfast Buffet"],
+                  "SmokingPreference": "0","BedTypes": [{"BedTypeCode": "13",
+                    "BedTypeDescription": "1 double bed"}],"HotelSupplements": [],
+                    "LastCancellationDate": "2019-09-17T00:00:00",
+                    "CancellationPolicies": [{"Charge": 100,"ChargeType": 2,"Currency": "INR",
+                      "FromDate": "2019-09-18T00:00:00","ToDate": "2019-09-26T23:59:59"},
+                      {"Charge": 100,"ChargeType": 2,"Currency": "INR","FromDate": "2019-09-27T00:00:00",
+                        "ToDate": "2019-09-29T23:59:59"},{"Charge": 100,"ChargeType": 2,"Currency": "INR",
+                          "FromDate": "2019-09-28T00:00:00","ToDate": "2019-09-29T00:00:00"}],
+                          "CancellationPolicy": "Deluxe Room#^#100.00% of total amount will be charged, If cancelled between 18-Sep-2019 00:00:00 and 26-Sep-2019 23:59:59.|100.00% of total amount will be charged, If cancelled between 27-Sep-2019 00:00:00 and 29-Sep-2019 23:59:59.|100.00% of total amount will be charged, If cancelled between 28-Sep-2019 00:00:00 and 29-Sep-2019 00:00:00.|#!#",
+                          "Inclusion": ["Breakfast Buffet"],"BedTypeCode": "13","Supplements": null}],
+                          "ArrivalTime": "2019-09-28T00:00:00",
+        "IsPackageFare": true,"SrdvType": "SingleTB","SrdvIndex": "SrdvTB",
+        "TraceId": "731","EndUserIp": "1.1.1.1","ClientId": "XXXX","UserName": "XXXX",
+        "Password": "XXXX"
       };
   
-      if (!firstName || !lastName || !email || !country || !phoneNumber) {
+      if (!firstName || !lastName || !email  || !phoneNumber) {
         setShowError(true);
         Toast.show({
           type: 'error',
@@ -102,30 +107,27 @@ export default function HotelGuestDetails() {
   
       setShowError(false);
       const response = await axios.post(HOTEL_BOOK, payload);
-      const BookingResult = response.data;
-      dispatch(setBookingDetails(BookingResult));
-      console.log('BookingResult', BookingResult);
-  
-      const { HotelBookingStatus } = BookingResult.BookResult;
-      SetBookingStatus(HotelBookingStatus);
-  
-      if (HotelBookingStatus === 'Confirmed') {
-        Toast.show({
-          type: 'success',
-          text1: 'Booking Confirmed',
-          text2: 'Your booking has been confirmed!',
-          textStyle: { color: 'green', fontSize: 12 },
-        });
-    navigation.navigate(RouteName.HOTEL_PAYMENT);
-      } else {
-        navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
-        Toast.show({
-          type: 'error',
-          text1: 'Booking Not Confirmed',
-          text2: 'Your booking could not be confirmed.',
-          textStyle: { color: 'red', fontSize: 12 },
-        });
-      }
+const BookingResult = response.data;
+dispatch(setBookingDetails(BookingResult));
+console.log('BookingResult', BookingResult);
+
+
+if (BookingResult.message === 'Booking successful') {
+  Toast.show({
+    type: 'success',
+    text1: 'Booking Confirmed',
+    text2: 'Your booking has been confirmed!',
+    textStyle: { color: 'green', fontSize: 12 },
+  });
+} else {
+  navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
+  Toast.show({
+    type: 'error',
+    text1: 'Booking Not Confirmed',
+    text2: 'Your booking could not be confirmed.',
+    textStyle: { color: 'red', fontSize: 12 },
+  });
+}
     } catch (error) {
       console.log('error', error);
       Toast.show({
@@ -137,12 +139,12 @@ export default function HotelGuestDetails() {
     }
   };
   const handlePayment = async () => {
-    if (!firstName || !lastName || !email || !country || !phoneNumber) {
+    if (!firstName || !lastName || !email || !phoneNumber) {
         setShowError(true);
         Toast.show({
             type: 'error',
             text1: 'Missing Information',
-            text2: 'Please fill out all required fields.',
+            text2: 'Please fill out all required fields only middle name is optional .',
             textStyle: { color: 'red', fontSize: 12 },
         });
         return;
@@ -175,7 +177,7 @@ export default function HotelGuestDetails() {
             prefill: {
                 email: email,
                 contact: phoneNumber,
-                name: `${firstName} ${lastName}`
+                name: `${firstName} ${MiddleName} ${lastName}`
             },
             theme: {
                color: "#3399cc"
@@ -328,19 +330,15 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
             </View>
           </View>
           <View>
-          {/* number of neights update krna h */}
-            <Text style={styles.normalText}>Total lenght of nights : 2</Text>
+         
+            <Text style={styles.normalText}>Total length of nights : {numberOfNights}</Text>
           </View>
         </View>
         {/* Selected rooms for adults */}
         <View style={[styles.hotelDetail, { borderTopWidth: 0 }]}>
           <Text style={styles.normalText}>You selected</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between',display:'flex' }}>
-           <Text style={styles.normalText}>{count} rooms for {
-              hotelData.NoOfRooms.map(item=>{
-                return item.NoOfAdults
-              })
-            } adults</Text>
+           <Text style={styles.normalText}>{count} rooms for {NoOfAdults} adults</Text>
             <TouchableOpacity onPress={moreHandler}>
               <Entypo
                 name={more ? 'chevron-down' : 'chevron-up'}
@@ -387,6 +385,14 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
           </View>
           <View style={{ marginVertical: SH(10) }}>
             <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <Text style={styles.inputLabel}>Middle name </Text>
+              <Entypo name={'star'} color='red' size={15} /></View>
+
+            <TextInput style={styles.input} onChangeText={setMiddleName} keyboardType="name-phone-pad"/>
+           
+          </View>
+          <View style={{ marginVertical: SH(10) }}>
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
               <Text style={styles.inputLabel}>last name  </Text>
               <Entypo name={'star'} color='red' size={15} /></View>
 
@@ -403,16 +409,7 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
             {showError && !email && <Text style={styles.errorText}>Please enter your email .</Text>}
             <Text style={{ color: 'black' }}>confirmation email sent to this mail address </Text>
           </View>
-          <View style={{ marginVertical: SH(10) }}>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
-              <Text style={styles.inputLabel}>Country/Region </Text>
-              <Entypo name={'star'} color='red' size={15} />
-            </View>
-
-            <TextInput style={styles.input} onChangeText={setCountry} keyboardType="name-phone-pad" />
-            {showError && !country && <Text style={styles.errorText}>Please enter your country.</Text>}
-          </View>
-
+        
           <View style={{ marginVertical: SH(10) }}>
             <View style={{ display: 'flex', flexDirection: 'row' }}>
               <Text style={styles.inputLabel}>Phone Number </Text>

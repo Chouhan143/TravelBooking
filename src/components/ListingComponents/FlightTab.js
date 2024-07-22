@@ -109,12 +109,8 @@ const FlightTab = props => {
       AdultCount: state.AdultCount,
       ChildCount: state.ChildCount,
       InfantCount: state.InfantCount,
-      // JourneyType: tabTrip,
-      // Segments: segments,
-    //   "AdultCount": "1",
-    // "ChildCount": "0",
-    // "InfantCount": "0",
-    "JourneyType": "1",
+      JourneyType: tabTrip,
+    // "JourneyType": "1",
     
     Segments: [
         {

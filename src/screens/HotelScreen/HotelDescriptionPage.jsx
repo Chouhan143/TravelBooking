@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -18,33 +19,9 @@ const HotelDescriptionPage = () => {
   const [loading, setLoading] = useState(false);
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const dispatch = useDispatch();
 
   const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
-
-  useEffect(() => {
-    const fetchHotelDetails = async () => {
-      try {
-        setLoading(true);
-        const payload = {
-          ResultIndex: "9",
-          SrdvIndex: "SrdvTB",
-          SrdvType: "SingleTB",
-          HotelCode: "92G|DEL",
-          TraceId: "1"
-        };
-        const res = await axios.post(HOTEL_INFO, payload);
-        const hotelInfoArr = res.data.HotelInfoResult.HotelDetails;
-        dispatch(setHotelInfo(hotelInfoArr));
-        setLoading(false);
-      } catch (error) {
-        console.log(error.response);
-        setLoading(false);
-      }
-    };
-
-    fetchHotelDetails();
-  }, []);
+  console.log('redux info data',hotelDetails);
 
   const renderItem = ({ item, index }) => {
     if (!item || typeof item !== 'string' || item.trim() === '') {

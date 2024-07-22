@@ -425,7 +425,18 @@ const RoomItem = ({ room, onBook, index }) => {
                                         {' '}
                                         (1 night , wed 26 jun 2024 - thur jun 2024){' '}
                                     </Text>
-                                    <Button title="Continue" onPress={() => { onBook(room); FETCH_HOTEL_BLOCK(); }} />
+                                    <TouchableOpacity onPress={() => { onBook(room); FETCH_HOTEL_BLOCK();}}  style={{ backgroundColor: Colors.theme_background,
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignSelf: 'center',
+                                        width: '90%',
+                                        borderRadius: 10,
+                                        height: SH(40),
+                                        alignItems: 'center',
+                                        marginVertical: SH(15)}}>
+                                    <Text style={{color: 'white', fontFamily: 'Poppins-Bold'}}>Continue</Text>
+                                    </TouchableOpacity>
+                                    
                                 </View>
                             </View>
                         </View>
