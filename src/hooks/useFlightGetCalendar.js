@@ -8,19 +8,16 @@ import {useDispatch} from 'react-redux';
 const useFlightGetCalendar = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [errors, setErrors] = useState(null); // State to hold errors
+  const [errors, setErrors] = useState(null); 
   const [loading, setLoading] = useState(false);
   const calendarDataGet = async calendarPayload => {
-    // console.log('calendar payload', payload);
     setLoading(true);
     setErrors(null);
     try {
       const res = await axios.post(FLIGHT_GET_CALENDAR, calendarPayload);
-      console.log('date calender', res);
+      console.log('date calender',JSON.stringify( res.data));
       if (res.status === 200) {
         dispatch(getCalenderData(res.data.Results));
-
-        // navigation.navigate(RouteName.FLIGHT_LIST_SCREEN);
       }
     } catch (error) {
       console.log(error.response.data);

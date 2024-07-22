@@ -1,7 +1,7 @@
 import React, { useState,useMemo } from "react";
-import { Text, View, ScrollView, KeyboardAvoidingView, } from "react-native";
+import { Text, View, ScrollView, KeyboardAvoidingView,TouchableOpacity } from "react-native";
 import { HelpScreenStyles, Style } from '../../styles';
-import { Button, ConfirmationAlert, Lottie, Spacing,RatingScreen, Input } from '../../components';
+import { Button, ConfirmationAlert, Lottie, Spacing,RatingScreen, Input,VectorIcon } from '../../components';
 import images from "../../index";
 import { RouteName } from "../../routes";
 import {  SF, SH ,SW,Colors} from "../../utils";

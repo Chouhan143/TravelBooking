@@ -6,27 +6,20 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import {TicketScreenStyle} from '../../styles';
-import {AppHeader} from '../../components';
 import {Colors, SF, SH, SW} from '../../utils';
 import {RouteName} from '../../routes';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 const TicketScreen = props => {
-  const {navigation} = props;
+  // const {navigation} = props;
+  const navigation=useNavigation();
   const {t} = useTranslation();
 
   return (
     <View
       style={{flex:1,backgroundColor:'white',paddingTop:SH(20)}}>
       <View style={{flex:1,backgroundColor:'white'}}>
-        <AppHeader
-          headerTitle={t('Download_Ticket')}
-          Iconname={true}
-          onPress={() => navigation.navigate("root")}
-          
-        />
-
         <View style={{margin:SW(8),display:'flex',flexDirection:'row'}}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(RouteName.REVIEW_BUS_TICKET_SCREEN)}>
         <Text style={styles.buttonText}>Bus Ticket</Text>

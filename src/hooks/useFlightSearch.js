@@ -19,7 +19,7 @@ const useFlightSearch = () => {
 
     try {
       const res = await axios.post(Flight_SEARCH, searchPayload);
-      // console.log('search flight data ',res.data);
+      // console.log('search flight data ',JSON.stringify(res.data));
       if (res.status === 200) {
         dispatch(storeFlightData(res.data, res.data.Results));
         const test1 = res?.data?.Results?.flat();

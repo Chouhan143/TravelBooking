@@ -211,6 +211,6 @@ export default ProfileTabStyles = (Colors) => StyleSheet.create({
     justifyContent: 'space-between'
   },
   SingleButtonText: {
-    color: Colors.theme_background_brink_pink
+    color: Colors.theme_background
   }
 });

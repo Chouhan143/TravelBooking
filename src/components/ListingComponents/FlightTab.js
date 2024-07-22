@@ -141,8 +141,8 @@ const FlightTab = props => {
       JourneyType: tabTrip,
       Segments: [
         {
-          Origin: sourceCityCode,
-          Destination: destinationCityCode,  
+          "Origin": "DEL",
+          "Destination": "BOM",
           FlightCabinClass: state.FloorNumber,
           PreferredDepartureTime: `${departureDate}T00:00:00`,
           PreferredArrivalTime: `${departureDate}T01:00:00`,

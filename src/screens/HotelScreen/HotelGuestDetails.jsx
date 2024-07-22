@@ -178,7 +178,7 @@ export default function HotelGuestDetails() {
                 name: `${firstName} ${lastName}`
             },
             theme: {
-                color: '#F37254'
+               color: "#3399cc"
             }
         };
 

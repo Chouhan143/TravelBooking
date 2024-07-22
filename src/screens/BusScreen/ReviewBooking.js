@@ -244,7 +244,7 @@ const ReviewBooking = () => {
                 
             },
             theme: {
-                color: '#F37254'
+                color: "#3399cc"
             }
         };
 

@@ -68,7 +68,7 @@ const OtpVerifyScreen = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ alignItems: 'center' }}>
-      <Image source={require('../../../images/Otp.png')} style={styles.image} />
+      <Image source={require('../../../images/otpNew.jpg')} style={styles.image} />
         <Text style={styles.heading}>Enter Your Mobile Number</Text>
         <TextInput
           placeholder='Mobile Number '
@@ -78,11 +78,10 @@ const OtpVerifyScreen = () => {
           onChangeText={handleMobileChange}
         />
         <TouchableOpacity onPress={OtpVerify}>
-          <Text style={styles.button}>Send OTP</Text>
+          <Text style={styles.button}>GET OTP</Text>
         </TouchableOpacity>
         <Text style={styles.BottomText}>
-          If you are a new user, you need to register your mobile number for
-          verification. Once your registration is successful, you will be able to log in using the OTP sent to your registered mobile number.
+         we will send you one time verification code to this number
         </Text>
       </View>
     </ScrollView>
@@ -93,7 +92,7 @@ export default OtpVerifyScreen;
 
 const styles = StyleSheet.create({
   image: {
-    width: '100%', height: SH(400), resizeMode: 'contain', marginTop: SH(20),
+    width: '100%', height: SH(450), resizeMode: 'contain', marginTop: SH(20),
   },
   heading: {
     color: 'black',
@@ -107,31 +106,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: SW(120),
     paddingVertical: SH(15),
     borderRadius: 10,
+    marginTop:SH(10)
   },
   input: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    borderRadius: 10, 
     margin: SH(10),
     textAlign: 'left',
     color: 'black',
-    paddingRight: SW(190),
-    paddingLeft:SW(15)
+    width: SW(300),
+    padding: SH(10)
   },
   BottomText: {
-    color: 'black',
+    color:Colors.theme_background,
     flexWrap: 'wrap',
     textAlign: 'center',
-    fontSize: SF(10),
-    marginTop: SW(135),
+    fontSize: SF(15),
+    marginTop: SW(10),
     marginVertical: SH(10),
-    marginHorizontal:SW(5),
+    marginHorizontal:SW(40),
     backgroundColor: 'white',
     padding: SW(20),
     borderRadius: 10,
-    borderColor: '#f2a26f',
-    borderWidth: 1,
-    textTransform: 'capitalize',
-    elevation:10
+   
   },
 });

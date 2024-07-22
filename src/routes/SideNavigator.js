@@ -50,7 +50,7 @@ const SideNavigator = (props) => {
       }
     }}
     >
-      <Stack.Screen name={RouteName.HOME_SCREEN} component={TabNavigator} />
+      <Stack.Screen name={"Root"} component={TabNavigator} />
       <Drawer.Screen
         name={RouteName.HELP_SCREEN} component={HelpScreen}
         options={{

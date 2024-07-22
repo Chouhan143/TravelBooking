@@ -8,7 +8,7 @@ import RouteName from "../../../routes/RouteName";
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import Colors from "../../../utils";
-
+import * as ImagePicker from 'react-native-image-picker';
 const ProfileTab = (props) => {
   const { Colors } = useTheme();
   const ProfileTabStyle = useMemo(() => ProfileTabStyles(Colors), [Colors]);
@@ -19,13 +19,14 @@ const ProfileTab = (props) => {
   const [passwordVisibilityold, setpasswordVisibilityold] = useState(true);
   const [passwordVisibilitynew, setpasswordVisibilitynew] = useState(true);
   const [passwordVisibilityconfirm, setPasswordVisibilityconfirm] = useState(true);
+  const [profileImage, setProfileImage] = useState(require('../../../images/userdp.jpg')); 
 
   const stateArray = {
     Oldpassword: "",
     Newpassword: "",
-    email: "",
+    email: "testemail@example.com",
     Confirmpassword: "",
-    number: null,
+    number: "9603456878",
   };
   const [state, setState] = useState(stateArray);
   const onChangeText = (text) => {
@@ -48,12 +49,40 @@ const ProfileTab = (props) => {
   const onoknutton = () => {
     navigation.navigate(RouteName.LOGIN_SCREEN);
   }
+  const selectImage = () => {
+    const options = {
+      title: 'Select Profile Image',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.assets[0].uri };
+        setProfileImage(source);
+      }
+    });
+  };
+  const handleSaveChanges = () => {
+    setModalVisible(false);
+  };
+
   return (
     <View style={ProfileTabStyle.BackgroundWhite}>
       <View style={ProfileTabStyle.whilistminbody}>
         <View style={ProfileTabStyle.ImagCenter}>
           <View>
-            <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={images.User_image_one_profile} />
+          <TouchableOpacity onPress={selectImage}>
+          <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={profileImage} />
+        </TouchableOpacity>
             <Text style={ProfileTabStyle.UserName}>{t("Allison_Perry")}</Text>
           </View>
         </View>
@@ -66,7 +95,7 @@ const ProfileTab = (props) => {
             <View style={styles.inputs}>
               <View>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Phone_Number")}</Text>
-                <Text style={ProfileTabStyle.DigitNumberText}>96034 56878</Text>
+                <Text style={ProfileTabStyle.DigitNumberText}>{state.number}</Text>
               </View>
               <View>
                 <TouchableOpacity onPress={() => { setModalVisible(true); setmodalcontent(1) }} >
@@ -210,7 +239,8 @@ const ProfileTab = (props) => {
                               title={t("Ok")} />
                           </View>
                           <View style={ProfileTabStyle.Marginright}>
-                            <Button buttonStyle={ProfileTabStyle.SingleButtonStyles} buttonTextStyle={ProfileTabStyle.SingleButtonText} title={t("Cancel_Button")} onPress={() => setModalVisible(!modalVisible)} />
+                            <Button buttonStyle={{borderColor: Colors.theme_background,backgroundColor: Colors.white_text_color,borderWidth: SW(1),}} 
+                            buttonTextStyle={{color:Colors.theme_background}} title={t("Cancel_Button")} onPress={() => setModalVisible(!modalVisible)} />
                           </View>
                         </View>
                         :
@@ -234,7 +264,7 @@ const ProfileTab = (props) => {
             <View style={styles.inputs}>
               <View style={ProfileTabStyle.setpadiingtext}>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Email_Text")}</Text>
-                <Text style={ProfileTabStyle.DigitNumberText}>{t("Testemail")}</Text>
+                <Text style={ProfileTabStyle.DigitNumberText}>{state.email}</Text>
               </View>
               <View>
                 <TouchableOpacity onPress={() => { setModalVisible(true); setmodalcontent(2) }}>
@@ -254,7 +284,7 @@ const ProfileTab = (props) => {
             <View style={styles.inputs}>
               <View>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Password_Text")}</Text>
-                <Text style={ProfileTabStyle.DigitNumberText}>******</Text>
+                <Text style={ProfileTabStyle.DigitNumberText}>{state.Newpassword}</Text>
               </View>
               <View>
                 <TouchableOpacity onPress={() => { setModalVisible(true); setmodalcontent(3) }}>

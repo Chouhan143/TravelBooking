@@ -79,9 +79,9 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Image source={require('../../../images/Register.png')} style={styles.image} />
+        <Image source={require('../../../images/RegisterNew.png')} style={styles.image} />
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.title}>Register Your Account</Text>
           <Image style={{ width: SW(90), height: SH(80) }} resizeMode="contain" source={require('../../../images/Logo.png')} />
@@ -126,7 +126,7 @@ const RegisterScreen = () => {
           onChangeText={setReferral}
         />
         <TouchableOpacity style={styles.button} onPress={RegisterProcess}>
-          <Text style={styles.buttonText}>Register</Text>
+          <Text style={styles.buttonText}>REGISTER</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.theme_background,
     paddingHorizontal: SW(120),
-    paddingVertical: SH(15),
+    paddingVertical: SH(10),
     borderRadius: 10,
     alignItems: 'center',
     marginVertical: SH(10),
@@ -147,18 +147,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   input: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
+   borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    borderRadius: 10, 
     margin: SH(10),
     textAlign: 'left',
     color: 'black',
     width: SW(300),
-    padding: SH(10),
+    padding: SH(10)
   },
   image: {
-    width: SW(400),
-    height: SH(250),
+    width: SW(600),
+    height: SH(300),
     resizeMode: 'contain',
   },
   title: {

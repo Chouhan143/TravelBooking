@@ -55,7 +55,7 @@ const LoginScreen = () => {
   return (
     <ScrollView style={{ flex: 1,backgroundColor:'white'}}>
                <View style={{justifyContent:'center',alignItems:'center'}}>
-               <Image source={require('../../../images/Login.png')} style={styles.image} />
+               <Image source={require('../../../images/LoginNew.png')} style={styles.image} />
                <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
         <Text style={{ color: 'black',fontFamily:'Poppins-Medium',
        fontSize:SF(20),alignSelf:'flex-start',marginTop:SH(20)}}>
@@ -84,7 +84,7 @@ const LoginScreen = () => {
        keyboardType='numeric'
      />
      <TouchableOpacity style={styles.button} onPress={LoginProcess}>
-       <Text style={{ color: 'white',fontFamily:'Poppins-Bold' }}>Login</Text>
+       <Text style={{ color: 'white',fontFamily:'Poppins-Bold' }}>LOGIN</Text>
      </TouchableOpacity>    
                </View>
     </ScrollView>
@@ -103,14 +103,14 @@ const styles = StyleSheet.create({
     marginVertical: SH(10),
   },
   input: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    borderRadius: 10, 
     margin: SH(10),
     textAlign: 'left',
     color: 'black',
     width: SW(300),
-    padding: SH(10),
+    padding: SH(10)
   },
   image: {
     width:SW(500), height: SH(450), resizeMode: 'contain',

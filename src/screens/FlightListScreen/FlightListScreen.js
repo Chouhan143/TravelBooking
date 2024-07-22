@@ -183,7 +183,7 @@ const FlightListScreen = props => {
         TraceId: TraceId,
         ResultIndex: ResultIndexValue,
       };
-
+      console.log('fare quote payload',payload)
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
        console.log('FLIGHT_FARE_QUOTE',res.data);
       dispatch(flightFareQutesData(res.data.Results));
@@ -263,7 +263,7 @@ const FlightListScreen = props => {
               <FlightMobileSelect
                 item={item}
                 index={index}
-                onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}
+                onPress={() => navigation.navigate("Root")}
               />
             )}
             keyExtractor={item => item.id}

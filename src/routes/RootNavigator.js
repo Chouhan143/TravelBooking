@@ -55,6 +55,7 @@ import { ROOM_COUNTERS_DECREMENT } from '../redux/actiontypes';
 import OtpVerifyScreen from '../screens/Authantication/OtpVerifyScreen/OtpVerifyScreen';
 import Toast from 'react-native-toast-message';
 import BusBooking from '../screens/BusScreen/BusBooking';
+import { CustomSidebarMenu } from '../components';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -97,7 +98,10 @@ const RootNavigator = props => {
             name={RouteName.SIDE_NAVIGATOR}
             component={SideNavigator}
           />
-
+          <Stack.Screen
+          name={RouteName.CUSTOM_NAVIGATOR}
+          component={CustomSidebarMenu}
+        />
           <Stack.Screen
             name={RouteName.BUS_LIST_SCREEN}
             component={BusListScreen}
