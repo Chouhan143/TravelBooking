@@ -121,9 +121,9 @@ const [modalVisible, setModalVisible] = useState(false);
       let file = await RNHTMLtoPDF.convert(options);
       const newFilePath = `${RNFS.DownloadDirectoryPath}/flight_ticket.pdf`;
       await RNFS.moveFile(file.filePath, newFilePath);
-      setModalVisible(true); // Show the success modal
-      setPdfFilePath(newFilePath); // Set the PDF file path for the modal text
-      // Alert.alert('PDF Created', `File saved to ${newFilePath}`);
+      setModalVisible(true); 
+      setPdfFilePath(newFilePath);
+   
       console.log(newFilePath);
     } catch (error) {
       console.error(error);

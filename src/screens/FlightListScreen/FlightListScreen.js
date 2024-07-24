@@ -47,6 +47,14 @@ const FlightListScreen = props => {
 
   const {searchParams} = route.params; // Get searchParams from navigation
   // coming store data from redux
+
+  const FareQuoteData=useSelector(state=>state.commomReducer.flightFareQutesData);
+  console.log('Stored FareQuoteData',FareQuoteData);
+  const BaseFare=FareQuoteData.Fare.BaseFare;
+  const Tax=FareQuoteData.Fare.Tax;
+  const YQTax=FareQuoteData.Fare.YQTax;
+  console.log(`BaseFare ${BaseFare} Tax ${Tax}  YQTax ${YQTax}`);
+
   const {Detailedata} = useSelector(state => state.commomReducer) || {
     Detailedata,
   };
@@ -186,20 +194,197 @@ const FlightListScreen = props => {
       console.log('fare quote payload',payload)
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
        console.log('FLIGHT_FARE_QUOTE',res.data);
+       const IsLLc=res.data.Results.IsLCC;
+       console.log('IsLLc',IsLLc);
+       if(IsLLc===true){
+        BookLLc();
+       }
+       else{
+        BookHold();
+       }
       dispatch(flightFareQutesData(res.data.Results));
 
       setFlightBottomData(res.data.Results);
 
       // console.log('res fare qute', res.data.Results);
     } catch (error) {
-      console.log('error fare qute', error.response);
+      console.log('error fare qute', error);
     }
   };
 
   useEffect(() => {
     getFareQuteData();
+    // BookLLc();
+    // BookHold();
   }, []);
 
+  // book llc api integration 
+ 
+  const BookLLc=async()=>{
+    try{
+      const payload={
+        SrdvType: SrdvType,
+        SrdvIndex: SrdvIndexValue,
+        TraceId: TraceId,
+        ResultIndex: ResultIndexValue,
+        "Passengers": [
+          {
+            "Title": "Mr",
+            "FirstName": "Harish",
+            "LastName": "Name",
+            "PaxType": 1,
+            "DateOfBirth": "",
+            "Gender": "1",
+            "PassportNo": "",
+            "PassportExpiry": "",
+            "PassportIssueDate": "",
+            "AddressLine1": "A152 Ashok Nagar",
+            "City": "Delhi",
+            "CountryCode": "IN",
+            "CountryName": "INDIA",
+            "ContactNo": "0000000000",
+            "Email": "navneet@srdvtechnologies.com",
+            "Baggage": [
+              {
+                "WayType": 1,
+                "Code": "XBPESeKey309",
+                "Description": "Excess Baggage - 3 Kg",
+                "Weight": "Excess Baggage - 3 Kg",
+                "Currency": "INR",
+                "Price": 1350,
+                "Origin": "DEL",
+                "Destination": "AMD"
+              }
+            ],
+            "MealDynamic": [
+              {
+                "WayType": 1,
+                "Code": "TCSWSeKey309",
+                "Description": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
+                "AirlineDescription": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
+                "Quantity": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
+                "Currency": "INR",
+                "Price": 400,
+                "Origin": "DEL",
+                "Destination": "AMD"
+              },
+              {
+                "WayType": 1,
+                "Code": "TCSWSeKey310",
+                "Description": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
+                "AirlineDescription": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
+                "Quantity": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
+                "Currency": "INR",
+                "Price": 400,
+                "Origin": "AMD",
+                "Destination": "BOM"
+              }
+            ],
+            "Seat": [
+              {
+                "AirlineCode": "6E",
+                "FlightNumber": "6794",
+                "SeatNumber": "5B",
+                "IsBooked": false,
+                "IsLegroom": false,
+                "IsAisle": null,
+                "Amount": 250,
+                "Code": "5BSeKey310",
+                "Origin": "AMD",
+                "Destination": "BOM"
+              },
+              {
+                "AirlineCode": "6E",
+                "FlightNumber": "2501",
+                "SeatNumber": "4C",
+                "IsBooked": false,
+                "IsLegroom": false,
+                "IsAisle": true,
+                "Amount": 350,
+                "Code": "4CSeKey309",
+                "Origin": "DEL",
+                "Destination": "AMD"
+              }
+            ],
+            "IsLeadPax": 1,
+            "Fare": {
+            "BaseFare": BaseFare,
+            "Tax": Tax,
+            "YQTax": YQTax,
+              "TransactionFee": "0",
+              "AdditionalTxnFeeOfrd": "",
+              "AdditionalTxnFeePub": "",
+              "AirTransFee": "0"
+            }
+          }
+        ]
+      }
+      console.log('book llc payload',JSON.stringify(payload))
+      const res=await axios.post('https://sajyatra.sajpe.in/admin/api/bookllc',payload);
+      const BookLLcResponse=res.data;
+      console.log('BookLLcResponse',BookLLcResponse);
+    }
+    catch(error){
+    console.log('error',error);
+    }
+  }
+
+  // book hold api 
+
+  const BookHold=async()=>{
+    try{
+       const payload={
+        
+          "EndUserIp": "1.1.1.1",
+          "ClientId": "180112",
+          "UserName": "Maneesh3",
+          "Password": "Maneesh@36",
+          SrdvType: SrdvType,
+        SrdvIndex: SrdvIndexValue,
+        TraceId: TraceId,
+        ResultIndex: ResultIndexValue,
+          "Passengers": [
+              {
+                  "Title": "Mr",
+                  "FirstName": "Joj",
+                  "LastName": "Milson",
+                  "PaxType": 1,
+                  "DateOfBirth": "1997-03-12T00:00:00",
+                  "Gender": "1",
+                  "PassportNo": "abc123456",
+                  "PassportExpiry": "2031-03-12T00:00:00",
+                  "AddressLine1": "Noida, Sector 63",
+                  "City": "Noida",
+                  "CountryCode": "IN",
+                  "CountryName": "INDIA",
+                  "ContactNo": "1234567890",
+                  "Email": "email@gmail.com",
+                  "IsLeadPax": 1,
+                  "Fare": [
+                      {
+                          "Currency": "INR",
+                          "BaseFare":BaseFare,
+                          "Tax": Tax,
+                          "YQTax":YQTax,
+                          "OtherCharges": 0,
+                          "TransactionFee": "0",
+                          "AdditionalTxnFeeOfrd": 0,
+                          "AdditionalTxnFeePub": 0,
+                          "AirTransFee": "0"
+                      }
+                  ]
+              }
+          ]
+      } 
+      const res=await axios.post('https://sajyatra.sajpe.in/admin/api/book-hold',payload);
+      const BookHold=res.data;
+      console.log('BookHold',BookHold);
+       
+    }
+    catch(error){
+      console.log('error',error);
+    }
+  }
   // console.log('flightBotomData', flightBotomData);
 
   const Segments = flightBotomData?.Segments ?? [];
