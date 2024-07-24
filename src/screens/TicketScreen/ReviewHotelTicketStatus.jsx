@@ -64,7 +64,7 @@ const ReviewHotelTicketStatus = () => {
     const renderItem=({item})=>{
   
       return(
-          <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.BUS_TICKET_SCREEN)}>
+          <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN)}>
           <View styles={styles.cardItem}>
           <Text style={styles.contentText}>{item.Name}</Text>
           </View>

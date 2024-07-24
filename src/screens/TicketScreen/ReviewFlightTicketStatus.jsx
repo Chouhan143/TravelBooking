@@ -71,7 +71,7 @@ const ReviewFlightTicketStatus = () => {
   
       return(
           <TouchableOpacity style={styles.card} 
-          onPress={()=>navigation.navigate(RouteName.BUS_TICKET_SCREEN)}>
+          onPress={()=>navigation.navigate(RouteName.FLIGHT_TICKET_SCREEN)}>
           <View style={styles.cardItem}>
           <Text style={styles.contentText}>{item.StartingPoint}</Text>
           <Text style={styles.contentText}>{item.DestinationPoint}</Text>

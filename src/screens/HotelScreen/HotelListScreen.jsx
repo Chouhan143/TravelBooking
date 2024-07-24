@@ -127,7 +127,7 @@ const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
             console.log("Payload:", payload);
         
             const res = await axios.post(HOTEL_INFO, payload);
-            console.log("Response data:", res.data);
+            // console.log("Response data:", res.data);
             navigation.navigate('HotelDescriptionPage');
             
               const hotelInfoArr = res.data.HotelInfoResult.HotelDetails;
