@@ -7,7 +7,7 @@ import { RouteName } from "../../routes";
 import {  SF, SH ,SW,Colors} from "../../utils";
 import { useTheme } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
-
+import Entypo from 'react-native-vector-icons/Entypo'
 const ReviewsScreen = (props) => {
   const { navigation } = props;
   const { t } = useTranslation();
@@ -26,6 +26,10 @@ const ReviewsScreen = (props) => {
 
   return (
     <View style={HelpScreenStyle.MinViewScreenTwo}>
+    <View style={{display:'flex',flexDirection:'row',marginVertical:SH(15)}}>
+          <Entypo name={'menu'} color={Colors.theme_background} size={35} onPress={()=>navigation.navigate("Root")}/>
+          <Text style={{color:Colors.theme_background,fontSize:SF(25)}}>Reviews</Text>
+          </View>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Style.ScrollViewStyles}>

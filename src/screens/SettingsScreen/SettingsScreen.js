@@ -5,13 +5,14 @@ import { useTheme } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { Spacing, Switchs, VectorIcon, ModalLanguage } from '../../components';
 import { SH, SF,SW } from '../../utils';
-
+import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from "@react-navigation/native";
 const SettingStylesScreen = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const { Colors } = useTheme();
   const SettingStyles = useMemo(() => SettingStyle(Colors), [Colors]);
-
+   const navigation=useNavigation();
   const { t } = useTranslation();
   let englishLanguage = t("English");
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,13 +24,20 @@ const SettingStylesScreen = () => {
 
   return (
     <>
-      <View style={[Style.MinViewScreen,{flex:1,backgroundColor:'white'}]}>
+      <View style={[{flex:1,backgroundColor:'white'}]}>
+      <View style={{display:'flex',flexDirection:'row',marginLeft:SH(20),marginVertical:SH(15)}}>
+          <Entypo name={'menu'} color={Colors.theme_background} size={35} onPress={()=>navigation.navigate("Root")}/>
+          <Text style={{color:Colors.theme_background,fontSize:SF(25)}}>Settings</Text>
+          </View>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={Style.contentContainerStyle}>
           <KeyboardAvoidingView enabled>
+          
             <View style={SettingStyles.KeyBordTopViewStyle}>
+            
               <View style={SettingStyles.MinFlexView}>
+             
               <View style={{padding:SW(10),borderColor:'#b6ecfa',borderRadius:10,borderWidth:1,width:SW(350)}}>
               <View style={SettingStyles.Togglrswitchflex}>
               <View>

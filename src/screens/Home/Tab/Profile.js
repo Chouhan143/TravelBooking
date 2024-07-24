@@ -265,7 +265,7 @@ const ProfileTab = (props) => {
               <View style={ProfileTabStyle.setpadiingtext}>
                 <Text style={ProfileTabStyle.PhoneNumberText}>{t("Email_Text")}</Text>
                 <Text style={ProfileTabStyle.DigitNumberText}>{state.email}</Text>
-              </View>
+              </View>s
               <View>
                 <TouchableOpacity onPress={() => { setModalVisible(true); setmodalcontent(2) }}>
                   <View>

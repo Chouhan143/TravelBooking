@@ -11,6 +11,7 @@ import {RouteName} from '../../routes';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
+import Entypo from 'react-native-vector-icons/Entypo';
 const TicketScreen = props => {
   // const {navigation} = props;
   const navigation=useNavigation();
@@ -18,7 +19,11 @@ const TicketScreen = props => {
 
   return (
     <View
-      style={{flex:1,backgroundColor:'white',paddingTop:SH(20)}}>
+      style={{flex:1,backgroundColor:'white'}}>
+      <View style={{display:'flex',flexDirection:'row',marginLeft:SH(20),marginVertical:SH(15)}}>
+          <Entypo name={'menu'} color={Colors.theme_background} size={35} onPress={()=>navigation.navigate("Root")}/>
+          <Text style={{color:Colors.theme_background,fontSize:SF(25)}}>Tickets</Text>
+          </View>
       <View style={{flex:1,backgroundColor:'white'}}>
         <View style={{margin:SW(8),display:'flex',flexDirection:'row'}}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(RouteName.REVIEW_BUS_TICKET_SCREEN)}>

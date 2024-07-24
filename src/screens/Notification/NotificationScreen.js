@@ -3,16 +3,21 @@ import { Text, View, Image, ScrollView, KeyboardAvoidingView, TouchableOpacity, 
 import { HelpScreenStyles, Style } from '../../styles';
 import images from '../../index';
 import { Spacing } from '../../components';
-import { SH, SW ,Colors} from '../../utils';
+import { SH, SW,SF ,Colors} from '../../utils';
 import { useTranslation } from "react-i18next";
-import { useTheme } from '@react-navigation/native';
-
+import { useNavigation, useTheme } from '@react-navigation/native';
+import Entypo from 'react-native-vector-icons/Entypo'
 const NotificationScreen = () => {
+  const navigation=useNavigation();
   const { t } = useTranslation();
   const { Colors } = useTheme();
   const HelpScreenStyle = useMemo(() => HelpScreenStyles(Colors), [Colors]);
   return (
-    <View style={HelpScreenStyle.MinViewScreen}>
+    <View style={{flex:1,backgroundColor:'white'}}>
+    <View style={{display:'flex',flexDirection:'row',marginLeft:SH(20),marginVertical:SH(15)}}>
+          <Entypo name={'menu'} color={Colors.theme_background} size={35} onPress={()=>navigation.navigate("Root")}/>
+          <Text style={{color:Colors.theme_background,fontSize:SF(25)}}>Notifications</Text>
+          </View>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Style.ScrollViewStyle}>

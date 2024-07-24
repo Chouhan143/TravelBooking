@@ -1,13 +1,14 @@
 import React, { useMemo } from "react";
-import { View, KeyboardAvoidingView, FlatList } from "react-native";
+import { View, KeyboardAvoidingView, FlatList,Text } from "react-native";
 import { HelpScreenStyles, Style } from '../../styles';
 import { Spacing,FAQData,Search } from '../../components';
-import { SH } from '../../utils';
+import { SH,SF,Colors } from '../../utils';
 import { ScrollView } from 'react-native-virtualized-view';
-import { useTheme } from '@react-navigation/native';
-
+import { useNavigation, useTheme } from '@react-navigation/native';
+import Entypo from 'react-native-vector-icons/Entypo'
 const FAQScreen = () => {
     const { Colors } = useTheme();
+    const navigation=useNavigation();
     const HelpScreenStyle = useMemo(() => HelpScreenStyles(Colors), [Colors]);
    
     const Faqdataset = [
@@ -56,6 +57,10 @@ const FAQScreen = () => {
 
     return (
         <View style={{flex:1,backgroundColor:'white'}}>
+        <View style={{display:'flex',flexDirection:'row',marginLeft:SH(20),marginVertical:SH(15)}}>
+        <Entypo name={'menu'} color={Colors.theme_background} size={35} onPress={()=>navigation.navigate("Root")}/>
+        <Text style={{color:Colors.theme_background,fontSize:SF(25)}}>FAQ</Text>
+        </View>
             <ScrollView nestedScrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={Style.ScrollViewStyles}>
