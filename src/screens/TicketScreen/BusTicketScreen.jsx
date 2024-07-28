@@ -7,13 +7,36 @@ import { Spacing } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RouteName } from '../../routes';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import { SF, SH, SW,Colors } from '../../utils';
-const BusTicketScreen = () => {
+import moment from 'moment';
+import { BUS_CANCEL } from '../../utils/BaseUrl';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
+const BusTicketScreen = ({route}) => {
 const [modalVisible, setModalVisible] = useState(false);
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
   const [pdfFilePath, setPdfFilePath] = useState('');
+  const passengername=route.params;
   const { t } = useTranslation();
  const navigation=useNavigation();
+ const Data=useSelector(state=>state.commomReducer.busPayload);
+ const selectedBoardingPoint=useSelector(state=>state.commomReducer.selectedBoardingPoint);
+ const selectedDroppingPoint=useSelector(state=>state.commomReducer.selectedDroppingPoint);
+  const busBookingStatus=useSelector(state=>state.commomReducer.busBookingStatus);
+  const totalFare = useSelector(state => state.commomReducer.totalPrice);
+  const mainPassenger = useSelector(state =>state.commomReducer.mainPassenger);
+  const busId=busBookingStatus.result.data.Result.BusId;
+  const TicketNo=busBookingStatus.result.data.Result.TicketNo;
+  console.log('mainPassenger',mainPassenger);
+  const selectedSeatData = useSelector(
+    state => state.commomReducer.selectedSeats,
+  );
+  const commaSepratedSeat = selectedSeatData.join(', ');
+  console.log(selectedSeatData.join(', '));
+  const formatDate = (dateString) => {
+    return moment(dateString).format('MMMM Do YYYY, h:mm:ss a');
+  };
   const requestPermission = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -63,6 +86,23 @@ const [modalVisible, setModalVisible] = useState(false);
     }
   };
 
+  // cancel api 
+   const CancelApi=async()=>{
+        try{
+          const payload={
+            "BusId" : "11836",
+            "SeatId" : "25SYK4ET",
+            "Remarks": "test"
+          }
+          const res=await axios.post(BUS_CANCEL,payload);
+          console.log('cancel bus data',res.data);
+          setCancelModalVisible(true)
+        }
+        catch(error){
+          console.log('error',error);
+        }
+   }
+
   const createPDF = async () => {
     await requestPermission();
 
@@ -70,12 +110,12 @@ const [modalVisible, setModalVisible] = useState(false);
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #000; width: 600px; margin: auto; margin-top: 20px;">
           <h1 style="text-align: center;">Bus Ticket</h1>
-          <p><strong>Passenger Name:</strong> John Doe</p>
-          <p><strong>Bus Number:</strong> ABC123</p>
-          <p><strong>Date of Journey:</strong> 25th July 2024</p>
-          <p><strong>Departure Time:</strong> 10:00 AM</p>
-          <p><strong>Departure Location:</strong> Main Bus Station, City</p>
-          <p><strong>Destination:</strong> Another City</p>
+          <p><strong>Passenger Name:</strong>${passengername}</p>
+          <p><strong>Bus Number:</strong> ${busId}</p>
+          <p><strong>Date & Time Of  Boarding Point :</strong> ${formatDate(selectedBoardingPoint.CityPointTime)}</p>
+          <p><strong>Date & Time Of  Dropping Point:</strong>${formatDate(selectedDroppingPoint.CityPointTime)}</p>
+          <p><strong>Departure Location:</strong> ${selectedDroppingPoint.CityPointLocation}</p>
+          <p><strong>Destination:</strong>${Data.destination_city}</p>
           
           <h2 style="text-align: center;">Seat Details</h2>
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
@@ -84,33 +124,32 @@ const [modalVisible, setModalVisible] = useState(false);
               <th style="padding: 8px;">Class</th>
             </tr>
             <tr>
-              <td style="padding: 8px;">12A</td>
+              <td style="padding: 8px;">${commaSepratedSeat}</td>
               <td style="padding: 8px;">Economy</td>
             </tr>
           </table>
 
            <h2 style="text-align: center;">Ticket Details</h2>
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
-            <tr>
+          <tr>
               <th style="padding: 8px;">Ticket Number</th>
+              <th style="padding: 8px;">Ticket Price</th>
             </tr>
             <tr>
-               <td style="padding: 8px;">#123456</td>
+              <td style="padding: 8px;">${TicketNo}</td>
+              <td style="padding: 8px;">${totalFare}</td>
             </tr>
           </table>
 
           <h2 style="text-align: center;">Bus Details</h2>
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
             <tr>
-              <th style="padding: 8px;">Bus Number</th>
-             
+              <th style="padding: 8px;">Bus Id</th>
             </tr>
             <tr>
-              <td style="padding: 8px;">ABC123</td>
+              <td style="padding: 8px;">${busId}</td>  
             </tr>
           </table>
-          
-
           <p style="text-align: center; margin-top: 20px;">Thank you for choosing our bus service. Have a safe journey!</p>
         </div>
       `,
@@ -130,7 +169,6 @@ const [modalVisible, setModalVisible] = useState(false);
       console.error(error);
     }
   };
-
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
     <View  style={styles.Maincontainer}>
@@ -139,14 +177,14 @@ const [modalVisible, setModalVisible] = useState(false);
           <View style={styles.container}>
             <View style={styles.ticketInfo}>
               <Text style={styles.routeText}>
-                Indore - Dewas
+              <Text style={styles.contentText}>{Data.source_city} - {Data.destination_city}</Text>
               </Text>
               <Text style={styles.ticketIdText}>
-                ( CBCE - 1068-51042 )
+             {busId}
               </Text>
             </View>
 
-            <Spacing space={SH(15)} />
+            <Spacing space={SH(10)} />
 
             <View style={styles.detailRow}>
               <View style={styles.detailItem}>
@@ -154,7 +192,7 @@ const [modalVisible, setModalVisible] = useState(false);
                   {t('name')}
                 </Text>
                 <Text style={styles.valueText}>
-                  Graham Gooch
+                {passengername}
                 </Text>
               </View>
               <View style={styles.detailItem}>
@@ -162,7 +200,7 @@ const [modalVisible, setModalVisible] = useState(false);
                   {t('Ticket_No')}
                 </Text>
                 <Text style={styles.valueText}>
-                  # 82403
+                {TicketNo}
                 </Text>
               </View>
             </View>
@@ -172,52 +210,49 @@ const [modalVisible, setModalVisible] = useState(false);
             <View style={styles.detailRow}>
               <View style={styles.detailItem}>
                 <Text style={styles.labelText}>
-                  Starting Point
+                  Boarding Point
                 </Text>
                 <Text style={styles.valueText}>
-                  Indore
+                  {selectedBoardingPoint.CityPointLocation}
                 </Text>
               </View>
               <View style={styles.detailItem}>
                 <Text style={styles.labelText}>
-                  Destination Point
+                  Dropping Point
                 </Text>
                 <Text style={styles.valueText}>
-                  Dewas
+                 {selectedDroppingPoint.CityPointLocation}
                 </Text>
               </View>
             </View>
+            <View style={styles.detailRow}>
+            <View style={styles.detailItem}>
+              <Text style={styles.labelText}>
+                Time & Date
+              </Text>
+              <Text style={styles.valueText}>
+            {  formatDate(selectedBoardingPoint.CityPointTime)}
+              </Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.labelText}>
+               Time & Date
+              </Text>
+              <Text style={styles.valueText}>
+              {formatDate(selectedDroppingPoint.CityPointTime)}
+              </Text>
+            </View>
+          </View>
 
             <Spacing space={SH(10)} />
 
             <View style={styles.detailRow}>
               <View style={styles.detailItem}>
                 <Text style={styles.labelText}>
-                  {t('Departure')}
+                  {t('Seats Number')}
                 </Text>
                 <Text style={styles.valueText}>
-                  08:00 PM
-                </Text>
-              </View>
-              <View style={styles.detailItem}>
-                <Text style={styles.labelText}>
-                  {t('Date')}
-                </Text>
-                <Text style={styles.valueText}>
-                  Jun 17, 2023
-                </Text>
-              </View>
-            </View>
-
-            <Spacing space={SH(10)} />
-
-            <View style={styles.detailRow}>
-              <View style={styles.detailItem}>
-                <Text style={styles.labelText}>
-                  {t('Seat')}
-                </Text>
-                <Text style={styles.valueText}>
-                  18
+                  {commaSepratedSeat}
                 </Text>
               </View>
               <View style={styles.detailItem}>
@@ -225,7 +260,7 @@ const [modalVisible, setModalVisible] = useState(false);
                   {t('Ticket_Price')}
                 </Text>
                 <Text style={styles.valueText}>
-                  ₹ 1770.00
+                  ₹ {totalFare}
                 </Text>
               </View>
             </View>
@@ -253,8 +288,8 @@ const [modalVisible, setModalVisible] = useState(false);
             </View>
           </Modal>
           
-          <TouchableOpacity style={styles.button} onPress={() => setCancelModalVisible(true)}>
-            <Text style={styles.buttonText}>Cancel</Text>
+          <TouchableOpacity style={styles.button} >
+            <Text style={styles.buttonText} onPress={()=>{CancelApi}}>Cancel</Text>
           </TouchableOpacity>
 
           <Modal
@@ -325,12 +360,12 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: SF(14),
     color: 'black',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Bold',
   },
   valueText: {
     fontSize: SF(16),
     color: 'black',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Regular',
   },
   buttonContainer: {
     margin: SW(10),
@@ -386,4 +421,9 @@ const styles = StyleSheet.create({
     marginTop: SH(10),
     fontFamily:'Poppins-Bold'
   },
+  contentText:{
+    fontSize:SF(15),
+    margin:SW(10),
+    textTransform:'capitalize'
+  }
 });

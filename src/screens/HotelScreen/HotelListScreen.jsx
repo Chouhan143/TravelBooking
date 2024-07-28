@@ -95,9 +95,14 @@ const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
 
     const renderStar = rating => {
       let stars = [];
-      for (let i = 0; i < rating; i++) {
+      for (let i = 0; i < 5; i++) {
         stars.push(
-          <FontAwesome key={i} name="star" size={15} color="#FFD700" />,
+          <FontAwesome 
+            key={i} 
+            name="star" 
+            size={15} 
+            color={i < rating ? "#FFD700" : "#C0C0C0"} 
+          />
         );
       }
       return stars;

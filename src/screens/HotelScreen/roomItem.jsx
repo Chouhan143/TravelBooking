@@ -13,6 +13,7 @@ import { roomCounterIncrement, roomCounterDecrement, setBlockRoomDetails, setHot
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     const date = new Date(dateString);
@@ -28,6 +29,7 @@ const RoomItem = ({ room, onBook, index }) => {
     const dispatch = useDispatch();
     const count = useSelector(state => state.commomReducer.hotelRoomCounter);
     const priceMulRooms = Price * count;
+    const navigation=useNavigation();
     dispatch(setHotelTotalPrice(priceMulRooms));
     const handleRadio = value => {
         setUserRadio(value);
@@ -122,8 +124,8 @@ const RoomItem = ({ room, onBook, index }) => {
             if (AvailabilityType === 'Confirm') {
                 Toast.show({
                     type: 'success',
-                    text1: 'Room is already Booked',
-                    text2: 'This room is blocked for some time !',
+                    text1: 'Room is Blocked For a while ',
+                    text2: 'This room is blocked for some time please try after some time  !',
                     textStyle: { color: 'green', fontSize: 12 },
                 });
                 navigation.navigate(RouteName.HOTEL_GUEST_DETAILS,{ priceMulRooms });

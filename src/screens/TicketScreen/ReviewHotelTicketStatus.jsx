@@ -4,6 +4,7 @@ import { Colors, SF, SH, SW } from '../../utils';
 import { RouteName } from '../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { AppHeader } from '../../components';
+import { useSelector } from 'react-redux';
 const data =[
     {
         id:1,
@@ -61,33 +62,43 @@ const data =[
 
 const ReviewHotelTicketStatus = () => {
     const navigation=useNavigation();
-    const renderItem=({item})=>{
+  //   const renderItem=({item})=>{
   
-      return(
-          <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN)}>
-          <View styles={styles.cardItem}>
-          <Text style={styles.contentText}>{item.Name}</Text>
-          </View>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>{item.Date}</Text>
-          <Text style={styles.contentText}>{item.Time}</Text>
-          </View>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>Booking Status</Text>
-          <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>
-          </View>
-          </TouchableOpacity>
-      )
-  }
+  //     return(
+  //         <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN)}>
+  //         <View styles={styles.cardItem}>
+  //         <Text style={styles.contentText}>{item.Name}</Text>
+  //         </View>
+  //         <View style={styles.cardItem}>
+  //         <Text style={styles.contentText}>{item.Date}</Text>
+  //         <Text style={styles.contentText}>{item.Time}</Text>
+  //         </View>
+  //         <View style={styles.cardItem}>
+  //         <Text style={styles.contentText}>Booking Status</Text>
+  //         <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>
+  //         </View>
+  //         </TouchableOpacity>
+  //     )
+  // }
+  const bookingStatus=useSelector(state=>state=>commomReducer.hotelBook);
+  console.log('bookingStatus of hotel in redux',bookingStatus);
   return (
     <View style={styles.contanier}>
     <AppHeader headerTitle={'Hotel Ticket Status'}/>
     <View style={{marginBottom:SH(100)}}>
-    <FlatList
-     data={data}
-     renderItem={renderItem}
-     keyExtractor={item => item.id.toString()}
-    />
+    <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN)}>
+    <View styles={styles.cardItem}>
+    {/*<Text style={styles.contentText}>{item.Name}</Text>
+    </View>
+    <View style={styles.cardItem}>
+    {/*<Text style={styles.contentText}>{item.Date}</Text>
+    <Text style={styles.contentText}>{item.Time}</Text>
+    </View>
+    <View style={styles.cardItem}>
+    <Text style={styles.contentText}>Booking Status</Text>
+    <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>*/}
+    </View>
+    </TouchableOpacity>
     </View>
     <TouchableOpacity 
     style={{backgroundColor:Colors.theme_background,padding:SW(20),width:SW(375),

@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import axios from 'axios';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Colors, SF, SH, SW} from '../../utils';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 const HotelCitySearch = ({ModalVisible, SetModalVisible}) => {
@@ -35,8 +34,8 @@ const HotelCitySearch = ({ModalVisible, SetModalVisible}) => {
   };
 
   const handleCitySelect = city => {
-    // Handle city selection logic here
-    SetModalVisible(false); // Close the modal on city select
+   
+    SetModalVisible(false); 
   };
 
   return (
@@ -53,7 +52,7 @@ const HotelCitySearch = ({ModalVisible, SetModalVisible}) => {
             <AntDesign
               name={'closecircle'}
               size={SW(25)}
-              style={{color: 'red'}}
+              style={{color:Colors.theme_background}}
             />
           </TouchableOpacity>
 
@@ -62,6 +61,7 @@ const HotelCitySearch = ({ModalVisible, SetModalVisible}) => {
             placeholder="Search for cities..."
             value={searchQuery}
             onChangeText={setSearchQuery}
+            placeholderTextColor={'#000'}
           />
           {searchResults.map((result, index) => (
             <TouchableOpacity
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+    color:'black'
   },
   resultItem: {
     padding: 10,

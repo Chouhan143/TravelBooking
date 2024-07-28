@@ -49,7 +49,7 @@ const BoardingPoint = () => {
       };
 
       const response = await axios.post(ADD_BOARDING_DROPING, payload);
-      console.log(response);
+      console.log('boarding Dropping Points ',JSON.stringify(response.data));
       setBoardingData(response.data.BoardingPoints);
       setLoading(false);
       console.log('boarding response', response.data.BoardingPoints);
@@ -115,8 +115,8 @@ const BoardingPoint = () => {
                   <Text style={styles.text}>{formatedDate}</Text>
                 </View>
                 <View style={{flex: 1}}>
+                  <Text style={styles.text}>{item.CityPointName}</Text>
                   <Text style={styles.text}>{item.CityPointAddress}</Text>
-                  <Text style={styles.text}>{item.CityPointLandmark}</Text>
                 </View>
                 <View
                   style={{
@@ -182,7 +182,6 @@ const DropingPoint = () => {
   const onPressRadioButton = item => {
     setSelectedItem(item);
     dispatch(selectDroppingPoint(item));
-    // Navigate to another screen upon selecting a boarding point
     navigation.navigate(RouteName.PASSANGER_INFORMATION, {selectedItem: item});
     
   };

@@ -127,7 +127,7 @@ const FlightTab = props => {
     FsearchData(searchPayload);
     console.log('search payload',searchPayload);
     dispatch(flightSearchPayload(searchPayload));
-
+    setLoading(true)
     // calender payload send in api request
 
     const calendarPayload = {

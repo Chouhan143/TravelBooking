@@ -54,7 +54,7 @@ import Root, { HomeScsreenTabAll } from './TabNavigator';
 import { ROOM_COUNTERS_DECREMENT } from '../redux/actiontypes';
 import OtpVerifyScreen from '../screens/Authantication/OtpVerifyScreen/OtpVerifyScreen';
 import Toast from 'react-native-toast-message';
-import BusBooking from '../screens/BusScreen/BusBooking';
+
 import { CustomSidebarMenu } from '../components';
 
 const RootNavigator = props => {
@@ -94,10 +94,7 @@ const RootNavigator = props => {
     name={"Root"}
     component={Root}
   />
-        <Stack.Screen
-            name={RouteName.SIDE_NAVIGATOR}
-            component={SideNavigator}
-          />
+        
           <Stack.Screen
           name={RouteName.CUSTOM_NAVIGATOR}
           component={CustomSidebarMenu}
@@ -106,10 +103,7 @@ const RootNavigator = props => {
             name={RouteName.BUS_LIST_SCREEN}
             component={BusListScreen}
           />
-          <Stack.Screen
-            name={RouteName.BUS_BOOKING}
-            component={BusBooking}
-          />
+         
           <Stack.Screen
             name={RouteName.BUS_SEAT_SCREEN}
             component={BusSeatScreen}

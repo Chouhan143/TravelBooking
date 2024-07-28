@@ -4,97 +4,64 @@ import { Colors, SF, SH, SW } from '../../utils';
 import { RouteName } from '../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { AppHeader } from '../../components';
-const data =[
-    {
-        id:1,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Booked',
-        Color: Colors.green
-    },
-    {
-        id:2,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Cancelled',
-        Color: Colors.red_color
-    },
-    {
-        id:3,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Booked',
-        Color: Colors.green
-
-    },
-    {
-        id:4,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Expired',
-        Color: Colors.gray_text_color
-
-    },
-    {
-        id:5,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Cancelled',
-        Color: Colors.red_color
-
-    },
-    {
-        id:6,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Expired',
-        Color: Colors.gray_text_color
-
-    }
-]
-
-const ReviewBusTicketStatus = () => {
+import { useSelector } from 'react-redux';
+const ReviewBusTicketStatus = ({item,route}) => {
+  const passengername=route.params;
+  console.log('passengername',passengername);
+  const Data=useSelector(state=>state.commomReducer.busPayload);
+  const busBookingStatus=useSelector(state=>state.commomReducer.busBookingStatus);
+  console.log('bus stored Booking Stored ',JSON.stringify(busBookingStatus));
+  const BookingStatus=busBookingStatus.result.data.Result.BusBookingStatus;
     const navigation=useNavigation();
-    const renderItem=({item})=>{
+  //   const renderItem=({item})=>{
   
-      return(
-          <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.BUS_TICKET_SCREEN)}>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>{item.StartingPoint}</Text>
-          <Text style={styles.contentText}>{item.DestinationPoint}</Text>
-          </View>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>{item.Date}</Text>
-          <Text style={styles.contentText}>{item.Time}</Text>
-          </View>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>Booking Status</Text>
-          <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>
-          </View>
-          </TouchableOpacity>
-      )
-  }
+  //     return(
+  //         <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.BUS_TICKET_SCREEN)}>
+  //         <View style={styles.cardItem}>
+  //        <View>
+  //        <Text style={styles.contentText}>Starting Point</Text>
+  //        <Text style={styles.contentText}>DestinationPoint</Text>
+  //        </View>
+  //        <View >
+  //        <Text style={styles.contentText}>{Data.source_city}</Text>
+  //        <Text style={styles.contentText}>{Data.destination_city}</Text>
+  //        </View>
+  //         </View>
+  //         <View style={styles.cardItem}>
+  //         <Text style={styles.contentText}>Booking Date</Text>
+  //         <Text style={styles.contentText}>{Data.depart_date}</Text>
+  //         </View>
+  //         <View style={styles.cardItem}>
+  //         <Text style={styles.contentText}>Booking Status</Text>
+  //         <Text style={[styles.contentText, { color: item.Color }]}>{BookingStatus}</Text>
+  //         </View>
+  //         </TouchableOpacity>
+  //     )
+  // }
   return (
     <View style={styles.contanier}>
     <AppHeader headerTitle={'Bus Ticket Status'}/>
     <View style={{marginBottom:SH(100)}}>
-    <FlatList
-     data={data}
-     renderItem={renderItem}
-     keyExtractor={item => item.id.toString()}
-    />
+    <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.BUS_TICKET_SCREEN,passengername)}>
+    <View style={styles.cardItem}>
+   <View>
+   <Text style={styles.contentText}>Starting Point</Text>
+   <Text style={styles.contentText}>DestinationPoint</Text>
+   </View>
+   <View >
+   <Text style={styles.contentText}>{Data.source_city}</Text>
+   <Text style={styles.contentText}>{Data.destination_city}</Text>
+   </View>
+    </View>
+    <View style={styles.cardItem}>
+    <Text style={styles.contentText}>Booking Date</Text>
+    <Text style={styles.contentText}>{Data.depart_date}</Text>
+    </View>
+    <View style={styles.cardItem}>
+    <Text style={styles.contentText}>Booking Status</Text>
+    <Text style={[styles.contentText, { color: 'green'}]}>{BookingStatus}</Text>
+    </View>
+    </TouchableOpacity>
     </View>
     <TouchableOpacity 
     style={{backgroundColor:Colors.theme_background,padding:SW(20),width:SW(375),

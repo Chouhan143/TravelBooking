@@ -72,33 +72,6 @@ const FlightReviewDetails = () => {
     state => state.commomReducer.flightBaggageCabinData,
   );
 
-  // Book LLc Api
-
-  const bookingDetailsApi = async () => {
-    try {
-      // const payload = {
-      //   SrdvType: ,
-      //   SrdvIndex:,
-      //   TraceId:,
-      //   ResultIndex:,
-      //   BaseFare:,
-      //   Tax:,
-      //   YQTax:,
-      //   FirstName:,
-      //   ContactNo:,
-      //   LastName:,
-      //   AddressLine1:,
-      //   City:,
-      //   DateOfBirth:,
-      //   Email:,
-      //   Gender:,
-      // };
-      const res = await axios.post(FLIGHT_BOOKLLC, payload);
-      console.log('res', res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 const handlePayment = async () => {
     try {
         const payload = {
@@ -143,7 +116,7 @@ const handlePayment = async () => {
 
                 await updateHotelPaymentStatus(paymentId, transaction_id);
                 
-                navigation.navigate("Root");
+                navigation.navigate("ReviewFlightTicketStatus");
             })
             .catch((error) => {
                 console.error(`Error: ${error.code} | ${error.description}`);

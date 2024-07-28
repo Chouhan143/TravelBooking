@@ -5,9 +5,10 @@ import {
   StyleSheet,
   Text,
   View,
+  TextInput
 } from 'react-native';
 import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Button, Input} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
@@ -16,23 +17,43 @@ import {BOOKING_SEAT} from '../../utils/BaseUrl';
 import Toast from 'react-native-toast-message';
 import { SF, SH, SW } from '../../utils';
 import RazorpayCheckout from 'react-native-razorpay';
-
+import { SET_BOOKING_STATUS } from '../../redux/actiontypes';
+import { setBookingStatus } from '../../redux/action';
+import { setMainPassenger } from '../../redux/action';
 const ReviewBooking = () => {
   const navigation = useNavigation();
-  const [passengerEmail, setPassengerEmail] = useState('');
-  const [passengerPhone, setPassengerPhone] = useState('');
+  const [mainPassenger, setMainPassenger] = useState({
+    email: '',
+    phoneNumber: '',
+    name: ''
+  });
   const [loading,setLoading]=useState('');
+  const dispatch=useDispatch();
   // bus details
   const busDetails = useSelector(state => state.commomReducer.detailsStore);
 
   const TraceId = useSelector(state => state.commomReducer.traceId);
   const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
-  const handlePassengerEmailChange = email => {
-    setPassengerEmail(email);
+  
+  const handleEmailChange = (email) => {
+    setMainPassenger((prevState) => ({
+      ...prevState,
+      email
+    }));
   };
 
-  const handlePassengerPhoneChange = phone => {
-    setPassengerPhone(phone);
+  const handlePhoneNumberChange = (phoneNumber) => {
+    setMainPassenger((prevState) => ({
+      ...prevState,
+      phoneNumber
+    }));
+  };
+
+  const handleNameChange = (name) => {
+    setMainPassenger((prevState) => ({
+      ...prevState,
+      name
+    }));
   };
   //   boarding points
   const selectedBoardingPoint = useSelector(
@@ -102,7 +123,8 @@ const ReviewBooking = () => {
   const busSearchData=useSelector(state=>state.commomReducer.busData);
   const traceId=busSearchData.data.TraceId;
   const resultIndex=busSearchData.data.Result[0].ResultIndex;
-  
+  const busBookingStatus=useSelector(state=>state.commomReducer.busBookingStatus);
+  console.log(' stored busBookingStatus',busBookingStatus);
   const BookSeat = async () => {
     try {
       const payload = {
@@ -118,8 +140,8 @@ const ReviewBooking = () => {
                   "Title": "Mr",
                   "FirstName":passenger.passengerName,
                   "LastName":passenger.passengerLName,
-                  "Email":passengerEmail,
-                  "Phoneno":passengerPhone,
+                  "Email":passenger.passengerEmail,
+                  "Phoneno":passenger.passengerPhone,
                   "Gender": passenger.gender,
                   "IdType": null,
                   "IdNumber": null,
@@ -171,6 +193,7 @@ const ReviewBooking = () => {
       const res = await axios.post(BOOKING_SEAT, payload);
       const Result=res.data;
       console.log('response',JSON.stringify(Result));
+      dispatch(setBookingStatus(Result));
       const BusBookingStatus =Result.result.data.Result.BusBookingStatus;
       console.log('status.BusBookingStatus',BusBookingStatus);
       if (BusBookingStatus ===  "Confirmed") {
@@ -239,9 +262,9 @@ const ReviewBooking = () => {
             description: 'Payment for Booking',
             image: 'https://yourcompany.com/logo.png',
             prefill: {
-                email:passengerEmail,
-                contact:passengerPhone,
-                
+                email:mainPassenger.email,
+                contact:mainPassenger.phoneNumber,
+                name:mainPassenger.name
             },
             theme: {
                 color: "#3399cc"
@@ -260,7 +283,7 @@ const ReviewBooking = () => {
 
                 await updateHotelPaymentStatus(paymentId, transaction_id);
                 await BookSeat();
-                navigation.navigate("Root");
+                navigation.navigate("ReviewBusTicketStatus",mainPassenger.name);
             })
             .catch((error) => {
                 console.error(`Error: ${error.code} | ${error.description}`);
@@ -459,21 +482,26 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
             <Text style={{color: '#000',fontSize: SF(12),
                 fontFamily:'Poppins-Regular',}}>We'll send your ticket here</Text>
             <View style={{marginVertical:SH(10),marginLeft:-SW(7)}}>
-              <Input
-                title="Email"
-                placeholder="Enter email"
-                onChangeText={handlePassengerEmailChange}
-                value={passengerEmail}
-                keyboardType="email-address"
-              />
-              <Input
-                title="Phone No."
-                placeholder="Enter phone number"
-                onChangeText={handlePassengerPhoneChange}
-                value={passengerPhone}
-                keyboardType="phone-pad"
-                maxLength={10}
-              />
+            <Input style={{color:'black'}}
+            value={mainPassenger.email}
+            onChangeText={handleEmailChange}
+            placeholder="Email"
+            placeholderTextColor={'#000'}
+          />
+          <Input style={{color:'black'}}
+            value={mainPassenger.phoneNumber}
+            onChangeText={handlePhoneNumberChange}
+            placeholder="Phone Number"
+            placeholderTextColor={'#000'}
+            keyboardType="numeric"
+            
+          />
+          <Input style={{color:'black'}}
+            value={mainPassenger.name}
+            onChangeText={handleNameChange}
+            placeholder="Name"
+            placeholderTextColor={'#000'}
+          />
             </View>
           </View>
         </ScrollView>

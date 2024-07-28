@@ -5,16 +5,12 @@ import {
   TouchableOpacity,
   View,
   PermissionsAndroid,
-  TextInput,
   ScrollView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Colors, SF, SH, SW} from '../../utils';
-import AgeModal from '../commonComponents/AgeModal';
 import {useNavigation} from '@react-navigation/native';
 import {HOTEL_SEARCH} from '../../utils/BaseUrl';
 import axios from 'axios';
@@ -22,23 +18,18 @@ import {getLocationLatLong, setHotelData} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 import Geolocation from 'react-native-geolocation-service';
 import {DatePicker, Lottie} from '../commonComponents';
-import FormatedDate from '../commonComponents/FormatedDate';
 import {RouteName} from '../../routes';
 import HotelCitySearch from '../commonComponents/HotelCitySearch';
-import { setHotelResult } from '../../redux/action';
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
-  const [ModalVisible2, SetModalVisible2] = useState(false);
-  const [adultsCount, setAdultsCount] = useState(1);
-  const [NoOfNight, setNoOfNight] = useState(1);
-  const [childrenCount, setChildrenCount] = useState(0);
-  const [childrenAges, setChildrenAges] = useState([]);
+  const [adultsCount, setAdultsCount] = useState('0');
+  const [NoOfNight, setNoOfNight] = useState('0');
+  const [childrenCount, setChildrenCount] = useState('0');
   const [locationDenied, setLocationDenied] = useState(false);
   const [checkinDate, setCheckInDate] = useState('30/04/2020');
-  const [checkoutDate, setCheckOutDate] = useState('');
   const [loading, setLoading] = useState(false);
-  const [roomsCount, setRoomsCount] = useState(1);
+  const [roomsCount, setRoomsCount] = useState(0);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // Location Permissions requests
@@ -114,32 +105,35 @@ const HotelTab = () => {
   const handleChildrenChange = change => {
     setChildrenCount(prevCount => {
       const newCount = Math.max(0, prevCount + change);
-      if (newCount > prevCount) {
-        setChildrenAges([...childrenAges, '']);
-      } else {
-        setChildrenAges(childrenAges.slice(0, -1));
-      }
+     
       return newCount;
     });
   };
 
+  const handleIncrement = (setter, value) => {
+    setter(prevValue => Math.max(1, prevValue + value));
+  };
+  
+  const handleDecrement = (setter, value) => {
+    setter(prevValue => Math.max(1, prevValue - value));
+  };
   // hotel search api
   const FetchHotelData = async () => {
     const payload = {
       BookingMode: '5',
       CheckInDate:'30/04/2020',
-      NoOfNights:NoOfNight,
+      NoOfNights:"1",
       CountryCode: 'IN',
       CityId: '130443',
       ResultCount: null,
       PreferredCurrency: 'INR',
       GuestNationality: 'IN',
-      NoOfRooms:roomsCount,
+      NoOfRooms:"1",
       RoomGuests: [
         {
-          NoOfAdults: adultsCount,
-          NoOfChild: childrenCount,
-          ChildAge: [],
+          NoOfAdults: "1",
+          NoOfChild: "0",
+          ChildAge:null,
         },
       ],
       MaxRating: '5',
@@ -167,12 +161,7 @@ const HotelTab = () => {
   };
   
 
-  const handleChildAgeChange = (index, age) => {
-    const newAges = [...childrenAges];
-    newAges[index] = age;
-    setChildrenAges(newAges);
-  };
-
+ 
   return (
     <View style={styles.mainContanier}>
       <View style={styles.header}>
@@ -222,6 +211,7 @@ const HotelTab = () => {
             {roomsCount}
           </Text>
         </View>
+        
       </View>
 
       {loading ? (
@@ -296,56 +286,6 @@ const HotelTab = () => {
                 <Entypo name={'plus'} size={20} color="white" />
               </TouchableOpacity>
             </View>
-            {childrenCount > 0 && (
-              <View>
-                <View style={styles.ageTextContanier}>
-                  <Text style={{color: 'black', fontFamily: 'Poppins-Medium'}}>
-                    Age of child at check-out
-                  </Text>
-                  <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
-                    Add the age of each child to get the best match for beds,
-                    room size, and special prices.
-                  </Text>
-                </View>
-                {childrenAges.map((age, index) => {
-                  if (index % 2 === 0) {
-                    return (
-                      <View key={index} style={styles.ageInputRow}>
-                        <View style={styles.ageInputContainer}>
-                          <TouchableOpacity
-                            onPress={() => SetModalVisible2(true)}>
-                            <Text style={styles.ageModaltext}>
-                              Child {index + 1} Age
-                            </Text>
-                          </TouchableOpacity>
-                          <Ionicons
-                            name={'chevron-expand-outline'}
-                            size={20}
-                            color={Colors.theme_background}
-                          />
-                        </View>
-                        {index + 1 < childrenAges.length && (
-                          <View style={styles.ageInputContainer}>
-                            <TouchableOpacity
-                              onPress={() => SetModalVisible2(true)}>
-                              <Text style={styles.ageModaltext}>
-                                Child {index + 2} Age
-                              </Text>
-                            </TouchableOpacity>
-                            <Ionicons
-                              name={'chevron-expand-outline'}
-                              size={20}
-                              color={Colors.theme_background}
-                            />
-                          </View>
-                        )}
-                      </View>
-                    );
-                  }
-                  return null;
-                })}
-              </View>
-            )}
             <View style={styles.modalContanier}>
               <Text style={styles.ageModaltext}>Rooms</Text>
               <TouchableOpacity
@@ -364,13 +304,13 @@ const HotelTab = () => {
             <Text style={styles.ageModaltext}>NoOfNight</Text>
             <TouchableOpacity
               style={styles.buttons}
-              onPress={() => setNoOfNight(Math.max(1, NoOfNight - 1))}>
+              onPress={() => handleDecrement(setNoOfNight, 1)}>
               <Entypo name={'minus'} size={20} color="white" />
             </TouchableOpacity>
             <Text style={{color: 'black'}}>{NoOfNight}</Text>
             <TouchableOpacity
               style={styles.buttons}
-              onPress={() => setNoOfNight(NoOfNight + 1)}>
+              onPress={() => handleIncrement(setNoOfNight, 1)}>
               <Entypo name={'plus'} size={20} color="white" />
             </TouchableOpacity>
           </View>
@@ -382,19 +322,7 @@ const HotelTab = () => {
           </TouchableOpacity>
         </ScrollView>
       </Modal>
-      <Modal
-        visible={ModalVisible2}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => {
-          SetModalVisible2(!ModalVisible2);
-        }}>
-        <View style={styles.modalContainer}>
-          <View style={styles.childModalContent}>
-            <AgeModal SetModalVisible2={SetModalVisible2} />
-          </View>
-        </View>
-      </Modal>
+     
     </View>
   );
 };

@@ -12,6 +12,7 @@ import images from '../../../index';
 import { ScrollView } from 'react-native-virtualized-view';
 import axios, { Axios } from 'axios';
 import { OFFERS_DATA } from '../../../utils/BaseUrl';
+import ReadMoreText from '../../../components/commonComponents/ReadMore';
 const HomeTab = props => {
   const { t } = useTranslation();
   const { navigation } = props;
@@ -67,11 +68,35 @@ const HomeTab = props => {
         keyboardShouldPersistTaps="handled"
         style={{ backgroundColor: 'white', marginRight: SW(15) }}>
         <View style={{ paddingHorizontal: '4%', paddingRight: 0 }}>
-          <Spacing space={SH(17)} />
-          <View style={HomeTabStyles.BorderWidth}>
-            <Search />
-          </View>
-          <Spacing space={SH(15)} />
+        <View style={{
+          borderColor: Colors.theme_background,
+          borderWidth: 1, 
+          borderRadius: 10, 
+          marginVertical: SH(10),
+          padding: SW(10),
+          display:'flex',
+          flexDirection:'row',
+          backgroundColor: Colors.white, 
+          alignItems: 'center',
+        }}>
+        <VectorIcon
+        icon="MaterialIcons"
+        name={"travel-explore"}
+        size={SF(25)}
+        color={Colors.theme_background}
+      />
+          <Text style={{
+            color:Colors.theme_background,
+            fontSize: SF(15),
+            fontWeight: 'bold', 
+            textAlign: 'center', 
+          }}>
+          Discover and Kick Off Your Journey Now
+          </Text>
+        
+        </View>
+        
+        <Spacing space={SH(7)} />
           <Text style={HomeTabStyles.OffersText}>{t('TICKET_BOOKING')}</Text>
           <Spacing />
           <View>
@@ -116,11 +141,11 @@ const HomeTab = props => {
               style={HomeTabStyles.SetFlex}
             />
           </View>
-          <Spacing space={SH(15)} />
+          <Spacing space={SH(10)} />
           <View style={HomeTabStyles.BorderView}></View>
-          <Spacing space={SH(16)} />
+          <Spacing space={SH(10)} />
           <Text style={HomeTabStyles.OffersText}>{t('EXCLUSIVE_OFFERS')}</Text>
-          <Spacing space={SH(12)} />
+          <Spacing space={SH(10)} />
           <FlatList
             data={sliderImg}
             renderItem={({ item, index }) => {
@@ -148,9 +173,9 @@ const HomeTab = props => {
             showsHorizontalScrollIndicator={false}
             horizontal
           />
-          <Spacing space={SH(20)} />
+          <Spacing space={SH(10)} />
           <View style={HomeTabStyles.BorderView}></View>
-          <Spacing space={SH(20)} />
+          <Spacing space={SH(10)} />
           <View>
             <Text style={HomeTabStyles.OffersText}>{t('WHATS_NEW')}</Text>
             <Text>{t('Dreams_Trips')}</Text>
@@ -170,12 +195,25 @@ const HomeTab = props => {
           />
           <Spacing space={SH(20)} />
           <View style={HomeTabStyles.BorderView}></View>
-          <Spacing space={SH(20)} />
+          <Spacing space={SH(15)} />
           <Text style={HomeTabStyles.OffersText}>{t('PREFER_TO_TRAVEL')}</Text>
           <Spacing space={SH(6)} />
-          <Text style={{ fontSize: SF(13), color: 'black', fontFamily: 'Poppins-Regular' }}>
-            {t('Book_your_tickets_on')}
-          </Text>
+         
+          <ReadMoreText
+                    text={t('Book_your_tickets_on')}
+                    textStyle={{
+                        fontFamily: 'Poppins-Regular',
+                        color: 'gray',
+                        fontSize: SF(12),
+                    }}
+                    readMoreStyle={{
+                        color: Colors.theme_background,
+                        fontFamily: 'Poppins-Bold',
+                        fontSize: SF(13),
+                        marginLeft: 0,
+                        marginTop: SH(5),
+                    }}
+                />
           <Spacing space={SH(20)} />
         </View>
       </ScrollView>

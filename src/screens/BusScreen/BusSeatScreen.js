@@ -14,7 +14,6 @@ import {
   BusSeatDataFlatlist,
   BusSeatShowFunction,
 } from '../../components';
-import Feather from 'react-native-vector-icons/Feather';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import images from '../../index';
@@ -22,7 +21,7 @@ import {ScrollView} from 'react-native-virtualized-view';
 import axios from 'axios';
 import {BUS_ADDSEAT_LAYOUT} from '../../utils/BaseUrl';
 import {useSelector} from 'react-redux';
-import {SH, SW} from '../../utils';
+import {SH, SW,SF} from '../../utils';
 
 const BusSeatScreen = props => {
   const {route} = props;
@@ -246,14 +245,14 @@ const BusSeatScreen = props => {
               <Text
                 style={[
                   BusSeatScreenStyles.SelectedSeattext,
-                  {fontWeight: '800', fontSize: 18},
+                  {fontFamily:"Poppins-Bold", fontSize: SF(16)},
                 ]}>
                 ₹{busFare}
               </Text>
               <Text
                 style={[
                   BusSeatScreenStyles.SelectedSeattext,
-                  {fontWeight: '400', fontSize: 16},
+                  {fontFamily:"Poppins-Bold", fontSize: SF(16)},
                 ]}>
                 +Taxes
               </Text>

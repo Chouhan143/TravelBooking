@@ -50,6 +50,9 @@ import {
   SET_TOTAL_HOTEL_PRICE,
   SET_BUS_DATA,
   SET_RESULT_DATA,
+  SET_BUS_PAYLOAD,
+  SET_BOOKING_STATUS,
+  SET_MAIN_PASSENGER
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -251,7 +254,10 @@ export const setSearchBusData= busData => ({
   type: SET_BUS_DATA,
   payload: busData,
 });
-
+export const setSearchBusPayload= busPayload => ({
+  type: SET_BUS_PAYLOAD,
+  busPayload: busPayload,
+});
 export const setHotelInfo = hotelInfo => ({
   type: SET_HOTEL_INFO,
   payload: hotelInfo,
@@ -288,4 +294,13 @@ export const roomCounterDecrement = () => ({
 export const setBusList = busList => ({
   type:SET_BUS_LIST,
   payload: busList,
+});
+export const setBookingStatus = busBookingStatus => ({
+  type: SET_BOOKING_STATUS,
+  payload: busBookingStatus,
+});
+
+export const setMainPassenger = (mainPassenger) => ({
+  type: SET_MAIN_PASSENGER,
+  payload: mainPassenger,
 });

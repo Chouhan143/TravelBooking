@@ -119,8 +119,8 @@ if (BookingResult.message === 'Booking successful') {
     text2: 'Your booking has been confirmed!',
     textStyle: { color: 'green', fontSize: 12 },
   });
-} else {
-  navigation.navigate(RouteName.HOTEL_GUEST_DETAILS);
+} else {r
+  
   Toast.show({
     type: 'error',
     text1: 'Booking Not Confirmed',
@@ -196,7 +196,7 @@ if (BookingResult.message === 'Booking successful') {
 
                 await updateHotelPaymentStatus(paymentId, transaction_id);
                 await BookingConfirmed();
-                navigation.navigate("Root");
+                navigation.navigate("ReviewHotelTicketStatus");
             })
             .catch((error) => {
                 console.error(`Error: ${error.code} | ${error.description}`);

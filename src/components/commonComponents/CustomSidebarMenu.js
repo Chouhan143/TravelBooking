@@ -128,18 +128,7 @@ const CustomSidebarMenu = props => {
           />
           <Text style={Sidemenu.hometextstyle}>{t('Notification_Text')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={Sidemenu.flexrowset}
-          onPress={() => Onpressfunction(RouteName.TICKET_SCREEN)}>
-          <VectorIcon
-            icon="Entypo"
-            size={SF(19)}
-            name="download"
-            style={Sidemenu.logoimage}
-            color={Colors.theme_background}
-          />
-          <Text style={Sidemenu.hometextstyle}>{t('Download_Ticket')}</Text>
-        </TouchableOpacity>
+       
         <View>
           <TouchableOpacity
             style={Sidemenu.flexrowset}

@@ -4,7 +4,7 @@ import React from 'react'
 const BusBooking = () => {
   return (
     <View>
-      <Text style={{color:'black',textAlign:'center',justifyContent:'center'}}>BusBooking</Text>
+      <Text>BusBooking</Text>
     </View>
   )
 }

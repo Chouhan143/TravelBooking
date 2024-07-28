@@ -40,14 +40,20 @@ const HotelDescriptionPage = () => {
     );
   };
 
-  const renderStars = (rating) => {
+  const renderStar = rating => {
     let stars = [];
-    for (let i = 0; i < rating; i++) {
-      stars.push(<FontAwesome key={i} name="star" size={20} color="#FFD700" />);
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <FontAwesome 
+          key={i} 
+          name="star" 
+          size={15} 
+          color={i < rating ? "#FFD700" : "#C0C0C0"} 
+        />
+      );
     }
     return stars;
   };
-
   if (loading || hotelDetails === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -87,7 +93,7 @@ const HotelDescriptionPage = () => {
           <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ color: 'black', fontSize: SF(20), fontFamily: 'Poppins-Bold' }}>{hotelDetails.HotelName}</Text>
             <View style={{ marginLeft: SW(70), display: 'flex', flexDirection: 'row' }}>
-              {renderStars(hotelDetails.StarRating)}
+              {renderStar(hotelDetails.StarRating)}
             </View>
           </View>
           <Text style={{ color: 'gray', fontSize: SF(13), fontFamily: 'Poppins-Regular' }}>{hotelDetails.Address}</Text>

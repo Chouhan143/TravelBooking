@@ -1,7 +1,5 @@
 const BASE_URL = 'https://sajyatra.sajpe.in/admin/api';
 const Auth_Base_Url='https://app.sajpe.in/api/v1/user';
-
-
 const LOGIN_ENDPOINT = `${Auth_Base_Url}/login`;
 const REGISTER_ENDPOINT = `${Auth_Base_Url}/login`;
 const OTP_VERYFY_ENDPOINT = `${Auth_Base_Url}/send_otp`;
@@ -27,7 +25,8 @@ const HOTEL_INFO = `${BASE_URL}/hotel-info`;
 const HOTEL_ROOM_DETAILS = `${BASE_URL}/hotel-room`;
 const HOTEL_BLOCK=`${BASE_URL}/hotel-block`;
 const HOTEL_BOOK=`${BASE_URL}/hotel-book`;
-const BOOKING_SEAT=`${BASE_URL}/seat-book`
+const BOOKING_SEAT=`${BASE_URL}/seat-book`;
+const BUS_CANCEL=`${BASE_URL}/seat-cancel`
 export {
   BASE_URL,
   LOGIN_ENDPOINT,
@@ -53,5 +52,6 @@ export {
   HOTEL_ROOM_DETAILS,
   // RESEND_OTP,
   HOTEL_BOOK,
-  BOOKING_SEAT
+  BOOKING_SEAT,
+  BUS_CANCEL
 };

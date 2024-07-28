@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {updateSelectedSeats} from '../../redux/action';
-import {SW, SH} from '../../utils';
+import {SW, SH,SF} from '../../utils';
 
 const LikeUnlke = props => {
   const {
@@ -39,10 +39,10 @@ const LikeUnlke = props => {
           justifyContent: 'space-evenly',
         },
       ]}>
-      <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+      <Text style={{color: 'black', fontFamily: 'Poppins-Regular',fontSize:SF(10)}}>
         {text}
       </Text>
-      <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
+      <Text style={{color: 'black', fontFamily: 'Poppins-Regular',fontSize:SF(10)}}>
         {seatPrice}
       </Text>
       <View style={ViewStyle}></View>

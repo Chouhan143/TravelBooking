@@ -53,7 +53,10 @@ import {
   SET_TOTAL_HOTEL_PRICE,
   SET_RESULT_INDEX,
   SET_BUS_DATA,
-  SET_RESULT_DATA
+  SET_RESULT_DATA,
+  SET_BUS_PAYLOAD,
+  SET_BOOKING_STATUS,
+  SET_MAIN_PASSENGER
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -102,7 +105,14 @@ const initialState = {
   otp: '',
   busList:{},
   busData:[],
-  ResultData:{}
+  ResultData:{},
+  busPayload:{},
+  busBookingStatus:{},
+  mainPassenger: {
+    email: '',
+    phoneNumber: '',
+    name: '',
+  },
 };
 
 export default function commomReducer(state = initialState, action) {
@@ -116,6 +126,11 @@ export default function commomReducer(state = initialState, action) {
       return {
         ...state,
         detailsStore: action.detailsStore,
+      };
+      case SET_MAIN_PASSENGER:
+      return {
+        ...state,
+        mainPassenger: action.mainPassenger,
       };
     case TICKET_DATA_TYPE:
       return {
@@ -449,7 +464,12 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         hotelInfo: action.payload,
       };
-
+      case SET_BOOK_DETAILS:
+        return {
+          ...state,
+          hotelBook: action.payload,
+        };
+  
         
     case SET_HOTEL_ROOM_DETAILS:
       return {
@@ -489,6 +509,16 @@ export default function commomReducer(state = initialState, action) {
           ...state,
           busList: action.payload,
         };
+          case SET_BOOKING_STATUS:
+            return {
+              ...state,
+              busBookingStatus: action.payload,
+            };
+        case SET_BUS_PAYLOAD:
+          return {
+            ...state,
+            busPayload: action.busPayload,
+          };
     default: {
       return state;
     }

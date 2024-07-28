@@ -365,7 +365,7 @@ const Meal = ({route}) => {
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
           <ScrollView
             keyboardShouldPersistTaps="handled"
-            style={FlightsListScreenStyle.contentContainerStyle}>
+            style={{backgroundColor:'white'}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -656,7 +656,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     elevation: 7,
     padding: SW(15),
     borderRadius: 10,

@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Text,
   View,
@@ -8,9 +8,9 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import {FlightsListScreenStyle} from '../../styles';
-import {RouteName} from '../../routes';
-import {useSelector} from 'react-redux';
+import { FlightsListScreenStyle } from '../../styles';
+import { RouteName } from '../../routes';
+import { useSelector } from 'react-redux';
 import Lottie from 'lottie-react-native';
 import {
   Button,
@@ -19,51 +19,51 @@ import {
   FlightMobileSelect,
   VectorIcon,
 } from '../../components';
-import {Colors, SF, SH, SW} from '../../utils';
-import {useTranslation} from 'react-i18next';
+import { Colors, SF, SH, SW } from '../../utils';
+import { useTranslation } from 'react-i18next';
 import images from '../../index';
-import {ScrollView} from 'react-native-virtualized-view';
+import { ScrollView } from 'react-native-virtualized-view';
 import useFlightSearch from '../../hooks/useFlightSearch';
-import {FLIGHT_FARE_QUOTE} from '../../utils/BaseUrl';
-import {useDispatch} from 'react-redux';
+import { FLIGHT_FARE_QUOTE, FLIGHT_BOOKLLC } from '../../utils/BaseUrl';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import {flightFareQutesData, selectedPassanger} from '../../redux/action';
+import { flightFareQutesData, selectedPassanger } from '../../redux/action';
 import FormatedDate from '../../components/commonComponents/FormatedDate';
 import FormatrdTime from '../../components/commonComponents/FormatrdTime';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const FlightListScreen = props => {
-  const {navigation, route} = props;
-  const {t} = useTranslation();
+  const { navigation, route } = props;
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const refRBSheet = useRef();
   const [checked, setChecked] = useState('first');
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [resultIndexAsync, setResultIndexAsync] = useState(null);
-  const {FsearchData, loading} = useFlightSearch();
+  const { FsearchData, loading } = useFlightSearch();
   const [selectedItemData, setSelectedItemData] = useState(null);
   const [flightBotomData, setFlightBottomData] = useState([]);
 
-  const {searchParams} = route.params; // Get searchParams from navigation
+  const { searchParams } = route.params; // Get searchParams from navigation
   // coming store data from redux
 
-  const FareQuoteData=useSelector(state=>state.commomReducer.flightFareQutesData);
-  console.log('Stored FareQuoteData',FareQuoteData);
-  const BaseFare=FareQuoteData.Fare.BaseFare;
-  const Tax=FareQuoteData.Fare.Tax;
-  const YQTax=FareQuoteData.Fare.YQTax;
+  const FareQuoteData = useSelector(state => state.commomReducer.flightFareQutesData);
+  console.log('Stored FareQuoteData', FareQuoteData);
+  const BaseFare = FareQuoteData.Fare.BaseFare;
+  const Tax = FareQuoteData.Fare.Tax;
+  const YQTax = FareQuoteData.Fare.YQTax;
   console.log(`BaseFare ${BaseFare} Tax ${Tax}  YQTax ${YQTax}`);
 
-  const {Detailedata} = useSelector(state => state.commomReducer) || {
+  const { Detailedata } = useSelector(state => state.commomReducer) || {
     Detailedata,
   };
 
-  const {flightTraceIdDetails, flightData, getCalenderData} = useSelector(
+  const { flightTraceIdDetails, flightData, getCalenderData } = useSelector(
     state => state.commomReducer,
   );
 
-  const {SrdvType, TraceId} = flightTraceIdDetails;
+  const { SrdvType, TraceId } = flightTraceIdDetails;
 
   let SrdvIndex = flightTraceIdDetails.Results;
   let SrdvIndexFlatten = SrdvIndex?.flat() ?? [];
@@ -113,7 +113,7 @@ const FlightListScreen = props => {
 
   const SeatFlaten2 = LeftSeat.flat();
   const NoOfSeatAvailable = SeatFlaten2.map(Avail => {
-    return {SeatAvail: Avail?.NoOfSeatAvailable ?? 0};
+    return { SeatAvail: Avail?.NoOfSeatAvailable ?? 0 };
   });
 
   // final flatlist data combined here
@@ -147,18 +147,18 @@ const FlightListScreen = props => {
     )
       .toString()
       .padStart(2, '0')}-${dateObject
-      .getDate()
-      .toString()
-      .padStart(2, '0')}T${dateObject
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${dateObject
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}:${dateObject
-      .getSeconds()
-      .toString()
-      .padStart(2, '0')}`;
+        .getDate()
+        .toString()
+        .padStart(2, '0')}T${dateObject
+          .getHours()
+          .toString()
+          .padStart(2, '0')}:${dateObject
+            .getMinutes()
+            .toString()
+            .padStart(2, '0')}:${dateObject
+              .getSeconds()
+              .toString()
+              .padStart(2, '0')}`;
 
     console.log(formattedDate);
 
@@ -191,24 +191,24 @@ const FlightListScreen = props => {
         TraceId: TraceId,
         ResultIndex: ResultIndexValue,
       };
-      console.log('fare quote payload',payload)
+      console.log('fare quote payload', payload)
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
-       console.log('FLIGHT_FARE_QUOTE',res.data);
-       const IsLLc=res.data.Results.IsLCC;
-       console.log('IsLLc',IsLLc);
-       if(IsLLc===true){
+      console.log('FLIGHT_FARE_QUOTE', res.data);
+      const IsLLc = res.data.Results.IsLCC;
+      console.log('IsLLc', IsLLc);
+      if (IsLLc === true) {
         BookLLc();
-       }
-       else{
+      }
+      else {
         BookHold();
-       }
+      }
       dispatch(flightFareQutesData(res.data.Results));
 
       setFlightBottomData(res.data.Results);
 
       // console.log('res fare qute', res.data.Results);
     } catch (error) {
-      console.log('error fare qute', error);
+      console.log('error fare qute', error.response);
     }
   };
 
@@ -219,10 +219,39 @@ const FlightListScreen = props => {
   }, []);
 
   // book llc api integration 
- 
-  const BookLLc=async()=>{
-    try{
-      const payload={
+
+  const BookLLc = async () => {
+    try {
+      const payload = {
+        SrdvType: SrdvType,
+        SrdvIndex: SrdvIndexValue,
+        TraceId: TraceId,
+        ResultIndex: ResultIndexValue,
+        BaseFare: BaseFare,
+        Tax: Tax,
+        YQTax: YQTax,
+
+      }
+      console.log('book llc payload', JSON.stringify(payload))
+      const res = await axios.post(FLIGHT_BOOKLLC, payload);
+      const BookLLcResponse = res.data;
+      console.log('BookLLcResponse', BookLLcResponse);
+    }
+    catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  // book hold api 
+
+  const BookHold = async () => {
+    try {
+      const payload = {
+
+        "EndUserIp": "1.1.1.1",
+        "ClientId": "180112",
+        "UserName": "Maneesh3",
+        "Password": "Maneesh@36",
         SrdvType: SrdvType,
         SrdvIndex: SrdvIndexValue,
         TraceId: TraceId,
@@ -230,159 +259,43 @@ const FlightListScreen = props => {
         "Passengers": [
           {
             "Title": "Mr",
-            "FirstName": "Harish",
-            "LastName": "Name",
+            "FirstName": "Joj",
+            "LastName": "Milson",
             "PaxType": 1,
-            "DateOfBirth": "",
+            "DateOfBirth": "1997-03-12T00:00:00",
             "Gender": "1",
-            "PassportNo": "",
-            "PassportExpiry": "",
-            "PassportIssueDate": "",
-            "AddressLine1": "A152 Ashok Nagar",
-            "City": "Delhi",
+            "PassportNo": "abc123456",
+            "PassportExpiry": "2031-03-12T00:00:00",
+            "AddressLine1": "Noida, Sector 63",
+            "City": "Noida",
             "CountryCode": "IN",
             "CountryName": "INDIA",
-            "ContactNo": "0000000000",
-            "Email": "navneet@srdvtechnologies.com",
-            "Baggage": [
-              {
-                "WayType": 1,
-                "Code": "XBPESeKey309",
-                "Description": "Excess Baggage - 3 Kg",
-                "Weight": "Excess Baggage - 3 Kg",
-                "Currency": "INR",
-                "Price": 1350,
-                "Origin": "DEL",
-                "Destination": "AMD"
-              }
-            ],
-            "MealDynamic": [
-              {
-                "WayType": 1,
-                "Code": "TCSWSeKey309",
-                "Description": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
-                "AirlineDescription": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
-                "Quantity": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
-                "Currency": "INR",
-                "Price": 400,
-                "Origin": "DEL",
-                "Destination": "AMD"
-              },
-              {
-                "WayType": 1,
-                "Code": "TCSWSeKey310",
-                "Description": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
-                "AirlineDescription": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
-                "Quantity": "Tomato Cucumber Cheese Lettuce Sandwich Combo",
-                "Currency": "INR",
-                "Price": 400,
-                "Origin": "AMD",
-                "Destination": "BOM"
-              }
-            ],
-            "Seat": [
-              {
-                "AirlineCode": "6E",
-                "FlightNumber": "6794",
-                "SeatNumber": "5B",
-                "IsBooked": false,
-                "IsLegroom": false,
-                "IsAisle": null,
-                "Amount": 250,
-                "Code": "5BSeKey310",
-                "Origin": "AMD",
-                "Destination": "BOM"
-              },
-              {
-                "AirlineCode": "6E",
-                "FlightNumber": "2501",
-                "SeatNumber": "4C",
-                "IsBooked": false,
-                "IsLegroom": false,
-                "IsAisle": true,
-                "Amount": 350,
-                "Code": "4CSeKey309",
-                "Origin": "DEL",
-                "Destination": "AMD"
-              }
-            ],
+            "ContactNo": "1234567890",
+            "Email": "email@gmail.com",
             "IsLeadPax": 1,
-            "Fare": {
-            "BaseFare": BaseFare,
-            "Tax": Tax,
-            "YQTax": YQTax,
-              "TransactionFee": "0",
-              "AdditionalTxnFeeOfrd": "",
-              "AdditionalTxnFeePub": "",
-              "AirTransFee": "0"
-            }
+            "Fare": [
+              {
+                "Currency": "INR",
+                "BaseFare": BaseFare,
+                "Tax": Tax,
+                "YQTax": YQTax,
+                "OtherCharges": 0,
+                "TransactionFee": "0",
+                "AdditionalTxnFeeOfrd": 0,
+                "AdditionalTxnFeePub": 0,
+                "AirTransFee": "0"
+              }
+            ]
           }
         ]
       }
-      console.log('book llc payload',JSON.stringify(payload))
-      const res=await axios.post('https://sajyatra.sajpe.in/admin/api/bookllc',payload);
-      const BookLLcResponse=res.data;
-      console.log('BookLLcResponse',BookLLcResponse);
-    }
-    catch(error){
-    console.log('error',error);
-    }
-  }
+      const res = await axios.post('https://sajyatra.sajpe.in/admin/api/book-hold', payload);
+      const BookHold = res.data;
+      console.log('BookHold', BookHold);
 
-  // book hold api 
-
-  const BookHold=async()=>{
-    try{
-       const payload={
-        
-          "EndUserIp": "1.1.1.1",
-          "ClientId": "180112",
-          "UserName": "Maneesh3",
-          "Password": "Maneesh@36",
-          SrdvType: SrdvType,
-        SrdvIndex: SrdvIndexValue,
-        TraceId: TraceId,
-        ResultIndex: ResultIndexValue,
-          "Passengers": [
-              {
-                  "Title": "Mr",
-                  "FirstName": "Joj",
-                  "LastName": "Milson",
-                  "PaxType": 1,
-                  "DateOfBirth": "1997-03-12T00:00:00",
-                  "Gender": "1",
-                  "PassportNo": "abc123456",
-                  "PassportExpiry": "2031-03-12T00:00:00",
-                  "AddressLine1": "Noida, Sector 63",
-                  "City": "Noida",
-                  "CountryCode": "IN",
-                  "CountryName": "INDIA",
-                  "ContactNo": "1234567890",
-                  "Email": "email@gmail.com",
-                  "IsLeadPax": 1,
-                  "Fare": [
-                      {
-                          "Currency": "INR",
-                          "BaseFare":BaseFare,
-                          "Tax": Tax,
-                          "YQTax":YQTax,
-                          "OtherCharges": 0,
-                          "TransactionFee": "0",
-                          "AdditionalTxnFeeOfrd": 0,
-                          "AdditionalTxnFeePub": 0,
-                          "AirTransFee": "0"
-                      }
-                  ]
-              }
-          ]
-      } 
-      const res=await axios.post('https://sajyatra.sajpe.in/admin/api/book-hold',payload);
-      const BookHold=res.data;
-      console.log('BookHold',BookHold);
-       
     }
-    catch(error){
-      console.log('error',error);
+    catch (error) {
+      console.log('error', error);
     }
   }
   // console.log('flightBotomData', flightBotomData);
@@ -426,9 +339,9 @@ const FlightListScreen = props => {
 
   // console.log('preparedData', preparedData);
 
-  const renderSeparator = ({leadingItem}) => {
+  const renderSeparator = ({ leadingItem }) => {
     return (
-      <View style={{flex: 1, marginHorizontal: 20}}>
+      <View style={{ flex: 1, marginHorizontal: 20 }}>
         <Text>Change of plane. Ground time: {leadingItem.groundDuration}</Text>
       </View>
     );
@@ -444,7 +357,7 @@ const FlightListScreen = props => {
         <View>
           <FlatList
             data={MobileSelectData}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <FlightMobileSelect
                 item={item}
                 index={index}
@@ -474,7 +387,7 @@ const FlightListScreen = props => {
                 fontSize: SF(14),
                 fontFamily: 'Poppins-Bold',
                 paddingVertical: SH(12),
-                transform: [{rotate: '270deg'}],
+                transform: [{ rotate: '270deg' }],
               }}>
               {t('Date')}
             </Text>
@@ -484,7 +397,7 @@ const FlightListScreen = props => {
             <FlatList
               data={getCalenderData}
               horizontal
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 const formatedDate = new Date(item.DepartureDate);
                 const monthlyDate = formatedDate.toDateString();
                 return (
@@ -643,7 +556,7 @@ const FlightListScreen = props => {
                 <View style={FlightsListScreenStyle.Mr20}>
                   <FlatList
                     data={combinedData}
-                    renderItem={({item, index}) => {
+                    renderItem={({ item, index }) => {
                       const handleBottom = () => {
                         setSelectedItemData(item); // State update
                       };
@@ -666,14 +579,7 @@ const FlightListScreen = props => {
                         <View style={FlightsListScreenStyle.padBtn}>
                           {selectedItemData && (
                             <>
-                              {/* <FlatList
-                                data={[selectedItemData]} // Wrap the selected item in an array
-                                renderItem={({item, index}) => (
-                                  <FlightShowFinal item={item} index={index} />
-                                )}
-                                keyExtractor={item => item.id}
-                                showsHorizontalScrollIndicator={false}
-                              /> */}
+                              
                               <View
                                 style={{
                                   width: '95%',
@@ -725,7 +631,7 @@ const FlightListScreen = props => {
                               </View>
                               <FlatList
                                 data={SegmentsFlatten}
-                                renderItem={({item, index}) => {
+                                renderItem={({ item, index }) => {
                                   const departureTime = item.DepTime;
                                   const arrivalTime = item.ArrTime;
 
@@ -771,7 +677,7 @@ const FlightListScreen = props => {
                                           }}>
                                           <Image
                                             source={require('../../images/flight.png')}
-                                            style={{width: 15, height: 15}}
+                                            style={{ width: 15, height: 15 }}
                                             resizeMode="contain"
                                           />
                                           <Text style={styles.textbold}>
@@ -795,7 +701,7 @@ const FlightListScreen = props => {
                                           </Text>
                                         </View>
                                         {/* section two  */}
-                                        <View style={{flexDirection: 'row'}}>
+                                        <View style={{ flexDirection: 'row' }}>
                                           <View>
                                             <Image
                                               source={
@@ -803,17 +709,17 @@ const FlightListScreen = props => {
                                                   ? require('../../images/circle.png')
                                                   : require('../../images/arrow.png')
                                               }
-                                              style={{width: 25, height: 100}}
+                                              style={{ width: 25, height: 100 }}
                                               resizeMode="contain"
                                             />
                                           </View>
-                                          <View style={{paddingLeft: 10}}>
+                                          <View style={{ paddingLeft: 10 }}>
                                             <FormatrdTime
                                               dateString={departureTime}
                                               style={styles.textbold}
                                             />
                                             <View
-                                              style={{flexDirection: 'row'}}>
+                                              style={{ flexDirection: 'row' }}>
                                               <Text style={styles.textSemibold}>
                                                 {item.Origin.CityName}
                                               </Text>
@@ -832,7 +738,7 @@ const FlightListScreen = props => {
                                             <Text
                                               style={[
                                                 styles.textSemibold,
-                                                {marginVertical: 3},
+                                                { marginVertical: 3 },
                                               ]}>
                                               Duration {finalDuration}
                                             </Text>
@@ -841,7 +747,7 @@ const FlightListScreen = props => {
                                               style={styles.textbold}
                                             />
                                             <View
-                                              style={{flexDirection: 'row'}}>
+                                              style={{ flexDirection: 'row' }}>
                                               <Text style={styles.textSemibold}>
                                                 {item.Destination.CityName}
                                               </Text>
@@ -863,36 +769,6 @@ const FlightListScreen = props => {
                                 ItemSeparatorComponent={renderSeparator}
                               />
 
-                              {/* <Text style={FlightsListScreenStyle.HeadingStyle}>
-                                {t('Title_1')}
-                              </Text>
-                              <Text
-                                style={FlightsListScreenStyle.TravellerText}>
-                                {t('Title_2')}
-                              </Text> */}
-                              {/* <View style={FlightsListScreenStyle.padLeft10}>
-                                <FlatList
-                                  data={UpgradeBoxData}
-                                  renderItem={({item, index}) => (
-                                    <UpgradeBoxFun
-                                      item={item}
-                                      index={index}
-                                      value={item.RadioValue}
-                                      status={
-                                        checked === item.RadioValue
-                                          ? 'checked'
-                                          : 'unchecked'
-                                      }
-                                      onPress={() =>
-                                        setChecked(item.RadioValue)
-                                      }
-                                    />
-                                  )}
-                                  keyExtractor={item => item.id}
-                                  showsHorizontalScrollIndicator={false}
-                                  horizontal
-                                />
-                              </View> */}
                             </>
                           )}
                         </View>

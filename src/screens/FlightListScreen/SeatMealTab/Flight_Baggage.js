@@ -338,7 +338,7 @@ const Baggage = ({route}) => {
         <View style={FlightsListScreenStyle.PayBottomShetBox}>
           <ScrollView
             keyboardShouldPersistTaps="handled"
-            style={FlightsListScreenStyle.contentContainerStyle}>
+            style={{backgroundColor:'white'}}>
             <View
               style={{
                 flexDirection: 'row',

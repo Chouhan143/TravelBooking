@@ -436,12 +436,12 @@ const PassengerInformation = ({route}) => {
                alignItems: 'center',
                alignSelf: 'center',
                width: '95%',
-               height: '10%',
+               height: '6%',
                backgroundColor:Colors.theme_background,
                borderRadius: 10,
              }}
              onPress={handleAddPassenger}>
-             <Text style={{color: '#fff', fontWeight: '800', fontSize: 18}}>
+             <Text style={{color: '#fff',fontFamily:'Poppins-Bold', fontSize: 18}}>
                Add Passengers
              </Text>
            </TouchableOpacity>
