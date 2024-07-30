@@ -18,12 +18,13 @@ import axios from 'axios';
 import {BUS_LIST, BUS_SEARCH} from '../../utils/BaseUrl';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
-import {setResultIndex, setTraceId,setBusData, setSearchBusData, setResultData} from '../../redux/action';
+import {setResultIndex, setTraceId,setBusData, setSearchBusData, setResultData, setSearchBusPayload} from '../../redux/action';
 import {useDispatch, useSelector} from 'react-redux';
 import {Calendar} from 'react-native-calendars';
 import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Lottie } from '../../components';
 const BusTab = props => {
   const dispatch = useDispatch();
   const {t} = useTranslation();
@@ -40,10 +41,11 @@ const BusTab = props => {
   const {Colors} = useTheme();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const BookingTabStyles = useMemo(() => BookingTabStyle(Colors), [Colors]);
-  const [hideFlatList, setHideFlatList] = useState(false);
+  
   const [isSourceCityFocused, setIsSourceCityFocused] = useState(false);
   const [isDestinationCityFocused, setIsDestinationCityFocused] =useState(false);
-
+  const [hideFlatListFrom, setHideFlatListFrom] = useState(false);
+  const [hideFlatListTo, setHideFlatListTo] = useState(false);
   useEffect(() => {
     // Function to calculate current date and the next five dates
     const calculateDates = () => {
@@ -98,7 +100,8 @@ const BusTab = props => {
   const showMoreCalender = () => {
     setShowCalender(!showCalender);
   };
-
+  const Data=useSelector(state=>state.commomReducer.busPayload);
+  console.log('Data',Data);
   // bus search api
   const handleSearch = async () => {
     try {
@@ -112,6 +115,7 @@ const BusTab = props => {
         };
         console.log('payload', payload);
         const res = await axios.post(BUS_SEARCH, payload);
+        dispatch(setSearchBusPayload(payload));
         // console.log('bus search data ',res.data);
         const SearchBusData=res.data;
         dispatch(setSearchBusData(SearchBusData));
@@ -171,10 +175,12 @@ const BusTab = props => {
 
   const handlesourceCity = query => {
     setsourceCity(query);
+    
   };
 
   const handledestinationCity = query => {
     setdestinationCity(query);
+    
   };
 
   const clearSearchFrom = () => {
@@ -184,154 +190,153 @@ const BusTab = props => {
   const clearSearchTo = () => {
     setdestinationCity('');
   };
+  const handleSelectCity = (cityName, isFrom) => {
+    if (isFrom) {
+      setsourceCity(cityName);
+      setHideFlatListFrom(true);
+    } else {
+      setdestinationCity(cityName);
+      setHideFlatListTo(true);
+    }
+  };
   return (
     <View>
       <View>
         <View style={BookingTabStyles.FlightMainBox}>
-          <View style={BookingTabStyles.WithFrom}>
-            <Text style={BookingTabStyles.FromText}>{t('From')}</Text>
-            <TextInput
-              placeholder="Starting Point"
-              placeholderTextColor={'gray'}
-              clearButtonMode="while-editing"
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={sourceCity}
-              onChangeText={query => handlesourceCity(query)}
-              onFocus={() => setIsSourceCityFocused(true)}
-              onBlur={() => setIsSourceCityFocused(false)}
-              style={{
-                paddingHorizontal: 20,
-                paddingVertical: 10,
-                borderWidth: isSourceCityFocused ? 1 : 0.5,
-                borderColor: isSourceCityFocused
-                  ? Colors.theme_background
-                  : 'gray',
-                borderRadius: 10,
-                color: Colors.theme_background,
-              }}
-            />
-            {sourceCity ? (
+        <View style={BookingTabStyles.WithFrom}>
+        <Text style={BookingTabStyles.FromText}>From</Text>
+        <TextInput
+          placeholder="Starting Point"
+          placeholderTextColor={'gray'}
+          clearButtonMode="while-editing"
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={sourceCity}
+          onChangeText={query => handlesourceCity(query)}
+          onFocus={() => {
+            setIsSourceCityFocused(true);
+            setHideFlatListFrom(false); // Show suggestions when focused
+          }}
+          onBlur={() => setIsSourceCityFocused(false)}
+          style={{
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            borderWidth: isSourceCityFocused ? 1 : 0.5,
+            borderColor: isSourceCityFocused ? Colors.theme_background : 'gray',
+            borderRadius: 10,
+            color: Colors.theme_background,
+          }}
+        />
+        {!hideFlatListFrom && sourceCity !== '' &&  (
+          <FlatList
+            data={filteredBusDataFrom.slice(0, 5)}
+            renderItem={({ item }) => (
               <TouchableOpacity
-                style={{
-                  position: 'absolute',
-                  right: SW(15),
-                  top: SH(50),
-                }}
-                onPress={clearSearchFrom}>
-                <MaterialCommunityIcons
-                  name="close-circle"
-                  size={20}
-                  color="gray"
-                />
+              onPress={() => handleSelectCity(item.busodma_destination_name, true)}
+            >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: 'gray',
+                      marginHorizontal: 10,
+                      marginVertical: 5,
+                      paddingBottom: 10,
+                    }}
+                  >
+                    <Text style={{ fontSize: 16, fontWeight: '400', color: '#000' }}>
+                      {item.busodma_destination_name}
+                    </Text>
+                  </View>
+                </View>
               </TouchableOpacity>
-            ) : null}
-          </View>
-          <View style={BookingTabStyles.WithFrom}>
-            <Text style={BookingTabStyles.ToText}>{t('To')}</Text>
-            <TextInput
-              placeholder="Destination"
-              placeholderTextColor={'gray'}
-              clearButtonMode="while-editing"
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={destinationCity}
-              onChangeText={query => handledestinationCity(query)}
-              onFocus={() => setIsDestinationCityFocused(true)}
-              onBlur={() => setIsDestinationCityFocused(false)}
-              style={{
-                paddingHorizontal: 20,
-                paddingVertical: 10,
-                borderColor: isDestinationCityFocused
-                  ? Colors.theme_background
-                  : 'gray',
-                borderWidth: isDestinationCityFocused ? 1 : 0.5,
-                borderRadius: 10,
-                color: Colors.theme_background,
-              }}
-            />
-            {destinationCity ? (
-              <TouchableOpacity
-                style={{
-                  position: 'absolute',
-                  right: SW(15),
-                  top: SH(65),
-                }}
-                onPress={clearSearchTo}>
-                <MaterialCommunityIcons
-                  name="close-circle"
-                  size={20}
-                  color="gray"
-                />
-              </TouchableOpacity>
-            ) : null}
-          </View>
-          {sourceCity !== '' || destinationCity !== '' ? (
-            <View style={{marginVertical: SH(10), marginTop: SH(15)}}>
-              <Text
-                style={{
-                  fontSize: SF(16),
-                  fontWeight: '700',
-                  color: '#000',
-                }}>
-                Search Results
-              </Text>
-            </View>
-          ) : null}
-          {sourceCity !== '' || destinationCity !== '' ? (
-            <FlatList
-              data={
-                destinationCity !== ''
-                  ? filteredBusDataTo.slice(0, 5)
-                  : filteredBusDataFrom.slice(0, 5) // Use filteredBusDataFrom when destinationCity is empty
-              }
-              renderItem={({item}) => (
-                <>
-                  <TouchableOpacity
-                    onPress={() => {
-                      // Determine if user is searching in "From" or "To" field
-                      if (destinationCity !== '') {
-                        // User is searching in "To" field, update destinationCity
-                        setdestinationCity(item.busodma_destination_name);
-                      } else {
-                        // User is searching in "From" field, update sourceCity
-                        setsourceCity(item.busodma_destination_name);
-                      }
-                      setHideFlatList(true);
-                    }}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <MaterialCommunityIcons
-                        name={'office-building-marker'}
-                        size={22}
-                      />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomWidth: 0.5,
-                          borderBottomColor: 'gray',
-                          marginHorizontal: 10,
-                          marginVertical: 5,
-                          paddingBottom: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: SF(16),
-                            fontWeight: '400',
-                            color: '#000',
-                          }}>
-                          {item.busodma_destination_name}
-                        </Text>
-                      </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={<Text>No results found</Text>}
+          />
+        )}
+        {sourceCity && (
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              right: 15,
+              top: 50,
+            }}
+            onPress={clearSearchFrom}
+          >
+            <MaterialCommunityIcons name="close-circle" size={20} color="gray" />
+          </TouchableOpacity>
+        )}
+      </View>
 
-                      {/* Render other details of the bus */}
-                    </View>
-                  </TouchableOpacity>
-                </>
-              )}
-              keyExtractor={(item, index) => item.index}
-              ListEmptyComponent={<Text>No results found</Text>}
-            />
-          ) : null}
+      {/* Destination City Input */}
+      <View style={BookingTabStyles.WithFrom}>
+        <Text style={BookingTabStyles.ToText}>To</Text>
+        <TextInput
+          placeholder="Destination"
+          placeholderTextColor={'gray'}
+          clearButtonMode="while-editing"
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={destinationCity}
+          onChangeText={query => handledestinationCity(query)}
+          onFocus={() => {
+            setIsDestinationCityFocused(true);
+            setHideFlatListTo(false); // Show suggestions when focused
+          }}
+          onBlur={() => setIsDestinationCityFocused(false)}
+          style={{
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            borderWidth: isDestinationCityFocused ? 1 : 0.5,
+            borderColor: isDestinationCityFocused ? Colors.theme_background : 'gray',
+            borderRadius: 10,
+            color: Colors.theme_background,
+          }}
+        />
+        {!hideFlatListTo && destinationCity !== '' && (
+          <FlatList
+            data={filteredBusDataTo.slice(0, 5)}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+              onPress={() => handleSelectCity(item.busodma_destination_name, false)}
+            >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: 'gray',
+                      marginHorizontal: 10,
+                      marginVertical: 5,
+                      paddingBottom: 10,
+                    }}
+                  >
+                    <Text style={{ fontSize: 16, fontWeight: '400', color: '#000' }}>
+                      {item.busodma_destination_name}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={<Text>No results found</Text>}
+          />
+        )}
+        {destinationCity && (
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              right: 15,
+              top: 65,
+            }}
+            onPress={clearSearchTo}
+          >
+            <MaterialCommunityIcons name="close-circle" size={20} color="gray" />
+          </TouchableOpacity>
+        )}
+      </View>
         </View>
         <Spacing space={SH(10)} />
         <View style={BookingTabStyles.FlewRows}>
@@ -472,7 +477,16 @@ const BusTab = props => {
 
         <Spacing space={SH(80)} />
         {loading ? (
-          <ActivityIndicator size="large" color={Colors.theme_background} />
+          <Lottie
+          source={require('../../images/LottieAnimation/isLoader.json')}
+          Lottiewidthstyle={{
+            width: '32%',
+            height: '80%',
+            paddingTop: SH(50),
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
         ) : (
           <Button title={t('Search_Buses')} onPress={handleSearch} />
           // <Button title={t('Search_Buses')} onPress={SelectBus} />

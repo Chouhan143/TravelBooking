@@ -10,12 +10,9 @@ import { useSelector } from 'react-redux';
 import ReadMoreText from '../../components/commonComponents/ReadMore';
 import { useRoute } from '@react-navigation/native'
 import he from 'he';
-import axios from 'axios';
-import { HOTEL_BOOK } from '../../utils/BaseUrl';
-import { setBookingDetails } from '../../redux/action';
+import { addGuest, removeGuest} from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-toast-message';
-import RazorpayCheckout from 'react-native-razorpay';
 import { format, differenceInDays, parseISO } from 'date-fns';
 export default function HotelGuestDetails() {
     const route = useRoute();
@@ -24,20 +21,81 @@ export default function HotelGuestDetails() {
   const hotelDetails=useSelector(state=>state.commomReducer.hotelInfo);
   const hotelData = useSelector(state => state.commomReducer.hotelData);
   const TotalHotelPrice=useSelector(state=>state.commomReducer.totalHotelPrice);
-  console.log('hotelData',hotelData);
+ 
   const count = useSelector(state => state.commomReducer.hotelRoomCounter);
   const RoomData = useSelector(state => state.commomReducer.hotelRoomDetails);
   const dispatch=useDispatch();
-   console.log('RoomData',JSON.stringify(RoomData));
+
   const BlockRoom=useSelector(state=>state.commomReducer.hotelBlock);
   const [more, setMore] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [MiddleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [showError, setShowError] = useState(false);
   const [loading,setLoading]=useState(null);
+  const Guests = useSelector(state => state.commomReducer.guests);
+  const GuestArray = Guests.map(guest => ({
+    firstName: guest.firstName,
+    MiddleName: guest.MiddleName,
+    lastName: guest.lastName,
+    email: guest.email,
+    phoneNumber: guest.phoneNumber,
+    age:guest.age,
+  }));
+  console.log('GuestArray',Guests);
+
+  const addGuestToRedux = () => {
+    const guest = {
+      firstName,
+      MiddleName,
+      lastName,
+      email,
+      phoneNumber,
+      age
+    };
+
+    // Dispatch action to add passenger to Redux store
+    dispatch(addGuest(guest));
+
+    // Clear form fields
+    
+    setFirstName('');
+    setMiddleName('');
+    setLastName('');
+    setEmail('');
+    setPhoneNumber('');
+    setAge('')
+  };
+  const handleAddGuest = () => {
+    if (
+      !firstName || !lastName || !email|| !phoneNumber
+    ) {
+      Toast.show({
+        type: 'error',
+        topOffset: 100,
+        text1: 'Please fill in all required fields.',
+        text1Style: {
+          fontSize: 16,
+        },
+      });
+
+      return;
+    }
+    addGuestToRedux();
+    navigation.navigate(RouteName.HOTEL_TICKET_GUEST_SCREEN);
+    // refRBSheet.current.close();
+  };
+
+  const GuestDatafetch = ({item, index}) => {
+    const handleDeleteGuest = () => {
+      // Dispatch action to remove passenger from Redux store
+      dispatch(removeGuest(index));
+    };
+  }
+
   let moreHandler = () => {
     setMore(!more);
   };
@@ -48,209 +106,6 @@ export default function HotelGuestDetails() {
 const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
   // Calculate the number of days between the dates
   const numberOfNights = differenceInDays(checkOutDate, checkInDate);
-  const BookingConfirmed = async () => {
-    try {
-      const payload = {
-        "ResultIndex": "65","HotelCode": "341089","HotelName": "The Manor",
-        "GuestNationality": "IN","NoOfRooms": "1","ClientReferenceNo": 0,
-        "IsVoucherBooking": true,"HotelRoomsDetails": [{"ChildCount": 0,"RequireAllPaxDetails": false,
-          "RoomId": 0,"RoomStatus": 0,"RoomIndex": 4,"RoomTypeCode": "211504640|4|1",
-          "RoomTypeName": "Deluxe Room","RatePlanCode": "230104963","RatePlan": 13,
-          "InfoSource": "FixedCombination","SequenceNo": "EA~~341089~4",
-          "DayRates": [{"Amount": 12325,"Date": "2019-09-28T00:00:00"}],
-          "SupplierPrice": null,
-          "Price": {
-            "CurrencyCode": "INR","RoomPrice": 12325,
-            "Tax": 3113.3,"ExtraGuestCharge": 0,"ChildCharge": 0,
-            "OtherCharges": 26,"Discount": 2175,"PublishedPrice": 15464.3,
-            "PublishedPriceRoundedOff": 15464,"OfferedPrice": 15464.3,
-            "OfferedPriceRoundedOff": 15464,"AgentCommission": 0,
-            "AgentMarkUp": 0,"ServiceTax": 4.68,"TDS": 0,"ServiceCharge": 0,
-            "TotalGSTAmount": 4.68,"GST": {"CGSTAmount": 0,"CGSTRate": 0,
-              "CessAmount": 0,"CessRate": 0,"IGSTAmount": 4.68,"IGSTRate": 18,
-              "SGSTAmount": 0,"SGSTRate": 0,"TaxableAmount": 26}},
-              "HotelPassenger": [{"Title": "Mr","FirstName":firstName,
-                "MiddleName":MiddleName,"LastName":lastName,"Phoneno":phoneNumber,
-                "Email":email,"PaxType": "1","LeadPassenger": true,
-                "PassportNo": null,"PassportIssueDate": null,"PassportExpDate": null,
-                "PAN": "XXXXXXXXXX"},{"Title": "Mstr","FirstName": "FirstName",
-                  "MiddleName": null,"LastName": "LastName","Phoneno": "9999999999",
-                  "Email": "test@email.com","PaxType": "2","LeadPassenger": false,"Age": "8",
-                  "PassportNo": null,"PassportIssueDate": null,"PassportExpDate": null,"PAN": "XXXXXXXXXX"}],
-                  "RoomPromotion": "Member’s exclusive price","Amenities": ["Breakfast Buffet"],
-                  "SmokingPreference": "0","BedTypes": [{"BedTypeCode": "13",
-                    "BedTypeDescription": "1 double bed"}],"HotelSupplements": [],
-                    "LastCancellationDate": "2019-09-17T00:00:00",
-                    "CancellationPolicies": [{"Charge": 100,"ChargeType": 2,"Currency": "INR",
-                      "FromDate": "2019-09-18T00:00:00","ToDate": "2019-09-26T23:59:59"},
-                      {"Charge": 100,"ChargeType": 2,"Currency": "INR","FromDate": "2019-09-27T00:00:00",
-                        "ToDate": "2019-09-29T23:59:59"},{"Charge": 100,"ChargeType": 2,"Currency": "INR",
-                          "FromDate": "2019-09-28T00:00:00","ToDate": "2019-09-29T00:00:00"}],
-                          "CancellationPolicy": "Deluxe Room#^#100.00% of total amount will be charged, If cancelled between 18-Sep-2019 00:00:00 and 26-Sep-2019 23:59:59.|100.00% of total amount will be charged, If cancelled between 27-Sep-2019 00:00:00 and 29-Sep-2019 23:59:59.|100.00% of total amount will be charged, If cancelled between 28-Sep-2019 00:00:00 and 29-Sep-2019 00:00:00.|#!#",
-                          "Inclusion": ["Breakfast Buffet"],"BedTypeCode": "13","Supplements": null}],
-                          "ArrivalTime": "2019-09-28T00:00:00",
-        "IsPackageFare": true,"SrdvType": "SingleTB","SrdvIndex": "SrdvTB",
-        "TraceId": "731","EndUserIp": "1.1.1.1","ClientId": "XXXX","UserName": "XXXX",
-        "Password": "XXXX"
-      };
-  
-      if (!firstName || !lastName || !email  || !phoneNumber) {
-        setShowError(true);
-        Toast.show({
-          type: 'error',
-          text1: 'Missing Information',
-          text2: 'Please fill out all required fields.',
-          textStyle: { color: 'red', fontSize: 12 },
-        });
-        return; // Return early if fields are missing
-      }
-  
-      setShowError(false);
-      const response = await axios.post(HOTEL_BOOK, payload);
-const BookingResult = response.data;
-dispatch(setBookingDetails(BookingResult));
-console.log('BookingResult', BookingResult);
-
-
-if (BookingResult.message === 'Booking successful') {
-  Toast.show({
-    type: 'success',
-    text1: 'Booking Confirmed',
-    text2: 'Your booking has been confirmed!',
-    textStyle: { color: 'green', fontSize: 12 },
-  });
-} else {r
-  
-  Toast.show({
-    type: 'error',
-    text1: 'Booking Not Confirmed',
-    text2: 'Your booking could not be confirmed.',
-    textStyle: { color: 'red', fontSize: 12 },
-  });
-}
-    } catch (error) {
-      console.log('error', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'An error occurred during booking.',
-        textStyle: { color: 'red', fontSize: 12 },
-      });
-    }
-  };
-  const handlePayment = async () => {
-    if (!firstName || !lastName || !email || !phoneNumber) {
-        setShowError(true);
-        Toast.show({
-            type: 'error',
-            text1: 'Missing Information',
-            text2: 'Please fill out all required fields only middle name is optional .',
-            textStyle: { color: 'red', fontSize: 12 },
-        });
-        return;
-    }
-
-    setShowError(false);
-    setLoading(true);
-
-    try {
-        const payload = {
-            amount: TotalHotelPrice.toString(),
-            user_id: "1"
-        };
-        const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', payload);
-        console.log('payment create payload', payload);
-
-        const { razorpay_key, payment_details } = paymentIntentResponse.data;
-        console.log('payment_details', payment_details);
-        console.log('razorpay_key', razorpay_key);
-
-        const transaction_id = payment_details.id;
-        const options = {
-            key: razorpay_key,
-            amount: parseInt(TotalHotelPrice) * 100,
-            currency: 'INR',
-            name: 'SRN INFO TECH ',
-            transaction_id: transaction_id,
-            description: 'Payment for Booking',
-            image: 'https://yourcompany.com/logo.png',
-            prefill: {
-                email: email,
-                contact: phoneNumber,
-                name: `${firstName} ${MiddleName} ${lastName}`
-            },
-            theme: {
-               color: "#3399cc"
-            }
-        };
-
-        RazorpayCheckout.open(options)
-            .then(async (data) => {
-                const paymentId = data.razorpay_payment_id;
-                console.log(`Success: ${paymentId}`);
-                Toast.show({
-                    type: 'success',
-                    text1: 'Payment Successful',
-                    text2: `Payment ID: ${paymentId}`
-                });
-
-                await updateHotelPaymentStatus(paymentId, transaction_id);
-                await BookingConfirmed();
-                navigation.navigate("ReviewHotelTicketStatus");
-            })
-            .catch((error) => {
-                console.error(`Error: ${error.code} | ${error.description}`);
-                Toast.show({
-                    type: 'error',
-                    text1: 'Payment Failed',
-                    text2: `${error.description}`
-                });
-                setLoading(false);
-            });
-    } catch (error) {
-        console.error('Payment initiation failed:', error);
-        Toast.show({
-            type: 'error',
-            text1: 'Payment Error',
-            text2: 'An error occurred while initiating the payment.'
-        });
-        setLoading(false);
-    }
-};
-
-const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
-    try {
-        const payload = {
-            payment_id: paymentId,
-            transaction_id: transaction_id,
-        };
-        console.log('Attempting to update payment status with payload:', payload);
-        
-        const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-payment', payload);
-        console.log('Payment update payload', payload);
-        console.log('update response:', response.data);
-        
-        if (response.data.success === 'Payment updated successfully.') {
-            Toast.show({
-                type: 'success',
-                text1: 'Update Successfully',
-                text2: 'Your payment status updated successfully'
-            });
-            console.log('Payment status updated successfully');
-        } else {
-            console.log('Payment status update failed');
-        }
-    } catch (error) {
-        console.error('Failed to update payment status:', error);
-        Toast.show({
-            type: 'error',
-            text1: 'Update Error',
-            text2: 'Failed to update the payment status.'
-        });
-    } finally {
-        setLoading(false); // Ensure loading state is turned off
-    }
-};
 
   const cleanUpDescription = (description) => {
     if (!description) return '';
@@ -362,7 +217,7 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
           </View>
         </View>
        <View style={styles.DetailsContanier}>
-          <Text style={styles.inputHeading}>enter your details </Text>
+          <Text style={styles.inputHeading}>enter your Guest Details </Text>
           <View style={{
             display: 'flex', flexDirection: 'row',
             justifyContent: 'center', alignItems: 'center', backgroundColor: '#e1e7e8',
@@ -416,31 +271,36 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
               <Entypo name={'star'} color='red' size={15} />
             </View>
 
-            <TextInput style={styles.input} onChangeText={setPhoneNumber} keyboardType="numeric" />
+            <TextInput style={styles.input} onChangeText={setPhoneNumber} keyboardType="phone-pad" />
             {showError && !phoneNumber && <Text style={styles.errorText}>Please enter phone number .</Text>}
           </View>
+
+          <View style={{ marginVertical: SH(10) }}>
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <Text style={styles.inputLabel}>Age </Text>
+            <Entypo name={'star'} color='red' size={15} />
+          </View>
+
+          <TextInput style={styles.input} onChangeText={setAge} />
+          {showError && !age && <Text style={styles.errorText}>Please enter your age .</Text>}
+          
+        </View>
 
         </View>
 
       </ScrollView>
-      <View
-        style={{
-          backgroundColor: Colors.theme_background, padding: SW(12),
-          display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-        }}
-       >
-        <Text style={{
-          color: 'white', fontFamily: 'Poppins-Bold', textAlign: 'center',
-          textTransform: 'capitalize', fontSize: SF(15)
-        }}>
-       <FontAwesome name={'rupee'} color={'white'} size={15} />{TotalHotelPrice}</Text>
-        <Text onPress={handlePayment} style={{
-  color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
-  textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
-  padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5,
-}}>proceed to pay</Text>
-
-      </View>
+     {
+  NoOfAdults > 1 ? (
+    <TouchableOpacity style={{ backgroundColor: Colors.theme_background,padding: SW(12),alignItems: 'center' }}>
+      <Text style={{ color: 'white', fontFamily: 'Poppins-Bold',fontSize:SF(15) }}>Add Another Guest Detail</Text>
+    </TouchableOpacity>
+  ) : (
+    <TouchableOpacity style={{ backgroundColor: Colors.theme_background,padding: SW(12),alignItems: 'center' }}
+    onPress={handleAddGuest}>
+      <Text style={{ color: 'white', fontFamily: 'Poppins-Bold',fontSize:SF(15) }}>Continue</Text>
+    </TouchableOpacity>
+  )
+}
     </View>
   );
 }

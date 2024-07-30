@@ -21,7 +21,7 @@ const HotelDescriptionPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
-  // console.log('redux info data',hotelDetails);
+  console.log('redux info data in detail page ',hotelDetails);
 
   const renderItem = ({ item, index }) => {
     if (!item || typeof item !== 'string' || item.trim() === '') {

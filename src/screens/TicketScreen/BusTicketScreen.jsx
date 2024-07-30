@@ -288,8 +288,8 @@ const [modalVisible, setModalVisible] = useState(false);
             </View>
           </Modal>
           
-          <TouchableOpacity style={styles.button} >
-            <Text style={styles.buttonText} onPress={()=>{CancelApi}}>Cancel</Text>
+          <TouchableOpacity style={styles.button} onPress={CancelApi}>
+            <Text style={styles.buttonText} >Cancel</Text>
           </TouchableOpacity>
 
           <Modal

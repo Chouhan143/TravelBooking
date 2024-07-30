@@ -65,8 +65,7 @@ const PassengerInformation = ({route}) => {
     email:passenger.passengerEmail,
     phone:passenger.passengerPhone
   }));
-  
-  console.log('passengersArray', passengersArray);
+ 
 
   const busSearchData=useSelector(state=>state.commomReducer.busData);
   const passenger = pessengerData[0];

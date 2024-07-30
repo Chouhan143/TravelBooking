@@ -42,8 +42,8 @@ export default function HotelListScreen() {
 const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
   // Calculate the number of days between the dates
   const numberOfNights = differenceInDays(checkOutDate, checkInDate);
-  const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
-  console.log('redux info data',hotelDetails);
+  // const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
+  // console.log('redux info data',hotelDetails);
   const currentLocation = useSelector(
     state => state.commomReducer.positionLatLong,
   );

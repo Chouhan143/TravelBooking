@@ -194,14 +194,7 @@ const FlightListScreen = props => {
       console.log('fare quote payload', payload)
       const res = await axios.post(FLIGHT_FARE_QUOTE, payload);
       console.log('FLIGHT_FARE_QUOTE', res.data);
-      const IsLLc = res.data.Results.IsLCC;
-      console.log('IsLLc', IsLLc);
-      if (IsLLc === true) {
-        BookLLc();
-      }
-      else {
-        BookHold();
-      }
+     
       dispatch(flightFareQutesData(res.data.Results));
 
       setFlightBottomData(res.data.Results);
@@ -214,90 +207,9 @@ const FlightListScreen = props => {
 
   useEffect(() => {
     getFareQuteData();
-    // BookLLc();
-    // BookHold();
+   
   }, []);
 
-  // book llc api integration 
-
-  const BookLLc = async () => {
-    try {
-      const payload = {
-        SrdvType: SrdvType,
-        SrdvIndex: SrdvIndexValue,
-        TraceId: TraceId,
-        ResultIndex: ResultIndexValue,
-        BaseFare: BaseFare,
-        Tax: Tax,
-        YQTax: YQTax,
-
-      }
-      console.log('book llc payload', JSON.stringify(payload))
-      const res = await axios.post(FLIGHT_BOOKLLC, payload);
-      const BookLLcResponse = res.data;
-      console.log('BookLLcResponse', BookLLcResponse);
-    }
-    catch (error) {
-      console.log('error', error);
-    }
-  }
-
-  // book hold api 
-
-  const BookHold = async () => {
-    try {
-      const payload = {
-
-        "EndUserIp": "1.1.1.1",
-        "ClientId": "180112",
-        "UserName": "Maneesh3",
-        "Password": "Maneesh@36",
-        SrdvType: SrdvType,
-        SrdvIndex: SrdvIndexValue,
-        TraceId: TraceId,
-        ResultIndex: ResultIndexValue,
-        "Passengers": [
-          {
-            "Title": "Mr",
-            "FirstName": "Joj",
-            "LastName": "Milson",
-            "PaxType": 1,
-            "DateOfBirth": "1997-03-12T00:00:00",
-            "Gender": "1",
-            "PassportNo": "abc123456",
-            "PassportExpiry": "2031-03-12T00:00:00",
-            "AddressLine1": "Noida, Sector 63",
-            "City": "Noida",
-            "CountryCode": "IN",
-            "CountryName": "INDIA",
-            "ContactNo": "1234567890",
-            "Email": "email@gmail.com",
-            "IsLeadPax": 1,
-            "Fare": [
-              {
-                "Currency": "INR",
-                "BaseFare": BaseFare,
-                "Tax": Tax,
-                "YQTax": YQTax,
-                "OtherCharges": 0,
-                "TransactionFee": "0",
-                "AdditionalTxnFeeOfrd": 0,
-                "AdditionalTxnFeePub": 0,
-                "AirTransFee": "0"
-              }
-            ]
-          }
-        ]
-      }
-      const res = await axios.post('https://sajyatra.sajpe.in/admin/api/book-hold', payload);
-      const BookHold = res.data;
-      console.log('BookHold', BookHold);
-
-    }
-    catch (error) {
-      console.log('error', error);
-    }
-  }
   // console.log('flightBotomData', flightBotomData);
 
   const Segments = flightBotomData?.Segments ?? [];

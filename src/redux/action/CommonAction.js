@@ -52,7 +52,11 @@ import {
   SET_RESULT_DATA,
   SET_BUS_PAYLOAD,
   SET_BOOKING_STATUS,
-  SET_MAIN_PASSENGER
+  SET_MAIN_PASSENGER,
+  SET_SELECTED_GUEST,
+  ADD_GUEST,
+  REMOVE_GUEST,
+  CLEAR_GUESTS
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -201,6 +205,17 @@ export const selectedPassanger = passengers => ({
   payload: passengers,
 });
 
+export const addGuest = guests => ({
+  type: ADD_GUEST,
+  payload: guests,
+});
+export const clearGuests = () => ({
+  type: CLEAR_GUESTS,
+});
+export const removeGuest = index => ({
+  type: REMOVE_GUEST,
+  payload: {index},
+});
 // export const clearSelectedPassengers = () => ({
 //   type: CLEAR_SELECTED_PASSENGERS,
 // });

@@ -5,98 +5,37 @@ import { RouteName } from '../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { AppHeader } from '../../components';
 import { useSelector } from 'react-redux';
-const data =[
-    {
-        id:1,
-        Name:'abc Hotel',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Booked',
-        Color: Colors.green
-    },
-    {
-        id:2,
-        Name:'xyz Hotel',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Cancelled',
-        Color: Colors.red_color
-    },
-    {
-        id:3,
-        Name:'abc Hotel',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Booked',
-        Color: Colors.green
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-    },
-    {
-        id:4,
-        Name:'xyc Hotel',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Expired',
-        Color: Colors.gray_text_color
-
-    },
-    {
-        id:5,
-        Name:'abc Hotel',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Cancelled',
-        Color: Colors.red_color
-
-    },
-    {
-        id:6,
-        Name:'xyz Hotel',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Expired',
-        Color: Colors.gray_text_color
-
-    }
-]
-
-const ReviewHotelTicketStatus = () => {
+const ReviewHotelTicketStatus = ({route}) => {
     const navigation=useNavigation();
-  //   const renderItem=({item})=>{
+    const HotelBookingData=useSelector(state=>state.commomReducer.hotelBook);
+    const mainguest=route.params;
+    console.log('passengername',mainguest);
+   const bookingstatus=HotelBookingData.thirdPartyResponse.BookResult.HotelBookingStatus;
+   const hotelname=HotelBookingData.hotelBooking.hotelname;
   
-  //     return(
-  //         <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN)}>
-  //         <View styles={styles.cardItem}>
-  //         <Text style={styles.contentText}>{item.Name}</Text>
-  //         </View>
-  //         <View style={styles.cardItem}>
-  //         <Text style={styles.contentText}>{item.Date}</Text>
-  //         <Text style={styles.contentText}>{item.Time}</Text>
-  //         </View>
-  //         <View style={styles.cardItem}>
-  //         <Text style={styles.contentText}>Booking Status</Text>
-  //         <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>
-  //         </View>
-  //         </TouchableOpacity>
-  //     )
-  // }
-  const bookingStatus=useSelector(state=>state=>commomReducer.hotelBook);
-  console.log('bookingStatus of hotel in redux',bookingStatus);
+   const roomprice=HotelBookingData.hotelBooking.roomprice;
+  
   return (
     <View style={styles.contanier}>
     <AppHeader headerTitle={'Hotel Ticket Status'}/>
     <View style={{marginBottom:SH(100)}}>
-    <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN)}>
-    <View styles={styles.cardItem}>
-    {/*<Text style={styles.contentText}>{item.Name}</Text>
+    <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.HOTEL_TICKET_SCREEN,mainguest)}>
+   
+   
+    <View style={styles.cardItem}>
+    <Text style={styles.headingText}>Hotel Name</Text>
+    <Text style={styles.contentText}>{hotelname}</Text>
     </View>
     <View style={styles.cardItem}>
-    {/*<Text style={styles.contentText}>{item.Date}</Text>
-    <Text style={styles.contentText}>{item.Time}</Text>
+    <Text style={styles.headingText}>Room Price</Text>
+    <Text style={styles.contentText}> 
+    <FontAwesome name={'rupee'} color="black" size={15}/>{roomprice}</Text>
     </View>
     <View style={styles.cardItem}>
-    <Text style={styles.contentText}>Booking Status</Text>
-    <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>*/}
+    <Text style={styles.headingText}>Booking Status</Text>
+    <Text style={[styles.contentText, { color:'green'}]}>{bookingstatus}</Text>
     </View>
     </TouchableOpacity>
     </View>
@@ -131,8 +70,12 @@ const styles = StyleSheet.create({
   } ,
   contentText:{
     fontFamily:'Poppins-Regular',
+    fontSize:SF(13),
+    color:'black'
+  },
+   headingText:{
+    fontFamily:'Poppins-Bold',
     fontSize:SF(15),
     color:'black'
   }
-
 })

@@ -56,7 +56,11 @@ import {
   SET_RESULT_DATA,
   SET_BUS_PAYLOAD,
   SET_BOOKING_STATUS,
-  SET_MAIN_PASSENGER
+  SET_MAIN_PASSENGER,
+  SET_SELECTED_GUEST,
+  ADD_GUEST,
+  REMOVE_GUEST,
+  CLEAR_GUESTS
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -72,6 +76,8 @@ const initialState = {
   selectedSeats: [],
   totalPrice: null,
   passengers: [],
+  guests:[],
+ selectedGuest: [],
   selectedBoardingPoint: null,
   selectedDroppingPoint: null,
   flightTraceIdDetails: {},
@@ -209,7 +215,20 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         passengers: state.passengers.filter((passenger, idx) => idx !== index),
       };
+      case ADD_GUEST:
+        return {
+          ...state,
+          guests: [...state.guests, action.payload],
+        };
+        case CLEAR_GUESTS:
+          return [];
 
+      case REMOVE_GUEST:
+        const {index1} = action.payload;
+        return {
+          ...state,
+          guests: state.guests.filter((guest, idx) => idx !== index1),
+        };
     case SELECT_BOARDING_POINT:
       return {
         ...state,
@@ -335,7 +354,8 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         selectedPassengers: [...state.selectedPassengers, action.payload],
       };
-
+     
+  
     case ADD_SEAT_AMOUNT:
       return {
         ...state,

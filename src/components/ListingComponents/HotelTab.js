@@ -27,7 +27,7 @@ const HotelTab = () => {
   const [NoOfNight, setNoOfNight] = useState('0');
   const [childrenCount, setChildrenCount] = useState('0');
   const [locationDenied, setLocationDenied] = useState(false);
-  const [checkinDate, setCheckInDate] = useState('30/04/2020');
+  const [checkinDate, setCheckInDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [roomsCount, setRoomsCount] = useState(0);
   const dispatch = useDispatch();
@@ -131,7 +131,7 @@ const HotelTab = () => {
       NoOfRooms:"1",
       RoomGuests: [
         {
-          NoOfAdults: "1",
+          NoOfAdults: "2",
           NoOfChild: "0",
           ChildAge:null,
         },
@@ -146,7 +146,6 @@ const HotelTab = () => {
       try {
         const res = await axios.post(HOTEL_SEARCH, payload);
         const HotelListArr = res.data;
-        // const HotelResult=res.data.Results;
         // console.log('search Data:', HotelListArr);
         dispatch(setHotelData(HotelListArr));
         // dispatch(setHotelResult(HotelResult));
@@ -175,7 +174,7 @@ const HotelTab = () => {
       <TouchableOpacity
         style={styles.searchbar}
         onPress={() => SetModalVisible(true)}>
-        <EvilIcons name={'search'} size={25} color="gray" />
+        <EvilIcons name={'search'} size={27} color="gray" />
         <Text style={styles.search}>Search Hotels .......</Text>
       </TouchableOpacity>
 

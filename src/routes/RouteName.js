@@ -48,6 +48,7 @@ const RouteName = {
   REVIEW_BUS_TICKET_SCREEN: 'ReviewBusTicketStatus',
   REVIEW_HOTEL_TICKET_SCREEN: 'ReviewHotelTicketStatus',
   BUS_BOOKING:'BusBooking',
-  CUSTOM_NAVIGATOR:'CustomSidebarMenu'
+  CUSTOM_NAVIGATOR:'CustomSidebarMenu',
+  HOTEL_TICKET_GUEST_SCREEN :'HotelTicketGuestDetails'
 };
 export default RouteName;

@@ -40,6 +40,12 @@ const FlightReviewDetails = () => {
   const fareQutesDataSelecter = useSelector(
     state => state.commomReducer.flightFareQutesData,
   );
+  console.log('Fare Quotes data in review screen',fareQutesDataSelecter);
+  const BaseFare = fareQutesDataSelecter.Fare.BaseFare;
+  const Tax = fareQutesDataSelecter.Fare.Tax;
+  const YQTax = fareQutesDataSelecter.Fare.YQTax;
+  const IsLCC=fareQutesDataSelecter.IsLCC;
+  console.log(`BaseFare ${BaseFare} Tax ${Tax}  YQTax ${YQTax} IsLCC ${IsLCC}`);
 
   const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
 
@@ -71,6 +77,93 @@ const FlightReviewDetails = () => {
   const BaggageCabinItem = useSelector(
     state => state.commomReducer.flightBaggageCabinData,
   );
+
+  
+   const BookLLc = async () => {
+    try {
+      const payload = {
+        SrdvType: SrdvType,
+        SrdvIndex: SrdvIndexValue,
+        TraceId: TraceId,
+        ResultIndex: ResultIndexValue,
+        BaseFare: BaseFare,
+        Tax: Tax,
+        YQTax: YQTax,
+
+      }
+      console.log('book llc payload', JSON.stringify(payload))
+      const res = await axios.post(FLIGHT_BOOKLLC, payload);
+      const BookLLcResponse = res.data;
+      console.log('BookLLcResponse', BookLLcResponse);
+    }
+    catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  // book hold api 
+
+  const BookHold = async () => {
+    try {
+      const payload = {
+
+        "EndUserIp": "1.1.1.1",
+        "ClientId": "180112",
+        "UserName": "Maneesh3",
+        "Password": "Maneesh@36",
+        SrdvType: SrdvType,
+        SrdvIndex: SrdvIndexValue,
+        TraceId: TraceId,
+        ResultIndex: ResultIndexValue,
+        "Passengers": [
+          {
+            "Title": "Mr",
+            "FirstName": "Joj",
+            "LastName": "Milson",
+            "PaxType": 1,
+            "DateOfBirth": "1997-03-12T00:00:00",
+            "Gender": "1",
+            "PassportNo": "abc123456",
+            "PassportExpiry": "2031-03-12T00:00:00",
+            "AddressLine1": "Noida, Sector 63",
+            "City": "Noida",
+            "CountryCode": "IN",
+            "CountryName": "INDIA",
+            "ContactNo": "1234567890",
+            "Email": "email@gmail.com",
+            "IsLeadPax": 1,
+            "Fare": [
+              {
+                "Currency": "INR",
+                "BaseFare": BaseFare,
+                "Tax": Tax,
+                "YQTax": YQTax,
+                "OtherCharges": 0,
+                "TransactionFee": "0",
+                "AdditionalTxnFeeOfrd": 0,
+                "AdditionalTxnFeePub": 0,
+                "AirTransFee": "0"
+              }
+            ]
+          }
+        ]
+      }
+      const res = await axios.post('https://sajyatra.sajpe.in/admin/api/book-hold', payload);
+      const BookHold = res.data;
+      console.log('BookHold', BookHold);
+
+    }
+    catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  if(IsLCC===true){
+  BookLLc();
+  }
+  else{
+  BookHold();
+  }
 
 const handlePayment = async () => {
     try {

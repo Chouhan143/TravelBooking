@@ -117,8 +117,6 @@ const ReviewBooking = () => {
     email:passenger.passengerEmail,
     phone:passenger.passengerPhone
   }));
-
-  console.log('passengersArray', passengersArray);
   
   const busSearchData=useSelector(state=>state.commomReducer.busData);
   const traceId=busSearchData.data.TraceId;
@@ -221,25 +219,9 @@ const ReviewBooking = () => {
    
   };
   
-  // const BookingStatus = () => {
-  //   BookSeat();
-  // };
-
+  
   const handlePayment = async () => {
-    // if (!firstName || !lastName || !email || !country || !phoneNumber) {
-    //     setShowError(true);
-    //     Toast.show({
-    //         type: 'error',
-    //         text1: 'Missing Information',
-    //         text2: 'Please fill out all required fields.',
-    //         textStyle: { color: 'red', fontSize: 12 },
-    //     });
-    //     return;
-    // }
-
-    // setShowError(false);
-    // setLoading(true);
-
+  
     try {
         const payload = {
             amount: totalFare.toString(),

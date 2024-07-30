@@ -9,35 +9,12 @@ const ReviewBusTicketStatus = ({item,route}) => {
   const passengername=route.params;
   console.log('passengername',passengername);
   const Data=useSelector(state=>state.commomReducer.busPayload);
+  console.log('Data',Data);
   const busBookingStatus=useSelector(state=>state.commomReducer.busBookingStatus);
   console.log('bus stored Booking Stored ',JSON.stringify(busBookingStatus));
   const BookingStatus=busBookingStatus.result.data.Result.BusBookingStatus;
     const navigation=useNavigation();
-  //   const renderItem=({item})=>{
   
-  //     return(
-  //         <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate(RouteName.BUS_TICKET_SCREEN)}>
-  //         <View style={styles.cardItem}>
-  //        <View>
-  //        <Text style={styles.contentText}>Starting Point</Text>
-  //        <Text style={styles.contentText}>DestinationPoint</Text>
-  //        </View>
-  //        <View >
-  //        <Text style={styles.contentText}>{Data.source_city}</Text>
-  //        <Text style={styles.contentText}>{Data.destination_city}</Text>
-  //        </View>
-  //         </View>
-  //         <View style={styles.cardItem}>
-  //         <Text style={styles.contentText}>Booking Date</Text>
-  //         <Text style={styles.contentText}>{Data.depart_date}</Text>
-  //         </View>
-  //         <View style={styles.cardItem}>
-  //         <Text style={styles.contentText}>Booking Status</Text>
-  //         <Text style={[styles.contentText, { color: item.Color }]}>{BookingStatus}</Text>
-  //         </View>
-  //         </TouchableOpacity>
-  //     )
-  // }
   return (
     <View style={styles.contanier}>
     <AppHeader headerTitle={'Bus Ticket Status'}/>

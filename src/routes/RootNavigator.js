@@ -56,6 +56,7 @@ import OtpVerifyScreen from '../screens/Authantication/OtpVerifyScreen/OtpVerify
 import Toast from 'react-native-toast-message';
 
 import { CustomSidebarMenu } from '../components';
+import HotelTicketGuestDetails from '../screens/HotelScreen/HotelTicketGuestDetails';
 
 const RootNavigator = props => {
   // const navigation = useNavigation();
@@ -226,6 +227,10 @@ const RootNavigator = props => {
         <Stack.Screen
         name={RouteName.HOTEL_TICKET_SCREEN}
         component={HotelTicketScreen}
+      />
+      <Stack.Screen
+        name={RouteName.HOTEL_TICKET_GUEST_SCREEN}
+        component={HotelTicketGuestDetails}
       />
       <Stack.Screen
       name={RouteName.REVIEW_BUS_TICKET_SCREEN}
