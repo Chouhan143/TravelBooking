@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View,FlatList } from 'react-native'
 import React, { useState,useCallback } from 'react';
 // import { useFocusEffect } from '@react-navigation/native';
 import { SH, SF, SW, Colors } from '../../utils';
@@ -10,8 +10,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { HOTEL_BOOK } from '../../utils/BaseUrl';
 import RazorpayCheckout from 'react-native-razorpay';
-import { clearGuests, setBookingDetails } from '../../redux/action';
-import { RouteName } from '../../routes';
+import { setBookingDetails } from '../../redux/action';
 import { useNavigation } from '@react-navigation/native';
 const HotelTicketGuestDetails = () => {
     const [loading, setLoading] = useState('');
@@ -56,15 +55,7 @@ const HotelTicketGuestDetails = () => {
     }));
     console.log('GuestArray', Guests);
     const guest = Guests[0];
-    // useFocusEffect(
-    //     useCallback(() => {
-    //       dispatch(clearGuests());
-    
-    //       return () => {
-           
-    //       };
-    //     }, [dispatch])
-    //   );
+   
     const handlePayment = async () => {
 
         try {
@@ -263,75 +254,148 @@ const HotelTicketGuestDetails = () => {
             });
         }
     };
-    return (
-        <View
+    const GuestDatafetch = ({ item, index }) => {
+      
+        return (
+          <TouchableOpacity
             style={{
-                width: '92%',
-                height: 'auto',
-                marginTop: SH(20),
-                borderRadius: 8,
-                padding: SW(10),
-                borderWidth: 0.5,
-                borderColor: 'gray',
-                margin: SW(15)
+              width: '100%',
+              height: 'auto',
+              borderRadius: 5,
+              borderWidth: 0.5,
+              borderColor: 'gray',
+              shadowColor: '#000',
+              marginBottom: 10,
+              padding:SW(10)
             }}>
-            <Text
-                style={{
-                    color: '#000',
-                    fontSize: SF(20),
-                    fontFamily: 'Poppins-Medium',
-
-                }}>
-                Contact Details
-            </Text>
-            <Text style={{
-                color: '#000', fontSize: SF(12),
-                fontFamily: 'Poppins-Regular',
-            }}>We'll send your ticket here</Text>
-            <View style={{ marginVertical: SH(10), marginLeft: -SW(7) }}>
-                <Input style={{ color: 'black' }}
-                    value={mainPassenger.emailId}
-                    onChangeText={handleEmailChange}
-                    placeholder="Email"
-                    placeholderTextColor={'#000'}
-                />
-                <Input style={{ color: 'black' }}
-                    value={mainPassenger.phoneNo}
-                    onChangeText={handlePhoneNumberChange}
-                    placeholder="Phone Number"
-                    placeholderTextColor={'#000'}
-                    keyboardType="numeric"
-
-                />
-                <Input style={{ color: 'black' }}
-                    value={mainPassenger.name}
-                    onChangeText={handleNameChange}
-                    placeholder="Name"
-                    placeholderTextColor={'#000'}
-                />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+               
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+              <Text style={[styles.text, { flex: 1, textAlign: 'left' }]}>
+                {item.firstName} {item.lastName}
+              </Text>
+              <Text style={[styles.text, { textAlign: 'right' }]}>
+                {item.age}yr
+              </Text>
             </View>
-            <View
+            
+              </View>
+              {/* Right Side */}
+              <View
                 style={{
-                    backgroundColor: Colors.theme_background, padding: SW(12),
-                    display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-                }}
-            >
-                <Text style={{
-                    color: 'white', fontFamily: 'Poppins-Bold', textAlign: 'center',
-                    textTransform: 'capitalize', fontSize: SF(15)
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 15,
+                  paddingRight: 18,
                 }}>
-                    <FontAwesome name={'rupee'} color={'white'} size={15} />{TotalHotelPrice}</Text>
-                <Text onPress={handlePayment} style={{
-                    color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
-                    textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
-                    padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5,
-                }}>proceed to pay</Text>
-
+               
+              </View>
             </View>
+          </TouchableOpacity>
+        );
+      };
+    return (
+        <View style={{display:'flex',flexDirection:'column',justifyContent:'space-between',flex:1}}>
+       <View>
+       <View style={{margin:SW(15)}}>
+       <Text
+               style={{
+                   color: '#000',
+                   fontSize: SF(20),
+                   fontFamily: 'Poppins-Medium',
+
+               }}>
+               Total Guests &  Details
+           </Text>
+           <View>
+     <FlatList
+       data={Guests}
+       renderItem={GuestDatafetch}
+       keyExtractor={Item => Item.id}
+       showsHorizontalScrollIndicator={false}
+     />
+   </View>
+       </View>
+       <View
+           style={{
+               width: '92%',
+               height: 'auto',
+               borderRadius: 8,
+               padding: SW(10),
+               borderWidth: 0.5,
+               borderColor: 'gray',
+               margin: SW(15)
+           }}>
+           <Text
+               style={{
+                   color: '#000',
+                   fontSize: SF(20),
+                   fontFamily: 'Poppins-Medium',
+
+               }}>
+               Contact Details
+           </Text>
+           <Text style={{
+               color: '#000', fontSize: SF(12),
+               fontFamily: 'Poppins-Regular',
+           }}>We'll send your ticket here</Text>
+           <View style={{ marginVertical: SH(10), marginLeft: -SW(7) }}>
+               <Input style={{ color: 'black' }}
+                   value={mainPassenger.emailId}
+                   onChangeText={handleEmailChange}
+                   placeholder="Email"
+                   placeholderTextColor={'#000'}
+               />
+               <Input style={{ color: 'black' }}
+                   value={mainPassenger.phoneNo}
+                   onChangeText={handlePhoneNumberChange}
+                   placeholder="Phone Number"
+                   placeholderTextColor={'#000'}
+                   keyboardType="numeric"
+
+               />
+               <Input style={{ color: 'black' }}
+                   value={mainPassenger.name}
+                   onChangeText={handleNameChange}
+                   placeholder="Name"
+                   placeholderTextColor={'#000'}
+               />
+           </View>
+          
+       </View>
+       </View>
+        <View
+        style={{
+            backgroundColor: Colors.theme_background, padding: SW(15),
+            display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+             alignItems: 'center',borderTopLeftRadius:SW(15),borderTopRightRadius:SW(15)
+        }}
+    >
+        <Text style={{
+            color: 'white', fontFamily: 'Poppins-Bold', textAlign: 'center',
+            textTransform: 'capitalize', fontSize: SF(15)
+        }}>
+            <FontAwesome name={'rupee'} color={'white'} size={15} />{TotalHotelPrice}</Text>
+        <Text onPress={handlePayment} style={{
+            color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
+            textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
+            padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5,
+        }}>proceed to pay</Text>
+
+    </View>
         </View>
     )
 }
 
 export default HotelTicketGuestDetails
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    text:{
+        fontSize: SF(15),
+          color: '#000',
+          fontFamily:'Poppins-Regular',
+          marginHorizontal:SW(10)
+        },
+        
+})

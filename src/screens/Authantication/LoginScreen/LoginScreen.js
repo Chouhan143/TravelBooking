@@ -6,10 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import images from '../../../index'
 import { LOGIN_ENDPOINT } from '../../../utils/BaseUrl';
+import { useSelector } from 'react-redux';
 const LoginScreen = () => {
   const [otp, setOtp] = useState('');
   const navigation = useNavigation();
-  const [mobile, setMobile] = useState('');
+  const mobile = useSelector(state => state.commomReducer.mobileNumber);
   const LoginProcess = async () => {
     const payload = {
       mobile: mobile,
@@ -72,7 +73,7 @@ const LoginScreen = () => {
        placeholderTextColor={'gray'}
        style={styles.input}
        value={mobile}
-       onChangeText={setMobile}
+       editable={false}
        keyboardType='numeric'
      />
      <TextInput

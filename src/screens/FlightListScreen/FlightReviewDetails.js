@@ -171,7 +171,7 @@ const handlePayment = async () => {
             amount: tottalFare.toString(),
             user_id: "1"
         };
-        const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', payload);
+        const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-flight-payment', payload);
         console.log('payment create payload', payload);
 
         const { razorpay_key, payment_details } = paymentIntentResponse.data;
@@ -239,7 +239,7 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
         };
         console.log('Attempting to update payment status with payload:', payload);
         
-        const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-payment', payload);
+        const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-flight-payment', payload);
         console.log('Payment update payload', payload);
         console.log('update response:', response.data);
         

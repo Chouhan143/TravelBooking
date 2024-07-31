@@ -56,7 +56,8 @@ import {
   SET_SELECTED_GUEST,
   ADD_GUEST,
   REMOVE_GUEST,
-  CLEAR_GUESTS
+  CLEAR_GUESTS,
+  
 } from '../actiontypes/CommonTypes';
 
 export const color_picker_set_action = data => dispatch => {
@@ -87,12 +88,11 @@ export const logout = () => {
   };
 };
 
-export const setMobileNumber = (mobileNumber) => {
-  return {
-      type: SET_MOBILE_NUMBER,
-      mobileNumber: mobileNumber,
-  };
-};
+export const set_Mobile_Number = (mobile) => ({
+  type: SET_MOBILE_NUMBER,
+  payload: mobile,
+});
+
 
 export const setOtp = (otp) => ({
   type: SET_OTP,
@@ -209,13 +209,17 @@ export const addGuest = guests => ({
   type: ADD_GUEST,
   payload: guests,
 });
-export const clearGuests = () => ({
-  type: CLEAR_GUESTS,
-});
+
 export const removeGuest = index => ({
   type: REMOVE_GUEST,
-  payload: {index},
+  payload: { index }, // Match the name used in the reducer
 });
+
+const clearGuests = () => {
+  return {
+    type: CLEAR_GUESTS,
+  };
+};
 // export const clearSelectedPassengers = () => ({
 //   type: CLEAR_SELECTED_PASSENGERS,
 // });

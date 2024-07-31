@@ -23,13 +23,13 @@ import HotelCitySearch from '../commonComponents/HotelCitySearch';
 const HotelTab = () => {
   const [ModalVisible, SetModalVisible] = useState(false);
   const [ModalVisible1, SetModalVisible1] = useState(false);
-  const [adultsCount, setAdultsCount] = useState('0');
-  const [NoOfNight, setNoOfNight] = useState('0');
-  const [childrenCount, setChildrenCount] = useState('0');
+  const [adultsCount, setAdultsCount] = useState(1);
+  const [NoOfNight, setNoOfNight] = useState(1);
+  const [childrenCount, setChildrenCount] = useState(0);
   const [locationDenied, setLocationDenied] = useState(false);
   const [checkinDate, setCheckInDate] = useState('');
   const [loading, setLoading] = useState(false);
-  const [roomsCount, setRoomsCount] = useState(0);
+  const [roomsCount, setRoomsCount] = useState(1);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // Location Permissions requests
@@ -102,13 +102,6 @@ const HotelTab = () => {
     }
   }, [locationDenied]);
 
-  const handleChildrenChange = change => {
-    setChildrenCount(prevCount => {
-      const newCount = Math.max(0, prevCount + change);
-     
-      return newCount;
-    });
-  };
 
   const handleIncrement = (setter, value) => {
     setter(prevValue => Math.max(1, prevValue + value));
@@ -131,7 +124,7 @@ const HotelTab = () => {
       NoOfRooms:"1",
       RoomGuests: [
         {
-          NoOfAdults: "2",
+          NoOfAdults: "1",
           NoOfChild: "0",
           ChildAge:null,
         },
@@ -256,64 +249,74 @@ const HotelTab = () => {
               marginBottom: SH(30),
             }}
           />
+          
+           <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',
+            flex:1,margin:SW(20)}}>
+           <View>
+           <Text style={styles.ageModaltext}>adults</Text>
+           <Text style={styles.ageModaltext}>children</Text>
+           <Text style={styles.ageModaltext}>NoOfNight</Text>
+           <Text style={styles.ageModaltext}>Rooms</Text>
+           </View>
+           <View>
+           <TouchableOpacity
+           style={styles.buttons}
+           onPress={() => handleDecrement(setAdultsCount, 1)}>
+           <Entypo name={'minus'} size={20} color="white" />
+         </TouchableOpacity>
+         <TouchableOpacity
+           style={styles.buttons}
+           onPress={() => handleDecrement(setChildrenCount, 0)}>
+           <Entypo name={'minus'} size={20} color="white" />
+         </TouchableOpacity>
+         <TouchableOpacity
+           style={styles.buttons}
+           onPress={() => handleDecrement(setRoomsCount, 1)}>
+           <Entypo name={'minus'} size={20} color="white" />
+         </TouchableOpacity>
+         <TouchableOpacity
+           style={styles.buttons}
+           onPress={() => handleDecrement(setNoOfNight, 1)}>
+           <Entypo name={'minus'} size={20} color="white" />
+         </TouchableOpacity>
+           </View>
+
+
           <View>
-            <View style={styles.modalContanier}>
-              <Text style={styles.ageModaltext}>adults</Text>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => setAdultsCount(Math.max(1, adultsCount - 1))}>
-                <Entypo name={'minus'} size={20} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'black'}}>{adultsCount}</Text>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => setAdultsCount(adultsCount + 1)}>
-                <Entypo name={'plus'} size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.modalContanier}>
-              <Text style={styles.ageModaltext}>children</Text>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => handleChildrenChange(-1)}>
-                <Entypo name={'minus'} size={20} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'black'}}>{childrenCount}</Text>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => handleChildrenChange(1)}>
-                <Entypo name={'plus'} size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.modalContanier}>
-              <Text style={styles.ageModaltext}>Rooms</Text>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => setRoomsCount(Math.max(1, roomsCount - 1))}>
-                <Entypo name={'minus'} size={20} color="white" />
-              </TouchableOpacity>
-              <Text style={{color: 'black'}}>{roomsCount}</Text>
-              <TouchableOpacity
-                style={styles.buttons}
-                onPress={() => setRoomsCount(roomsCount + 1)}>
-                <Entypo name={'plus'} size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.modalContanier}>
-            <Text style={styles.ageModaltext}>NoOfNight</Text>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => handleDecrement(setNoOfNight, 1)}>
-              <Entypo name={'minus'} size={20} color="white" />
-            </TouchableOpacity>
-            <Text style={{color: 'black'}}>{NoOfNight}</Text>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => handleIncrement(setNoOfNight, 1)}>
-              <Entypo name={'plus'} size={20} color="white" />
-            </TouchableOpacity>
+          <Text style={styles.count}>{adultsCount}</Text>
+          <Text style={styles.count}>{childrenCount}</Text>
+          <Text style={styles.count}>{roomsCount}</Text>
+          <Text style={styles.count}>{NoOfNight}</Text>
           </View>
+           
+          <View>
+          <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => handleIncrement(setAdultsCount, 1)}>
+          <Entypo name={'plus'} size={20} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => handleIncrement(setChildrenCount, 1)}>
+          <Entypo name={'plus'} size={20} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => handleIncrement(setRoomsCount, 1)}>
+          <Entypo name={'plus'} size={20} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => handleIncrement(setNoOfNight, 1)}>
+          <Entypo name={'plus'} size={20} color="white" />
+        </TouchableOpacity>
           </View>
+          
+           
+         </View>
+        
+          
+         
           <TouchableOpacity
             style={styles.bottomButtom}
             onPress={() => SetModalVisible1(false)}>
@@ -488,18 +491,20 @@ const styles = StyleSheet.create({
   modalContanier: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     marginBottom: SH(20),
   },
   buttons: {
     backgroundColor: Colors.theme_background,
     padding: SW(3),
     borderRadius: 5,
+    marginBottom: SH(12)
   },
   ageModaltext: {
     color: 'black',
     textTransform: 'capitalize',
     fontSize: SF(15),
+    marginBottom:SH(20)
   },
   ageInputContanier: {
     marginBottom: SH(10),
@@ -566,4 +571,8 @@ const styles = StyleSheet.create({
   permissionButtonText: {
     color: '#155724',
   },
+  count:{
+    marginBottom: SH(23),
+    color:'#000'
+  }
 });

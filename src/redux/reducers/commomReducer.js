@@ -24,7 +24,6 @@ import {
   BAGGAGE_CABIN_FLIGHT_DATA,
   FLIGHT_SELECT_SEAT,
   SET_SELECTED_PASSENGERS,
-  CLEAR_SELECTED_PASSENGERS,
   ADD_SEAT_AMOUNT,
   REMOVE_SEAT_AMOUNT,
   ADD_MEAL_PRICE,
@@ -170,8 +169,8 @@ export default function commomReducer(state = initialState, action) {
       };
       case SET_MOBILE_NUMBER:
         return {
-            ...state,
-            mobileNumber: action.payload,
+          ...state,
+          mobileNumber: action.payload,
         };
       case SET_OTP:
         return {
@@ -216,19 +215,25 @@ export default function commomReducer(state = initialState, action) {
         passengers: state.passengers.filter((passenger, idx) => idx !== index),
       };
       case ADD_GUEST:
-        return {
-          ...state,
-          guests: [...state.guests, action.payload],
-        };
-        case CLEAR_GUESTS:
-          return [];
+      return {
+        ...state,
+        guests: [...state.guests, action.payload],
+      };
+    case CLEAR_GUESTS:
+      return {
+        ...state,
+        guests: [],
+      };
+     
 
-      case REMOVE_GUEST:
-        const {index1} = action.payload;
+      case REMOVE_GUEST: {
+        const { index } = action.payload; // Match the name used in the action creator
         return {
           ...state,
-          guests: state.guests.filter((guest, idx) => idx !== index1),
+          guests: state.guests.filter((guest, idx) => idx !== index),
         };
+      }
+      
     case SELECT_BOARDING_POINT:
       return {
         ...state,

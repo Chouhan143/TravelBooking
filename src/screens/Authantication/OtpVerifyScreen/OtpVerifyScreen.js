@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getDeviceId } from 'react-native-device-info';
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
-import { setOtp } from '../../../redux/action';
+import { set_Mobile_Number, setOtp } from '../../../redux/action';
 import { useDispatch } from 'react-redux';
 import { setMobileNumber } from '../../../redux/action';
 import { OTP_VERYFY_ENDPOINT } from '../../../utils/BaseUrl';
@@ -17,7 +17,9 @@ const OtpVerifyScreen = () => {
   const navigation = useNavigation();
   const [mobile, setMobile] = useState('');
   const dispatch = useDispatch();
-  const mobileNumber = useSelector(state => state.commomReducer.mobileNumber);
+  const number = useSelector(state => state.commomReducer.mobileNumber);
+console.log('Mobile Number from Redux:', number);
+  
   useEffect(() => {
     const fetchDeviceId = async () => {
       const id = await getDeviceId();
@@ -27,6 +29,7 @@ const OtpVerifyScreen = () => {
   }, []);
 
   const OtpVerify = async () => {
+   
     const payload = {
       device_id: deviceId,
       mobile: mobile,
@@ -35,7 +38,8 @@ const OtpVerifyScreen = () => {
       const response = await axios.post(OTP_VERYFY_ENDPOINT, payload);
       const result = response.data;
       Setotp(result.otp);
-      dispatch(setOtp(result.otp));
+      // dispatch(setOtp(result.otp));
+      dispatch(set_Mobile_Number(mobile));
       console.log(result);
      if (result.user_registered === true) {
         Toast.show({
@@ -60,11 +64,7 @@ const OtpVerifyScreen = () => {
     }
   };
 
-  const handleMobileChange = (text) => {
-    setMobile(text);
-    dispatch(setMobileNumber(text));
-  };
-
+  
   return (
     <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ alignItems: 'center' }}>
@@ -74,8 +74,8 @@ const OtpVerifyScreen = () => {
           placeholder='Mobile Number '
           placeholderTextColor={'gray'}
           style={styles.input}
-          value={mobileNumber}
-          onChangeText={handleMobileChange}
+          value={mobile}
+          onChangeText={setMobile}
         />
         <TouchableOpacity onPress={OtpVerify}>
           <Text style={styles.button}>GET OTP</Text>
