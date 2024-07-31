@@ -415,7 +415,8 @@ const checkedItemCount = radioChecked.filter(item => item === true).length;
      
    </View>
 
-   <TouchableOpacity style={{ backgroundColor: Colors.theme_background,padding: SW(12),alignItems: 'center' }}
+   <TouchableOpacity style={{ backgroundColor: Colors.theme_background,padding: SW(12),
+    alignItems: 'center',margin:SW(10),borderRadius:10 }}
    onPress={handleAddGuest}>
      <Text style={{ color: 'white', 
       fontFamily: 'Poppins-Bold',fontSize:SF(15) }}>Save Details</Text>
