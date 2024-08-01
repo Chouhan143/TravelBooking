@@ -143,7 +143,7 @@ const FlightDetails = () => {
         selectedItem: selectedPassengers,
       });
     } else {
-      navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS);
+      navigation.navigate(RouteName.FLIGHT_REVIEW_DETAILS,selectedPassengers);
     }
   };
 

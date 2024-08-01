@@ -151,7 +151,7 @@ export default function HotelGuestDetails() {
             <TouchableOpacity onPress={()=>setModalvisible(true)}>
             <AntDesign name={'adduser'} size={20} color='green'/>
           </TouchableOpacity>
-            <Feather name={'edit'} size={20} color='blue'/>
+            
             <TouchableOpacity onPress={handleDeleteGuest}>
               <AntDesign name={'delete'} size={20} color='red'/>
             </TouchableOpacity>
@@ -177,7 +177,7 @@ const checkedItemCount = radioChecked.filter(item => item === true).length;
   const shouldShowButton = checkedItemCount !== NoOfAdults.length;
   const buttonText = checkedItemCount === NoOfAdults.length
   ? "More Guest Details" 
-  : "Add Details"; 
+  : "+  Add Guest  "; 
 
   const buttonStyle = checkedItemCount === NoOfAdults.length
   ? { backgroundColor:Colors.theme_background } 
@@ -327,13 +327,18 @@ const checkedItemCount = radioChecked.filter(item => item === true).length;
     {shouldShowButton && (
       <TouchableOpacity
         style={{
-          backgroundColor: Colors.theme_background,
-          padding: SW(12),
+          backgroundColor:'white',
+          padding: SW(15),
           alignItems: 'center',
+          elevation:2,borderColor:'gray',
+          marginBottom:SH(15),
+          marginTop:SH(10)
         }}
         onPress={()=>setModalvisible(true)}
       >
-        <Text style={{ color: 'white', fontFamily: 'Poppins-Bold', fontSize: SF(15) }}>
+        <Text style={{ color:Colors.theme_background, fontFamily: 'Poppins-Bold', fontSize: SF(15)
+          ,textTransform:'uppercase'
+         }}>
           {buttonText}
         </Text>
       </TouchableOpacity>

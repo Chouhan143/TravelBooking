@@ -18,27 +18,6 @@ const FlightPassangerAdd = ({
   const navigation = useNavigation();
   const [selectedIndices, setSelectedIndices] = useState([]);
 
-  // const toggleSelection = index => {
-  //   setSelectedIndices(prevSelectedIndices => {
-  //     const isSelected = prevSelectedIndices.includes(index);
-  //     let updatedSelection;
-
-  //     if (isSelected) {
-  //       updatedSelection = prevSelectedIndices.filter(
-  //         selectedIndex => selectedIndex !== index,
-  //       );
-  //     } else if (prevSelectedIndices.length < passengerCount) {
-  //       updatedSelection = [...prevSelectedIndices, index];
-  //     } else {
-  //       updatedSelection = prevSelectedIndices;
-  //     }
-
-  //     // Update the selectedPassengers state
-  //     onSelectionChange(updatedSelection.length);
-  //     return updatedSelection;
-  //   });
-  // };
-
   const toggleSelection = (index, passengerData) => {
     setSelectedIndices(prevSelectedIndices => {
       const isSelected = prevSelectedIndices.includes(index);

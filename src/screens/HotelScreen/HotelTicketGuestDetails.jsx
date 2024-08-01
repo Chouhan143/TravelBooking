@@ -296,7 +296,9 @@ const HotelTicketGuestDetails = () => {
         );
       };
     return (
-        <View style={{display:'flex',flexDirection:'column',justifyContent:'space-between',flex:1}}>
+        <View style={{display:'flex',flexDirection:'column',justifyContent:'space-between',flex:1
+            ,backgroundColor:'white'
+        }}>
        <View>
        <View style={{margin:SW(15)}}>
        <Text

@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,Button, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors, SF, SH, SW} from '../../utils';
 import {TouchableOpacity, TextInput} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {flightTravellerDetails} from '../../redux/action';
 import {DatePicker} from '../../components';
 import {useNavigation} from '@react-navigation/native';
@@ -18,12 +18,14 @@ const FlightTravellerDetails = ({route}) => {
   const [firstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
-
+  const [address, setAddress] = useState('');
   const [Email, setEmail] = useState('');
   const [Mobile, setMobile] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState('');
-
+  const [date, setDate] = useState(null);
+  const [open, setOpen] = useState(false);
+  const defaultDate = new Date(); 
   const handleDateSelect = date => {
     const currentDate = new Date();
     const selectedDate = new Date(date);
@@ -55,13 +57,16 @@ const FlightTravellerDetails = ({route}) => {
 
   useEffect(() => {
     validateFields();
-  }, [selected, firstName, LastName, dob, passengerType]);
+  }, [selected, firstName, LastName, dob,Email,Mobile,address, passengerType]);
 
   const validateFields = () => {
     if (
       selected &&
       firstName.trim() &&
       LastName.trim() &&
+      Email.trim() &&
+      Mobile.trim() &&
+      address.trim() &&
       (passengerType !== 'Adult (12 yrs+)' ? dob : true)
     ) {
       setIsValid(true);
@@ -69,7 +74,15 @@ const FlightTravellerDetails = ({route}) => {
       setIsValid(false);
     }
   };
-
+  
+  // const GuestArray = Guests.map(guest => ({
+  //   firstName: guest.firstName,
+  //   MiddleName: guest.MiddleName,
+  //   lastName: guest.lastName,
+  //   email: guest.email,
+  //   phoneNumber: guest.phoneNumber,
+  //   age:guest.age,
+  // }));
   const handleConfirm = () => {
     const payload = {
       passengerType,
@@ -78,6 +91,8 @@ const FlightTravellerDetails = ({route}) => {
       LastName,
       Email,
       Mobile,
+      address,
+      dob,
       ...(passengerType !== 'Adult (12 yrs+)' && {dob}),
     };
     console.log('payload', payload);
@@ -86,7 +101,7 @@ const FlightTravellerDetails = ({route}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View
         style={{
           flexDirection: 'row',
@@ -195,6 +210,64 @@ const FlightTravellerDetails = ({route}) => {
             onChangeText={setLastName}
           />
         </View>
+        <View style={{marginTop: SW(5)}}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={Email}
+          placeholderTextColor={'black'}
+          onChangeText={setEmail}
+        />
+      </View>
+      <View style={{marginTop: SW(5)}}>
+      <TextInput
+        style={styles.input}
+        placeholder="Phone No"
+        value={Mobile}
+        placeholderTextColor={'black'}
+        onChangeText={setMobile}
+        keyboardType='numeric'
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Address"
+        value={address}
+        placeholderTextColor={'black'}
+        onChangeText={setAddress}
+        
+      />
+    </View>
+   <View style={{display:'flex',flexDirection:'row',alignItems:'center',alignContent:'center',
+     borderWidth: 1,
+    borderColor: 'gray',
+    padding: SW(10),
+    marginBottom: SW(10),
+    fontSize: SF(18),
+    width: SW(355),
+    alignSelf: 'center',
+    borderRadius: SW(5),
+    fontWeight: '500',
+    color: 'black',
+   }}>
+   <Text style={{ color: 'black',fontFamily: 'Poppins-Bold',
+                fontSize: SF(17),marginRight:SW(10) }}>
+   Date of Birth
+ </Text>
+     <DatePicker
+       modal
+       open={open}
+       date={date || defaultDate} 
+       mode="date"
+       onConfirm={(selectedDate) => {
+         setOpen(false);
+         setDate(selectedDate); 
+       }}
+       onCancel={() => {
+         setOpen(false);
+       }}
+     />
+     
+   </View>
 
         {passengerType !== 'Adult (12 yrs+)' && (
           <View style={{marginTop: SW(10)}}>
@@ -203,34 +276,6 @@ const FlightTravellerDetails = ({route}) => {
             </View>
           </View>
         )}
-
-        {/* <View>
-          <Text style={styles.text}>Contact Information</Text>
-        </View>
-        <View>
-          <Text style={styles.text1}>
-            add your information so that you can also directly receive bokking
-            details & other alerts.
-          </Text>
-        </View>
-        <View style={{marginTop: SW(10)}}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email(Optional)"
-            value={Email}
-            placeholderTextColor={'#0099FF'}
-            onChangeText={setEmail}
-          />
-        </View>
-        <View style={{marginTop: SW(10)}}>
-          <TextInput
-            style={styles.input}
-            placeholder="Mobile No(Optional)"
-            value={Mobile}
-            placeholderTextColor={'#0099FF'}
-            onChangeText={setMobile}
-          />
-        </View> */}
 
         <View style={{paddingHorizontal: 20}}>
           <Text style={{color: 'red'}}>{error}</Text>
@@ -245,7 +290,7 @@ const FlightTravellerDetails = ({route}) => {
           <Text style={styles.confirmTxt}>Confirm</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -254,7 +299,7 @@ export default FlightTravellerDetails;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: 'white',
   },
   tab: {
     borderWidth: SW(1),
@@ -296,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0099FF',
     padding: SW(15),
     margin: SW(10),
-    marginTop: SH(35),
+    marginTop: SH(25),
   },
   confirmTxt: {
     fontSize: SF(16),
