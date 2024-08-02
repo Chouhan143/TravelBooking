@@ -57,6 +57,7 @@ import {
   ADD_GUEST,
   REMOVE_GUEST,
   CLEAR_GUESTS,
+  FLIGHT_BOOKING_DATA,
   
 } from '../actiontypes/CommonTypes';
 
@@ -296,7 +297,10 @@ export const setBlockRoomDetails=hotelBlock=>({
     type:SET_BOOK_DETAILS,
     payload:hotelBook
   });
-
+  export const setFlightBookingDetails=flightBook=>({
+    type:FLIGHT_BOOKING_DATA,
+    payload:flightBook
+  });
 export const getLocationLatLong = positions => ({
   type: GEOLOCATION_POSITIONS,
   payload: positions,

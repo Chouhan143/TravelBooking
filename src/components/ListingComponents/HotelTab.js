@@ -34,73 +34,73 @@ const HotelTab = () => {
   const navigation = useNavigation();
   // Location Permissions requests
 
-  const requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'App requred Location Permission',
-          message:
-            ' App needs access to your Location ' +
-            'so you can search near by hotels.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        setLocationDenied(false);
-        getLocation();
-        console.log('You can use the location');
-      } else {
-        console.log('Location permission denied');
-        setLocationDenied(true);
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+  // const requestCameraPermission = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: 'App requred Location Permission',
+  //         message:
+  //           ' App needs access to your Location ' +
+  //           'so you can search near by hotels.',
+  //         buttonNeutral: 'Ask Me Later',
+  //         buttonNegative: 'Cancel',
+  //         buttonPositive: 'OK',
+  //       },
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       setLocationDenied(false);
+  //       getLocation();
+  //       console.log('You can use the location');
+  //     } else {
+  //       console.log('Location permission denied');
+  //       setLocationDenied(true);
+  //     }
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
 
-  const getLocation = () => {
-    Geolocation.getCurrentPosition(
-      position => {
-        dispatch(getLocationLatLong(position));
-      },
-      error => {
-        // See error code charts below.
-        console.log(error.code, error.message);
-        if (error.code === 1) {
-          setLocationDenied(true);
-        }
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  };
+  // const getLocation = () => {
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       dispatch(getLocationLatLong(position));
+  //     },
+  //     error => {
+  //       // See error code charts below.
+  //       console.log(error.code, error.message);
+  //       if (error.code === 1) {
+  //         setLocationDenied(true);
+  //       }
+  //     },
+  //     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+  //   );
+  // };
 
-  useEffect(() => {
-    requestCameraPermission();
-  }, []);
+  // useEffect(() => {
+  //   requestCameraPermission();
+  // }, []);
 
-  useEffect(() => {
-    const checkLocationEnabled = async () => {
-      const enabled = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (enabled) {
-        getLocation();
-      } else {
-        setLocationDenied(true);
-      }
-    };
-    checkLocationEnabled();
-  }, []);
+  // useEffect(() => {
+  //   const checkLocationEnabled = async () => {
+  //     const enabled = await PermissionsAndroid.check(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //     );
+  //     if (enabled) {
+  //       getLocation();
+  //     } else {
+  //       setLocationDenied(true);
+  //     }
+  //   };
+  //   checkLocationEnabled();
+  // }, []);
 
-  useEffect(() => {
-    if (!locationDenied) {
-      console.log('Getting location...');
-      getLocation();
-    }
-  }, [locationDenied]);
+  // useEffect(() => {
+  //   if (!locationDenied) {
+  //     console.log('Getting location...');
+  //     getLocation();
+  //   }
+  // }, [locationDenied]);
 
 
   const handleIncrement = (setter, value) => {

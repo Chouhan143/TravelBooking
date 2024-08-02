@@ -8,6 +8,7 @@ import {flightTravellerDetails} from '../../redux/action';
 import {DatePicker} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {RouteName} from '../../routes';
+import FlightDatePicker from '../../components/commonComponents/FlightDatePicker';
 const FlightTravellerDetails = ({route}) => {
   const navigation = useNavigation();
   const {passengerType} = route.params;
@@ -17,11 +18,11 @@ const FlightTravellerDetails = ({route}) => {
   const [selected, setSelected] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
-  const [dob, setDob] = useState('');
   const [address, setAddress] = useState('');
   const [Email, setEmail] = useState('');
   const [Mobile, setMobile] = useState('');
-  const [isValid, setIsValid] = useState(false);
+  const [dob, setDob] = useState('');
+const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState('');
   const [date, setDate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -75,14 +76,6 @@ const FlightTravellerDetails = ({route}) => {
     }
   };
   
-  // const GuestArray = Guests.map(guest => ({
-  //   firstName: guest.firstName,
-  //   MiddleName: guest.MiddleName,
-  //   lastName: guest.lastName,
-  //   email: guest.email,
-  //   phoneNumber: guest.phoneNumber,
-  //   age:guest.age,
-  // }));
   const handleConfirm = () => {
     const payload = {
       passengerType,
@@ -92,10 +85,10 @@ const FlightTravellerDetails = ({route}) => {
       Email,
       Mobile,
       address,
-      dob,
-      ...(passengerType !== 'Adult (12 yrs+)' && {dob}),
+      dob, 
     };
-    console.log('payload', payload);
+  
+    console.log('payload', payload); // Log the payload to see what it contains
     dispatch(flightTravellerDetails(payload));
     navigation.navigate(RouteName.FLIGHT_DETAILS);
   };
@@ -253,20 +246,9 @@ const FlightTravellerDetails = ({route}) => {
                 fontSize: SF(17),marginRight:SW(10) }}>
    Date of Birth
  </Text>
-     <DatePicker
-       modal
-       open={open}
-       date={date || defaultDate} 
-       mode="date"
-       onConfirm={(selectedDate) => {
-         setOpen(false);
-         setDate(selectedDate); 
-       }}
-       onCancel={() => {
-         setOpen(false);
-       }}
-     />
-     
+ <FlightDatePicker
+ dob={date => setDob(date)}
+/>
    </View>
 
         {passengerType !== 'Adult (12 yrs+)' && (

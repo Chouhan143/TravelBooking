@@ -108,36 +108,6 @@ const Seat = ({route}) => {
     return `${typeLabel} = (${passengerCount} * ₹${baseFare.toLocaleString()})`;
   };
 
-  // const handleSeatSelect = (passengerIndex, seat) => {
-  //   if (!seat.IsBooked) {
-  //     const isSelected = flightSeatSelectData.some(
-  //       selectedSeat => selectedSeat.SeatNumber === seat.SeatNumber,
-  //     );
-  //     if (isSelected) {
-  //       // Deselect seat
-  //       dispatch(flightSelectSeat(seat, false)); // Assuming flightSelectSeat handles deselection when second parameter is false
-  //       dispatch(removeSeatAmount(seat.Amount));
-
-  //       // Remove seat from selectedSeats array
-  //       setSelectedSeatsNumber(prevSeats =>
-  //         prevSeats.filter(item => !(item.passengerIndex === passengerIndex)),
-  //       );
-  //     } else {
-  //       // Select seat
-  //       dispatch(flightSelectSeat(seat, true)); // Assuming flightSelectSeat handles selection when second parameter is true
-  //       dispatch(addSeatAmount(seat.Amount));
-  //       // Update selectedSeats array with selected seat for passenger
-  //       setSelectedSeatsNumber(prevSeats => [
-  //         ...prevSeats.filter(
-  //           item => !(item.passengerIndex === passengerIndex),
-  //         ),
-  //         {passengerIndex, seatNumber: seat.SeatNumber},
-  //       ]);
-  //     }
-  //   }
-  // };
-
-  //selected seat price segment destructure
 
   const priceSelection = useSelector(
     state => state.commomReducer.selectedSeatPriceTotal,

@@ -296,6 +296,7 @@ const FlightTab = props => {
       {!hideFlatListTo && destinationCity !== '' && (
         <FlatList
           data={filteredFlightDataTo.slice(0, 5)}
+          
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => handleSelectCity(item.label, item.cityCode, false)}
@@ -350,7 +351,7 @@ const FlightTab = props => {
           </Text>
           {/* <DatePicker /> */}
           <FlightDatePicker
-            onDateSelectflight={date => setDepartureDate(date)}
+            onDateSelectflight={dob => setDepartureDate(dob)}
           />
         </View>
 

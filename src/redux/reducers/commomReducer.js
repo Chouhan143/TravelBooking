@@ -59,7 +59,8 @@ import {
   SET_SELECTED_GUEST,
   ADD_GUEST,
   REMOVE_GUEST,
-  CLEAR_GUESTS
+  CLEAR_GUESTS,
+  FLIGHT_BOOKING_DATA
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -70,13 +71,11 @@ const initialState = {
   tabid: '',
   isAuthenticated: false,
   token: null,
-  // traceId: null,
-  // ResultIndex:null,
   selectedSeats: [],
   totalPrice: null,
   passengers: [],
   guests:[],
- selectedGuest: [],
+  selectedGuest: [],
   selectedBoardingPoint: null,
   selectedDroppingPoint: null,
   flightTraceIdDetails: {},
@@ -106,6 +105,7 @@ const initialState = {
   hotelRoomCounter: 1,
   hotelBlock:{},
   hotelBook:{},
+  flightBook:{},
   mobileNumber: '',
   otp: '',
   busList:{},
@@ -494,7 +494,11 @@ export default function commomReducer(state = initialState, action) {
           ...state,
           hotelBook: action.payload,
         };
-  
+        case FLIGHT_BOOKING_DATA:
+          return {
+            ...state,
+            flightBook: action.payload,
+          };
         
     case SET_HOTEL_ROOM_DETAILS:
       return {

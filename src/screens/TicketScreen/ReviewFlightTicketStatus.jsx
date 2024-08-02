@@ -4,98 +4,41 @@ import { Colors, SF, SH, SW } from '../../utils';
 import { RouteName } from '../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { AppHeader } from '../../components';
-const data =[
-    {
-        id:1,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Booked',
-        Color: Colors.green
-    },
-    {
-        id:2,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Cancelled',
-        Color: Colors.red_color
-    },
-    {
-        id:3,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Booked',
-        Color: Colors.green
+import { useSelector } from 'react-redux';
 
-    },
-    {
-        id:4,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Expired',
-        Color: Colors.gray_text_color
-
-    },
-    {
-        id:5,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Cancelled',
-        Color: Colors.red_color
-
-    },
-    {
-        id:6,
-        StartingPoint:'Indore',
-        DestinationPoint:'Dewas',
-        Date:'12/08/2024',
-        Time:'12 AM ',
-        BookingStatus:'Expired',
-        Color: Colors.gray_text_color
-
-    }
-]
-
-const ReviewFlightTicketStatus = () => {
+const ReviewFlightTicketStatus = ({route}) => {
+  const BookLLcStoredData=useSelector(state=>state.commomReducer.flightBook);
+  const FlightSearchPayload=useSelector(state=>state.commomReducer.FlightSearchPayload);
+  const PNR=BookLLcStoredData.original_response.Response.PNR;
+  const Status=BookLLcStoredData.message;
+  const origin = FlightSearchPayload.Segments[0].Origin;
+  const destination = FligrhtSearchPayload.Segments[0].Destination;
+   const mainPassenger=route.params;
     const navigation=useNavigation();
-    const renderItem=({item})=>{
-  
-      return(
-          <TouchableOpacity style={styles.card} 
-          onPress={()=>navigation.navigate(RouteName.FLIGHT_TICKET_SCREEN)}>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>{item.StartingPoint}</Text>
-          <Text style={styles.contentText}>{item.DestinationPoint}</Text>
-          </View>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>{item.Date}</Text>
-          <Text style={styles.contentText}>{item.Time}</Text>
-          </View>
-          <View style={styles.cardItem}>
-          <Text style={styles.contentText}>Booking Status</Text>
-          <Text style={[styles.contentText, { color: item.Color }]}>{item.BookingStatus}</Text>
-          </View>
-          </TouchableOpacity>
-      )
-  }
+ 
   return (
     <View style={styles.contanier}>
     <AppHeader headerTitle={'Flight Ticket Status'}/>
     <View style={{marginBottom:SH(100)}}>
-    <FlatList
-     data={data}
-     renderItem={renderItem}
-     keyExtractor={item => item.id.toString()}
-    />
+    <TouchableOpacity style={styles.card} 
+    onPress={()=>navigation.navigate(RouteName.FLIGHT_TICKET_SCREEN,mainPassenger)}>
+    <View style={styles.cardItem}>
+    <Text style={styles.contentText}>origin</Text>
+    <Text style={styles.contentText}>{origin}</Text>
+    </View>
+    <View style={styles.cardItem}>
+    <Text style={styles.contentText}>Destination</Text>
+    <Text style={styles.contentText}>{destination}</Text>
+    </View>
+    <View style={styles.cardItem}>
+    <Text style={styles.contentText}>Status</Text>
+    {Status === "Booking saved successfully!" ? (
+      <Text style={styles.confirmedText}>Confirmed</Text>
+    ) : (
+      <Text style={styles.pendingText}>Pending</Text>
+    )}
+    </View>
+    </TouchableOpacity>
     </View>
     <TouchableOpacity 
     style={{backgroundColor:Colors.theme_background,padding:SW(20),width:SW(375),
@@ -130,6 +73,16 @@ const styles = StyleSheet.create({
     fontFamily:'Poppins-Regular',
     fontSize:SF(15),
     color:'black'
-  }
+  },
+  confirmedText: {
+    color: 'green',
+    fontWeight: 'bold',
+    fontSize: SF(15),
+  },
+  pendingText: {
+    color: 'orange',
+    fontWeight: 'bold',
+    fontSize: SF(15),
+  },
 
 })

@@ -7,10 +7,35 @@ import { Spacing } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { SF, SH, SW,Colors } from '../../utils';
-const FlightTicketScreen = () => {
+import { useSelector } from 'react-redux';
+
+const FlightTicketScreen = ({route}) => {
 const [modalVisible, setModalVisible] = useState(false);
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
   const [pdfFilePath, setPdfFilePath] = useState('');
+  const BookLLcStoredData=useSelector(state=>state.commomReducer.flightBook);
+  const FlightSearchPayload=useSelector(state=>state.commomReducer.FlightSearchPayload);
+  const BookingId=BookLLcStoredData.original_response.Response.BookingId;
+  const ArrivalTime=BookLLcStoredData.data.created_at;
+  const DepartureTime=BookLLcStoredData.data.updated_at;
+  const date = new Date(ArrivalTime);
+  const date2=new Date(DepartureTime);
+  const ArrivalTimeDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+  const DepartureTimeDate = `${date2.getFullYear()}-${(date2.getMonth() + 1).toString().padStart(2, '0')}-${date2.getDate().toString().padStart(2, '0')} ${date2.getHours().toString().padStart(2, '0')}:${date2.getMinutes().toString().padStart(2, '0')}:${date2.getSeconds().toString().padStart(2, '0')}`;
+  const PNR=BookLLcStoredData.original_response.Response.PNR;
+  const TicketStatus=BookLLcStoredData.original_response.Response.TicketStatus;
+  const origin = FlightSearchPayload.Segments[0].Origin;
+  const destination = FlightSearchPayload.Segments[0].Destination;
+  const fareQutesDataSelecter = useSelector(
+    state => state.commomReducer.flightFareQutesData,
+  );
+  const AirlineCode=fareQutesDataSelecter.AirlineCode;
+  console.log('AirlineCode',AirlineCode);
+  const tottalFare = fareQutesDataSelecter.Fare.PublishedFare;
+  
+  // const flightSeatSelectData=useSelector(state=>state.coomomReducer.flightSeatSelectData);
+  // console.log('flightSeatSelectData',flightSeatSelectData);
+  const mainPassenger=route.params;
   const { t } = useTranslation();
  const navigation=useNavigation();
   const requestPermission = async () => {
@@ -69,21 +94,20 @@ const [modalVisible, setModalVisible] = useState(false);
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #000; width: 600px; margin: auto; margin-top: 20px;">
           <h1 style="text-align: center;">Flight Ticket</h1>
-          <p><strong>Passenger Name:</strong> John Doe</p>
-          <p><strong>Flight Id:</strong> ABC123</p>
-          <p><strong>Date of Journey:</strong> 25th July 2024</p>
-          <p><strong>Departure Time:</strong> 10:00 AM</p>
-          <p><strong>Departure Location:</strong> Main Bus Station, City</p>
-          <p><strong>Destination:</strong> Another City</p>
+          <p><strong>Passenger Name:</strong>${mainPassenger}</p>
+          <p><strong>Arrival Time & Date:</strong>${ArrivalTimeDate}</p>
+          <p><strong>Departure Time & Date:</strong>${DepartureTimeDate}</p>
+          <p><strong>Origin:</strong>${origin}</p>
+          <p><strong>Destination:</strong>${destination}</p>
           
           <h2 style="text-align: center;">Seat Details</h2>
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
             <tr>
-              <th style="padding: 8px;"> Flight Seat Number</th>
+              <th style="padding: 8px;">Seat Number</th>
               <th style="padding: 8px;">Class</th>
             </tr>
             <tr>
-              <td style="padding: 8px;">12A</td>
+              <td style="padding: 8px;">8A</td>
               <td style="padding: 8px;">Economy</td>
             </tr>
           </table>
@@ -91,21 +115,24 @@ const [modalVisible, setModalVisible] = useState(false);
            <h2 style="text-align: center;">Ticket Details</h2>
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
             <tr>
-              <th style="padding: 8px;">Ticket Number</th>
+              <th style="padding: 8px;">Ticket Status</th>
+               <th style="padding: 8px;">Booking Id</th>
             </tr>
             <tr>
-               <td style="padding: 8px;">#123456</td>
+               <td style="padding: 8px;">${TicketStatus}</td>
+               <td style="padding: 8px;">${BookingId}</td>
             </tr>
           </table>
 
           <h2 style="text-align: center;">Flight Details</h2>
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
             <tr>
-              <th style="padding: 8px;">Flight Number</th>
-             
+              <th style="padding: 8px;">PNR Number</th>
+              <th style="padding: 8px;">AirlineCode</th>
             </tr>
             <tr>
-              <td style="padding: 8px;">ABC123</td>
+              <td style="padding: 8px;">${PNR}</td>
+               <td style="padding: 8px;">${AirlineCode}</td>
             </tr>
           </table>
           
@@ -138,10 +165,10 @@ const [modalVisible, setModalVisible] = useState(false);
       <View style={styles.container}>
               <View style={styles.ticketInfo}>
                 <Text style={styles.routeText}>
-                  {t('Baroda_Surat')}
+                  {origin} - {destination}
                 </Text>
                 <Text style={styles.ticketIdText}>
-                  ( CBCE - 1068-51042 )
+                  {AirlineCode}
                 </Text>
               </View>
       
@@ -153,36 +180,15 @@ const [modalVisible, setModalVisible] = useState(false);
                     {t('name')}
                   </Text>
                   <Text style={styles.valueText}>
-                    {t('Graham_Gooch')}
+                    {mainPassenger}
                   </Text>
                 </View>
                 <View style={styles.detailItem}>
                   <Text style={styles.labelText}>
-                    {t('Ticket_No')}
+                    {'Booking Id'}
                   </Text>
                   <Text style={styles.valueText}>
-                    # 82403
-                  </Text>
-                </View>
-              </View>
-      
-              <Spacing space={SH(10)} />
-      
-              <View style={styles.detailRow}>
-                <View style={styles.detailItem}>
-                  <Text style={styles.labelText}>
-                    {t('Date')}
-                  </Text>
-                  <Text style={styles.valueText}>
-                    Jun 17, 2023
-                  </Text>
-                </View>
-                <View style={styles.detailItem}>
-                  <Text style={styles.labelText}>
-                    {t('Destination')}
-                  </Text>
-                  <Text style={styles.valueText}>
-                    {t('Delhi')}
+                   {BookingId}
                   </Text>
                 </View>
               </View>
@@ -192,10 +198,31 @@ const [modalVisible, setModalVisible] = useState(false);
               <View style={styles.detailRow}>
                 <View style={styles.detailItem}>
                   <Text style={styles.labelText}>
-                    {t('Departure')}
+                  ArrivalTimeDate
                   </Text>
                   <Text style={styles.valueText}>
-                    08:00 PM
+                    {ArrivalTimeDate}
+                  </Text>
+                </View>
+                <View style={styles.detailItem}>
+                  <Text style={styles.labelText}>
+                  DepartureTimeDate
+                  </Text>
+                  <Text style={styles.valueText}>
+                    {DepartureTimeDate}
+                  </Text>
+                </View>
+              </View>
+      
+              <Spacing space={SH(10)} />
+      
+              <View style={styles.detailRow}>
+                <View style={styles.detailItem}>
+                  <Text style={styles.labelText}>
+                    PNR Number
+                  </Text>
+                  <Text style={styles.valueText}>
+                   {PNR}
                   </Text>
                 </View>
                 <View style={styles.detailItem}>
@@ -224,7 +251,7 @@ const [modalVisible, setModalVisible] = useState(false);
                     {t('Ticket_Price')}
                   </Text>
                   <Text style={styles.valueText}>
-                    ₹ 1770.00
+                  ₹{tottalFare.toLocaleString('en-IN')}
                   </Text>
                 </View>
               </View>

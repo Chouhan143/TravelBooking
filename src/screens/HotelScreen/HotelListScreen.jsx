@@ -1,3 +1,257 @@
+// import {
+//   FlatList,
+//   Image,
+//   StyleSheet,
+//   Text,
+//   View,
+//   TouchableOpacity,
+//   TextInput,
+//   Alert,
+// } from 'react-native';
+// import React, { useState, useEffect } from 'react';
+// import { SW, SH, SF, Colors } from '../../utils';
+// import EvilIcons from 'react-native-vector-icons/EvilIcons';
+// import Entypo from 'react-native-vector-icons/Entypo';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import { useSelector } from 'react-redux';
+// import { useNavigation } from '@react-navigation/native';
+// import SortModal from './SortModal';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import { format, differenceInDays, parseISO } from 'date-fns';
+// import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+// import Geolocation from 'react-native-geolocation-service';
+// import { getDistance } from 'geolib';
+
+// export default function HotelListScreen() {
+//   const [modalVisible, setModalVisible] = useState(false);
+//   const [searchText, setSearchText] = useState('');
+//   const [filteredData, setFilteredData] = useState([]);
+//   const [sortOption, setSortOption] = useState(null);
+//   const [distance, setDistance] = useState({});
+//   const hotelData = useSelector(state => state.commomReducer.hotelData);
+//   const hotelDataResult = hotelData.Results || [];
+//   const checkInDate = parseISO(hotelData.CheckInDate);
+//   const checkOutDate = parseISO(hotelData.CheckOutDate);
+//   const formattedCheckInDate = format(checkInDate, 'MMM dd, yyyy');
+//   const formattedCheckOutDate = format(checkOutDate, 'MMM dd, yyyy');
+//   const NoOfAdults = hotelData.NoOfRooms.map(item => item.NoOfAdults);
+//   const numberOfNights = differenceInDays(checkOutDate, checkInDate);
+
+//   useEffect(() => {
+//     let data = [...hotelDataResult];
+
+//     if (sortOption) {
+//       data = data.sort((a, b) => {
+//         switch (sortOption) {
+//           case 'name':
+//             return a.HotelName.localeCompare(b.HotelName);
+//           case 'highPrice':
+//             return b.Price.RoomPrice - a.Price.RoomPrice;
+//           case 'lowPrice':
+//             return a.Price.RoomPrice - b.Price.RoomPrice;
+//           case 'rating':
+//             return b.StarRating - a.StarRating;
+//           default:
+//             return 0;
+//         }
+//       });
+//     }
+
+//     setFilteredData(data);
+//   }, [hotelDataResult, sortOption]);
+
+//   const onSearch = text => {
+//     setSearchText(text);
+//     const tempList = hotelDataResult.filter(item =>
+//       item.HotelName.toLowerCase().includes(text.toLowerCase())
+//     );
+//     setFilteredData(tempList);
+//   };
+
+//   const requestLocationPermission = async hotelId => {
+//     try {
+//       const permission = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+//       if (permission === RESULTS.GRANTED) {
+//         getCurrentLocation(hotelId);
+//       } else {
+//         Alert.alert('Permission Denied', 'Location permission is required to calculate distance.');
+//       }
+//     } catch (error) {
+//       console.error('Permission request error:', error);
+//     }
+//   };
+
+//   const getCurrentLocation = hotelId => {
+//     Geolocation.getCurrentPosition(
+//       position => {
+//         const { latitude, longitude } = position.coords;
+
+//         const hotel = hotelDataResult.find(hotel => hotel.id === hotelId);
+//         if (hotel) {
+//           const targetLocation = {
+//             latitude: parseFloat(hotel.Latitude),
+//             longitude: parseFloat(hotel.Longitude),
+//           };
+//           const distanceInKm = getDistance(
+//             { latitude, longitude },
+//             targetLocation
+//           ) / 1000;
+
+//           setDistance(prevState => ({
+//             ...prevState,
+//             [hotelId]: distanceInKm.toFixed(2),
+//           }));
+//         }
+//       },
+//       error => {
+//         console.error('Location error:', error);
+//       },
+//       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+//     );
+//   };
+
+//   const renderItem = ({ item }) => {
+//     const Price = Math.round(item?.Price?.RoomPrice);
+
+//     const renderStar = rating => {
+//       let stars = [];
+//       for (let i = 0; i < 5; i++) {
+//         stars.push(
+//           <FontAwesome
+//             key={i}
+//             name="star"
+//             size={15}
+//             color={i < rating ? '#FFD700' : '#C0C0C0'}
+//           />
+//         );
+//       }
+//       return stars;
+//     };
+
+//     return (
+//       <TouchableOpacity style={styles.HotelCards}>
+//         <View>
+//           {item.HotelPicture != null ? (
+//             <Image
+//               source={{ uri: item.HotelPicture }}
+//               style={styles.hotelImage}
+//               alt="No Image Found"
+//             />
+//           ) : (
+//             <Image
+//               source={require('../../images/No_Image.jpg')}
+//               style={styles.hotelImage}
+//             />
+//           )}
+//         </View>
+
+//         <View style={styles.hotelDetails}>
+//           <Text style={styles.Name}>{item.HotelName}</Text>
+//           <Text style={styles.Name}>{renderStar(item.StarRating)}</Text>
+//           <Text style={styles.adress}>{item.HotelAddress}</Text>
+//           <View style={styles.priceContainer}>
+//             <FontAwesome
+//               name={'rupee'}
+//               color="black"
+//               size={11}
+//               style={{ margin: SW(3) }}
+//             />
+//             <Text style={styles.Price}>{Price}</Text>
+//             <Text
+//               style={{
+//                 color: 'gray',
+//                 fontSize: SF(11),
+//                 textTransform: 'capitalize',
+//               }}>
+//               (include taxes and fees)
+//             </Text>
+//           </View>
+//           <View>
+//             <TouchableOpacity onPress={() => requestLocationPermission(item.id)}>
+//               <Text style={{ color: 'blue', fontFamily: 'Poppins-Bold' }}>
+//                 {distance[item.id] ? `${distance[item.id]} km from you` : 'View Distance'}
+//               </Text>
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       </TouchableOpacity>
+//     );
+//   };
+
+//   const handleSort = sortOption => {
+//     setSortOption(sortOption);
+//     setModalVisible(false);
+//   };
+
+//   return (
+//     <View style={styles.MainContanier}>
+//       <View style={styles.searchView}>
+//         <View style={styles.searchbar}>
+//           <EvilIcons name={'search'} size={25} color="white" />
+//           <TextInput
+//             style={styles.searchText}
+//             placeholder="Search by hotel name "
+//             placeholderTextColor={'white'}
+//             value={searchText}
+//             onChangeText={text => onSearch(text)}
+//           />
+//           {searchText.length > 0 && (
+//             <TouchableOpacity
+//               onPress={() => onSearch('')}
+//               style={{
+//                 marginLeft: SW(300),
+//                 position: 'absolute',
+//                 zIndex: 999,
+//               }}>
+//               <MaterialIcons name={'clear'} size={25} color="white" />
+//             </TouchableOpacity>
+//           )}
+//         </View>
+//         <View style={styles.dateContainer}>
+//           <Entypo name={'calendar'} color="white" size={15} style={styles.icon} />
+//           <Text style={styles.headerText}>
+//             {formattedCheckInDate}{' '}
+//             <Ionicons
+//               name={'remove-outline'}
+//               color="white"
+//               size={15}
+//               style={styles.icon}
+//             />{' '}
+//             {formattedCheckOutDate}{' '}
+//           </Text>
+//         </View>
+//         <View style={styles.passengers}>
+//           <MaterialCommunityIcons
+//             name={'bag-personal-outline'}
+//             color="white"
+//             size={15}
+//             style={styles.icon}
+//           />
+//           <Text style={styles.headerText}>
+//             {NoOfAdults.length} Room(s) /{' '}
+//             {NoOfAdults.reduce((acc, curr) => acc + curr, 0)} Passenger(s)
+//           </Text>
+//         </View>
+//       </View>
+
+//       <FlatList
+//         data={filteredData}
+//         renderItem={renderItem}
+//         keyExtractor={item => item.id}
+//       />
+
+//       <SortModal
+//         modalVisible={modalVisible}
+//         setModalVisible={setModalVisible}
+//         handleSort={handleSort}
+//       />
+//     </View>
+//   );
+// }
+
+
 import {
   FlatList,
   Image,
@@ -6,7 +260,7 @@ import {
   View,
   TouchableOpacity,
   Modal,
-  TextInput
+  TextInput,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {SW, SH, SF, Colors} from '../../utils';
@@ -21,7 +275,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {haversineDistance} from '../../hooks/HaversineDistance';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { format, differenceInDays, parseISO } from 'date-fns';
-import { setHotelInfo } from '../../redux/action';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
+import { setHotelInfo ,getLocationLatLong} from '../../redux/action';
+import { getDistance } from 'geolib';
 import axios from 'axios';
 import { HOTEL_INFO } from '../../utils/BaseUrl';
 import { useDispatch } from 'react-redux';
@@ -36,49 +293,92 @@ export default function HotelListScreen() {
   const hotelDataResult = hotelData.Results || [];
   const checkInDate = parseISO(hotelData.CheckInDate);
   const checkOutDate = parseISO(hotelData.CheckOutDate);
-  
   const formattedCheckInDate = format(checkInDate, 'MMM dd, yyyy');
   const formattedCheckOutDate = format(checkOutDate, 'MMM dd, yyyy');
+  const [distance, setDistance] = useState({});
 const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
   // Calculate the number of days between the dates
   const numberOfNights = differenceInDays(checkOutDate, checkInDate);
-  // const hotelDetails = useSelector(state => state.commomReducer.hotelInfo);
-  // console.log('redux info data',hotelDetails);
-  const currentLocation = useSelector(
-    state => state.commomReducer.positionLatLong,
-  );
-
-  const currentLocationLat = currentLocation?.coords?.latitude;
-  const currentLocationLong = currentLocation?.coords?.longitude;
-
-  const curLatLong = {currentLocationLat, currentLocationLong};
-
-  useEffect(() => {
-    let data = [...hotelDataResult];
-    
-    if (sortOption) {
-      data = data.sort((a, b) => {
-        switch (sortOption) {
-          case 'name':
-            return a.HotelName.localeCompare(b.HotelName);
-          case 'highPrice':
-            return b.Price.RoomPrice - a.Price.RoomPrice;
-          case 'lowPrice':
-            return a.Price.RoomPrice - b.Price.RoomPrice;
-          case 'rating':
-            return b.StarRating - a.StarRating;
-          case 'distance':
-            const distanceA = haversineDistance(currentLocation.coords, {latitude: a.Latitude, longitude: a.Longitude});
-            const distanceB = haversineDistance(currentLocation.coords, {latitude: b.Latitude, longitude: b.Longitude});
-            return distanceA - distanceB;
-          default:
-            return 0;
-        }
-      });
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const requestLocationPermission = async hotelId => {
+    try {
+      const permission = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+      if (permission === RESULTS.GRANTED) {
+        getCurrentLocation(hotelId);
+      } else {
+       
+        Alert.alert('Permission Denied', 'Location permission is required to calculate distance.');
+      }
+    } catch (error) {
+     
+      console.error('Permission request error:', error);
     }
-    
-    setFilteredData(data);
-  }, [hotelDataResult, sortOption]);
+  };
+
+  const getCurrentLocation = hotelId => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+
+        const hotel = hotelDataResult.find(hotel => hotel.id === hotelId);
+        if (hotel) {
+          const targetLocation = {
+            latitude: parseFloat(hotel.Latitude),
+            longitude: parseFloat(hotel.Longitude),
+          };
+          const distanceInKm = getDistance(
+            { latitude, longitude },
+            targetLocation
+          ) / 1000;
+
+          setDistance(prevState => ({
+            ...prevState,
+            [hotelId]: distanceInKm.toFixed(2),
+          }));
+        }
+      },
+      error => {
+        if (error.code !== 1) {
+          // Do nothing, or handle other errors if needed
+        }
+        // If error.code === 1, the user denied permission, so we don't calculate the distance
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+};
+
+
+useEffect(() => {
+  let data = [...hotelDataResult];
+  
+  if (sortOption) {
+    data = data.sort((a, b) => {
+      switch (sortOption) {
+        case 'name':
+          return a.HotelName.localeCompare(b.HotelName);
+        case 'highPrice':
+          return b.Price.RoomPrice - a.Price.RoomPrice;
+        case 'lowPrice':
+          return a.Price.RoomPrice - b.Price.RoomPrice;
+        case 'rating':
+          return b.StarRating - a.StarRating;
+        case 'distance':
+          if (currentLocation) { 
+            const distanceA = haversineDistance(currentLocation.coords, { latitude: a.Latitude, longitude: a.Longitude });
+            const distanceB = haversineDistance(currentLocation.coords, { latitude: b.Latitude, longitude: b.Longitude });
+            return distanceA - distanceB;
+          } else {
+            return 0; // Default to no sorting if location is not available
+          }
+        default:
+          return 0;
+      }
+    });
+  }
+  
+  setFilteredData(data);
+}, [hotelDataResult, sortOption, currentLocation]);
+
 
   const onSearch = (text) => {
     setSearchText(text);
@@ -107,14 +407,6 @@ const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
       }
       return stars;
     };
-
-    const hotelCoords = {latitude: item.Latitude, longitude: item.Longitude};
-    const distance =
-      curLatLong && hotelCoords
-        ? haversineDistance(currentLocation.coords, hotelCoords).toFixed(0)
-        : 'Calculating...';
-
-        // hotel info
 
         const fetchHotelDetails = async () => {
           try {
@@ -192,19 +484,11 @@ const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
             </Text>
           </View>
           <View>
-            {currentLocation != null ? (
-              <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Entypo name={'location'} size={15} color="black" />
-                <Text
-                  style={{
-                    color: 'black',
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: SF(11),
-                  }}>
-                  {distance} km from you
-                </Text>
-              </View>
-            ) : null}
+          <TouchableOpacity onPress={() => requestLocationPermission(item.id)}>
+        <Text style={{ color:Colors.theme_background, fontFamily: 'Poppins-Bold',fontSize:SF(12) }}>
+      {distance[item.id] ? `${distance[item.id]} km from you` : 'View Distance >>'}
+      </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableOpacity>

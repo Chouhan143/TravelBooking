@@ -17,6 +17,7 @@ import { useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import RazorpayCheckout from 'react-native-razorpay';
 import { Input } from '../../components';
+import { setFlightBookingDetails } from '../../redux/action';
 const FlightReviewDetails = ({ props }) => {
   const route = useRoute();
   const selectedPassengers = route.params;
@@ -98,6 +99,7 @@ const FlightReviewDetails = ({ props }) => {
   const selectedPassenger = useSelector(
     state => state.commomReducer.selectedPassengers,
   );
+
   const passengerNames = selectedPassenger.map(
     passenger => `${passenger?.firstName} ${passenger?.LastName}`,
   );
@@ -125,7 +127,7 @@ const FlightReviewDetails = ({ props }) => {
       FirstName: Passenger.firstName,
       LastName: Passenger.LastName,
       PaxType: 1,
-      DateOfBirth: "2001-12-12",
+      DateOfBirth:"2001-12-12",
       Gender: "1",
       PassportNo: "",
       PassportExpiry: "",
@@ -150,6 +152,7 @@ const FlightReviewDetails = ({ props }) => {
     const res = await axios.post(FLIGHT_BOOKLLC, payload);
     const BookLLcResponse = res.data;
     console.log('BookLLcResponse', BookLLcResponse);
+    dispatch(setFlightBookingDetails(BookLLcResponse));
     console.log('message',BookLLcResponse.message);
     const message=BookLLcResponse.message;
     if(message==='Booking saved successfully!'){
@@ -157,6 +160,7 @@ const FlightReviewDetails = ({ props }) => {
             type: 'success',
             text1: 'Booking Successfully',
     })
+    navigation.navigate("ReviewFlightTicketStatus",mainPassenger.name);
     }
     else{
      Toast.show({
@@ -186,19 +190,19 @@ const FlightReviewDetails = ({ props }) => {
         "Passengers": [
           {
             "Title": "Mr",
-            "FirstName": "Joj",
-            "LastName": "Milson",
+            "FirstName":Passenger.firstName,
+            "LastName":Passenger.LastName,
             "PaxType": 1,
             "DateOfBirth": "1997-03-12T00:00:00",
             "Gender": "1",
             "PassportNo": "abc123456",
             "PassportExpiry": "2031-03-12T00:00:00",
-            "AddressLine1": "Noida, Sector 63",
+            "AddressLine1": Passenger.address,
             "City": "Noida",
             "CountryCode": "IN",
             "CountryName": "INDIA",
-            "ContactNo": "1234567890",
-            "Email": "email@gmail.com",
+            "ContactNo":  Passenger.Mobile,
+            "Email":Passenger.Email,
             "IsLeadPax": 1,
             "Fare": [
               {
@@ -229,6 +233,7 @@ const FlightReviewDetails = ({ props }) => {
   const Booking_Holding= async (IsLCC) =>{
      if (IsLCC===true) {
            await(BookLLc()); 
+
         } else {
            await(BookHold());
         }
@@ -279,7 +284,6 @@ const FlightReviewDetails = ({ props }) => {
 
           await updateHotelPaymentStatus(paymentId, transaction_id);
           await Booking_Holding(IsLCC);
-          navigation.navigate("ReviewFlightTicketStatus");
         })
         .catch((error) => {
           console.error(`Error: ${error.code} | ${error.description}`);
