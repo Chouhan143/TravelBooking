@@ -14,35 +14,7 @@ const SplashScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commomReducer) || {};
   const dispatch = useDispatch();
   const [isFirstLaunch, setIsFirstLaunch] = useState(false);
-  //   useEffect(() => {
-  //     // setTimeout(() => {
-  //     //     AsyncStorage.getItem('user_id').then((value) =>
-  //     //         navigation.replace(RouteName.SWIPER_SCREEN)
-  //     //     );
-  //     // }, 2500);
-
-  //     setTimeout(() => {
-  //       AsyncStorage.getItem('alreadyLaunched').then(value => {
-  //         if (value === null) {
-  //           AsyncStorage.setItem('alreadyLaunched', 'true');
-  //           setIsFirstLaunch(true);
-  //         } else {
-  //           setIsFirstLaunch(false);
-  //         }
-  //       });
-  //     }, 2500);
-
-  //     {
-  //       colorrdata != ''
-  //         ? dispatch(color_picker_set_action(colorrdata))
-  //         : dispatch(color_picker_set_action(Colors.theme_background));
-  //     }
-  //   }, []);
-
-  //   isFirstLaunch
-  //     ? navigation.replace(RouteName.SWIPER_SCREEN)
-  //     : navigation.replace(RouteName.LOGIN_SCREEN);
-
+  
   useEffect(() => {
     const checkFirstLaunch = async () => {
       try {

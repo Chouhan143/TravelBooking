@@ -146,10 +146,10 @@ const BusTab = props => {
     } catch (error) {
       Toast.show({
         type: 'error',
-        text1: error,
+        text1: "Problem in searching the bus",
         text1Style: {color: '#000', fontSize: 12},
       });
-      console.error('Error searching buses:', error);
+      console.error('Error searching buses:', error.message);
     } finally {
       setLoading(false);
     }

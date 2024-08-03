@@ -90,7 +90,7 @@ const RootNavigator = props => {
 
   return (
     <NavigationContainer theme={colorValue} >
-      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={"Root"}>
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={RouteName.SWIPER_SCREEN}>
     <Stack.Screen
     name={"Root"}
     component={Root}

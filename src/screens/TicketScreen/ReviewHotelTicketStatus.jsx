@@ -10,6 +10,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const ReviewHotelTicketStatus = ({route}) => {
     const navigation=useNavigation();
     const HotelBookingData=useSelector(state=>state.commomReducer.hotelBook);
+    console.log('HotelBookingData',HotelBookingData)
     const mainguest=route.params;
     console.log('passengername',mainguest);
    const bookingstatus=HotelBookingData.thirdPartyResponse.BookResult.HotelBookingStatus;

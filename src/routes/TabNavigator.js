@@ -93,27 +93,7 @@ function BookingTabScreenStack(props) {
     </Stack.Navigator>
   );
 }
-function HistoryTabStack(props) {
-  const { t } = useTranslation();
-  return (
-    <Stack.Navigator initialRouteName="HistoryTab">
-      <Stack.Screen
-        name="HistoryTab"
-        component={HistoryTab}
-        options={{
-          headerTitle: (props) => <AppHeader rightView={Style.RemoveBgColor} {...props} headerTitle={t("Payment_History")} />,
-          ...headerArray,
-          headerLeft: () => (
-            <HeaderLeftMenuIcon {...props} />
-          ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
+
 function ProfileScreenStack(props) {
   const { t } = useTranslation();
   return (
@@ -180,18 +160,6 @@ export function HomeScsreenTabAll() {
               name="ticket"
               color={focused ? Colors.theme_background : Colors.gray_text_color}
             />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={RouteName.HISTORY_TAB}
-        component={HistoryTabStack}
-        options={{
-          tabBarLabel: t("Payment_History"),
-          tabBarIcon: ({ focused }) => (
-            <View>
-              <VectorIcon icon="MaterialIcons" name="history" color={focused ? Colors.theme_background : Colors.gray_text_color} size={SF(20)} />
-            </View>
           ),
         }}
       />

@@ -339,9 +339,9 @@ const NoOfAdults=hotelData.NoOfRooms.map(item=>item.NoOfAdults);
       },
       error => {
         if (error.code !== 1) {
-          // Do nothing, or handle other errors if needed
+          //nothing
         }
-        // If error.code === 1, the user denied permission, so we don't calculate the distance
+        
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );

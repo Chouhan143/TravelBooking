@@ -15,7 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import {Button, Input, RBSheet} from '../../components';
 import {useSelector} from 'react-redux';
-import {addPassenger, removePassenger} from '../../redux/action';
+import {addPassenger, bus_transaction_num, removePassenger} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 import {FlightsListScreenStyle} from '../../styles';
 import {useNavigation} from '@react-navigation/native';
@@ -67,7 +67,8 @@ const PassengerInformation = ({route}) => {
   }));
   
   console.log('passengersArray', passengersArray);
-
+  const transactionNum=useSelector(state=>state.commomReducer.busTransactionNum);
+  console.log('Stored transactionNum',transactionNum);
   const busSearchData=useSelector(state=>state.commomReducer.busData);
   const passenger = pessengerData[0];
     console.log('passengers',passenger);
@@ -139,14 +140,19 @@ const PassengerInformation = ({route}) => {
           ]
       };
       const res = await axios.post(BLOKING_SEAT, payload);
+      console.log('Blocking data',JSON.stringify(res.data));
+      const ResultData=res.data;
       const status = res.data.result.status;
+      const transactionNum =ResultData.result.saved_bookings[0].transaction_num;
+      console.log('transactionNum',transactionNum);
+      dispatch(bus_transaction_num(transactionNum));
       console.log('res', res.data.result.status);
       if (status === 200) {
         Toast.show({
           type: 'success',
           text1: 'Seat is Blocked ',
           text2: 'This seat is blocked for some time !',
-          textStyle: { color: 'green', fontSize: 12 },
+          textStyle: { color: 'green', fontSize: SF(15)},
         });
         navigation.replace(RouteName.REVIEW_BOOKING);
       }
@@ -208,9 +214,6 @@ const PassengerInformation = ({route}) => {
     setPassengerAge(age);
   };
 
-  // const handleRadioPress = () => {
-  //   setRadioChecked(!radioChecked);
-  // };
 
   const addPassengerToRedux = () => {
     const passenger = {

@@ -58,6 +58,8 @@ import {
   REMOVE_GUEST,
   CLEAR_GUESTS,
   FLIGHT_BOOKING_DATA,
+  BUS_TRANSACTION_NUMBER,
+  BUS_UPDATE_DATA,
   
 } from '../actiontypes/CommonTypes';
 
@@ -76,10 +78,10 @@ export const ticket_type_action = data => dispatch => {
   dispatch({type: TICKET_DATA_TYPE, TicketData: data});
 };
 
-export const loginSuccess = token => {
+export const loginSuccess = logindata => {
   return {
     type: LOGIN_SUCCESS,
-    token: token,
+    payload:logindata ,
   };
 };
 
@@ -216,11 +218,6 @@ export const removeGuest = index => ({
   payload: { index }, // Match the name used in the reducer
 });
 
-const clearGuests = () => {
-  return {
-    type: CLEAR_GUESTS,
-  };
-};
 // export const clearSelectedPassengers = () => ({
 //   type: CLEAR_SELECTED_PASSENGERS,
 // });
@@ -323,7 +320,16 @@ export const setBookingStatus = busBookingStatus => ({
   payload: busBookingStatus,
 });
 
+export const bus_transaction_num = busTransactionNum => ({
+  type: BUS_TRANSACTION_NUMBER,
+  payload: busTransactionNum,
+});
+
 export const setMainPassenger = (mainPassenger) => ({
   type: SET_MAIN_PASSENGER,
   payload: mainPassenger,
+});
+export const storebuspaymentupdatedata = busPaymentUpdateData => ({
+  type: BUS_UPDATE_DATA,
+  payload: busPaymentUpdateData,
 });

@@ -12,11 +12,17 @@ import { HOTEL_BOOK } from '../../utils/BaseUrl';
 import RazorpayCheckout from 'react-native-razorpay';
 import { setBookingDetails } from '../../redux/action';
 import { useNavigation } from '@react-navigation/native';
+import { RouteName } from '../../routes';
+import Hotelpaymentsuccessfully from '../PaymentScreen/Hotelpaymentsuccessfully';
 const HotelTicketGuestDetails = () => {
     const [loading, setLoading] = useState('');
     const navigation=useNavigation();
     const [showError, setShowError] = useState(false);
     const dispatch = useDispatch();
+    
+   const LoginStatus = useSelector(state => state.commomReducer.logindata);
+            console.log('Login data',LoginStatus);
+            const userId=LoginStatus.data.id;
     const TotalHotelPrice = useSelector(state => state.commomReducer.totalHotelPrice);
     const [mainPassenger, setMainPassenger] = useState({
         emailId: '',
@@ -59,9 +65,11 @@ const HotelTicketGuestDetails = () => {
     const handlePayment = async () => {
 
         try {
+         
             const payload = {
                 amount: TotalHotelPrice.toString(),
-                user_id: "1"
+                user_id: userId,
+                TraceId: '1'
             };
             const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-payment', payload);
             console.log('payment create payload', payload);
@@ -122,7 +130,25 @@ const HotelTicketGuestDetails = () => {
             setLoading(false);
         }
     };
-
+    const navigateToOTPScreen = () => {
+        navigation.navigate(RouteName.OTP_VERIFY_SCREEN);
+      };
+      
+      const payment = async () => {
+        if (LoginStatus.message === 'Login successfully.') {
+          Toast.show({
+            type: 'success',
+            text1: 'Login Successfully',
+            text2: 'Now you are able to pay',
+          });
+          await handlePayment();
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: LoginStatus.message || 'Login failed',
+          });
+        }
+      };
     const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
         try {
             const payload = {
@@ -379,7 +405,10 @@ const HotelTicketGuestDetails = () => {
             textTransform: 'capitalize', fontSize: SF(15)
         }}>
             <FontAwesome name={'rupee'} color={'white'} size={15} />{TotalHotelPrice}</Text>
-        <Text onPress={handlePayment} style={{
+        <Text   onPress={() => {
+            navigateToOTPScreen();
+            payment();
+          }} style={{
             color: Colors.theme_background, fontFamily: 'Poppins-Bold', textAlign: 'center',
             textTransform: 'capitalize', fontSize: SF(17), backgroundColor: '#c7e8f2',
             padding: SW(2), paddingHorizontal: SW(7), borderRadius: 5,

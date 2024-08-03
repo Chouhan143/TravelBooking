@@ -47,17 +47,6 @@ const CustomSidebarMenu = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={Sidemenu.flexrowset}
-          onPress={() => Onpressfunction(RouteName.HISTORY_TAB)}>
-          <VectorIcon
-            icon="FontAwesome"
-            size={SF(19)}
-            name="history"
-            color={Colors.theme_background}
-          />
-          <Text style={Sidemenu.hometextstyle}>{t('Payment_History')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Sidemenu.flexrowset}
           onPress={() => Onpressfunction(RouteName.PROFILE_TAB)}>
           <VectorIcon
             icon="FontAwesome"

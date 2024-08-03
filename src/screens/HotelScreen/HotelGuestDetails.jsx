@@ -67,11 +67,7 @@ export default function HotelGuestDetails() {
       age
     };
 
-    // Dispatch action to add passenger to Redux store
     dispatch(addGuest(guest));
-
-    // Clear form fields
-    
     setFirstName('');
     setMiddleName('');
     setLastName('');
@@ -81,7 +77,6 @@ export default function HotelGuestDetails() {
   };
   const handleRadioPress = index => {
     const updatedCheckedArray = [...radioChecked];
-    // Create a copy of the current checked array
     updatedCheckedArray[index] = !updatedCheckedArray[index]; // Toggle the checked state at the clicked index
     setRadioChecked(updatedCheckedArray); // Update the state to reflect checked radio buttons
   };

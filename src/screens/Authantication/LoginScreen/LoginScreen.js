@@ -26,7 +26,7 @@ const LoginScreen = () => {
           Toast.show({
             type: 'success',
             text1: 'Login Successfully',
-            text2: `Welcome ${LoginStatus.user.name || ''}`,
+            text2: `Welcome ${LoginStatus.data.name || ''}`,
           });
          
           navigation.navigate("Root"); 

@@ -50,17 +50,17 @@ import {
   SET_OTP,
   SET_BUS_LIST,
   SET_TOTAL_HOTEL_PRICE,
-  SET_RESULT_INDEX,
   SET_BUS_DATA,
   SET_RESULT_DATA,
   SET_BUS_PAYLOAD,
   SET_BOOKING_STATUS,
   SET_MAIN_PASSENGER,
-  SET_SELECTED_GUEST,
   ADD_GUEST,
   REMOVE_GUEST,
   CLEAR_GUESTS,
-  FLIGHT_BOOKING_DATA
+  FLIGHT_BOOKING_DATA,
+  BUS_TRANSACTION_NUMBER,
+  BUS_UPDATE_DATA
 } from '../actiontypes/CommonTypes';
 
 const initialState = {
@@ -71,6 +71,7 @@ const initialState = {
   tabid: '',
   isAuthenticated: false,
   token: null,
+  logindata:{},
   selectedSeats: [],
   totalPrice: null,
   passengers: [],
@@ -99,6 +100,7 @@ const initialState = {
   initialPublishedFare: 0,
   selectedBaggage: [],
   hotelData: [],
+  busPaymentUpdateData:{},
   positionLatLong: [],
   hotelInfo: [],
   hotelRoomDetails: [],
@@ -112,6 +114,7 @@ const initialState = {
   busData:[],
   ResultData:{},
   busPayload:{},
+  busTransactionNum:'',
   busBookingStatus:{},
   mainPassenger: {
     email: '',
@@ -157,8 +160,7 @@ export default function commomReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        isAuthenticated: true,
-        token: action.token,
+        logindata: action.payload,
       };
 
     case LOGOUT:
@@ -511,7 +513,7 @@ export default function commomReducer(state = initialState, action) {
         ...state,
         hotelBlock: action.payload,
       };
-    c
+    
 
     case GEOLOCATION_POSITIONS:
       return {
@@ -543,11 +545,21 @@ export default function commomReducer(state = initialState, action) {
               ...state,
               busBookingStatus: action.payload,
             };
+            case BUS_TRANSACTION_NUMBER:
+            return {
+              ...state,
+              busTransactionNum: action.payload,
+            };
         case SET_BUS_PAYLOAD:
           return {
             ...state,
             busPayload: action.busPayload,
           };
+          case BUS_UPDATE_DATA:
+            return {
+              ...state,
+              busPaymentUpdateData: action.payload,
+            };
     default: {
       return state;
     }

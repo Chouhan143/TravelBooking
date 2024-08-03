@@ -8,7 +8,7 @@ import { useTheme } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-const PaytmSuccessFully = (props) => {
+const Hotelpaymentsuccessfully = (props) => {
   const navigation=useNavigation();
   const { t } = useTranslation();
   const { Colors } = useTheme();
@@ -68,4 +68,4 @@ const PaytmSuccessFully = (props) => {
     </View>
   );
 };
-export default PaytmSuccessFully;
+export default Hotelpaymentsuccessfully;

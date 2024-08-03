@@ -70,7 +70,7 @@ const BusSeatScreen = props => {
       };
       console.log('bus payload',payload);
       const res = await axios.post(BUS_ADDSEAT_LAYOUT, payload);
-      console.log('Result  >>>', res.data);
+      console.log('Result  >>>', JSON.stringify(res.data));
       setLowerSeat(res.data.Result[0]);
       setLowerSeatR(res.data.Result[1]);
       console.log('again test', res.data.Result[0]);

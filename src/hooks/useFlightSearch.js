@@ -39,7 +39,7 @@ const useFlightSearch = () => {
           type: 'error',
           text1:
             'Please select source city, destination city, and departure date.',
-          text1Style: {color: '#000', fontSize: 12},
+          text1Style: {color: '#000', fontSize: SF(12)},
         });
       }
     } catch (error) {
@@ -51,13 +51,13 @@ const useFlightSearch = () => {
         Toast.show({
           type: 'error',
           text1: errorData.message || 'An error occurred. Please try again.',
-          text1Style: {color: '#000', fontSize: 12},
+          text1Style: {color: '#000', fontSize: SF(12)},
         });
       } else {
         Toast.show({
           type: 'error',
           text1: 'An error occurred. Please try again.',
-          text1Style: {color: '#000', fontSize: 12},
+          text1Style: {color: '#000', fontSize: SF(12)},
         });
       }
 

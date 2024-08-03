@@ -27,6 +27,7 @@ const [modalVisible, setModalVisible] = useState(false);
   const totalFare = useSelector(state => state.commomReducer.totalPrice);
   const mainPassenger = useSelector(state =>state.commomReducer.mainPassenger);
   const busId=busBookingStatus.result.data.Result.BusId;
+  const TravelOperatorPNR=busBookingStatus.result.data.Result.TravelOperatorPNR;
   const TicketNo=busBookingStatus.result.data.Result.TicketNo;
   console.log('mainPassenger',mainPassenger);
   const selectedSeatData = useSelector(
@@ -145,9 +146,11 @@ const [modalVisible, setModalVisible] = useState(false);
           <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
             <tr>
               <th style="padding: 8px;">Bus Id</th>
+              <th style="padding: 8px;">TravelOperatorPNR</th>
             </tr>
             <tr>
               <td style="padding: 8px;">${busId}</td>  
+              <td style="padding: 8px;">${TravelOperatorPNR}</td>  
             </tr>
           </table>
           <p style="text-align: center; margin-top: 20px;">Thank you for choosing our bus service. Have a safe journey!</p>
@@ -180,7 +183,7 @@ const [modalVisible, setModalVisible] = useState(false);
               <Text style={styles.contentText}>{Data.source_city} - {Data.destination_city}</Text>
               </Text>
               <Text style={styles.ticketIdText}>
-             {busId}
+             {busId} - {TravelOperatorPNR}
               </Text>
             </View>
 

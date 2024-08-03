@@ -18,10 +18,13 @@ import Toast from 'react-native-toast-message';
 import { SF, SH, SW } from '../../utils';
 import RazorpayCheckout from 'react-native-razorpay';
 import { SET_BOOKING_STATUS } from '../../redux/actiontypes';
-import { setBookingStatus } from '../../redux/action';
+import { setBookingStatus, storebuspaymentupdatedata } from '../../redux/action';
 import { setMainPassenger } from '../../redux/action';
+import { PaymentSuccessFully } from '../PaymentScreen';
 const ReviewBooking = () => {
   const navigation = useNavigation();
+  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+  const [showComponent, setShowComponent] = useState(false);
   const [mainPassenger, setMainPassenger] = useState({
     email: '',
     phoneNumber: '',
@@ -34,7 +37,7 @@ const ReviewBooking = () => {
 
   const TraceId = useSelector(state => state.commomReducer.traceId);
   const ResultIndex=useSelector(state=>state.commomReducer.ResultIndex);
-  
+  const transactionNum=useSelector(state=>state.commomReducer.busTransactionNum);
   const handleEmailChange = (email) => {
     setMainPassenger((prevState) => ({
       ...prevState,
@@ -107,7 +110,8 @@ const ReviewBooking = () => {
   console.log('dds', commaSepratedSeat);
 
   const totalFare = useSelector(state => state.commomReducer.totalPrice);
- 
+ const storedbuspaymentpaymentdata=useSelector(state=>state.commomReducer.busPaymentUpdateData);
+ console.log('storedbuspaymentpaymentdata',storedbuspaymentpaymentdata);
   const passengersArray = pessengerData.map(passenger => ({
     name: passenger.passengerName,
     age: passenger.passengerAge,
@@ -121,7 +125,10 @@ const ReviewBooking = () => {
   const busSearchData=useSelector(state=>state.commomReducer.busData);
   const traceId=busSearchData.data.TraceId;
   const resultIndex=busSearchData.data.Result[0].ResultIndex;
+  const HotelBookingData=useSelector(state=>state.commomReducer.hotelBook);
+  console.log('HotelBookingData',HotelBookingData);
   const busBookingStatus=useSelector(state=>state.commomReducer.busBookingStatus);
+  const LoginStatus = useSelector(state => state.commomReducer.logindata);
   console.log(' stored busBookingStatus',busBookingStatus);
   const BookSeat = async () => {
     try {
@@ -192,17 +199,7 @@ const ReviewBooking = () => {
       const Result=res.data;
       console.log('response',JSON.stringify(Result));
       dispatch(setBookingStatus(Result));
-      const BusBookingStatus =Result.result.data.Result.BusBookingStatus;
-      console.log('status.BusBookingStatus',BusBookingStatus);
-      if (BusBookingStatus ===  "Confirmed") {
-        Toast.show({
-          type: 'success',
-          text1: 'Seat is Booked ',
-          text2: 'This seat is booked  successfully please Download Your Ticket now !',
-          textStyle: { color: 'green', fontSize: 12 },
-        });
-        
-      }
+     
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         const errorArr = error.response.data.errors;
@@ -223,13 +220,17 @@ const ReviewBooking = () => {
   const handlePayment = async () => {
   
     try {
+       const LoginStatus = useSelector(state => state.commomReducer.logindata);
+       console.log('Login data',LoginStatus);
+       const userId=LoginStatus.data.id;
         const payload = {
             amount: totalFare.toString(),
-            user_id: "1"
+            user_id:userId,
+            trace_id:traceId
         };
         const paymentIntentResponse = await axios.post('https://sajyatra.sajpe.in/admin/api/create-bus-payment', payload);
         console.log('payment create payload', payload);
-
+         console.log('payment data',paymentIntentResponse.data);
         const { razorpay_key, payment_details } = paymentIntentResponse.data;
         console.log('payment_details', payment_details);
         console.log('razorpay_key', razorpay_key);
@@ -258,14 +259,16 @@ const ReviewBooking = () => {
                 const paymentId = data.razorpay_payment_id;
                 console.log(`Success: ${paymentId}`);
                 Toast.show({
-                    type: 'success',
-                    text1: 'Payment Successful',
-                    text2: `Payment ID: ${paymentId}`
-                });
+                  type: 'success',
+                  text1: 'Payment Successful',
+                  text2: `Payment ID: ${paymentId}`
+              });
 
-                await updateHotelPaymentStatus(paymentId, transaction_id);
-                await BookSeat();
-                navigation.navigate("ReviewBusTicketStatus",mainPassenger.name);
+              await updateHotelPaymentStatus(paymentId, transaction_id);
+             
+              await BookSeat();
+              navigation.navigate("ReviewBusTicketStatus",mainPassenger.name);
+                
             })
             .catch((error) => {
                 console.error(`Error: ${error.code} | ${error.description}`);
@@ -287,6 +290,7 @@ const ReviewBooking = () => {
     }
 };
 
+
 const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
     try {
         const payload = {
@@ -298,14 +302,14 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
         const response = await axios.post('https://sajyatra.sajpe.in/admin/api/update-bus-payment',payload);
         console.log('Payment update payload', payload);
         console.log('update response:', response.data);
-        
+        dispatch(storebuspaymentupdatedata(response.data));
         if (response.data.success === 'Payment updated successfully.') {
-            Toast.show({
-                type: 'success',
-                text1: 'Update Successfully',
-                text2: 'Your payment status updated successfully'
-            });
-            console.log('Payment status updated successfully');
+          setIsPaymentSuccessful(true);
+          setShowComponent(true);
+          setTimeout(() => {
+              setShowComponent(false);
+          },300000);
+          navigation.navigate("ReviewBusTicketStatus",mainPassenger.name);
         } else {
             console.log('Payment status update failed');
         }
@@ -325,6 +329,11 @@ const updateHotelPaymentStatus = async (paymentId, transaction_id) => {
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, paddingHorizontal: 20}}>
         <ScrollView style={{flex: 1, marginBottom: 100}}>
+        {isPaymentSuccessful && showComponent ? (
+          <PaymentSuccessFully/>
+      ) : (
+          <Text>Processing Payment...</Text>
+      )}
           <View
             style={{
               width: '100%',
