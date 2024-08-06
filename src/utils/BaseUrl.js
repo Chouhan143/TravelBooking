@@ -3,7 +3,8 @@ const Auth_Base_Url='https://app.sajpe.in/api/v1/user';
 const LOGIN_ENDPOINT = "https://sajyatra.sajpe.in/admin/api/login";
 const REGISTER_ENDPOINT = `${Auth_Base_Url}/login`;
 const OTP_VERYFY_ENDPOINT = "https://sajyatra.sajpe.in/admin/api/send-otp";
-
+const Profile=`${Auth_Base_Url}/profile`;
+const FAQ=`${BASE_URL}/get-faq`
 // const RESEND_OTP = `${BASE_URL}/resend-otp`;
 const BUS_LIST = `${BASE_URL}/bus_list`;
 const UPDATE_NUMBER = `${BASE_URL}/update_number`;

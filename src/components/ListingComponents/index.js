@@ -8,7 +8,6 @@ export {default as BusListFun} from './BusListFun';
 export {default as TopListFun} from './TopListFun';
 export {default as ChangeLanguageView} from './ChangeLanguageView';
 export {default as ModalLanguage} from './ModalLanguage';
-export {default as FAQData} from './FAQData';
 export {default as PaymentListData} from './PaymentListData';
 export {default as MobileSelect} from './MobileSelect';
 export {default as BusSeatDataFlatlist} from './BusSeatDataFlatlist';

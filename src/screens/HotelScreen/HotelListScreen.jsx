@@ -280,7 +280,6 @@ import Geolocation from 'react-native-geolocation-service';
 import { setHotelInfo ,getLocationLatLong} from '../../redux/action';
 import { getDistance } from 'geolib';
 import axios from 'axios';
-import { HOTEL_INFO } from '../../utils/BaseUrl';
 import { useDispatch } from 'react-redux';
 export default function HotelListScreen() {
   const dispatch=useDispatch();

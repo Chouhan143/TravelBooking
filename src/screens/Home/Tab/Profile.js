@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import Colors from "../../../utils";
 import * as ImagePicker from 'react-native-image-picker';
+import {Profile} from'../../../utils/BaseUrl'
 const ProfileTab = (props) => {
   const { Colors } = useTheme();
   const ProfileTabStyle = useMemo(() => ProfileTabStyles(Colors), [Colors]);
@@ -21,6 +22,9 @@ const ProfileTab = (props) => {
   const [passwordVisibilityconfirm, setPasswordVisibilityconfirm] = useState(true);
   const [profileImage, setProfileImage] = useState(require('../../../images/userdp.jpg')); 
 
+  const Profile=async()=>{
+    
+  }
   const stateArray = {
     Oldpassword: "",
     Newpassword: "",
